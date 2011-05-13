@@ -40,6 +40,8 @@ class TMC262Stepper {
 	int step_pin;
 	int dir_pin;
 	
+	unsigned char current_scaling;
+	
 	//SPI sender
 	unsigned long send262(unsigned long datagram);
 };
