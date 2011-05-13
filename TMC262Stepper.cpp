@@ -16,7 +16,7 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	//this is derrived from I=(cs+1)/32*Vfs/Rsense*1/sqrt(2)
 	//with vfs=5/16, Rsense=0,15
 	//giving the formula CS=(ImA*32/(1000*k)-1 where k=Vfs/Rsense*1/sqrt(2) - too lazy to deal with complete formulas
-	this->current_scaling = (byte)((mASetting*0.0942809041582063)-1.0);
+	this->current_scaling = (byte)((mASetting*0.0217223203180507)-0.5); //theoretically - 1.0 for better rounding it is 0.5
 }
 
 void TMC262Stepper::start() {
@@ -49,7 +49,7 @@ void TMC262Stepper::start() {
 	send262(0x00000|MRES); 
 	send262(0x941D7);
 	send262(0xA0000);
-	send262(0xD000F);
+	send262(0xD0000|current_scaling);
 	send262(0xEF000);
 	
 }
