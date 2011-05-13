@@ -2,7 +2,7 @@
 #include <TMC262Stepper.h>
 
 //we have a stepper motor with 200 steps per rotation, CS pin 2, dir pin 3, step pin 4 and a current of 300mA
-TMC262Stepper tmc262Stepper = TMC262Stepper(200,2,3,4,300);
+TMC262Stepper tmc262Stepper = TMC262Stepper(200,2,3,4,1600);
 int curr_step;
 
 void setup() {
