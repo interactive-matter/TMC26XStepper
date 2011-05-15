@@ -162,46 +162,6 @@ void TMC262Stepper::step(int steps_to_move)
   }
 }
 
-/*
-  version() returns the version of the library:
-*/
-int TMC262Stepper::version(void)
-{
-  return 1;
-}
-
-inline unsigned long TMC262Stepper::send262(unsigned long datagram) {
-	unsigned long i_datagram;
-
-	//ensure that only valid bist are set (0-19)
-	//datagram &=REGISTER_BIT_PATTERN;
-
-#ifdef DEBUG
-	Serial.print("Sending ");
-	Serial.println(datagram,HEX);
-#endif
-	
-	//select the TMC driver
-	digitalWrite(cs_pin,LOW);
-	
-	//write/read the values
-	i_datagram = SPI.transfer((datagram >> 16) & 0xff);
-	i_datagram <<= 8;
-	i_datagram |= SPI.transfer((datagram >>  8) & 0xff);
-	i_datagram <<= 8;
-	i_datagram |= SPI.transfer((datagram      ) & 0xff);
-	i_datagram >>= 4;
-	
-	//deselect the TMC chip
-	digitalWrite(cs_pin,HIGH); 
-#ifdef DEBUG
-	Serial.print("Received ");
-	Serial.println(i_datagram,HEX);
-#endif
-	
-	return i_datagram;
-}
-
 void TMC262Stepper::setMicrosteps(int number_of_steps) {
 	long setting_pattern;
 	//poor mans log
@@ -251,4 +211,44 @@ void TMC262Stepper::setMicrosteps(int number_of_steps) {
 
 int TMC262Stepper::getMicrosteps(void) {
 	return microsteps;
+}
+
+/*
+ version() returns the version of the library:
+ */
+int TMC262Stepper::version(void)
+{
+	return 1;
+}
+
+inline unsigned long TMC262Stepper::send262(unsigned long datagram) {
+	unsigned long i_datagram;
+	
+	//ensure that only valid bist are set (0-19)
+	//datagram &=REGISTER_BIT_PATTERN;
+	
+#ifdef DEBUG
+	Serial.print("Sending ");
+	Serial.println(datagram,HEX);
+#endif
+	
+	//select the TMC driver
+	digitalWrite(cs_pin,LOW);
+	
+	//write/read the values
+	i_datagram = SPI.transfer((datagram >> 16) & 0xff);
+	i_datagram <<= 8;
+	i_datagram |= SPI.transfer((datagram >>  8) & 0xff);
+	i_datagram <<= 8;
+	i_datagram |= SPI.transfer((datagram      ) & 0xff);
+	i_datagram >>= 4;
+	
+	//deselect the TMC chip
+	digitalWrite(cs_pin,HIGH); 
+#ifdef DEBUG
+	Serial.print("Received ");
+	Serial.println(i_datagram,HEX);
+#endif
+	
+	return i_datagram;
 }
