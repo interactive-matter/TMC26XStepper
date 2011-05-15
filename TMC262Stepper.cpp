@@ -148,7 +148,7 @@ void TMC262Stepper::step(int steps_to_move)
       // decrement the steps left:
       steps_left--;
 	  //disable sthe step & dir pins
-	  delay(20);
+	  delay(2);
 	  digitalWrite(step_pin, LOW);
 	  digitalWrite(dir_pin, LOW);
     }
