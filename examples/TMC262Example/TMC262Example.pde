@@ -9,7 +9,7 @@ void setup() {
   Serial.begin(9600);
   Serial.println("start");
   tmc262Stepper.start();
-  tmc262Stepper.setSpeed(1000);
+  tmc262Stepper.setSpeed(10);
 }
 
 void loop() {
