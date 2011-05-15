@@ -56,7 +56,7 @@
  * dir_pin - the pin where the direction pin is connected
  * step_pin - the pin where the step pin is connected
  */
-TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int max_current)
+TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int rms_current)
 {
 	//we are not started yet
 	started=0;
@@ -68,23 +68,19 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	//initialize register values
 	driver_control_register_value=DRIVER_CONFIG_REGISTER | INITIAL_MICROSTEPPING;
 	chopper_config_register=CHOPPER_CONFIG_REGISTER;
-	//calculate the current scaling from the max current setting (in mA)
-	float mASetting = max_current;
-	//this is derrived from I=(cs+1)/32*Vfs/Rsense*1/sqrt(2)
-	//with vfs=5/16, Rsense=0,15
-	//giving the formula CS=(ImA*32/(1000*k)-1 where k=Vfs/Rsense*1/sqrt(2) - too lazy to deal with complete formulas
-	current_scaling = (byte)((mASetting*0.0217223203180507)-0.5); //theoretically - 1.0 for better rounding it is 0.5
 	
 	//setting the default register values
 	driver_control_register_value=DRIVER_CONTROL_REGISTER|INITIAL_MICROSTEPPING;
 	microsteps = (1 << INITIAL_MICROSTEPPING);
 	chopper_config_register=CHOPPER_CONFIG_REGISTER;
-	//ended up in 9C1D7;
+	cool_step_register_value=COOL_STEP_REGISTER;
+	stall_guard2_current_register_value=STALL_GUARD2_LOAD_MEASURE_REGISTER;
+	driver_configuration=DRIVER_CONFIG_REGISTER;
+
+	//set the current
+	setCurrent(rms_current);
 	//set to a conservative start value
 	setConstantOffTimeChopper(7, 54, 13,12,1);
-	cool_step_register_value=COOL_STEP_REGISTER;
-	stall_guard2_current_register_value=STALL_GUARD2_LOAD_MEASURE_REGISTER|current_scaling;
-	driver_configuration=DRIVER_CONFIG_REGISTER;
 }
 
 /*
@@ -101,8 +97,6 @@ void TMC262Stepper::start() {
 	Serial.println(dir_pin);
 	Serial.print("STEP pin: ");
 	Serial.println(step_pin);
-	Serial.print("current scaling: ");
-	Serial.println(current_scaling,DEC);
 #endif
 	//set the pins as output & its initial value
 	pinMode(step_pin, OUTPUT);     
@@ -175,6 +169,33 @@ void TMC262Stepper::step(int steps_to_move)
 	  digitalWrite(dir_pin, LOW);
     }
   }
+}
+
+void TMC262Stepper::setCurrent(unsigned int rms_current) {
+	unsigned char current_scaling; 
+	//calculate the current scaling from the max current setting (in mA)
+	float mASetting = rms_current;
+	//this is derrived from I=(cs+1)/32*Vfs/Rsense*1/sqrt(2)
+	//with vfs=5/16, Rsense=0,15
+	//giving the formula CS=(ImA*32/(1000*k)-1 where k=Vfs/Rsense*1/sqrt(2) - too lazy to deal with complete formulas
+	current_scaling = (byte)((mASetting*0.0217223203180507)-0.5); //theoretically - 1.0 for better rounding it is 0.5
+
+	//do some sanity checks
+	if (current_scaling>32) {
+		current_scaling=32;
+#ifdef DEBUG	
+	Serial.print("current scaling: ");
+	Serial.println(current_scaling,DEC);
+#endif
+	}
+	//delete the old value
+	stall_guard2_current_register_value &= ~(CURRENT_SCALING_PATTERN);
+	//set the new current scaling
+	stall_guard2_current_register_value |= current_scaling;
+	//if started we directly send it to the motor
+	if (started) {
+		send262(driver_control_register_value);
+	}
 }
 
 /*

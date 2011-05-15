@@ -15,7 +15,7 @@
 class TMC262Stepper {
   public:
     // constructors:
-	TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int max_current);
+	TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int rms_current);
 	
 	void start();
 
@@ -31,7 +31,8 @@ class TMC262Stepper {
     void step(int number_of_steps);
 	// configure the constant off timer
 	void setConstantOffTimeChopper(char constant_off_time, char blank_time, char fast_decay_time_setting, char sine_wave_offset, unsigned char use_current_comparator);
-
+	//set the current in mA
+	void setCurrent(unsigned int rms_current);
 	//library version
     int version(void);
 
@@ -58,7 +59,6 @@ class TMC262Stepper {
 	//status values 
 	char started; //if the stepper has been started yet
 	int microsteps; //the current number of micro steps
-	unsigned char current_scaling; //the current current scaling value (for debug) - TODO remove
 	
 	//SPI sender
 	inline unsigned long send262(unsigned long datagram);
