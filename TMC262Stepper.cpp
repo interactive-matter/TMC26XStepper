@@ -63,7 +63,7 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	//this is derrived from I=(cs+1)/32*Vfs/Rsense*1/sqrt(2)
 	//with vfs=5/16, Rsense=0,15
 	//giving the formula CS=(ImA*32/(1000*k)-1 where k=Vfs/Rsense*1/sqrt(2) - too lazy to deal with complete formulas
-	this->current_scaling = (byte)((mASetting*0.0217223203180507)-0.5); //theoretically - 1.0 for better rounding it is 0.5
+	current_scaling = (byte)((mASetting*0.0217223203180507)-0.5); //theoretically - 1.0 for better rounding it is 0.5
 	
 	//setting the default register values
 	driver_control_register_value=DRIVER_CONTROL_REGISTER|INITIAL_MICROSTEPPING;
@@ -195,32 +195,49 @@ unsigned long TMC262Stepper::send262(unsigned long datagram) {
 	return i_datagram;
 }
 
-void TMC262Stepper::setMicrostepping(int setting) {
+void TMC262Stepper::setMicrosteps(int number_of_steps) {
 	long setting_pattern;
 	//poor mans log
-	if (setting>=256) {
+	if (number_of_steps>=256) {
 		setting_pattern=0;
-	} else if (setting>=128) {
+		microsteps=256;
+	} else if (number_of_steps>=128) {
 		setting_pattern=1;
-	} else if (setting>=64) {
+		microsteps=128;
+	} else if (number_of_steps>=64) {
 		setting_pattern=2;
-	} else if (setting>=32) {
+		microsteps=64;
+	} else if (number_of_steps>=32) {
 		setting_pattern=3;
-	} else if (setting>=16) {
+		microsteps=32;
+	} else if (number_of_steps>=16) {
 		setting_pattern=4;
-	} else if (setting>=8) {
+		microsteps=16;
+	} else if (number_of_steps>=8) {
 		setting_pattern=5;
-	} else if (setting>=4) {
+		microsteps=8;
+	} else if (number_of_steps>=4) {
 		setting_pattern=6;
-	} else if (setting>=2) {
+		microsteps=4;
+	} else if (number_of_steps>=2) {
 		setting_pattern=7;
+		microsteps=2;
     //1 and 0 lead to full step
-	} else if (setting<=1) {
+	} else if (number_of_steps<=1) {
 		setting_pattern=8;
+		microsteps=0;
 	}
+#ifdef DEBUG
+	Serial.print("Microstepping: ");
+	Serial.println(microsteps);
+#endif
 	//delete the old value
 	this->driver_control_register_value &=0xFFFF0ul;
 	//set the new value
 	this->driver_control_register_value |=setting_pattern;
 	send262(driver_control_register_value);
+}
+
+int TMC262Stepper::getMicrosteps(void) {
+	return microsteps;
 }

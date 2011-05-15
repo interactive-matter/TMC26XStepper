@@ -22,7 +22,8 @@ class TMC262Stepper {
     // speed setter method:
     void setSpeed(long whatSpeed);
 
-	void setMicrostepping(int setting);
+	void setMicrosteps(int number_of_steps);
+	int getMicrosteps(void);
 	
     // mover method:
     void step(int number_of_steps);
@@ -49,7 +50,9 @@ class TMC262Stepper {
 	int step_pin;
 	int dir_pin;
 	
-	unsigned char current_scaling;
+	//status values 
+	int microsteps; //the current number of micro steps
+	unsigned char current_scaling; //the current current scaling value (for debug) - TODO remove
 	
 	//SPI sender
 	unsigned long send262(unsigned long datagram);
