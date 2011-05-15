@@ -51,6 +51,9 @@
 
 TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int max_current)
 {
+	//we are not started yet
+	started=0;
+	
 	//save the pins for later use
 	this->cs_pin=cs_pin;
 	this->dir_pin=dir_pin;
@@ -94,17 +97,21 @@ void TMC262Stepper::start() {
 	digitalWrite(dir_pin, LOW);     
 	digitalWrite(cs_pin, HIGH);   
 	
-	
+	//configure the SPI interface
 	SPI.setBitOrder(MSBFIRST);
 	SPI.setClockDivider(SPI_CLOCK_DIV8);
 	SPI.setDataMode(SPI_MODE0);
 	SPI.begin();
 		
+	//set the initial values
 	send262(driver_control_register_value); 
 	send262(chopper_config_register);
 	send262(cool_step_register_value);
 	send262(stall_guard2_current_register_value);
 	send262(driver_configuration);
+	
+	//save that we are in running mode
+	started=-1;
 	
 }
 
@@ -235,7 +242,11 @@ void TMC262Stepper::setMicrosteps(int number_of_steps) {
 	this->driver_control_register_value &=0xFFFF0ul;
 	//set the new value
 	this->driver_control_register_value |=setting_pattern;
-	send262(driver_control_register_value);
+	
+	//if started we directly send it to the motor
+	if (started) {
+		send262(driver_control_register_value);
+	}
 }
 
 int TMC262Stepper::getMicrosteps(void) {

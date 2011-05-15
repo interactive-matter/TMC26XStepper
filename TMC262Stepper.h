@@ -51,6 +51,7 @@ class TMC262Stepper {
 	int dir_pin;
 	
 	//status values 
+	char started;
 	int microsteps; //the current number of micro steps
 	unsigned char current_scaling; //the current current scaling value (for debug) - TODO remove
 	
