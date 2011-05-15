@@ -55,7 +55,7 @@ class TMC262Stepper {
 	unsigned char current_scaling; //the current current scaling value (for debug) - TODO remove
 	
 	//SPI sender
-	unsigned long send262(unsigned long datagram);
+	inline unsigned long send262(unsigned long datagram);
 };
 
 #endif

@@ -163,7 +163,7 @@ int TMC262Stepper::version(void)
   return 1;
 }
 
-unsigned long TMC262Stepper::send262(unsigned long datagram) {
+inline unsigned long TMC262Stepper::send262(unsigned long datagram) {
 	unsigned long i_datagram;
 
 	//ensure that only valid bist are set (0-19)
