@@ -14,7 +14,7 @@ void setup() {
 
 void loop() {
   for (int i=0;i<9;i++) {
-    tmc262Stepper.setMicrostepping(2^i);
+    tmc262Stepper.setMicrosteps(1<<i);
     Serial.println("up");
     tmc262Stepper.step(6400);
     Serial.println("down");
