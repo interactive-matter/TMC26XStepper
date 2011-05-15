@@ -1,5 +1,5 @@
 /*
- TMC262Stepper.cpp - - TLC 262 Stepper library for Wiring/Arduino - Version 0.1
+ TMC262Stepper.cpp - - TMC262 Stepper library for Wiring/Arduino - Version 0.1
  
  based on the stepper library by Tom Igoe, et. al.
 
