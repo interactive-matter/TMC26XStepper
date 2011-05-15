@@ -192,24 +192,24 @@ void TMC262Stepper::setMicrostepping(int setting) {
 	long setting_pattern;
 	//poor mans log
 	if (setting>=256) {
-		setting_pattern=8;
+		setting_pattern=0;
 	} else if (setting>=128) {
-		setting_pattern=7;
+		setting_pattern=1;
 	} else if (setting>=64) {
-		setting_pattern=6;
+		setting_pattern=2;
 	} else if (setting>=32) {
-		setting_pattern=5;
+		setting_pattern=3;
 	} else if (setting>=16) {
 		setting_pattern=4;
 	} else if (setting>=8) {
-		setting_pattern=3;
+		setting_pattern=5;
 	} else if (setting>=4) {
-		setting_pattern=2;
+		setting_pattern=6;
 	} else if (setting>=2) {
-		setting_pattern=1;
+		setting_pattern=7;
     //1 and 0 lead to full step
 	} else if (setting<=1) {
-		setting_pattern=0;
+		setting_pattern=8;
 	}
 	//delete the old value
 	this->driver_control_register_value &=0xFFFF0;
