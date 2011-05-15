@@ -21,6 +21,7 @@
 #define CHOPPER_MODE_T_OFF_FAST_DECAY 0x4000ul
 
 #define RANDOM_TOFF_TIME 0x200ul
+#define BLANK_TIMING_PATTERN 0x1E000
 #define BLANK_TIMING_SHIFT 15
 #define HYSTERESIS_DECREMENT_PATTERN 0x1800ul
 #define HYSTERESIS_DECREMENT_SHIFT 11
@@ -44,7 +45,6 @@
 
 //default values
 #define INITIAL_MICROSTEPPING 0x3ul //32th microstepping
-
 
 //debuging output
 #define DEBUG
@@ -77,7 +77,11 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	
 	//setting the default register values
 	driver_control_register_value=DRIVER_CONTROL_REGISTER|INITIAL_MICROSTEPPING;
-	chopper_config_register=CHOPPER_CONFIG_REGISTER | (3ul<<BLANK_TIMING_SHIFT) | CHOPPER_MODE_T_OFF_FAST_DECAY | (3ul<<HYSTERESIS_LOW_SHIFT) | (5ul << HYSTERESIS_START_VALUE_SHIFT) | 7;
+	microsteps = (1 << INITIAL_MICROSTEPPING);
+	chopper_config_register=CHOPPER_CONFIG_REGISTER;
+	//ended up in 9C1D7;
+	//set to a conservative start value
+	setConstantOffTimeChopper(7, 54, 13,12,1);
 	cool_step_register_value=COOL_STEP_REGISTER;
 	stall_guard2_current_register_value=STALL_GUARD2_LOAD_MEASURE_REGISTER|current_scaling;
 	driver_configuration=DRIVER_CONFIG_REGISTER;
@@ -231,6 +235,86 @@ void TMC262Stepper::setMicrosteps(int number_of_steps) {
  */
 int TMC262Stepper::getMicrosteps(void) {
 	return microsteps;
+}
+
+/*
+ * constant_off_time: The off time setting controls the minimum chopper frequency. 
+ * For most applications an off time within	the range of 5μs to 20μs will fit.
+ *		2...15: off time setting
+ *
+ * blank_time: Selects the comparator blank time. This time needs to safely cover the switching event and the
+ * duration of the ringing on the sense resistor. For
+ *		0: min. setting 3: max. setting
+ *
+ * fast_decay_time_setting: Fast decay time setting. With CHM=1, these bits control the portion of fast decay for each chopper cycle.
+ *		0: slow decay only
+ *		1...15: duration of fast decay phase
+ *
+ * sine_wave_offset: Sine wave offset. With CHM=1, these bits control the sine wave offset. 
+ * A positive offset corrects for zero crossing error.
+ *		-3..-1: negative offset 0: no offset 1...12: positive offset
+ *
+ * use_current_comparator: Selects usage of the current comparator for termination of the fast decay cycle. 
+ * If current comparator is enabled, it terminates the fast decay cycle in case the current 
+ * reaches a higher negative value than the actual positive value.
+ *		1: enable comparator termination of fast decay cycle
+ *		0: end by time only
+ */
+void TMC262Stepper::setConstantOffTimeChopper(char constant_off_time, char blank_time, char fast_decay_time_setting, char sine_wave_offset, unsigned char use_current_comparator) {
+	//perform some sanity checks
+	if (constant_off_time<2) {
+		constant_off_time=2;
+	} else if (constant_off_time>15) {
+		constant_off_time=15;
+	}
+	char blank_value;
+	//calculate the value acc to the clock cycles
+	if (blank_time>=54) {
+		blank_value=3;
+	} else if (blank_time>=36) {
+		blank_value=2;
+	} else if (blank_time>=24) {
+		blank_value=1;
+	} else {
+		blank_value=0;
+	}
+	if (fast_decay_time_setting<0) {
+		fast_decay_time_setting=0;
+	} else if (fast_decay_time_setting>15) {
+		fast_decay_time_setting=15;
+	}
+	if (sine_wave_offset < -3) {
+		sine_wave_offset = -3;
+	} else if (sine_wave_offset>12) {
+		sine_wave_offset = 12;
+	}
+	//shift the sine_wave_offset
+	sine_wave_offset +=3;
+	
+	//calculate the register setting
+	//first of all delete all the values for this
+	chopper_config_register &= ~((1<<12) | BLANK_TIMING_PATTERN | HYSTERESIS_DECREMENT_PATTERN | HYSTERESIS_LOW_VALUE_PATTERN | HYSTERESIS_START_VALUE_PATTERN | T_OFF_TIMING_PATERN);
+	//set the constant off pattern
+	chopper_config_register |= CHOPPER_MODE_T_OFF_FAST_DECAY;
+	//set the blank timing value
+	chopper_config_register |= (unsigned long)blank_value << BLANK_TIMING_SHIFT;
+	//set the fast decay time
+	//set msb
+	chopper_config_register |= (((unsigned long)(fast_decay_time_setting & 0x8))<<HYSTERESIS_DECREMENT_SHIFT);
+	//other bits
+	chopper_config_register |= (((unsigned long)(fast_decay_time_setting & 0x7))<<HYSTERESIS_START_VALUE_SHIFT);
+	//set the sine wave offset
+	chopper_config_register |= (unsigned long)sine_wave_offset << HYSTERESIS_LOW_SHIFT;
+	//setting the constant off time
+	chopper_config_register |= constant_off_time;
+	//using the current comparator?
+	if (!use_current_comparator) {
+		chopper_config_register |= (1<<12);
+	}
+	//if started we directly send it to the motor
+	if (started) {
+		send262(driver_control_register_value);
+	}	
 }
 
 /*

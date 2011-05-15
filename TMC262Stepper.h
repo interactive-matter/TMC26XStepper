@@ -29,6 +29,8 @@ class TMC262Stepper {
 	
     // mover method:
     void step(int number_of_steps);
+	// configure the constant off timer
+	void setConstantOffTimeChopper(char constant_off_time, char blank_time, char fast_decay_time_setting, char sine_wave_offset, unsigned char use_current_comparator);
 
 	//library version
     int version(void);
