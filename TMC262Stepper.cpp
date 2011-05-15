@@ -21,6 +21,7 @@
 #define CHOPPER_MODE_T_OFF_FAST_DECAY 0x4000ul
 
 #define RANDOM_TOFF_TIME 0x200ul
+#define BLANK_TIMING_SHIFT 15
 #define HYSTERESIS_DECREMENT_PATTERN 0x1800ul
 #define HYSTERESIS_DECREMENT_SHIFT 11
 #define HYSTERESIS_LOW_VALUE_PATTERN 0x780ul
@@ -93,7 +94,7 @@ void TMC262Stepper::start() {
 	SPI.begin();
 		
 	send262(DRIVER_CONTROL_REGISTER|INITIAL_MICROSTEPPING); 
-	send262(CHOPPER_CONFIG_REGISTER | CHOPPER_MODE_T_OFF_FAST_DECAY | (3<<HYSTERESIS_LOW_SHIFT) | (5 << HYSTERESIS_START_VALUE_SHIFT) | 7); // was 0x941D7
+	send262(CHOPPER_CONFIG_REGISTER | (3ul<<BLANK_TIMING_SHIFT) | CHOPPER_MODE_T_OFF_FAST_DECAY | (3ul<<HYSTERESIS_LOW_SHIFT) | (5ul << HYSTERESIS_START_VALUE_SHIFT) | 7); // was 0x941D7
 	send262(SMART_ENERNGY_REGISTER);
 	send262(STALL_GUARD2_LOAD_MEASURE_REGISTER|current_scaling);
 	send262(DRIVER_CONFIG_REGISTER);
@@ -157,15 +158,15 @@ int TMC262Stepper::version(void)
 
 unsigned long TMC262Stepper::send262(unsigned long datagram) {
 	unsigned long i_datagram;
-	
+
+	//ensure that only valid bist are set (0-19)
+	//datagram &=REGISTER_BIT_PATTERN;
+
 #ifdef DEBUG
 	Serial.print("Sending ");
 	Serial.println(datagram,HEX);
 #endif
 	
-	//ensure that only valid bist are set (0-19)
-	datagram &=REGISTER_BIT_PATTERN;
-
 	//select the TMC driver
 	digitalWrite(cs_pin,LOW);
 	
