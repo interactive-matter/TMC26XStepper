@@ -5,7 +5,7 @@
 //TMC262 register definitions
 #define DRIVER_CONTROL_REGISTER 0x0ul
 #define CHOPPER_CONFIG_REGISTER 0x80000ul
-#define SMART_ENERNGY_REGISTER  0xA0000ul
+#define COOL_STEP_REGISTER  0xA0000ul
 #define STALL_GUARD2_LOAD_MEASURE_REGISTER 0xC0000ul
 #define DRIVER_CONFIG_REGISTER 0xE0000ul
 
@@ -64,6 +64,13 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	//with vfs=5/16, Rsense=0,15
 	//giving the formula CS=(ImA*32/(1000*k)-1 where k=Vfs/Rsense*1/sqrt(2) - too lazy to deal with complete formulas
 	this->current_scaling = (byte)((mASetting*0.0217223203180507)-0.5); //theoretically - 1.0 for better rounding it is 0.5
+	
+	//setting the default register values
+	driver_control_register_value=DRIVER_CONTROL_REGISTER|INITIAL_MICROSTEPPING;
+	chopper_config_register=CHOPPER_CONFIG_REGISTER | (3ul<<BLANK_TIMING_SHIFT) | CHOPPER_MODE_T_OFF_FAST_DECAY | (3ul<<HYSTERESIS_LOW_SHIFT) | (5ul << HYSTERESIS_START_VALUE_SHIFT) | 7;
+	cool_step_register_value=COOL_STEP_REGISTER;
+	stall_guard2_current_register_value=STALL_GUARD2_LOAD_MEASURE_REGISTER|current_scaling;
+	driver_configuration=DRIVER_CONFIG_REGISTER;
 }
 
 void TMC262Stepper::start() {
@@ -93,11 +100,11 @@ void TMC262Stepper::start() {
 	SPI.setDataMode(SPI_MODE0);
 	SPI.begin();
 		
-	send262(DRIVER_CONTROL_REGISTER|INITIAL_MICROSTEPPING); 
-	send262(CHOPPER_CONFIG_REGISTER | (3ul<<BLANK_TIMING_SHIFT) | CHOPPER_MODE_T_OFF_FAST_DECAY | (3ul<<HYSTERESIS_LOW_SHIFT) | (5ul << HYSTERESIS_START_VALUE_SHIFT) | 7); // was 0x941D7
-	send262(SMART_ENERNGY_REGISTER);
-	send262(STALL_GUARD2_LOAD_MEASURE_REGISTER|current_scaling);
-	send262(DRIVER_CONFIG_REGISTER);
+	send262(driver_control_register_value); 
+	send262(chopper_config_register);
+	send262(cool_step_register_value);
+	send262(stall_guard2_current_register_value);
+	send262(driver_configuration);
 	
 }
 
@@ -212,7 +219,7 @@ void TMC262Stepper::setMicrostepping(int setting) {
 		setting_pattern=8;
 	}
 	//delete the old value
-	this->driver_control_register_value &=0xFFFF0;
+	this->driver_control_register_value &=0xFFFF0ul;
 	//set the new value
 	this->driver_control_register_value |=setting_pattern;
 	send262(driver_control_register_value);
