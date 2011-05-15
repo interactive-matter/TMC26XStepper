@@ -22,6 +22,8 @@ class TMC262Stepper {
     // speed setter method:
     void setSpeed(long whatSpeed);
 
+	void setMicrostepping(int setting);
+	
     // mover method:
     void step(int number_of_steps);
 
@@ -34,6 +36,13 @@ class TMC262Stepper {
     int number_of_steps;      // total number of steps this motor can take
         
     long last_step_time;      // time stamp in ms of when the last step was taken
+	
+	//driver control register copies to easily set & modify the registers
+	unsigned long driver_control_register_value;
+	unsigned long chopper_config_register;
+	unsigned long cool_step_register_value;
+	unsigned long stall_guard2_current_register_value;
+	unsigned long driver_configuration;
 	
 	//the pins for the stepper driver
 	int cs_pin;

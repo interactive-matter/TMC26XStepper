@@ -2,8 +2,51 @@
 #include <SPI.h>
 #include "TMC262Stepper.h"
 
+//TMC262 register definitions
+#define DRIVER_CONTROL_REGISTER 0x0ul
+#define CHOPPER_CONFIG_REGISTER 0x80000ul
+#define SMART_ENERNGY_REGISTER  0xA0000ul
+#define STALL_GUARD2_LOAD_MEASURE_REGISTER 0xC0000ul
+#define DRIVER_CONFIG_REGISTER 0xE0000ul
+
+#define REGISTER_BIT_PATTERN 0xFFFFFul
+
+//definitions for the driver control register
+#define MICROSTEPPING_PATTERN 0xFul
+#define STEP_INTERPOLATION 0x200ul
+#define DOUBLE_EDGE_STEP 0x100ul
+
+//definitions for the chopper config register
+#define CHOPPER_MODE_STANDARD 0x0ul
+#define CHOPPER_MODE_T_OFF_FAST_DECAY 0x4000ul
+
+#define RANDOM_TOFF_TIME 0x200ul
+#define HYSTERESIS_DECREMENT_PATTERN 0x1800ul
+#define HYSTERESIS_DECREMENT_SHIFT 11
+#define HYSTERESIS_LOW_VALUE_PATTERN 0x780ul
+#define HYSTERESIS_LOW_SHIFT 7
+#define HYSTERESIS_START_VALUE_PATTERN 0x70ul
+#define HYSTERESIS_START_VALUE_SHIFT 4
+#define T_OFF_TIMING_PATERN 0xFul
+
+//definitions for cool step register
+#define MINIMUM_CURRENT_FOURTH 0x8000ul
+#define CURRENT_DOWN_STEP_SPEED_PATTERN 0x6000ul
+#define SE_MAX_PATTERN 0xF00ul
+#define SE_CURRENT_STEP_WIDTH_PATTERN 0x60ul
+#define SE_MIN_PATTERN 0xful
+
+//definitions for stall guard2 current register
+#define STALL_GUARD_FILTER_ENABLE 0x10000ul
+#define STALL_GUARD_TRESHHOLD_VALUE_PATTERN 0x7F00ul
+#define CURRENT_SCALING_PATTERN 0x1Ful
+
+//default values
+#define INITIAL_MICROSTEPPING 0x0ul
+
+
+//debuging output
 #define DEBUG
-# define MRES 0
 
 TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int max_current)
 {
@@ -11,6 +54,9 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	this->cs_pin=cs_pin;
 	this->dir_pin=dir_pin;
 	this->step_pin = step_pin;
+	//initialize register values
+	driver_control_register_value=DRIVER_CONFIG_REGISTER | INITIAL_MICROSTEPPING;
+	chopper_config_register=CHOPPER_CONFIG_REGISTER;
 	//calculate the current scaling from the max current setting (in mA)
 	float mASetting = max_current;
 	//this is derrived from I=(cs+1)/32*Vfs/Rsense*1/sqrt(2)
@@ -46,11 +92,11 @@ void TMC262Stepper::start() {
 	SPI.setDataMode(SPI_MODE0);
 	SPI.begin();
 		
-	send262(0x00000|MRES); 
-	send262(0x941D7);
-	send262(0xA0000);
-	send262(0xD0000|current_scaling);
-	send262(0xEF000);
+	send262(DRIVER_CONTROL_REGISTER|INITIAL_MICROSTEPPING); 
+	send262(CHOPPER_CONFIG_REGISTER | CHOPPER_MODE_T_OFF_FAST_DECAY | (3<<HYSTERESIS_LOW_SHIFT) | (5 << HYSTERESIS_START_VALUE_SHIFT) | 7); // was 0x941D7
+	send262(SMART_ENERNGY_REGISTER);
+	send262(STALL_GUARD2_LOAD_MEASURE_REGISTER|current_scaling);
+	send262(DRIVER_CONFIG_REGISTER);
 	
 }
 
@@ -116,9 +162,14 @@ unsigned long TMC262Stepper::send262(unsigned long datagram) {
 	Serial.print("Sending ");
 	Serial.println(datagram,HEX);
 #endif
+	
+	//ensure that only valid bist are set (0-19)
+	datagram &=REGISTER_BIT_PATTERN;
 
+	//select the TMC driver
 	digitalWrite(cs_pin,LOW);
 	
+	//write/read the values
 	i_datagram = SPI.transfer((datagram >> 16) & 0xff);
 	i_datagram <<= 8;
 	i_datagram |= SPI.transfer((datagram >>  8) & 0xff);
@@ -126,6 +177,7 @@ unsigned long TMC262Stepper::send262(unsigned long datagram) {
 	i_datagram |= SPI.transfer((datagram      ) & 0xff);
 	i_datagram >>= 4;
 	
+	//deselect the TMC chip
 	digitalWrite(cs_pin,HIGH); 
 #ifdef DEBUG
 	Serial.print("Received ");
@@ -133,4 +185,34 @@ unsigned long TMC262Stepper::send262(unsigned long datagram) {
 #endif
 	
 	return i_datagram;
+}
+
+void TMC262Stepper::setMicrostepping(int setting) {
+	long setting_pattern;
+	//poor mans log
+	if (setting>=256) {
+		setting_pattern=8;
+	} else if (setting>=128) {
+		setting_pattern=7;
+	} else if (setting>=64) {
+		setting_pattern=6;
+	} else if (setting>=32) {
+		setting_pattern=5;
+	} else if (setting>=16) {
+		setting_pattern=4;
+	} else if (setting>=8) {
+		setting_pattern=3;
+	} else if (setting>=4) {
+		setting_pattern=2;
+	} else if (setting>=2) {
+		setting_pattern=1;
+    //1 and 0 lead to full step
+	} else if (setting<=1) {
+		setting_pattern=0;
+	}
+	//delete the old value
+	this->driver_control_register_value &=0xFFFF0;
+	//set the new value
+	this->driver_control_register_value |=setting_pattern;
+	send262(driver_control_register_value);
 }
