@@ -9,13 +9,16 @@ void setup() {
   Serial.begin(9600);
   Serial.println("start");
   tmc262Stepper.start();
-  tmc262Stepper.setSpeed(10);
+  tmc262Stepper.setSpeed(300);
 }
 
 void loop() {
-  Serial.println("up");
-  tmc262Stepper.step(6400);
-  Serial.println("down");
-  tmc262Stepper.step(-6400);
+  for (int i=0;i<9;i++) {
+    tmc262Stepper.setMicrostepping(2^i);
+    Serial.println("up");
+    tmc262Stepper.step(6400);
+    Serial.println("down");
+    tmc262Stepper.step(-6400);
+  }
 }
 
