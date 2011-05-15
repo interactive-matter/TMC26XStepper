@@ -22,12 +22,15 @@ class TMC262Stepper {
     // speed setter method:
     void setSpeed(long whatSpeed);
 
+	//set the number of microsteps per step - up to 256 in 2^i stepping is supported
 	void setMicrosteps(int number_of_steps);
+	//get the effective number of microsteps
 	int getMicrosteps(void);
 	
     // mover method:
     void step(int number_of_steps);
 
+	//library version
     int version(void);
 
   private:    
@@ -51,7 +54,7 @@ class TMC262Stepper {
 	int dir_pin;
 	
 	//status values 
-	char started;
+	char started; //if the stepper has been started yet
 	int microsteps; //the current number of micro steps
 	unsigned char current_scaling; //the current current scaling value (for debug) - TODO remove
 	

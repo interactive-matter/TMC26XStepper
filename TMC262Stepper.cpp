@@ -49,6 +49,13 @@
 //debuging output
 #define DEBUG
 
+/*
+ * Constructor
+ * number_of_steps - the steps per rotation
+ * cs_pin - the SPI client select pin
+ * dir_pin - the pin where the direction pin is connected
+ * step_pin - the pin where the step pin is connected
+ */
 TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int max_current)
 {
 	//we are not started yet
@@ -76,6 +83,10 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	driver_configuration=DRIVER_CONFIG_REGISTER;
 }
 
+/*
+ * start & configure the stepper driver
+ * just must be called.
+ */
 void TMC262Stepper::start() {
 
 #ifdef DEBUG	
@@ -162,6 +173,12 @@ void TMC262Stepper::step(int steps_to_move)
   }
 }
 
+/*
+ * Set the number of microsteps per step.
+ * 0,2,4,8,16,32,64,128,256 is supported
+ * any value in between will be mapped to the next smaller value
+ * 0 and 1 set the motor in full step mode
+ */
 void TMC262Stepper::setMicrosteps(int number_of_steps) {
 	long setting_pattern;
 	//poor mans log
@@ -209,6 +226,9 @@ void TMC262Stepper::setMicrosteps(int number_of_steps) {
 	}
 }
 
+/*
+ * returns the effective number of microsteps at the moment
+ */
 int TMC262Stepper::getMicrosteps(void) {
 	return microsteps;
 }
@@ -221,6 +241,10 @@ int TMC262Stepper::version(void)
 	return 1;
 }
 
+/*
+ * send register settings to the stepper driver via SPI
+ * returns the current status
+ */
 inline unsigned long TMC262Stepper::send262(unsigned long datagram) {
 	unsigned long i_datagram;
 	
