@@ -43,7 +43,7 @@
 #define CURRENT_SCALING_PATTERN 0x1Ful
 
 //default values
-#define INITIAL_MICROSTEPPING 0x0ul
+#define INITIAL_MICROSTEPPING 0x3ul //32th microstepping
 
 
 //debuging output
