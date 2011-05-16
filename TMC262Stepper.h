@@ -50,6 +50,8 @@ class TMC262Stepper {
     void step(int number_of_steps);
 	// configure the constant off timer
 	void setConstantOffTimeChopper(char constant_off_time, char blank_time, char fast_decay_time_setting, char sine_wave_offset, unsigned char use_current_comparator);
+	// or configure with the spread cycle chopper
+	void setSpreadCycleChopper(char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement);
 	//set the current in mA
 	void setCurrent(unsigned int rms_current);
 	//library version

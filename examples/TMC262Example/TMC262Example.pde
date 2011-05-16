@@ -2,18 +2,21 @@
 #include <TMC262Stepper.h>
 
 //we have a stepper motor with 200 steps per rotation, CS pin 2, dir pin 3, step pin 4 and a current of 300mA
-TMC262Stepper tmc262Stepper = TMC262Stepper(200,2,3,4,300);
+TMC262Stepper tmc262Stepper = TMC262Stepper(200,2,3,4,400);
 int curr_step;
 
 void setup() {
   Serial.begin(9600);
+  //set this according to you stepper
+  tmc262Stepper.setSpreadCycleChopper(1,1,7,5,1);
+
   Serial.println("start");
   tmc262Stepper.start();
   tmc262Stepper.setSpeed(300);
 }
 
 void loop() {
-  for (int i=0;i<9;i++) {
+  for (int i=8;i>=0;i--) {
     tmc262Stepper.setMicrosteps(1<<i);
     Serial.println("up");
     tmc262Stepper.step(6400);

@@ -349,6 +349,8 @@ void TMC262Stepper::setConstantOffTimeChopper(char constant_off_time, char blank
 	chopper_config_register |= CHOPPER_MODE_T_OFF_FAST_DECAY;
 	//set the blank timing value
 	chopper_config_register |= (unsigned long)blank_value << BLANK_TIMING_SHIFT;
+	//setting the constant off time
+	chopper_config_register |= constant_off_time;
 	//set the fast decay time
 	//set msb
 	chopper_config_register |= (((unsigned long)(fast_decay_time_setting & 0x8))<<HYSTERESIS_DECREMENT_SHIFT);
@@ -356,12 +358,85 @@ void TMC262Stepper::setConstantOffTimeChopper(char constant_off_time, char blank
 	chopper_config_register |= (((unsigned long)(fast_decay_time_setting & 0x7))<<HYSTERESIS_START_VALUE_SHIFT);
 	//set the sine wave offset
 	chopper_config_register |= (unsigned long)sine_wave_offset << HYSTERESIS_LOW_SHIFT;
-	//setting the constant off time
-	chopper_config_register |= constant_off_time;
 	//using the current comparator?
 	if (!use_current_comparator) {
 		chopper_config_register |= (1<<12);
 	}
+	//if started we directly send it to the motor
+	if (started) {
+		send262(driver_control_register_value);
+	}	
+}
+
+/*
+ * constant_off_time: The off time setting controls the minimum chopper frequency. 
+ * For most applications an off time within	the range of 5μs to 20μs will fit.
+ *		2...15: off time setting
+ *
+ * blank_time: Selects the comparator blank time. This time needs to safely cover the switching event and the
+ * duration of the ringing on the sense resistor. For
+ *		0: min. setting 3: max. setting
+ *
+ * hysteresis_start: Hysteresis start setting. Please remark, that this value is an offset to the hysteresis end value HEND.
+ *		1...8
+ *
+ * hysteresis_end: Hysteresis end setting. Sets the hysteresis end value after a number of decrements. Decrement interval time is controlled by HDEC. 
+ * The sum HSTRT+HEND must be <16. At a current setting CS of max. 30 (amplitude reduced to 240), the sum is not limited.
+ *		-3..-1: negative HEND 0: zero HEND 1...12: positive HEND
+ *
+ * hysteresis_decrement: Hysteresis decrement setting. This setting determines the slope of the hysteresis during on time and during fast decay time.
+ *		0: fast decrement 3: very slow decrement
+ */
+
+void TMC262Stepper::setSpreadCycleChopper(char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement) {
+	//perform some sanity checks
+	if (constant_off_time<2) {
+		constant_off_time=2;
+	} else if (constant_off_time>15) {
+		constant_off_time=15;
+	}
+	char blank_value;
+	//calculate the value acc to the clock cycles
+	if (blank_time>=54) {
+		blank_value=3;
+	} else if (blank_time>=36) {
+		blank_value=2;
+	} else if (blank_time>=24) {
+		blank_value=1;
+	} else {
+		blank_value=0;
+	}
+	if (hysteresis_start<1) {
+		hysteresis_start=1;
+	} else if (hysteresis_start>8) {
+		hysteresis_start=8;
+	}
+	hysteresis_start--;
+	if (hysteresis_end < -3) {
+		hysteresis_end = -3;
+	} else if (hysteresis_end>12) {
+		hysteresis_end = 12;
+	}
+	if (hysteresis_decrement<0) {
+		hysteresis_decrement=0;
+	} else if (hysteresis_decrement>3) {
+		hysteresis_decrement=3;
+	}
+	//shift the hysteresis_end
+	hysteresis_end +=3;
+
+	//first of all delete all the values for this
+	chopper_config_register &= ~((1<<12) | BLANK_TIMING_PATTERN | HYSTERESIS_DECREMENT_PATTERN | HYSTERESIS_LOW_VALUE_PATTERN | HYSTERESIS_START_VALUE_PATTERN | T_OFF_TIMING_PATERN);
+	//set the blank timing value
+	chopper_config_register |= (unsigned long)blank_value << BLANK_TIMING_SHIFT;
+	//setting the constant off time
+	chopper_config_register |= constant_off_time;
+	//set the hysteresis_start
+	chopper_config_register |= (unsigned long)hysteresis_start << HYSTERESIS_START_VALUE_SHIFT;
+	//set the hysteresis end
+	chopper_config_register |= (unsigned long)hysteresis_end << HYSTERESIS_LOW_SHIFT;
+	//set the hystereis decrement
+	chopper_config_register |= (unsigned long)blank_value << BLANK_TIMING_SHIFT;
 	//if started we directly send it to the motor
 	if (started) {
 		send262(driver_control_register_value);
