@@ -8,7 +8,7 @@ int curr_step;
 void setup() {
   Serial.begin(9600);
   //set this according to you stepper
-  tmc262Stepper.setSpreadCycleChopper(1,1,7,5,1);
+  tmc262Stepper.setSpreadCycleChopper(2,24,6,0,1);
 
   Serial.println("start");
   tmc262Stepper.start();
