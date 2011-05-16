@@ -127,6 +127,8 @@ void TMC262Stepper::start() {
 	Serial.println(dir_pin);
 	Serial.print("STEP pin: ");
 	Serial.println(step_pin);
+	Serial.print("current scaling: ");
+	Serial.println(current_scaling,DEC);
 #endif
 	//set the pins as output & its initial value
 	pinMode(step_pin, OUTPUT);     
@@ -202,7 +204,6 @@ void TMC262Stepper::step(int steps_to_move)
 }
 
 void TMC262Stepper::setCurrent(unsigned int rms_current) {
-	unsigned char current_scaling; 
 	//calculate the current scaling from the max current setting (in mA)
 	float mASetting = rms_current;
 	//this is derrived from I=(cs+1)/32*Vfs/Rsense*1/sqrt(2)
@@ -213,10 +214,6 @@ void TMC262Stepper::setCurrent(unsigned int rms_current) {
 	//do some sanity checks
 	if (current_scaling>32) {
 		current_scaling=32;
-#ifdef DEBUG	
-	Serial.print("current scaling: ");
-	Serial.println(current_scaling,DEC);
-#endif
 	}
 	//delete the old value
 	stall_guard2_current_register_value &= ~(CURRENT_SCALING_PATTERN);
