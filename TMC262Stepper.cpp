@@ -261,7 +261,7 @@ void TMC262Stepper::setMicrosteps(int number_of_steps) {
     //1 and 0 lead to full step
 	} else if (number_of_steps<=1) {
 		setting_pattern=8;
-		microsteps=0;
+		microsteps=1;
 	}
 #ifdef DEBUG
 	Serial.print("Microstepping: ");
