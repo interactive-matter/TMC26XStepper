@@ -9,10 +9,11 @@ void setup() {
   Serial.begin(9600);
   //set this according to you stepper
   tmc262Stepper.setSpreadCycleChopper(2,24,6,0,1);
+  tmc262Stepper.setRandomOffTime(1);
 
   Serial.println("start");
   tmc262Stepper.start();
-  tmc262Stepper.setSpeed(300);
+  tmc262Stepper.setSpeed(100);
 }
 
 void loop() {
