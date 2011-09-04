@@ -476,9 +476,13 @@ int TMC262Stepper::version(void)
  * send register settings to the stepper driver via SPI
  * returns the current status
  */
-inline unsigned long TMC262Stepper::send262(unsigned long datagram) {
+inline void TMC262Stepper::send262(unsigned long datagram) {
 	unsigned long i_datagram;
 	
+	
+	//select the TMC driver
+	digitalWrite(cs_pin,LOW);
+
 	//ensure that only valid bist are set (0-19)
 	//datagram &=REGISTER_BIT_PATTERN;
 	
@@ -486,9 +490,6 @@ inline unsigned long TMC262Stepper::send262(unsigned long datagram) {
 	Serial.print("Sending ");
 	Serial.println(datagram,HEX);
 #endif
-	
-	//select the TMC driver
-	digitalWrite(cs_pin,LOW);
 	
 	//write/read the values
 	i_datagram = SPI.transfer((datagram >> 16) & 0xff);
@@ -498,12 +499,13 @@ inline unsigned long TMC262Stepper::send262(unsigned long datagram) {
 	i_datagram |= SPI.transfer((datagram      ) & 0xff);
 	i_datagram >>= 4;
 	
-	//deselect the TMC chip
-	digitalWrite(cs_pin,HIGH); 
 #ifdef DEBUG
 	Serial.print("Received ");
 	Serial.println(i_datagram,HEX);
 #endif
+
+	//deselect the TMC chip
+	digitalWrite(cs_pin,HIGH); 
 	
-	return i_datagram;
+	driver_control_register_value = i_datagram;
 }

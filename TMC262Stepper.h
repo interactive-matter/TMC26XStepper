@@ -85,7 +85,7 @@ class TMC262Stepper {
 	int microsteps; //the current number of micro steps
 	
 	//SPI sender
-	inline unsigned long send262(unsigned long datagram);
+	inline void send262(unsigned long datagram);
 };
 
 #endif
