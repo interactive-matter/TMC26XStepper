@@ -56,6 +56,8 @@ class TMC262Stepper {
 	void setRandomOffTime(char value);
 	//set the current in mA
 	void setCurrent(unsigned int rms_current);
+	//is there a stall guard warning?
+	boolean isStallGuard(void);
 	//library version
     int version(void);
 
@@ -73,6 +75,8 @@ class TMC262Stepper {
 	unsigned long cool_step_register_value;
 	unsigned long stall_guard2_current_register_value;
 	unsigned long driver_configuration;
+	//the driver status result
+	unsigned long driver_status_result;
 	
 	//the pins for the stepper driver
 	int cs_pin;

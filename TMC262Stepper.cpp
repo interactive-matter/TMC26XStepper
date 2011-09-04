@@ -474,6 +474,13 @@ void TMC262Stepper::setRandomOffTime(char value) {
 	}	
 }	
 
+boolean TMC262Stepper::isStallGuard(void) {
+	if (!this->started) {
+		return false;
+	}
+	return (driver_status_result & STALL_GUARD_STATUS);
+}
+
 /*
  version() returns the version of the library:
  */
@@ -517,5 +524,5 @@ inline void TMC262Stepper::send262(unsigned long datagram) {
 	//deselect the TMC chip
 	digitalWrite(cs_pin,HIGH); 
 	
-	driver_control_register_value = i_datagram;
+	 driver_status_result = i_datagram;
 }
