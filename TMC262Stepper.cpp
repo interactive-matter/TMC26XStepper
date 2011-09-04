@@ -73,6 +73,16 @@
 #define STALL_GUARD_TRESHHOLD_VALUE_PATTERN 0x7F00ul
 #define CURRENT_SCALING_PATTERN 0x1Ful
 
+//definitions for the input from the TCM260
+#define STALL_GUARD_STATUS 0x0
+#define OVER_TEMPERATURE_SHUTDOWN 0x1;
+#define OVER_TEMPERATURE_WARNING 0x2;
+#define SHORT_TO_GROUND_A 0x4;
+#define SHORT_TO_GROUND_A 0x8;
+#define OPEN_LOAD_A 0x10;
+#define OPEN_LOAD_B 0x20;
+#define STAND_STILL 0x30;
+
 //default values
 #define INITIAL_MICROSTEPPING 0x3ul //32th microstepping
 
