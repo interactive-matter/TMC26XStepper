@@ -30,6 +30,9 @@
 #ifndef TMC262Stepper_h
 #define TMC262Stepper_h
 
+#define TMC262_OVERTEMPERATURE_PREWARING 1
+#define TMC262_OVERTEMPERATURE_SHUTDOWN 2
+
 // library interface description
 class TMC262Stepper {
   public:
@@ -57,7 +60,23 @@ class TMC262Stepper {
 	//set the current in mA
 	void setCurrent(unsigned int rms_current);
 	//is there a stall guard warning?
-	boolean isStallGuard(void);
+	//false if no status is known
+	boolean isStallGuardOverTreshold(void);
+	//return over temperature status 
+	//TMC_262_OVER_TEMPERATURE_PREWARING if status is reached, 
+	//TMC_262_OVER_TEMPERATURE_SHUTDOWN is the chip is shutdown,
+	//-1 if no status is known
+	char getOverTemperature(void);
+	//is motor channel A shorted to ground
+	boolean isShortToGroundA(void);
+	//is motor channel B shorted to ground
+	boolean isShortToGroundB(void);
+	//is motor channel A connected
+	boolean isOpenLoadA(void);
+	//is motor channel B connected
+	boolean isOpenLoadB(void);
+	//is chopper inactive since 2^20 clock cycles - defaults to ~0,08s
+	boolean isStandStill(void);
 	//library version
     int version(void);
 

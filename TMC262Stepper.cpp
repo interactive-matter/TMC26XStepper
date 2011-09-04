@@ -45,6 +45,7 @@
 #define MICROSTEPPING_PATTERN 0xFul
 #define STEP_INTERPOLATION 0x200ul
 #define DOUBLE_EDGE_STEP 0x100ul
+#define VSENSE 0x40ul
 
 //definitions for the chopper config register
 #define CHOPPER_MODE_STANDARD 0x0ul
@@ -74,14 +75,14 @@
 #define CURRENT_SCALING_PATTERN 0x1Ful
 
 //definitions for the input from the TCM260
-#define STALL_GUARD_STATUS 0x0
-#define OVER_TEMPERATURE_SHUTDOWN 0x1;
-#define OVER_TEMPERATURE_WARNING 0x2;
-#define SHORT_TO_GROUND_A 0x4;
-#define SHORT_TO_GROUND_A 0x8;
-#define OPEN_LOAD_A 0x10;
-#define OPEN_LOAD_B 0x20;
-#define STAND_STILL 0x30;
+#define STATUS_STALL_GUARD_STATUS 0x0ul
+#define STATUS_OVER_TEMPERATURE_SHUTDOWN 0x1ul
+#define STATUS_OVER_TEMPERATURE_WARNING 0x2ul
+#define STATUS_SHORT_TO_GROUND_A 0x4ul
+#define STATUS_SHORT_TO_GROUND_B 0x8ul
+#define STATUS_OPEN_LOAD_A 0x10ul
+#define STATUS_OPEN_LOAD_B 0x20ul
+#define STATUS_STAND_STILL 0x30ul
 
 //default values
 #define INITIAL_MICROSTEPPING 0x3ul //32th microstepping
@@ -216,10 +217,17 @@ void TMC262Stepper::step(int steps_to_move)
 void TMC262Stepper::setCurrent(unsigned int rms_current) {
 	//calculate the current scaling from the max current setting (in mA)
 	float mASetting = rms_current;
+	//TODO adapt those formulas that they can be adjusted to the resistor
 	//this is derrived from I=(cs+1)/32*Vfs/Rsense*1/sqrt(2)
 	//with vfs=5/16, Rsense=0,15
 	//giving the formula CS=(ImA*32/(1000*k)-1 where k=Vfs/Rsense*1/sqrt(2) - too lazy to deal with complete formulas
 	current_scaling = (byte)((mASetting*0.0217223203180507)-0.5); //theoretically - 1.0 for better rounding it is 0.5
+	
+	//check if the current scalingis too low
+	if (current_scaling<16) {
+		this->driver_control_register_value|=VSENSE;
+		current_scaling *= 2;
+	}
 
 	//do some sanity checks
 	if (current_scaling>32) {
@@ -474,11 +482,72 @@ void TMC262Stepper::setRandomOffTime(char value) {
 	}	
 }	
 
-boolean TMC262Stepper::isStallGuard(void) {
+/*
+ return true if the stallguard treshold has been reached
+*/
+boolean TMC262Stepper::isStallGuardOverTreshold(void) {
 	if (!this->started) {
 		return false;
 	}
-	return (driver_status_result & STALL_GUARD_STATUS);
+	return (driver_status_result & STATUS_STALL_GUARD_STATUS);
+}
+
+/*
+ returns if there is any over temperature condition:
+ OVER_TEMPERATURE_PREWARING if pre warning level has been reached
+ OVER_TEMPERATURE_SHUTDOWN if the temperature is so hot that the driver is shut down
+ Any of those levels are not too good.
+*/
+char TMC262Stepper::getOverTemperature(void) {
+	if (!this->started) {
+		return -1;
+	}
+	if (driver_status_result & STATUS_OVER_TEMPERATURE_WARNING) {
+		return TMC262_OVERTEMPERATURE_PREWARING;
+	}
+	if (driver_status_result & STATUS_OVER_TEMPERATURE_SHUTDOWN) {
+		return TMC262_OVERTEMPERATURE_SHUTDOWN;
+	}
+}
+
+//is motor channel A shorted to ground
+boolean TMC262Stepper::isShortToGroundA(void) {
+	if (!this->started) {
+		return false;
+	}
+	return (driver_status_result & STATUS_SHORT_TO_GROUND_A);
+}
+
+//is motor channel B shorted to ground
+boolean TMC262Stepper::isShortToGroundB(void) {
+	if (!this->started) {
+		return false;
+	}
+	return (driver_status_result & STATUS_SHORT_TO_GROUND_B);
+}
+
+//is motor channel A connected
+boolean TMC262Stepper::isOpenLoadA(void) {
+	if (!this->started) {
+		return false;
+	}
+	return (driver_status_result & STATUS_OPEN_LOAD_A);
+}
+
+//is motor channel B connected
+boolean TMC262Stepper::isOpenLoadB(void) {
+	if (!this->started) {
+		return false;
+	}
+	return (driver_status_result & STATUS_OPEN_LOAD_B);
+}
+
+//is chopper inactive since 2^20 clock cycles - defaults to ~0,08s
+boolean TMC262Stepper::isStandStill(void) {
+	if (!this->started) {
+		return false;
+	}
+	return (driver_status_result & STATUS_STAND_STILL);
 }
 
 /*
@@ -519,6 +588,25 @@ inline void TMC262Stepper::send262(unsigned long datagram) {
 #ifdef DEBUG
 	Serial.print("Received ");
 	Serial.println(i_datagram,HEX);
+	if (this->started) {
+	if (this->getOverTemperature()&TMC262_OVERTEMPERATURE_PREWARING) {
+		Serial.println("WARNING: Overtemperature Prewarning!");
+	} else if (this->getOverTemperature()&TMC262_OVERTEMPERATURE_SHUTDOWN) {
+		Serial.println("ERROR: Overtemperature Shutdown!");
+	}
+	if (this->isShortToGroundA()) {
+		Serial.println("ERROR: SHORT to ground on channel A!");
+	}
+	if (this->isShortToGroundB()) {
+		Serial.println("ERROR: SHORT to ground on channel A!");
+	}
+	if (this->isOpenLoadA()) {
+		Serial.println("ERROR: Channel A seems to be unconnected!");
+	}
+	if (this->isOpenLoadB()) {
+		Serial.println("ERROR: Channel B seems to be unconnected!");
+	}
+	}
 #endif
 
 	//deselect the TMC chip
