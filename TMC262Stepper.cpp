@@ -514,11 +514,11 @@ char TMC262Stepper::getOverTemperature(void) {
 	if (!this->started) {
 		return -1;
 	}
-	if (driver_status_result & STATUS_OVER_TEMPERATURE_WARNING) {
-		return TMC262_OVERTEMPERATURE_PREWARING;
-	}
 	if (driver_status_result & STATUS_OVER_TEMPERATURE_SHUTDOWN) {
 		return TMC262_OVERTEMPERATURE_SHUTDOWN;
+	}
+	if (driver_status_result & STATUS_OVER_TEMPERATURE_WARNING) {
+		return TMC262_OVERTEMPERATURE_PREWARING;
 	}
 }
 
