@@ -219,14 +219,22 @@ void TMC262Stepper::setCurrent(unsigned int rms_current) {
 	float mASetting = rms_current;
 	//TODO adapt those formulas that they can be adjusted to the resistor
 	//this is derrived from I=(cs+1)/32*Vfs/Rsense*1/sqrt(2)
-	//with vfs=5/16, Rsense=0,15
-	//giving the formula CS=(ImA*32/(1000*k)-1 where k=Vfs/Rsense*1/sqrt(2) - too lazy to deal with complete formulas
-	current_scaling = (byte)((mASetting*0.0217223203180507)-0.5); //theoretically - 1.0 for better rounding it is 0.5
+	//with Rsense=0,15
+	//giving the formula 1/19375*(96*sqrt(2)*I - 19375*V)/V (I in mA)
+	//so for VSense = 1 it is 1536/96875*sqrt(2)*I - 1 (0,02242304032831)
+	//& for VSense = 0 it is 576/19375*sqrt(2)*I - 1  (0,04204320061558)
+	current_scaling = (byte)((mASetting*0.04204320061558)-0.5); //theoretically - 1.0 for better rounding it is 0.5
+	Serial.print("CS: ");
+	Serial.println(current_scaling);
 	
 	//check if the current scalingis too low
 	if (current_scaling<16) {
 		this->driver_control_register_value|=VSENSE;
-		current_scaling *= 2;
+		current_scaling = (byte)((mASetting*0.02242304032831)-0.5); //theoretically - 1.0 for better rounding it is 0.5
+#ifdef DEBUG
+		Serial.print("CS (Vsense=1): ");
+		Serial.println(current_scaling);
+#endif
 	}
 
 	//do some sanity checks
@@ -481,6 +489,10 @@ void TMC262Stepper::setRandomOffTime(char value) {
 		send262(driver_control_register_value);
 	}	
 }	
+
+void TMC262Stepper::readStatus(void) {
+	send262(driver_configuration);
+}
 
 /*
  return true if the stallguard treshold has been reached
