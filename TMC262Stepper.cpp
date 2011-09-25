@@ -52,13 +52,13 @@
 #define CHOPPER_MODE_T_OFF_FAST_DECAY 0x4000ul
 
 #define RANDOM_TOFF_TIME 0x2000ul
-#define BLANK_TIMING_PATTERN 0x1E000
+#define BLANK_TIMING_PATTERN 0x18000ul
 #define BLANK_TIMING_SHIFT 15
 #define HYSTERESIS_DECREMENT_PATTERN 0x1800ul
 #define HYSTERESIS_DECREMENT_SHIFT 11
 #define HYSTERESIS_LOW_VALUE_PATTERN 0x780ul
 #define HYSTERESIS_LOW_SHIFT 7
-#define HYSTERESIS_START_VALUE_PATTERN 0x70ul
+#define HYSTERESIS_START_VALUE_PATTERN 0x78ul
 #define HYSTERESIS_START_VALUE_SHIFT 4
 #define T_OFF_TIMING_PATERN 0xFul
 
@@ -223,14 +223,14 @@ void TMC262Stepper::setCurrent(unsigned int rms_current) {
 	//giving the formula 1/19375*(96*sqrt(2)*I - 19375*V)/V (I in mA)
 	//so for VSense = 1 it is 1536/96875*sqrt(2)*I - 1 (0,02242304032831)
 	//& for VSense = 0 it is 576/19375*sqrt(2)*I - 1  (0,04204320061558)
-	current_scaling = (byte)((mASetting*0.04204320061558)-0.5); //theoretically - 1.0 for better rounding it is 0.5
+	current_scaling = (byte)((mASetting*0.029729032258065)); //theoretically - 1.0 for better rounding it is 0.5
 	Serial.print("CS: ");
 	Serial.println(current_scaling);
 	
 	//check if the current scalingis too low
 	if (current_scaling<16) {
 		this->driver_control_register_value|=VSENSE;
-		current_scaling = (byte)((mASetting*0.02242304032831)-0.5); //theoretically - 1.0 for better rounding it is 0.5
+		current_scaling = (byte)((mASetting*0.0158554838709681)); //theoretically - 1.0 for better rounding it is 0.5
 #ifdef DEBUG
 		Serial.print("CS (Vsense=1): ");
 		Serial.println(current_scaling);
@@ -449,7 +449,7 @@ void TMC262Stepper::setSpreadCycleChopper(char constant_off_time, char blank_tim
 	hysteresis_end +=3;
 
 	//first of all delete all the values for this
-	chopper_config_register &= ~((1<<12) | BLANK_TIMING_PATTERN | HYSTERESIS_DECREMENT_PATTERN | HYSTERESIS_LOW_VALUE_PATTERN | HYSTERESIS_START_VALUE_PATTERN | T_OFF_TIMING_PATERN);
+	chopper_config_register &= ~(BLANK_TIMING_PATTERN | HYSTERESIS_DECREMENT_PATTERN | HYSTERESIS_LOW_VALUE_PATTERN | HYSTERESIS_START_VALUE_PATTERN | T_OFF_TIMING_PATERN);
 	//set the blank timing value
 	chopper_config_register |= (unsigned long)blank_value << BLANK_TIMING_SHIFT;
 	//setting the constant off time
