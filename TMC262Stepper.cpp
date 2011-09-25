@@ -158,8 +158,8 @@ void TMC262Stepper::start() {
 	//set the initial values
 	send262(driver_control_register_value); 
 	send262(chopper_config_register);
-	send262(cool_step_register_value);
-	send262(stall_guard2_current_register_value);
+	//send262(cool_step_register_value);
+	//send262(stall_guard2_current_register_value);
 	send262(driver_configuration);
 	
 	//save that we are in running mode
@@ -435,21 +435,24 @@ void TMC262Stepper::setSpreadCycleChopper(char constant_off_time, char blank_tim
 		hysteresis_start=8;
 	}
 	hysteresis_start--;
+
 	if (hysteresis_end < -3) {
 		hysteresis_end = -3;
 	} else if (hysteresis_end>12) {
 		hysteresis_end = 12;
 	}
+	//shift the hysteresis_end
+	hysteresis_end +=3;
+
 	if (hysteresis_decrement<0) {
 		hysteresis_decrement=0;
 	} else if (hysteresis_decrement>3) {
 		hysteresis_decrement=3;
 	}
-	//shift the hysteresis_end
-	hysteresis_end +=3;
-
+	
 	//first of all delete all the values for this
-	chopper_config_register &= ~(BLANK_TIMING_PATTERN | HYSTERESIS_DECREMENT_PATTERN | HYSTERESIS_LOW_VALUE_PATTERN | HYSTERESIS_START_VALUE_PATTERN | T_OFF_TIMING_PATERN);
+	chopper_config_register &= ~(CHOPPER_MODE_T_OFF_FAST_DECAY | BLANK_TIMING_PATTERN | HYSTERESIS_DECREMENT_PATTERN | HYSTERESIS_LOW_VALUE_PATTERN | HYSTERESIS_START_VALUE_PATTERN | T_OFF_TIMING_PATERN);
+
 	//set the blank timing value
 	chopper_config_register |= ((unsigned long)blank_value) << BLANK_TIMING_SHIFT;
 	//setting the constant off time
