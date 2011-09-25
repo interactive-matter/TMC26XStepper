@@ -371,7 +371,7 @@ void TMC262Stepper::setConstantOffTimeChopper(char constant_off_time, char blank
 	//set the constant off pattern
 	chopper_config_register |= CHOPPER_MODE_T_OFF_FAST_DECAY;
 	//set the blank timing value
-	chopper_config_register |= (unsigned long)blank_value << BLANK_TIMING_SHIFT;
+	chopper_config_register |= ((unsigned long)blank_value) << BLANK_TIMING_SHIFT;
 	//setting the constant off time
 	chopper_config_register |= constant_off_time;
 	//set the fast decay time
@@ -451,15 +451,15 @@ void TMC262Stepper::setSpreadCycleChopper(char constant_off_time, char blank_tim
 	//first of all delete all the values for this
 	chopper_config_register &= ~(BLANK_TIMING_PATTERN | HYSTERESIS_DECREMENT_PATTERN | HYSTERESIS_LOW_VALUE_PATTERN | HYSTERESIS_START_VALUE_PATTERN | T_OFF_TIMING_PATERN);
 	//set the blank timing value
-	chopper_config_register |= (unsigned long)blank_value << BLANK_TIMING_SHIFT;
+	chopper_config_register |= ((unsigned long)blank_value) << BLANK_TIMING_SHIFT;
 	//setting the constant off time
 	chopper_config_register |= constant_off_time;
 	//set the hysteresis_start
-	chopper_config_register |= (unsigned long)hysteresis_start << HYSTERESIS_START_VALUE_SHIFT;
+	chopper_config_register |= ((unsigned long)hysteresis_start) << HYSTERESIS_START_VALUE_SHIFT;
 	//set the hysteresis end
-	chopper_config_register |= (unsigned long)hysteresis_end << HYSTERESIS_LOW_SHIFT;
+	chopper_config_register |= ((unsigned long)hysteresis_end) << HYSTERESIS_LOW_SHIFT;
 	//set the hystereis decrement
-	chopper_config_register |= (unsigned long)blank_value << BLANK_TIMING_SHIFT;
+	chopper_config_register |= ((unsigned long)blank_value) << BLANK_TIMING_SHIFT;
 	//if started we directly send it to the motor
 	if (started) {
 		send262(driver_control_register_value);
