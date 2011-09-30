@@ -214,15 +214,15 @@ void TMC262Stepper::step(int steps_to_move)
   }
 }
 
-void TMC262Stepper::setCurrent(unsigned int rms_current) {
+void TMC262Stepper::setCurrent(unsigned int current) {
 	//calculate the current scaling from the max current setting (in mA)
-	float mASetting = rms_current;
-	//TODO adapt those formulas that they can be adjusted to the resistor
-	//this is derrived from I=(cs+1)/32*Vfs/Rsense*1/sqrt(2)
+	float mASetting = current;
+	// remove vesense flag
+	this->driver_control_register_value &=~(VSENSE);	
+	//this is derrived from I=Vsense/Rsense
 	//with Rsense=0,15
-	//giving the formula 1/19375*(96*sqrt(2)*I - 19375*V)/V (I in mA)
-	//so for VSense = 1 it is 1536/96875*sqrt(2)*I - 1 (0,02242304032831)
-	//& for VSense = 0 it is 576/19375*sqrt(2)*I - 1  (0,04204320061558)
+	//for vsense = 0,310V (VSENSE not set)
+	//or vsense = 0,165V (VSENSE set)
 	current_scaling = (byte)((mASetting*0.029729032258065)); //theoretically - 1.0 for better rounding it is 0.5
 	Serial.print("CS: ");
 	Serial.println(current_scaling);

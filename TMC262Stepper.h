@@ -58,7 +58,7 @@ class TMC262Stepper {
 	//use random off time for noise reduction
 	void setRandomOffTime(char value);
 	//set the current in mA
-	void setCurrent(unsigned int rms_current);
+	void setCurrent(unsigned int current);
 	//manually read out the status register
 	void readStatus(void);
 	//is there a stall guard warning?
