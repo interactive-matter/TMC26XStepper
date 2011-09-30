@@ -74,9 +74,10 @@
 #define SE_MIN_PATTERN 0xful
 
 //definitions for stall guard2 current register
-#define STALL_GUARD_FILTER_ENABLE 0x10000ul
+#define STALL_GUARD_FILTER_ENABLED 0x10000ul
 #define STALL_GUARD_TRESHHOLD_VALUE_PATTERN 0x7F00ul
 #define CURRENT_SCALING_PATTERN 0x1Ful
+#define STALL_GUARD_CONFIG_PATTERN 0x17F00ul
 
 //definitions for the input from the TCM260
 #define STATUS_STALL_GUARD_STATUS 0x1ul
@@ -255,6 +256,29 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 		send262(driver_control_register_value);
 	}
 }
+
+void TMC262Stepper::setStallGuardTreshold(int stall_guard_treshold, char stall_guard_filter_enabled) {
+	if (stall_guard_treshold<-64) {
+		stall_guard_treshold = -64;
+	//We just have 7 bits	
+	} else if (stall_guard_treshold > 63) {
+		stall_guard_treshold = 63;
+	}
+	//add the offset of 64
+	stall_guard_treshold +=64;
+	//delete old stall guard settings
+	stall_guard2_current_register_value &= ~(STALL_GUARD_CONFIG_PATTERN);
+	if (stall_guard_filter_enabled) {
+		stall_guard2_current_register_value |= STALL_GUARD_FILTER_ENABLED;
+	}
+	//Set the new stall guard trsehold
+	stall_guard2_current_register_value |= (((unsigned long)stall_guard_treshold << 8) & STALL_GUARD_CONFIG_PATTERN);
+	//if started we directly send it to the motor
+	if (started) {
+		send262(stall_guard2_current_register_value);
+	}
+}
+
 
 /*
  * Set the number of microsteps per step.

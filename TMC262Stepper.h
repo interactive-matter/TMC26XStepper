@@ -59,6 +59,8 @@ class TMC262Stepper {
 	void setRandomOffTime(char value);
 	//set the current in mA
 	void setCurrent(unsigned int current);
+	//set the Stall Guard treshold
+	void setStallGuardTreshold(int stall_guard_treshold, char stall_guard_filter_enabled);
 	//manually read out the status register
 	void readStatus(void);
 	//is there a stall guard warning?
