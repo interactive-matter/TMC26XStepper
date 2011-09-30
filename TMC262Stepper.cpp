@@ -76,8 +76,8 @@
 
 //definitions for the input from the TCM260
 #define STATUS_STALL_GUARD_STATUS 0x0ul
-#define STATUS_OVER_TEMPERATURE_SHUTDOWN 0x1ul
-#define STATUS_OVER_TEMPERATURE_WARNING 0x2ul
+#define STATUS_OVER_TEMPERATURE_SHUTDOWN 0x2ul
+#define STATUS_OVER_TEMPERATURE_WARNING 0x4ul
 #define STATUS_SHORT_TO_GROUND_A 0x4ul
 #define STATUS_SHORT_TO_GROUND_B 0x8ul
 #define STATUS_OPEN_LOAD_A 0x10ul
@@ -156,11 +156,11 @@ void TMC262Stepper::start() {
 	SPI.begin();
 		
 	//set the initial values
-	send262(driver_control_register_value); 
 	send262(chopper_config_register);
 	//send262(cool_step_register_value);
-	//send262(stall_guard2_current_register_value);
+	send262(stall_guard2_current_register_value);
 	send262(driver_configuration);
+	send262(driver_control_register_value); 
 	
 	//save that we are in running mode
 	started=-1;
