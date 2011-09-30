@@ -46,9 +46,10 @@
 #define STEP_INTERPOLATION 0x200ul
 #define DOUBLE_EDGE_STEP 0x100ul
 #define VSENSE 0x40ul
-#define READ_MICROSTEP_POSTION = 0x0;
-#define READ_STALL_GUARD_READING = 0x8;
-#define READ_STALL_GAURD_AND_COOL_STEP = 0x10;
+#define READ_MICROSTEP_POSTION 0x0ul
+#define READ_STALL_GUARD_READING 0x10ul
+#define READ_STALL_GUARD_AND_COOL_STEP 0x20ul
+#define READ_SELECTION_PATTERN 0x30ul
 
 //definitions for the chopper config register
 #define CHOPPER_MODE_STANDARD 0x0ul
@@ -86,6 +87,7 @@
 #define STATUS_OPEN_LOAD_A 0x10ul
 #define STATUS_OPEN_LOAD_B 0x20ul
 #define STATUS_STAND_STILL 0x30ul
+#define READOUT_VALUE_PATTERN 0xFFC00ul
 
 //default values
 #define INITIAL_MICROSTEPPING 0x3ul //32th microstepping
@@ -119,7 +121,7 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	chopper_config_register=CHOPPER_CONFIG_REGISTER;
 	cool_step_register_value=COOL_STEP_REGISTER;
 	stall_guard2_current_register_value=STALL_GUARD2_LOAD_MEASURE_REGISTER;
-	driver_configuration=DRIVER_CONFIG_REGISTER;
+	driver_configuration = DRIVER_CONFIG_REGISTER | READ_STALL_GUARD_READING;
 
 	//set the current
 	setCurrent(rms_current);
@@ -576,6 +578,28 @@ boolean TMC262Stepper::isStallGuardReached(void) {
 	return (driver_status_result & STATUS_STALL_GUARD_STATUS);
 }
 
+//reads the stall guard setting from last status
+//returns -1 if stallguard inforamtion is not present
+int TMC262Stepper::getCurrentStallGuardReading(void) {
+	int result;
+	unsigned long read_configuration = driver_configuration & READ_SELECTION_PATTERN;
+	if (read_configuration == READ_STALL_GUARD_READING) {
+		return getReadoutValue();
+	} else if (read_configuration == READ_STALL_GUARD_AND_COOL_STEP) {
+		//return just the upper 5 bits
+		//TODO do we need a define for that?
+		return getReadoutValue() & 0x3E0;
+	} else {
+		return -1;
+	}
+}
+
+//reads the stall guard setting from last status
+//returns -1 if stallguard inforamtion is not present
+int TMC262Stepper::getReadoutValue(void) {
+	return (int)(driver_status_result >> 10);
+}
+
 /*
  version() returns the version of the library:
  */
@@ -615,26 +639,33 @@ inline void TMC262Stepper::send262(unsigned long datagram) {
 	Serial.print("Received ");
 	Serial.println(i_datagram,HEX);
 	if (this->started) {
-	if (this->getOverTemperature()&TMC262_OVERTEMPERATURE_PREWARING) {
-		Serial.println("WARNING: Overtemperature Prewarning!");
-	} else if (this->getOverTemperature()&TMC262_OVERTEMPERATURE_SHUTDOWN) {
-		Serial.println("ERROR: Overtemperature Shutdown!");
-	}
-	if (this->isShortToGroundA()) {
-		Serial.println("ERROR: SHORT to ground on channel A!");
-	}
-	if (this->isShortToGroundB()) {
-		Serial.println("ERROR: SHORT to ground on channel A!");
-	}
-	if (this->isOpenLoadA()) {
-		Serial.println("ERROR: Channel A seems to be unconnected!");
-	}
-	if (this->isOpenLoadB()) {
-		Serial.println("ERROR: Channel B seems to be unconnected!");
-	}
-	if (this->isStallGuardReached()) {	
-		Serial.println("INFO: Stall Guard level reached!");
-	}	
+		if (this->getOverTemperature()&TMC262_OVERTEMPERATURE_PREWARING) {
+			Serial.println("WARNING: Overtemperature Prewarning!");
+		} else if (this->getOverTemperature()&TMC262_OVERTEMPERATURE_SHUTDOWN) {
+			Serial.println("ERROR: Overtemperature Shutdown!");
+		}
+		if (this->isShortToGroundA()) {
+			Serial.println("ERROR: SHORT to ground on channel A!");
+		}
+		if (this->isShortToGroundB()) {
+			Serial.println("ERROR: SHORT to ground on channel A!");
+		}
+		if (this->isOpenLoadA()) {
+			Serial.println("ERROR: Channel A seems to be unconnected!");
+		}
+		if (this->isOpenLoadB()) {
+			Serial.println("ERROR: Channel B seems to be unconnected!");
+		}
+		if (this->isStallGuardReached()) {	
+			Serial.println("INFO: Stall Guard level reached!");
+		}
+		int stallguard = getCurrentStallGuardReading();
+		if (stallguard!=-1) {
+			Serial.print("Stall Guard value:");
+			Serial.println(stallguard);
+		} else {
+			Serial.println("Stall Guard readout not enabled");
+		}
 	}
 #endif
 

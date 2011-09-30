@@ -81,6 +81,9 @@ class TMC262Stepper {
 	boolean isStandStill(void);
 	//is the stall guard level reached
 	boolean isStallGuardReached(void);
+	//reads the stall guard setting from last status
+	//returns -1 if stallguard inforamtion is not present
+	int getCurrentStallGuardReading(void);
 	//library version
     int version(void);
 
@@ -100,6 +103,8 @@ class TMC262Stepper {
 	unsigned long driver_configuration;
 	//the driver status result
 	unsigned long driver_status_result;
+	
+	int getReadoutValue();
 	
 	//the pins for the stepper driver
 	int cs_pin;
