@@ -75,7 +75,7 @@
 #define CURRENT_SCALING_PATTERN 0x1Ful
 
 //definitions for the input from the TCM260
-#define STATUS_STALL_GUARD_STATUS 0x0ul
+#define STATUS_STALL_GUARD_STATUS 0x1ul
 #define STATUS_OVER_TEMPERATURE_SHUTDOWN 0x2ul
 #define STATUS_OVER_TEMPERATURE_WARNING 0x4ul
 #define STATUS_SHORT_TO_GROUND_A 0x4ul
@@ -565,6 +565,14 @@ boolean TMC262Stepper::isStandStill(void) {
 	return (driver_status_result & STATUS_STAND_STILL);
 }
 
+//is chopper inactive since 2^20 clock cycles - defaults to ~0,08s
+boolean TMC262Stepper::isStallGuardReached(void) {
+	if (!this->started) {
+		return false;
+	}
+	return (driver_status_result & STATUS_STALL_GUARD_STATUS);
+}
+
 /*
  version() returns the version of the library:
  */
@@ -621,6 +629,9 @@ inline void TMC262Stepper::send262(unsigned long datagram) {
 	if (this->isOpenLoadB()) {
 		Serial.println("ERROR: Channel B seems to be unconnected!");
 	}
+	if (this->isStallGuardReached()) {	
+		Serial.println("INFO: Stall Guard level reached!");
+	}	
 	}
 #endif
 

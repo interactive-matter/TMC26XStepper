@@ -79,6 +79,8 @@ class TMC262Stepper {
 	boolean isOpenLoadB(void);
 	//is chopper inactive since 2^20 clock cycles - defaults to ~0,08s
 	boolean isStandStill(void);
+	//is the stall guard level reached
+	boolean isStallGuardReached(void);
 	//library version
     int version(void);
 
