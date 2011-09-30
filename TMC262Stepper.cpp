@@ -46,6 +46,9 @@
 #define STEP_INTERPOLATION 0x200ul
 #define DOUBLE_EDGE_STEP 0x100ul
 #define VSENSE 0x40ul
+#define READ_MICROSTEP_POSTION = 0x0;
+#define READ_STALL_GUARD_READING = 0x8;
+#define READ_STALL_GAURD_AND_COOL_STEP = 0x10;
 
 //definitions for the chopper config register
 #define CHOPPER_MODE_STANDARD 0x0ul
@@ -107,7 +110,7 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	this->dir_pin=dir_pin;
 	this->step_pin = step_pin;
 	//initialize register values
-	driver_control_register_value=DRIVER_CONFIG_REGISTER | INITIAL_MICROSTEPPING;
+	driver_control_register_value=DRIVER_CONTROL_REGISTER | INITIAL_MICROSTEPPING;
 	chopper_config_register=CHOPPER_CONFIG_REGISTER;
 	
 	//setting the default register values
