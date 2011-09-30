@@ -157,7 +157,7 @@ void TMC262Stepper::start() {
 		
 	//set the initial values
 	send262(chopper_config_register);
-	//send262(cool_step_register_value);
+	send262(cool_step_register_value);
 	send262(stall_guard2_current_register_value);
 	send262(driver_configuration);
 	send262(driver_control_register_value); 
