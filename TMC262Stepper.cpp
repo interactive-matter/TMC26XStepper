@@ -264,12 +264,12 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 void TMC262Stepper::setStallGuardTreshold(int stall_guard_treshold, char stall_guard_filter_enabled) {
 	if (stall_guard_treshold<-64) {
 		stall_guard_treshold = -64;
-	//We just have 7 bits	
+	//We just have 5 bits	
 	} else if (stall_guard_treshold > 63) {
 		stall_guard_treshold = 63;
 	}
 	//add the offset of 64
-	stall_guard_treshold +=64;
+	stall_guard_treshold &=0x3f;
 	Serial.print("value: ");
 	Serial.println(stall_guard_treshold,HEX);
 	//delete old stall guard settings
@@ -614,7 +614,7 @@ boolean TMC262Stepper::isStallGuardReached(void) {
 }
 
 //reads the stall guard setting from last status
-//returns -1 if stallguard inforamtion is not present
+//returns -1 if stallguard information is not present
 int TMC262Stepper::getCurrentStallGuardReading(void) {
 	int result;
 	unsigned long read_configuration = driver_configuration & READ_SELECTION_PATTERN;
