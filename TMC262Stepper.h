@@ -33,6 +33,7 @@
 #define TMC262_OVERTEMPERATURE_PREWARING 1
 #define TMC262_OVERTEMPERATURE_SHUTDOWN 2
 
+//which values can be read out
 #define TMC262_READOUT_POSITION 0
 #define TMC262_READOUT_STALLGUARD 1
 #define TMC262_READOUT_CURRENT 3
@@ -65,8 +66,6 @@ class TMC262Stepper {
 	void setCurrent(unsigned int current);
 	//set the Stall Guard treshold
 	void setStallGuardTreshold(int stall_guard_treshold, char stall_guard_filter_enabled);
-	//manually read out the status register
-	void readStatus(char read_value);
 	//is there a stall guard warning?
 	//false if no status is known
 	boolean isStallGuardOverTreshold(void);
@@ -110,6 +109,8 @@ class TMC262Stepper {
 	//the driver status result
 	unsigned long driver_status_result;
 	
+	//manually read out the status register
+	void readStatus(char read_value);
 	//helper routione to get the top 10 bit of the readout
 	inline int getReadoutValue();
 	
