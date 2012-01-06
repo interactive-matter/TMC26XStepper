@@ -240,6 +240,10 @@ inline char TMC262Stepper::isMoving(void) {
 	return (this->steps_left>0);
 }
 
+inline int TMC262Stepper::getStepsLeft(void) {
+	return this->steps_left;
+}
+
 char TMC262Stepper::stop(void) {
 	//note to self if the motor is currently moving
 	char state = isMoving();

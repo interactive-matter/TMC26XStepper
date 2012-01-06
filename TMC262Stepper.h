@@ -63,6 +63,8 @@ class TMC262Stepper {
     char move(void);
     //checks if the motor still has to move
     inline char isMoving(void);
+    //gets how many steps the motor must take to end it's movement
+    inline int getStepsLeft(void);
     //stops the motor regardless if it moves or not
     //return -1 if the motor was really stoped or 0 if it was not moving at all
     char stop(void);
