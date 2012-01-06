@@ -530,6 +530,22 @@ void TMC262Stepper::readStatus(void) {
 	send262(driver_configuration);
 }
 
+//reads the stall guard setting from last status
+//returns -1 if stallguard information is not present
+int TMC262Stepper::getCurrentStallGuardReading(void) {
+	int result;
+	unsigned long read_configuration = driver_configuration & READ_SELECTION_PATTERN;
+	if (read_configuration == READ_STALL_GUARD_READING) {
+		return getReadoutValue();
+	} else if (read_configuration == READ_STALL_GUARD_AND_COOL_STEP) {
+		//return just the upper 5 bits
+		//TODO do we need a define for that?
+		return getReadoutValue() & 0x3E0;
+	} else {
+		return -1;
+	}
+}
+
 /*
  return true if the stallguard treshold has been reached
 */
@@ -605,22 +621,6 @@ boolean TMC262Stepper::isStallGuardReached(void) {
 		return false;
 	}
 	return (driver_status_result & STATUS_STALL_GUARD_STATUS);
-}
-
-//reads the stall guard setting from last status
-//returns -1 if stallguard information is not present
-int TMC262Stepper::getCurrentStallGuardReading(void) {
-	int result;
-	unsigned long read_configuration = driver_configuration & READ_SELECTION_PATTERN;
-	if (read_configuration == READ_STALL_GUARD_READING) {
-		return getReadoutValue();
-	} else if (read_configuration == READ_STALL_GUARD_AND_COOL_STEP) {
-		//return just the upper 5 bits
-		//TODO do we need a define for that?
-		return getReadoutValue() & 0x3E0;
-	} else {
-		return -1;
-	}
 }
 
 //reads the stall guard setting from last status
