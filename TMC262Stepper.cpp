@@ -270,19 +270,13 @@ void TMC262Stepper::setStallGuardTreshold(int stall_guard_treshold, char stall_g
 	}
 	//add the offset of 64
 	stall_guard_treshold &=0x3f;
-	Serial.print("value: ");
-	Serial.println(stall_guard_treshold,HEX);
 	//delete old stall guard settings
 	stall_guard2_current_register_value &= ~(STALL_GUARD_CONFIG_PATTERN);
-	Serial.print("empty: ");
-	Serial.println(stall_guard2_current_register_value,HEX);
 	if (stall_guard_filter_enabled) {
 		stall_guard2_current_register_value |= STALL_GUARD_FILTER_ENABLED;
 	}
 	//Set the new stall guard treshold
 	stall_guard2_current_register_value |= (((unsigned long)stall_guard_treshold << 8) & STALL_GUARD_CONFIG_PATTERN);
-	Serial.print("setting: ");
-	Serial.println(stall_guard2_current_register_value,HEX);
 	//if started we directly send it to the motor
 	if (started) {
 		send262(stall_guard2_current_register_value);
