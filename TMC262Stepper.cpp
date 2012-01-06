@@ -126,7 +126,7 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	chopper_config_register=CHOPPER_CONFIG_REGISTER;
 	cool_step_register_value=COOL_STEP_REGISTER;
 	stall_guard2_current_register_value=STALL_GUARD2_LOAD_MEASURE_REGISTER;
-	driver_configuration = DRIVER_CONFIG_REGISTER | READ_STALL_GUARD_READING;
+	driver_configuration = DRIVER_CONFIG_REGISTER /*| READ_STALL_GUARD_READING*/;
 
 	//set the current
 	setCurrent(rms_current);
@@ -270,13 +270,19 @@ void TMC262Stepper::setStallGuardTreshold(int stall_guard_treshold, char stall_g
 	}
 	//add the offset of 64
 	stall_guard_treshold +=64;
+	Serial.print("value: ");
+	Serial.println(stall_guard_treshold,HEX);
 	//delete old stall guard settings
 	stall_guard2_current_register_value &= ~(STALL_GUARD_CONFIG_PATTERN);
+	Serial.print("empty: ");
+	Serial.println(stall_guard2_current_register_value,HEX);
 	if (stall_guard_filter_enabled) {
 		stall_guard2_current_register_value |= STALL_GUARD_FILTER_ENABLED;
 	}
-	//Set the new stall guard trsehold
+	//Set the new stall guard treshold
 	stall_guard2_current_register_value |= (((unsigned long)stall_guard_treshold << 8) & STALL_GUARD_CONFIG_PATTERN);
+	Serial.print("setting: ");
+	Serial.println(stall_guard2_current_register_value,HEX);
 	//if started we directly send it to the motor
 	if (started) {
 		send262(stall_guard2_current_register_value);
@@ -548,7 +554,7 @@ boolean TMC262Stepper::isStallGuardOverTreshold(void) {
 */
 char TMC262Stepper::getOverTemperature(void) {
 	if (!this->started) {
-		return -1;
+		return 0;
 	}
 	if (driver_status_result & STATUS_OVER_TEMPERATURE_SHUTDOWN) {
 		return TMC262_OVERTEMPERATURE_SHUTDOWN;
@@ -556,6 +562,7 @@ char TMC262Stepper::getOverTemperature(void) {
 	if (driver_status_result & STATUS_OVER_TEMPERATURE_WARNING) {
 		return TMC262_OVERTEMPERATURE_PREWARING;
 	}
+	return 0;
 }
 
 //is motor channel A shorted to ground
@@ -655,10 +662,9 @@ inline void TMC262Stepper::send262(unsigned long datagram) {
 	Serial.println(datagram,HEX);
 #endif
 
-	Serial.println("receiving:");	
+	Serial.print("receiving:");	
 	//write/read the values
 	i_datagram = SPI.transfer((datagram >> 16) & 0xff);
-	Serial.print("raw ");
 	Serial.print(i_datagram,HEX);
 	i_datagram <<= 8;
 	i_datagram |= SPI.transfer((datagram >>  8) & 0xff);
@@ -669,12 +675,17 @@ inline void TMC262Stepper::send262(unsigned long datagram) {
 	Serial.print(" -> ");
 	Serial.println(i_datagram,HEX);
 	i_datagram >>= 4;
-	Serial.print("Result ");
-	Serial.println(i_datagram,HEX);
 	
 #ifdef DEBUG
 	Serial.print("Received ");
 	Serial.println(i_datagram,HEX);
+
+	//deselect the TMC chip
+	digitalWrite(cs_pin,HIGH); 
+	
+	//store the datagram as status result
+	driver_status_result = i_datagram;
+
 	if (this->started) {
 		if (this->getOverTemperature()&TMC262_OVERTEMPERATURE_PREWARING) {
 			Serial.println("WARNING: Overtemperature Prewarning!");
@@ -706,8 +717,4 @@ inline void TMC262Stepper::send262(unsigned long datagram) {
 	}
 #endif
 
-	//deselect the TMC chip
-	digitalWrite(cs_pin,HIGH); 
-	
-	 driver_status_result = i_datagram;
 }
