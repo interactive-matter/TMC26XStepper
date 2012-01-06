@@ -679,12 +679,21 @@ if (this->started) {
 		if (this->isStandStill()) {
 			Serial.println("INFO: Motor is standing still.");
 		}
-		int stallguard = getCurrentStallGuardReading();
-		if (stallguard!=-1) {
+		unsigned long readout_config = driver_config & READ_SELECTION_PATTERN;
+		int value = getReadoutValue();
+		if (readout_config == READ_MICROSTEP_POSTION) {
+			Serial.print("Microstep postion phase A: ");
+			Serial.println(value);
+		} else if (readout_config == READ_STALL_GUARD_READING) {
 			Serial.print("Stall Guard value:");
-			Serial.println(stallguard);
-		} else {
-			Serial.println("Stall Guard readout not enabled");
+			Serial.println(value);
+		} else if (readout_config == READ_STALL_GUARD_AND_COOL_STEP) {
+			int stallGuard = value & 0xf;
+			int current = value & 0x1F0;
+			Serial.print("Approx Stall Guard: ");
+			Serial.println(stallGuard);
+			Serial.print("Current level");
+			Serial.println(current);
 		}
 	}
 }
