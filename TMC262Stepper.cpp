@@ -126,7 +126,7 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	chopper_config_register=CHOPPER_CONFIG_REGISTER;
 	cool_step_register_value=COOL_STEP_REGISTER;
 	stall_guard2_current_register_value=STALL_GUARD2_LOAD_MEASURE_REGISTER;
-	driver_configuration = DRIVER_CONFIG_REGISTER /*| READ_STALL_GUARD_READING*/;
+	driver_configuration = DRIVER_CONFIG_REGISTER | READ_STALL_GUARD_READING;
 
 	//set the current
 	setCurrent(rms_current);
@@ -162,7 +162,7 @@ void TMC262Stepper::start() {
 	//configure the SPI interface
 	SPI.setBitOrder(MSBFIRST);
 	SPI.setClockDivider(SPI_CLOCK_DIV8);
-	SPI.setDataMode(SPI_MODE0);
+	SPI.setDataMode(SPI_MODE3);
 	SPI.begin();
 		
 	//set the initial values
@@ -671,7 +671,7 @@ inline void TMC262Stepper::send262(unsigned long datagram) {
 	Serial.print(" -> ");
 	Serial.print(i_datagram,HEX);
 	i_datagram <<= 8;
-	i_datagram |= SPI.transfer((datagram      ) & 0xff);
+	i_datagram |= SPI.transfer((datagram) & 0xff);
 	Serial.print(" -> ");
 	Serial.println(i_datagram,HEX);
 	i_datagram >>= 4;
