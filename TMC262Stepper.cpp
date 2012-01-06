@@ -656,18 +656,12 @@ inline void TMC262Stepper::send262(unsigned long datagram) {
 	Serial.println(datagram,HEX);
 #endif
 
-	Serial.print("receiving:");	
 	//write/read the values
 	i_datagram = SPI.transfer((datagram >> 16) & 0xff);
-	Serial.print(i_datagram,HEX);
 	i_datagram <<= 8;
 	i_datagram |= SPI.transfer((datagram >>  8) & 0xff);
-	Serial.print(" -> ");
-	Serial.print(i_datagram,HEX);
 	i_datagram <<= 8;
 	i_datagram |= SPI.transfer((datagram) & 0xff);
-	Serial.print(" -> ");
-	Serial.println(i_datagram,HEX);
 	i_datagram >>= 4;
 	
 #ifdef DEBUG
