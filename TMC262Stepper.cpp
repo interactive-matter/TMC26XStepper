@@ -116,6 +116,11 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	this->cs_pin=cs_pin;
 	this->dir_pin=dir_pin;
 	this->step_pin = step_pin;
+	
+	//initizalize our status values
+	this->steps_left = 0;
+	this->direction = 0;
+	
 	//initialize register values
 	driver_control_register_value=DRIVER_CONTROL_REGISTER | INITIAL_MICROSTEPPING;
 	chopper_config_register=CHOPPER_CONFIG_REGISTER;
@@ -174,7 +179,6 @@ void TMC262Stepper::start() {
 	
 	//save that we are in running mode
 	started=-1;
-	
 }
 
 /*
