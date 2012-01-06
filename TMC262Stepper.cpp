@@ -98,7 +98,7 @@
 #define INITIAL_MICROSTEPPING 0x3ul //32th microstepping
 
 //debuging output
-#define DEBUG
+//#define DEBUG
 
 /*
  * Constructor
