@@ -106,7 +106,8 @@ class TMC262Stepper {
 	//the driver status result
 	unsigned long driver_status_result;
 	
-	int getReadoutValue();
+	//helper routione to get the top 10 bit of the readout
+	inline int getReadoutValue();
 	
 	//the pins for the stepper driver
 	int cs_pin;
