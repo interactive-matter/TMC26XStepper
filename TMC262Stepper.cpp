@@ -707,6 +707,9 @@ inline void TMC262Stepper::send262(unsigned long datagram) {
 		if (this->isStallGuardReached()) {	
 			Serial.println("INFO: Stall Guard level reached!");
 		}
+		if (this->isStandStill()) {
+			Serial.println("INFO: Motor is standing still.");
+		}
 		int stallguard = getCurrentStallGuardReading();
 		if (stallguard!=-1) {
 			Serial.print("Stall Guard value:");
