@@ -544,6 +544,12 @@ void TMC262Stepper::readStatus(char read_value) {
 	send262(driver_configuration);
 }
 
+int TMC262Stepper::getMotorPosition(void) {
+	//we read it out even if we are not started yet - perhaps it is useful information for somebody
+	readStatus(TMC262_READOUT_POSITION);
+	return getReadOutValue();
+}
+
 //reads the stall guard setting from last status
 //returns -1 if stallguard information is not present
 int TMC262Stepper::getCurrentStallGuardReading(void) {
