@@ -33,6 +33,10 @@
 #define TMC262_OVERTEMPERATURE_PREWARING 1
 #define TMC262_OVERTEMPERATURE_SHUTDOWN 2
 
+#define TMC262_READOUT_POSITION 0
+#define TMC262_READOUT_STALLGUARD 1
+#define TMC262_READOUT_CURRENT 3
+
 // library interface description
 class TMC262Stepper {
   public:
@@ -62,7 +66,7 @@ class TMC262Stepper {
 	//set the Stall Guard treshold
 	void setStallGuardTreshold(int stall_guard_treshold, char stall_guard_filter_enabled);
 	//manually read out the status register
-	void readStatus(void);
+	void readStatus(char read_value);
 	//is there a stall guard warning?
 	//false if no status is known
 	boolean isStallGuardOverTreshold(void);

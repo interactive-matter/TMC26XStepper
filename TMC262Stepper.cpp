@@ -526,7 +526,21 @@ void TMC262Stepper::setRandomOffTime(char value) {
 	}	
 }	
 
-void TMC262Stepper::readStatus(void) {
+/*
+ * reads a value from the TMC262 status register. The value is not obtained directly but can then 
+ * be read by the various status routines.
+ *
+ */
+void TMC262Stepper::readStatus(char read_value) {
+	//first of all reset the readout configuration
+	driver_configuration &= READ_SELECTION_PATTERN;
+	//this now equals TMC262_READOUT_POSITION - so we just have to check the other two options
+	if (read_value == TMC262_READOUT_STALLGUARD) {
+		driver_configuration |= READ_STALL_GUARD_READING;
+	} else if (read_value == TMC262_READOUT_STALLGUARD) {
+		driver_configuration |= READ_STALL_GUARD_AND_COOL_STEP;
+	}
+	//all other cases are ignored to prevent funny values
 	send262(driver_configuration);
 }
 
