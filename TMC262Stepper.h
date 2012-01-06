@@ -66,6 +66,9 @@ class TMC262Stepper {
 	void setCurrent(unsigned int current);
 	//set the Stall Guard treshold
 	void setStallGuardTreshold(int stall_guard_treshold, char stall_guard_filter_enabled);
+	//reads the stall guard setting from last status
+	//returns -1 if stallguard inforamtion is not present
+	int getCurrentStallGuardReading(void);
 	//is there a stall guard warning?
 	//false if no status is known
 	boolean isStallGuardOverTreshold(void);
@@ -86,9 +89,6 @@ class TMC262Stepper {
 	boolean isStandStill(void);
 	//is the stall guard level reached
 	boolean isStallGuardReached(void);
-	//reads the stall guard setting from last status
-	//returns -1 if stallguard inforamtion is not present
-	int getCurrentStallGuardReading(void);
 	//library version
     int version(void);
 

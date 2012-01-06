@@ -547,17 +547,14 @@ void TMC262Stepper::readStatus(char read_value) {
 //reads the stall guard setting from last status
 //returns -1 if stallguard information is not present
 int TMC262Stepper::getCurrentStallGuardReading(void) {
-	int result;
-	unsigned long read_configuration = driver_configuration & READ_SELECTION_PATTERN;
-	if (read_configuration == READ_STALL_GUARD_READING) {
-		return getReadoutValue();
-	} else if (read_configuration == READ_STALL_GUARD_AND_COOL_STEP) {
-		//return just the upper 5 bits
-		//TODO do we need a define for that?
-		return getReadoutValue() & 0x3E0;
-	} else {
+	//if we don't yet started there cannot be a stall guard value
+	if (!started) {
 		return -1;
 	}
+	//not time optimal, but solution optiomal:
+	//first read out the stall guard value
+	readStatus(TMC262_READOUT_STALLGUARD);
+	return getReadoutValue();
 }
 
 /*
