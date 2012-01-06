@@ -53,9 +53,19 @@ class TMC262Stepper {
 	void setMicrosteps(int number_of_steps);
 	//get the effective number of microsteps
 	int getMicrosteps(void);
-	
+
+	//initiate a movement for the given number of steps
+	//if the previous movement is not finished yet it will return -1
+	//if the motor does not move it return 0;
+    char step(int number_of_steps);
     // mover method:
-    void step(int number_of_steps);
+    //check if the motor needs to be moved
+    char move(void);
+    //checks if the motor still has to move
+    inline char isMoving(void);
+    //stops the motor regardless if it moves or not
+    //return -1 if the motor was really stoped or 0 if it was not moving at all
+    char stop(void);
 	// configure the constant off timer
 	void setConstantOffTimeChopper(char constant_off_time, char blank_time, char fast_decay_time_setting, char sine_wave_offset, unsigned char use_current_comparator);
 	// or configure with the spread cycle chopper
@@ -98,6 +108,7 @@ class TMC262Stepper {
     int version(void);
 
   private:    
+  	int steps_left;		//the steps the motor has to do to complete the movement
     int direction;        // Direction of rotation
     int speed;          // Speed in RPMs
     unsigned long step_delay;    // delay between steps, in ms, based on speed

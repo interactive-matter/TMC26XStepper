@@ -190,38 +190,60 @@ void TMC262Stepper::setSpeed(long whatSpeed)
   Moves the motor steps_to_move steps.  If the number is negative, 
    the motor moves in the reverse direction.
  */
-void TMC262Stepper::step(int steps_to_move)
+char TMC262Stepper::step(int steps_to_move)
 {  
-  int steps_left = abs(steps_to_move);  // how many steps to take
+	if (this->steps_left==0) {
+  		this->steps_left = abs(steps_to_move);  // how many steps to take
   
-  // determine direction based on whether steps_to_mode is + or -:
-  if (steps_to_move > 0) {this->direction = 1;}
-  if (steps_to_move < 0) {this->direction = 0;}
-    
-    
+ 		// determine direction based on whether steps_to_mode is + or -:
+  		if (steps_to_move > 0) {
+  			this->direction = 1;
+  		} else if (steps_to_move < 0) {
+  			this->direction = 0;
+  		}
+  		return 0;
+    } else {
+    	return -1;
+    }
+}
+
+char TMC262Stepper::move(void) {
   // decrement the number of steps, moving one step each time:
-  while(steps_left > 0) {
-  // move only if the appropriate delay has passed:
-  if (millis() - this->last_step_time >= this->step_delay) {
-      // get the timeStamp of when you stepped:
-      this->last_step_time = millis();
-      // increment or decrement the step number,
-      // depending on direction:
-      if (this->direction == 1) {
-		  digitalWrite(step_pin, HIGH);
-      } 
-      else { 
+  if(this->isMoving()) {
+	  // move only if the appropriate delay has passed:
+ 	 if (millis() - this->last_step_time >= this->step_delay) {
+   	 	// get the timeStamp of when you stepped:
+   	 	this->last_step_time = millis();
+   	 	// increment or decrement the step number,
+   	 	// depending on direction:
+   	 	if (this->direction == 1) {
+			digitalWrite(step_pin, HIGH);
+    	} else { 
 		  digitalWrite(dir_pin, HIGH);
 		  digitalWrite(step_pin, HIGH);
-      }
-      // decrement the steps left:
-      steps_left--;
-	  //disable sthe step & dir pins
-	  delay(2);
-	  digitalWrite(step_pin, LOW);
-	  digitalWrite(dir_pin, LOW);
-    }
-  }
+	    }
+      	// decrement the steps left:
+      	steps_left--;
+	  	//disable the step & dir pins
+	  	delay(2);
+	  	digitalWrite(step_pin, LOW);
+	  	digitalWrite(dir_pin, LOW);
+    	}
+  	}
+}
+
+inline char TMC262Stepper::isMoving(void) {
+	return (this->steps_left>0);
+}
+
+char TMC262Stepper::stop(void) {
+	//note to self if the motor is currently moving
+	char state = isMoving();
+	//stop the motor
+	this->steps_left = 0;
+	this->direction = 0;
+	//return if it was moving
+	return state;
 }
 
 void TMC262Stepper::setCurrent(unsigned int current) {
@@ -679,12 +701,12 @@ if (this->started) {
 		if (this->isStandStill()) {
 			Serial.println("INFO: Motor is standing still.");
 		}
-		unsigned long readout_config = driver_config & READ_SELECTION_PATTERN;
+		unsigned long readout_config = driver_configuration & READ_SELECTION_PATTERN;
 		int value = getReadoutValue();
 		if (readout_config == READ_MICROSTEP_POSTION) {
 			Serial.print("Microstep postion phase A: ");
 			Serial.println(value);
-		} else if (readout_config == READ_STALL_GUARD_READING) {
+		} else if (readout_config == READ_STALL_GUARD_READING) {
 			Serial.print("Stall Guard value:");
 			Serial.println(value);
 		} else if (readout_config == READ_STALL_GUARD_AND_COOL_STEP) {
