@@ -547,7 +547,7 @@ void TMC262Stepper::readStatus(char read_value) {
 int TMC262Stepper::getMotorPosition(void) {
 	//we read it out even if we are not started yet - perhaps it is useful information for somebody
 	readStatus(TMC262_READOUT_POSITION);
-	return getReadOutValue();
+	return getReadoutValue();
 }
 
 //reads the stall guard setting from last status
@@ -654,44 +654,8 @@ int TMC262Stepper::version(void)
 	return 1;
 }
 
-/*
- * send register settings to the stepper driver via SPI
- * returns the current status
- */
-inline void TMC262Stepper::send262(unsigned long datagram) {
-	unsigned long i_datagram;
-	
-	
-	//select the TMC driver
-	digitalWrite(cs_pin,LOW);
-
-	//ensure that only valid bist are set (0-19)
-	//datagram &=REGISTER_BIT_PATTERN;
-	
-#ifdef DEBUG
-	Serial.print("Sending ");
-	Serial.println(datagram,HEX);
-#endif
-
-	//write/read the values
-	i_datagram = SPI.transfer((datagram >> 16) & 0xff);
-	i_datagram <<= 8;
-	i_datagram |= SPI.transfer((datagram >>  8) & 0xff);
-	i_datagram <<= 8;
-	i_datagram |= SPI.transfer((datagram) & 0xff);
-	i_datagram >>= 4;
-	
-#ifdef DEBUG
-	Serial.print("Received ");
-	Serial.println(i_datagram,HEX);
-
-	//deselect the TMC chip
-	digitalWrite(cs_pin,HIGH); 
-	
-	//store the datagram as status result
-	driver_status_result = i_datagram;
-
-	if (this->started) {
+void TMC262Stepper::debugLastStatus() {
+if (this->started) {
 		if (this->getOverTemperature()&TMC262_OVERTEMPERATURE_PREWARING) {
 			Serial.println("WARNING: Overtemperature Prewarning!");
 		} else if (this->getOverTemperature()&TMC262_OVERTEMPERATURE_SHUTDOWN) {
@@ -723,6 +687,43 @@ inline void TMC262Stepper::send262(unsigned long datagram) {
 			Serial.println("Stall Guard readout not enabled");
 		}
 	}
+}
+
+/*
+ * send register settings to the stepper driver via SPI
+ * returns the current status
+ */
+inline void TMC262Stepper::send262(unsigned long datagram) {
+	unsigned long i_datagram;
+	
+	
+	//select the TMC driver
+	digitalWrite(cs_pin,LOW);
+
+	//ensure that only valid bist are set (0-19)
+	//datagram &=REGISTER_BIT_PATTERN;
+	
+#ifdef DEBUG
+	Serial.print("Sending ");
+	Serial.println(datagram,HEX);
 #endif
 
+	//write/read the values
+	i_datagram = SPI.transfer((datagram >> 16) & 0xff);
+	i_datagram <<= 8;
+	i_datagram |= SPI.transfer((datagram >>  8) & 0xff);
+	i_datagram <<= 8;
+	i_datagram |= SPI.transfer((datagram) & 0xff);
+	i_datagram >>= 4;
+	
+#ifdef DEBUG
+	Serial.print("Received ");
+	Serial.println(i_datagram,HEX);
+	debugLastStatus();
+#endif
+	//deselect the TMC chip
+	digitalWrite(cs_pin,HIGH); 
+	
+	//store the datagram as status result
+	driver_status_result = i_datagram;
 }

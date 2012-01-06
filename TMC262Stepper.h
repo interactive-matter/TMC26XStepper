@@ -91,6 +91,9 @@ class TMC262Stepper {
 	boolean isStandStill(void);
 	//is the stall guard level reached
 	boolean isStallGuardReached(void);
+	//prints out all the inforamtion that can be found in the last status read out - it does not 
+	//force a status readout. The result is printed via Serial
+	void debugLastStatus(void);
 	//library version
     int version(void);
 
