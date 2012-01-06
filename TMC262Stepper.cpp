@@ -236,11 +236,11 @@ char TMC262Stepper::move(void) {
   	}
 }
 
-inline char TMC262Stepper::isMoving(void) {
+char TMC262Stepper::isMoving(void) {
 	return (this->steps_left>0);
 }
 
-inline int TMC262Stepper::getStepsLeft(void) {
+int TMC262Stepper::getStepsLeft(void) {
 	return this->steps_left;
 }
 
