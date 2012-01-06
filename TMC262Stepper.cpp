@@ -28,7 +28,11 @@
 
 
 
-#include "WProgram.h"
+#if defined(ARDUINO) && ARDUINO >= 100
+	#include <Arduino.h>
+#else
+	#include <WProgram.h>
+#endif
 #include <SPI.h>
 #include "TMC262Stepper.h"
 
@@ -75,7 +79,7 @@
 
 //definitions for stall guard2 current register
 #define STALL_GUARD_FILTER_ENABLED 0x10000ul
-#define STALL_GUARD_TRESHHOLD_VALUE_PATTERN 0x7F00ul
+#define STALL_GUARD_TRESHHOLD_VALUE_PATTERN 0x17F00ul
 #define CURRENT_SCALING_PATTERN 0x1Ful
 #define STALL_GUARD_CONFIG_PATTERN 0x17F00ul
 
@@ -162,11 +166,11 @@ void TMC262Stepper::start() {
 	SPI.begin();
 		
 	//set the initial values
+	send262(driver_control_register_value); 
 	send262(chopper_config_register);
 	send262(cool_step_register_value);
 	send262(stall_guard2_current_register_value);
 	send262(driver_configuration);
-	send262(driver_control_register_value); 
 	
 	//save that we are in running mode
 	started=-1;
@@ -650,14 +654,23 @@ inline void TMC262Stepper::send262(unsigned long datagram) {
 	Serial.print("Sending ");
 	Serial.println(datagram,HEX);
 #endif
-	
+
+	Serial.println("receiving:");	
 	//write/read the values
 	i_datagram = SPI.transfer((datagram >> 16) & 0xff);
+	Serial.print("raw ");
+	Serial.print(i_datagram,HEX);
 	i_datagram <<= 8;
 	i_datagram |= SPI.transfer((datagram >>  8) & 0xff);
+	Serial.print(" -> ");
+	Serial.print(i_datagram,HEX);
 	i_datagram <<= 8;
 	i_datagram |= SPI.transfer((datagram      ) & 0xff);
+	Serial.print(" -> ");
+	Serial.println(i_datagram,HEX);
 	i_datagram >>= 4;
+	Serial.print("Result ");
+	Serial.println(i_datagram,HEX);
 	
 #ifdef DEBUG
 	Serial.print("Received ");
