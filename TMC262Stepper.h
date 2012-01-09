@@ -130,7 +130,7 @@ class TMC262Stepper {
      * This function always returns the effective number of microsteps. 
      * This can be a bit different than the micro steps set in setMicrosteps() since it is rounded to 2^i.
      *
-     * see setMicrosteps()
+     * \sa setMicrosteps()
      */
 	int getMicrosteps(void);
 
@@ -144,7 +144,7 @@ class TMC262Stepper {
 	 * If the motor does not move it return 0
      *
      * You can always verify with isMoving() or even use stop() to stop the motor before gibving it new step directions.
-     * see isMoving(), getStepsLeft(), stop()
+     * \sa isMoving(), getStepsLeft(), stop()
      */
     char step(int number_of_steps);
     
@@ -211,8 +211,8 @@ class TMC262Stepper {
      * moment during current zero crossing, if it is set too high, it makes a larger microstep.
      * Typically, a positive offset setting is required for optimum operation.
      *
-     * see setSpreadCycleChoper() for other alternatives.
-     * see setRandomOffTime() for spreading the noise over a wider spectrum
+     * \sa setSpreadCycleChoper() for other alternatives.
+     * \sa setRandomOffTime() for spreading the noise over a wider spectrum
      */
 	void setConstantOffTimeChopper(char constant_off_time, char blank_time, char fast_decay_time_setting, char sine_wave_offset, unsigned char use_current_comparator);
     
@@ -234,7 +234,7 @@ class TMC262Stepper {
      * The duration of the on- and fast decay phase needs to cover at least the blank time, because the current comparator is 
      * disabled during this time.
      * 
-     * see setRandomOffTime() for spreading the noise over a wider spectrum
+     * \sa setRandomOffTime() for spreading the noise over a wider spectrum
      */
 	void setSpreadCycleChopper(char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement);
 	/*!
@@ -273,7 +273,7 @@ class TMC262Stepper {
      * If you switch on the filter the stall guard reading is only updated each 4th full step to reduce the noise in the
      * reading.
      * 
-     * see getCurrentStallGuardReading() to read out the current value.
+     * \sa getCurrentStallGuardReading() to read out the current value.
      */ 
 	void setStallGuardTreshold(int stall_guard_treshold, char stall_guard_filter_enabled);
     
@@ -289,7 +289,7 @@ class TMC262Stepper {
      * \brief Reads the current stall guard value.
      * \return The current Stall guard value, lesser values indicate higher load, 0 means stall detected.
      * Keep in mind that this routine reads and writes a value via SPI - so this may take a bit time.
-     * see setStallGuardTreshold() for tuning the readout to sensible ranges.
+     * \sa setStallGuardTreshold() for tuning the readout to sensible ranges.
      */
 	int getCurrentStallGuardReading(void);
     
@@ -299,10 +299,7 @@ class TMC262Stepper {
      * Keep in mind that this method does not enforce a readout but uses the value of the last status readout.
      * You may want to use getMotorPosition() or getCurrentStallGuardReading() to enforce an updated status readout.
      *
-     * see setStallGuardTreshold()
-     *
-     * see setStallGuardTreshold() for tuning the readout to sensible ranges.
-     * TODO why?
+     * \sa setStallGuardTreshold() for tuning the readout to sensible ranges.
      */
 	boolean isStallGuardOverTreshold(void);
     
@@ -360,10 +357,10 @@ class TMC262Stepper {
      * Keep in mind that this method does not enforce a readout but uses the value of the last status readout.
      * You may want to use getMotorPosition() or getCurrentStallGuardReading() to enforce an updated status readout.
      *
-     * see setStallGuardTreshold()
-     *
-     * see setStallGuardTreshold() for tuning the readout to sensible ranges.
+     * \sa isStallGuardOverTreshold()
      * TODO why?
+     *
+     * \sa setStallGuardTreshold() for tuning the readout to sensible ranges.
      */
 	boolean isStallGuardReached(void);
 

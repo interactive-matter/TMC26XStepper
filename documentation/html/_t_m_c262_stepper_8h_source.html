@@ -131,68 +131,68 @@
 <a name="l00287"></a>00287     
 <a name="l00294"></a>00294         <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading</a>(<span class="keywordtype">void</span>);
 <a name="l00295"></a>00295     
-<a name="l00307"></a>00307         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a7c43cd156a36f53d192e1b07df3464c8" title="checks if there is a Stall Guard warning in the last status">isStallGuardOverTreshold</a>(<span class="keywordtype">void</span>);
-<a name="l00308"></a>00308     
-<a name="l00315"></a>00315         <span class="keywordtype">char</span> <a class="code" href="class_t_m_c262_stepper.html#aa1ce5674925585ce6206b9a82548de8d" title="Return over temperature status of the last status readout return 0 is everything is OK...">getOverTemperature</a>(<span class="keywordtype">void</span>);
-<a name="l00316"></a>00316     
-<a name="l00324"></a>00324         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a30f48c95d93fbfeacde56e3eef0b3ac4" title="Is motor channel A shorted to ground detected in the last status readout.">isShortToGroundA</a>(<span class="keywordtype">void</span>);
-<a name="l00325"></a>00325 
-<a name="l00332"></a>00332         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a61e724b8aeb4d6f1cb9c15b7b098e2b2" title="Is motor channel B shorted to ground detected in the last status readout.">isShortToGroundB</a>(<span class="keywordtype">void</span>);
-<a name="l00339"></a>00339         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#ad017c64b0bbb4f2dbad4d255c4533f4c" title="iIs motor channel A connected according to the last statu readout.">isOpenLoadA</a>(<span class="keywordtype">void</span>);
-<a name="l00340"></a>00340 
-<a name="l00347"></a>00347         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a9e01335ffedd8bdaa47f61d53045bbbd" title="iIs motor channel A connected according to the last statu readout.">isOpenLoadB</a>(<span class="keywordtype">void</span>);
-<a name="l00348"></a>00348     
-<a name="l00355"></a>00355         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a566f37aee32e83423db0bdddc007ca94" title="Is chopper inactive since 2^20 clock cycles - defaults to ~0,08s.">isStandStill</a>(<span class="keywordtype">void</span>);
-<a name="l00356"></a>00356 
-<a name="l00368"></a>00368         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a2e520834597aa78af6224e2bc7f89387" title="checks if there is a Stall Guard warning in the last status">isStallGuardReached</a>(<span class="keywordtype">void</span>);
-<a name="l00369"></a>00369 
-<a name="l00373"></a>00373         <span class="keywordtype">void</span> <a class="code" href="class_t_m_c262_stepper.html#a467fb62d852c2a6b5b2d94e877f843fc" title="Prints out all the inforamtion that can be found in the last status read out - it does not force a st...">debugLastStatus</a>(<span class="keywordtype">void</span>);
-<a name="l00378"></a>00378     <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a0514e8d8143463a8b5afca76b419a52d" title="library version">version</a>(<span class="keywordtype">void</span>);
-<a name="l00379"></a>00379 
-<a name="l00380"></a>00380   <span class="keyword">private</span>:    
-<a name="l00381"></a>00381         <span class="keywordtype">int</span> steps_left;         <span class="comment">//the steps the motor has to do to complete the movement</span>
-<a name="l00382"></a>00382     <span class="keywordtype">int</span> direction;        <span class="comment">// Direction of rotation</span>
-<a name="l00383"></a>00383     <span class="keywordtype">int</span> speed;          <span class="comment">// Speed in RPMs</span>
-<a name="l00384"></a>00384     <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> step_delay;    <span class="comment">// delay between steps, in ms, based on speed</span>
-<a name="l00385"></a>00385     <span class="keywordtype">int</span> number_of_steps;      <span class="comment">// total number of steps this motor can take</span>
-<a name="l00386"></a>00386         
-<a name="l00387"></a>00387     <span class="keywordtype">long</span> last_step_time;      <span class="comment">// time stamp in ms of when the last step was taken</span>
-<a name="l00388"></a>00388         
-<a name="l00389"></a>00389         <span class="comment">//driver control register copies to easily set &amp; modify the registers</span>
-<a name="l00390"></a>00390         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> driver_control_register_value;
-<a name="l00391"></a>00391         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> chopper_config_register;
-<a name="l00392"></a>00392         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> cool_step_register_value;
-<a name="l00393"></a>00393         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> stall_guard2_current_register_value;
-<a name="l00394"></a>00394         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> driver_configuration;
-<a name="l00395"></a>00395         <span class="comment">//the driver status result</span>
-<a name="l00396"></a>00396         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> driver_status_result;
-<a name="l00397"></a>00397         
-<a name="l00398"></a>00398         <span class="comment">//manually read out the status register</span>
-<a name="l00399"></a>00399         <span class="keywordtype">void</span> readStatus(<span class="keywordtype">char</span> read_value);
-<a name="l00400"></a>00400         <span class="comment">//helper routione to get the top 10 bit of the readout</span>
-<a name="l00401"></a>00401         <span class="keyword">inline</span> <span class="keywordtype">int</span> getReadoutValue();
-<a name="l00402"></a>00402         
-<a name="l00403"></a>00403         <span class="comment">//the pins for the stepper driver</span>
-<a name="l00404"></a>00404         <span class="keywordtype">int</span> cs_pin;
-<a name="l00405"></a>00405         <span class="keywordtype">int</span> step_pin;
-<a name="l00406"></a>00406         <span class="keywordtype">int</span> dir_pin;
-<a name="l00407"></a>00407         
-<a name="l00408"></a>00408         <span class="comment">//status values </span>
-<a name="l00409"></a>00409         <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> current_scaling; <span class="comment">//the current current scaling</span>
-<a name="l00410"></a>00410         <span class="keywordtype">char</span> started; <span class="comment">//if the stepper has been started yet</span>
-<a name="l00411"></a>00411         <span class="keywordtype">int</span> microsteps; <span class="comment">//the current number of micro steps</span>
-<a name="l00412"></a>00412         
-<a name="l00413"></a>00413         <span class="comment">//SPI sender</span>
-<a name="l00414"></a>00414         <span class="keyword">inline</span> <span class="keywordtype">void</span> send262(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> datagram);
-<a name="l00415"></a>00415 };
-<a name="l00416"></a>00416 
-<a name="l00417"></a>00417 <span class="preprocessor">#endif</span>
-<a name="l00418"></a>00418 <span class="preprocessor"></span>
+<a name="l00304"></a>00304         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a7c43cd156a36f53d192e1b07df3464c8" title="checks if there is a Stall Guard warning in the last status">isStallGuardOverTreshold</a>(<span class="keywordtype">void</span>);
+<a name="l00305"></a>00305     
+<a name="l00312"></a>00312         <span class="keywordtype">char</span> <a class="code" href="class_t_m_c262_stepper.html#aa1ce5674925585ce6206b9a82548de8d" title="Return over temperature status of the last status readout return 0 is everything is OK...">getOverTemperature</a>(<span class="keywordtype">void</span>);
+<a name="l00313"></a>00313     
+<a name="l00321"></a>00321         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a30f48c95d93fbfeacde56e3eef0b3ac4" title="Is motor channel A shorted to ground detected in the last status readout.">isShortToGroundA</a>(<span class="keywordtype">void</span>);
+<a name="l00322"></a>00322 
+<a name="l00329"></a>00329         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a61e724b8aeb4d6f1cb9c15b7b098e2b2" title="Is motor channel B shorted to ground detected in the last status readout.">isShortToGroundB</a>(<span class="keywordtype">void</span>);
+<a name="l00336"></a>00336         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#ad017c64b0bbb4f2dbad4d255c4533f4c" title="iIs motor channel A connected according to the last statu readout.">isOpenLoadA</a>(<span class="keywordtype">void</span>);
+<a name="l00337"></a>00337 
+<a name="l00344"></a>00344         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a9e01335ffedd8bdaa47f61d53045bbbd" title="iIs motor channel A connected according to the last statu readout.">isOpenLoadB</a>(<span class="keywordtype">void</span>);
+<a name="l00345"></a>00345     
+<a name="l00352"></a>00352         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a566f37aee32e83423db0bdddc007ca94" title="Is chopper inactive since 2^20 clock cycles - defaults to ~0,08s.">isStandStill</a>(<span class="keywordtype">void</span>);
+<a name="l00353"></a>00353 
+<a name="l00365"></a>00365         <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a2e520834597aa78af6224e2bc7f89387" title="checks if there is a Stall Guard warning in the last status">isStallGuardReached</a>(<span class="keywordtype">void</span>);
+<a name="l00366"></a>00366 
+<a name="l00370"></a>00370         <span class="keywordtype">void</span> <a class="code" href="class_t_m_c262_stepper.html#a467fb62d852c2a6b5b2d94e877f843fc" title="Prints out all the inforamtion that can be found in the last status read out - it does not force a st...">debugLastStatus</a>(<span class="keywordtype">void</span>);
+<a name="l00375"></a>00375     <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a0514e8d8143463a8b5afca76b419a52d" title="library version">version</a>(<span class="keywordtype">void</span>);
+<a name="l00376"></a>00376 
+<a name="l00377"></a>00377   <span class="keyword">private</span>:    
+<a name="l00378"></a>00378         <span class="keywordtype">int</span> steps_left;         <span class="comment">//the steps the motor has to do to complete the movement</span>
+<a name="l00379"></a>00379     <span class="keywordtype">int</span> direction;        <span class="comment">// Direction of rotation</span>
+<a name="l00380"></a>00380     <span class="keywordtype">int</span> speed;          <span class="comment">// Speed in RPMs</span>
+<a name="l00381"></a>00381     <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> step_delay;    <span class="comment">// delay between steps, in ms, based on speed</span>
+<a name="l00382"></a>00382     <span class="keywordtype">int</span> number_of_steps;      <span class="comment">// total number of steps this motor can take</span>
+<a name="l00383"></a>00383         
+<a name="l00384"></a>00384     <span class="keywordtype">long</span> last_step_time;      <span class="comment">// time stamp in ms of when the last step was taken</span>
+<a name="l00385"></a>00385         
+<a name="l00386"></a>00386         <span class="comment">//driver control register copies to easily set &amp; modify the registers</span>
+<a name="l00387"></a>00387         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> driver_control_register_value;
+<a name="l00388"></a>00388         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> chopper_config_register;
+<a name="l00389"></a>00389         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> cool_step_register_value;
+<a name="l00390"></a>00390         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> stall_guard2_current_register_value;
+<a name="l00391"></a>00391         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> driver_configuration;
+<a name="l00392"></a>00392         <span class="comment">//the driver status result</span>
+<a name="l00393"></a>00393         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> driver_status_result;
+<a name="l00394"></a>00394         
+<a name="l00395"></a>00395         <span class="comment">//manually read out the status register</span>
+<a name="l00396"></a>00396         <span class="keywordtype">void</span> readStatus(<span class="keywordtype">char</span> read_value);
+<a name="l00397"></a>00397         <span class="comment">//helper routione to get the top 10 bit of the readout</span>
+<a name="l00398"></a>00398         <span class="keyword">inline</span> <span class="keywordtype">int</span> getReadoutValue();
+<a name="l00399"></a>00399         
+<a name="l00400"></a>00400         <span class="comment">//the pins for the stepper driver</span>
+<a name="l00401"></a>00401         <span class="keywordtype">int</span> cs_pin;
+<a name="l00402"></a>00402         <span class="keywordtype">int</span> step_pin;
+<a name="l00403"></a>00403         <span class="keywordtype">int</span> dir_pin;
+<a name="l00404"></a>00404         
+<a name="l00405"></a>00405         <span class="comment">//status values </span>
+<a name="l00406"></a>00406         <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> current_scaling; <span class="comment">//the current current scaling</span>
+<a name="l00407"></a>00407         <span class="keywordtype">char</span> started; <span class="comment">//if the stepper has been started yet</span>
+<a name="l00408"></a>00408         <span class="keywordtype">int</span> microsteps; <span class="comment">//the current number of micro steps</span>
+<a name="l00409"></a>00409         
+<a name="l00410"></a>00410         <span class="comment">//SPI sender</span>
+<a name="l00411"></a>00411         <span class="keyword">inline</span> <span class="keywordtype">void</span> send262(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> datagram);
+<a name="l00412"></a>00412 };
+<a name="l00413"></a>00413 
+<a name="l00414"></a>00414 <span class="preprocessor">#endif</span>
+<a name="l00415"></a>00415 <span class="preprocessor"></span>
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jan 9 2012 12:00:28 for TMC26X Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jan 9 2012 12:06:35 for TMC26X Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

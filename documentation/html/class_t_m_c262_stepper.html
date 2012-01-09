@@ -237,7 +237,8 @@ Public Member Functions</h2></td></tr>
 <div class="memdoc">
 
 <p>Reads the current stall guard value. </p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The current Stall guard value, lesser values indicate higher load, 0 means stall detected. Keep in mind that this routine reads and writes a value via SPI - so this may take a bit time. see <a class="el" href="class_t_m_c262_stepper.html#a17f960c4177a5e3ec496eb12370f6e3e" title="set the Stall Guard treshold in order to get sensible Stall Guard readings.">setStallGuardTreshold()</a> for tuning the readout to sensible ranges. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The current Stall guard value, lesser values indicate higher load, 0 means stall detected. Keep in mind that this routine reads and writes a value via SPI - so this may take a bit time. </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a17f960c4177a5e3ec496eb12370f6e3e" title="set the Stall Guard treshold in order to get sensible Stall Guard readings.">setStallGuardTreshold()</a> for tuning the readout to sensible ranges. </dd></dl>
 
 <p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00586">586</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
@@ -260,7 +261,7 @@ Public Member Functions</h2></td></tr>
 
 <p>returns the effective current number of microsteps selected. </p>
 <p>This function always returns the effective number of microsteps. This can be a bit different than the micro steps set in <a class="el" href="class_t_m_c262_stepper.html#ac1d294ce18d722c3b4c3f6c5ecaa3c7c" title="Set the number of microsteps in 2^i values (rounded) up to 256.">setMicrosteps()</a> since it is rounded to 2^i.</p>
-<p>see <a class="el" href="class_t_m_c262_stepper.html#ac1d294ce18d722c3b4c3f6c5ecaa3c7c" title="Set the number of microsteps in 2^i values (rounded) up to 256.">setMicrosteps()</a> </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#ac1d294ce18d722c3b4c3f6c5ecaa3c7c" title="Set the number of microsteps in 2^i values (rounded) up to 256.">setMicrosteps()</a> </dd></dl>
 
 <p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00374">374</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
@@ -461,8 +462,7 @@ Public Member Functions</h2></td></tr>
 
 <p>checks if there is a Stall Guard warning in the last status </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>0 if there was no warning, -1 if there was some warning. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout.</dd></dl>
-<p>see <a class="el" href="class_t_m_c262_stepper.html#a17f960c4177a5e3ec496eb12370f6e3e" title="set the Stall Guard treshold in order to get sensible Stall Guard readings.">setStallGuardTreshold()</a></p>
-<p>see <a class="el" href="class_t_m_c262_stepper.html#a17f960c4177a5e3ec496eb12370f6e3e" title="set the Stall Guard treshold in order to get sensible Stall Guard readings.">setStallGuardTreshold()</a> for tuning the readout to sensible ranges. TODO why? </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a17f960c4177a5e3ec496eb12370f6e3e" title="set the Stall Guard treshold in order to get sensible Stall Guard readings.">setStallGuardTreshold()</a> for tuning the readout to sensible ranges. </dd></dl>
 
 <p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00600">600</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
@@ -485,8 +485,9 @@ Public Member Functions</h2></td></tr>
 
 <p>checks if there is a Stall Guard warning in the last status </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>0 if there was no warning, -1 if there was some warning. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout.</dd></dl>
-<p>see <a class="el" href="class_t_m_c262_stepper.html#a17f960c4177a5e3ec496eb12370f6e3e" title="set the Stall Guard treshold in order to get sensible Stall Guard readings.">setStallGuardTreshold()</a></p>
-<p>see <a class="el" href="class_t_m_c262_stepper.html#a17f960c4177a5e3ec496eb12370f6e3e" title="set the Stall Guard treshold in order to get sensible Stall Guard readings.">setStallGuardTreshold()</a> for tuning the readout to sensible ranges. TODO why? </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a7c43cd156a36f53d192e1b07df3464c8" title="checks if there is a Stall Guard warning in the last status">isStallGuardOverTreshold()</a> TODO why?</dd>
+<dd>
+<a class="el" href="class_t_m_c262_stepper.html#a17f960c4177a5e3ec496eb12370f6e3e" title="set the Stall Guard treshold in order to get sensible Stall Guard readings.">setStallGuardTreshold()</a> for tuning the readout to sensible ranges. </dd></dl>
 
 <p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00667">667</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
@@ -594,7 +595,9 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <p>The classic constant off time chopper uses a fixed portion of fast decay following each on phase. While the duration of the on time is determined by the chopper comparator, the fast decay time needs to be set by the user in a way, that the current decay is enough for the driver to be able to follow the falling slope of the sine wave, and on the other hand it should not be too long, in order to minimize motor current ripple and power dissipation. This best can be tuned using an oscilloscope or trying out motor smoothness at different velocities. A good starting value is a fast decay time setting similar to the slow decay time setting. After tuning of the fast decay time, the offset should be determined, in order to have a smooth zero transition. This is necessary, because the fast decay phase leads to the absolute value of the motor current being lower than the target current (see figure 17). If the zero offset is too low, the motor stands still for a short moment during current zero crossing, if it is set too high, it makes a larger microstep. Typically, a positive offset setting is required for optimum operation.</p>
-<p>see setSpreadCycleChoper() for other alternatives. see <a class="el" href="class_t_m_c262_stepper.html#a3528268d956f800eaaa78e5f053af2ca" title="Use random off time for noise reduction (0 for off, -1 for on).">setRandomOffTime()</a> for spreading the noise over a wider spectrum </p>
+<dl class="see"><dt><b>See also:</b></dt><dd>setSpreadCycleChoper() for other alternatives. </dd>
+<dd>
+<a class="el" href="class_t_m_c262_stepper.html#a3528268d956f800eaaa78e5f053af2ca" title="Use random off time for noise reduction (0 for off, -1 for on).">setRandomOffTime()</a> for spreading the noise over a wider spectrum </dd></dl>
 
 <p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00401">401</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
@@ -759,7 +762,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <p>The spreadCycle chopper scheme (pat.fil.) is a precise and simple to use chopper principle, which automatically determines the optimum fast decay portion for the motor. Anyhow, a number of settings can be made in order to optimally fit the driver to the motor. Each chopper cycle is comprised of an on-phase, a slow decay phase, a fast decay phase and a second slow decay phase. The slow decay phases limit the maximum chopper frequency and are important for low motor and driver power dissipation. The hysteresis start setting limits the chopper frequency by forcing the driver to introduce a minimum amount of current ripple into the motor coils. The motor inductivity determines the ability to follow a changing motor current. The duration of the on- and fast decay phase needs to cover at least the blank time, because the current comparator is disabled during this time.</p>
-<p>see <a class="el" href="class_t_m_c262_stepper.html#a3528268d956f800eaaa78e5f053af2ca" title="Use random off time for noise reduction (0 for off, -1 for on).">setRandomOffTime()</a> for spreading the noise over a wider spectrum </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a3528268d956f800eaaa78e5f053af2ca" title="Use random off time for noise reduction (0 for off, -1 for on).">setRandomOffTime()</a> for spreading the noise over a wider spectrum </dd></dl>
 
 <p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00478">478</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
@@ -800,7 +803,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <p>The stall guard treshold is used to optimize the stall guard reading to sensible values. It should be at 0 at the maximum allowable load on the otor (but not before). = is a good starting point (and the default) If you get Stall Gaurd readings of 0 without any load or with too little laod increase the value. If you get readings of 1023 even with load decrease the setting.</p>
 <p>If you switch on the filter the stall guard reading is only updated each 4th full step to reduce the noise in the reading.</p>
-<p>see <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to read out the current value. </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to read out the current value. </dd></dl>
 
 <p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00295">295</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
@@ -851,7 +854,8 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>0 if the motor was not moving and moves now. -1 if the motor is moving and the new steps could not be set.</dd></dl>
 <p>If the previous movement is not finished yet the function will return -1 and not change the steps to move the motor. If the motor does not move it return 0</p>
-<p>You can always verify with <a class="el" href="class_t_m_c262_stepper.html#a34e0adcdc4dbf6613dc7d2ed41fc654b" title="checks if the motor still has to move to fulfill the last movement command.">isMoving()</a> or even use <a class="el" href="class_t_m_c262_stepper.html#a1c0498cd73fc3a798a230dc8cefa04dd" title="Stops the motor regardless if it moves or not.">stop()</a> to stop the motor before gibving it new step directions. see <a class="el" href="class_t_m_c262_stepper.html#a34e0adcdc4dbf6613dc7d2ed41fc654b" title="checks if the motor still has to move to fulfill the last movement command.">isMoving()</a>, <a class="el" href="class_t_m_c262_stepper.html#ae96c33de0cca9700f8abe44a7c618519" title="Get the number of steps left in the current movement.">getStepsLeft()</a>, <a class="el" href="class_t_m_c262_stepper.html#a1c0498cd73fc3a798a230dc8cefa04dd" title="Stops the motor regardless if it moves or not.">stop()</a> </p>
+<p>You can always verify with <a class="el" href="class_t_m_c262_stepper.html#a34e0adcdc4dbf6613dc7d2ed41fc654b" title="checks if the motor still has to move to fulfill the last movement command.">isMoving()</a> or even use <a class="el" href="class_t_m_c262_stepper.html#a1c0498cd73fc3a798a230dc8cefa04dd" title="Stops the motor regardless if it moves or not.">stop()</a> to stop the motor before gibving it new step directions. </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a34e0adcdc4dbf6613dc7d2ed41fc654b" title="checks if the motor still has to move to fulfill the last movement command.">isMoving()</a>, <a class="el" href="class_t_m_c262_stepper.html#ae96c33de0cca9700f8abe44a7c618519" title="Get the number of steps left in the current movement.">getStepsLeft()</a>, <a class="el" href="class_t_m_c262_stepper.html#a1c0498cd73fc3a798a230dc8cefa04dd" title="Stops the motor regardless if it moves or not.">stop()</a> </dd></dl>
 
 <p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00198">198</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
@@ -910,7 +914,7 @@ Public Member Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jan 9 2012 12:00:28 for TMC26X Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jan 9 2012 12:06:35 for TMC26X Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
