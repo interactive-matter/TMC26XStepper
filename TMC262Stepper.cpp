@@ -187,6 +187,7 @@ void TMC262Stepper::start() {
 */
 void TMC262Stepper::setSpeed(long whatSpeed)
 {
+    //TODO take the microsteps into account (and change speed with changed microstepping
   this->step_delay = 60L * 1000L / this->number_of_steps / whatSpeed;
 }
 
