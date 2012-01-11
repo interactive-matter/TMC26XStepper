@@ -1,0 +1,9 @@
+#mac stuff
+.DS_Store
+
+#eclipse stuff
+.classpath
+.project
+
+#processing stuff 
+generated/
