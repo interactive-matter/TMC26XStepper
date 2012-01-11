@@ -1,6 +1,6 @@
 #define INPUT_BUFFER_LENGTH 32
 
-#define SERIAL_SPEED 115600
+#define SERIAL_SPEED 115200
 
 char inputBuffer[INPUT_BUFFER_LENGTH+1]; //ad on character to keep the trainling 0
 unsigned char inputBufferPosition;
