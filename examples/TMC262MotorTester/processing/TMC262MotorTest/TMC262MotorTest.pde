@@ -32,7 +32,7 @@ void setup() {
 	is always my  Keyspan adaptor, so I open Serial.list()[0].
 	Open whatever port is the one you're using.
 	*/
-	arduinoPort = new Serial(this, Serial.list()[0], 9600);
+	arduinoPort = new Serial(this, Serial.list()[0], 115200);
   
 }
 
