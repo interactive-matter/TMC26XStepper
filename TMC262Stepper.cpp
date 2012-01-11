@@ -234,7 +234,9 @@ char TMC262Stepper::move(void) {
 	  	digitalWrite(step_pin, LOW);
 	  	digitalWrite(dir_pin, LOW);
     	}
+        return -1;
   	}
+    return 0;
 }
 
 char TMC262Stepper::isMoving(void) {
