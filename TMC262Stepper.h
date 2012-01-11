@@ -381,7 +381,8 @@ class TMC262Stepper {
     unsigned long step_delay;    // delay between steps, in ms, based on speed
     int number_of_steps;      // total number of steps this motor can take
         
-    long last_step_time;      // time stamp in ms of when the last step was taken
+    unsigned long last_step_time;      // time stamp in ms of when the last step was taken
+    unsigned long next_step_time;      // time stamp in ms of when the last step was taken
 	
 	//driver control register copies to easily set & modify the registers
 	unsigned long driver_control_register_value;

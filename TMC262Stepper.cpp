@@ -36,6 +36,9 @@
 #include <SPI.h>
 #include "TMC262Stepper.h"
 
+//some default values used in initialization
+#define DEFAULT_MICROSTEPPING_VALUE 32
+
 //TMC262 register definitions
 #define DRIVER_CONTROL_REGISTER 0x0ul
 #define CHOPPER_CONFIG_REGISTER 0x80000ul
@@ -137,6 +140,10 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	setCurrent(rms_current);
 	//set to a conservative start value
 	setConstantOffTimeChopper(7, 54, 13,12,1);
+    //set a nice microstepping value
+    setMicrosteps(DEFAULT_MICROSTEPPING_VALUE);
+    //save the number of steps
+    this->number_of_steps =   number_of_steps;
 }
 
 /*
@@ -188,7 +195,14 @@ void TMC262Stepper::start() {
 void TMC262Stepper::setSpeed(long whatSpeed)
 {
     //TODO take the microsteps into account (and change speed with changed microstepping
-  this->step_delay = 60L * 1000L / this->number_of_steps / whatSpeed;
+  this->step_delay = (60UL * 1000UL * 1000UL) / ((unsigned long)this->number_of_steps * (unsigned long)whatSpeed * (unsigned long)this->microsteps);
+#ifdef DEBUG
+    Serial.print("Step delay in micros: ");
+    Serial.println(this->step_delay);
+#endif
+    //update the next step time
+    this->next_step_time = this->last_step_time+this->step_delay; 
+
 }
 
 /*
@@ -214,11 +228,10 @@ char TMC262Stepper::step(int steps_to_move)
 
 char TMC262Stepper::move(void) {
   // decrement the number of steps, moving one step each time:
-  if(this->isMoving()) {
+  if(this->steps_left>0) {
+      unsigned long time = micros();  
 	  // move only if the appropriate delay has passed:
- 	 if (millis() - this->last_step_time >= this->step_delay) {
-   	 	// get the timeStamp of when you stepped:
-   	 	this->last_step_time = millis();
+ 	 if (time >= this->next_step_time) {
    	 	// increment or decrement the step number,
    	 	// depending on direction:
    	 	if (this->direction == 1) {
@@ -227,10 +240,12 @@ char TMC262Stepper::move(void) {
 		  digitalWrite(dir_pin, HIGH);
 		  digitalWrite(step_pin, HIGH);
 	    }
+        // get the timeStamp of when you stepped:
+        this->last_step_time = time;
+        this->next_step_time = time+this->step_delay; 
       	// decrement the steps left:
       	steps_left--;
 	  	//disable the step & dir pins
-	  	delay(2);
 	  	digitalWrite(step_pin, LOW);
 	  	digitalWrite(dir_pin, LOW);
     	}
