@@ -7,21 +7,19 @@
 #define ENABLE_PIN 8 //if it is not connected it won't be a problem
 
 #define INITIAL_CURRENT 500 //in mA
-
-#define SERIAL_SPEED 9600
+#define MAX_SPEED 1000
 
 //we have a stepper motor with 200 steps per rotation, CS pin 2, dir pin 3, step pin 4 and a current of 300mA
 TMC262Stepper tmc262Stepper = TMC262Stepper(200,CS_PIN,DIR_PIN,STEP_PIN,INITIAL_CURRENT);
 int curr_step;
-int speed =  0;
-int speedDirection = 100;
-int maxSpeed = 1000;
+char running;
 
 void setup() {
   //configure the enable pin
   pinMode(ENABLE_PIN, OUTPUT);
   digitalWrite(ENABLE_PIN,HIGH);
   
+  startSerial();
   //set this according to you stepper
   Serial.println("Configuring stepper driver");
   //char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement
@@ -30,39 +28,32 @@ void setup() {
   
   tmc262Stepper.setMicrosteps(32);
   tmc262Stepper.setStallGuardTreshold(4,0);
-  Serial.println("config finished, starting");
+//  Serial.println("config finished, starting");
   digitalWrite(ENABLE_PIN,LOW);
   tmc262Stepper.start();
+  tmc262Stepper.setSpeed(10);
   Serial.println("started");
 }
 
 void loop() {
-  if (!tmc262Stepper.isMoving()) {
-    speed+=speedDirection;
-    if (speed>maxSpeed) {
-      speed = maxSpeed;
-      speedDirection = -speedDirection;
-    } else if (speed<0) {
-      speedDirection = -speedDirection;
-      speed=speedDirection;
-    }
-    //setting the speed
-    Serial.print("setting speed to ");
-    Serial.println(speed);
-    tmc262Stepper.setSpeed(speed);
-    //we want some kind of constant running time - so the length is just a product of speed
-    Serial.print("Going ");
-    Serial.print(10*speed);
-    Serial.println(" steps");
-    tmc262Stepper.step(10*speed);
-  } else {
-    //we put out the status every 100 steps
-    if (tmc262Stepper.getStepsLeft()%100==0) {
-      Serial.print("Stall Guard: ");
-      Serial.println(tmc262Stepper.getCurrentStallGuardReading());
-    }    
-  }  
+  loopSerial();
   tmc262Stepper.move();
+  if (running && !tmc262Stepper.isMoving()) {
+    tmc262Stepper.step(10000);
+    Serial.println("run");
+  }
+  if (!running & tmc262Stepper.isMoving()) {
+    tmc262Stepper.stop();
+    Serial.println("stop");
+  }
 }
 
-
+void setSpeed(unsigned int targetSpeed) {
+  if (targetSpeed>1 && targetSpeed<MAX_SPEED) {
+  tmc262Stepper.setSpeed(targetSpeed);
+  } else {
+    Serial.print("improper speed ");
+    Serial.println(targetSpeed);
+  }
+}
+  
