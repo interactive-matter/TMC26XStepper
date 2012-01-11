@@ -19,8 +19,8 @@ void setup() {
   tmc262Stepper.setSpreadCycleChopper(2,24,8,6,0);
   tmc262Stepper.setRandomOffTime(0);
   
-  tmc262Stepper.setMicrosteps(64);
-  tmc262Stepper.setStallGuardTreshold(9,1);
+  tmc262Stepper.setMicrosteps(32);
+  tmc262Stepper.setStallGuardTreshold(4,0);
   Serial.println("config finished, starting");
   tmc262Stepper.start();
   Serial.println("started");
