@@ -12,34 +12,46 @@ ControlP5 controlP5;
 Serial arduinoPort;
 
 Slider speedSlider;
-Button runButton;
+Toggle runToggle;
+RadioButton microsteppingButtons;
 
 boolean running = false;
 
 void setup() {
-  	size(800,600);
-  	controlP5 = new ControlP5(this);
-  	// add a vertical slider for speed
-  	speedSlider = controlP5.addSlider("speed",1,1000,20,20,50,10,100);
-  	//add a button te let the motor run
- 	runButton = controlP5.addButton("run", 1,40,50,30,30);
+  size(800, 600);
+  controlP5 = new ControlP5(this);
+  //add a button te let the motor run
+  runToggle = controlP5.addToggle("run",false,20,20,20,20);
+  // add a vertical slider for speed  
+  speedSlider = controlP5.addSlider("speed", 1, 100, 10, 75, 20, 20, 100);
+  //ad a multilist for the microstepping setting
+  microsteppingButtons = controlP5.addRadioButton("microstepping", 150, 20);
+  microsteppingButtons.addItem("1",1).setId(1);
+  microsteppingButtons.addItem("2",2);
+  microsteppingButtons.addItem("4",4);
+  microsteppingButtons.addItem("8",8);
+  microsteppingButtons.addItem("16",16);
+  microsteppingButtons.addItem("32",32);
+  microsteppingButtons.addItem("64",64);
+  microsteppingButtons.addItem("128",128);
+  microsteppingButtons.addItem("256",256);
+  microsteppingButtons.showBar();
 
-	//configure the serial connection
-	// List all the available serial ports:
-	println(Serial.list());
+  //configure the serial connection
+  // List all the available serial ports:
+  println(Serial.list());
 
-	/*  I know that the first port in the serial list on my mac
-	is always my  Keyspan adaptor, so I open Serial.list()[0].
-	Open whatever port is the one you're using.
-	*/
-	arduinoPort = new Serial(this, Serial.list()[0], 115200);
-  
+  /*  I know that the first port in the serial list on my mac
+   	is always my  Keyspan adaptor, so I open Serial.list()[0].
+   	Open whatever port is the one you're using.
+   	*/
+  arduinoPort = new Serial(this, Serial.list()[0], 115200);
 }
 
 void draw() {
-	background(0);	
+  background(0);
 }
- 
+
 void speed(float theSpeed) {
   int speed = (int) theSpeed;
   println("setting speed to "+speed);
@@ -52,10 +64,15 @@ void run(int theValue) {
     println("stopping motor");
     arduinoPort.write("s\n");
     running = false;
-  } else {
+  } 
+  else {
     println("starting motor");
     arduinoPort.write("r\n");
     running = true;
   }
+}
+
+void microstepping(int id) {
+  println("mcrostepping: "+id);
 }
 
