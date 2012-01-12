@@ -23,10 +23,10 @@ DataTable positionTable = new DataTable(numberOfDataPoints);
 
 
 void setupData() {
-  plotBottom = height-50;
+  plotBottom = height-20;
   plotTop = 150;
 
-  plotLeft = 50;
+  plotLeft = 20;
   plotRight= width-plotLeft;
 }
 

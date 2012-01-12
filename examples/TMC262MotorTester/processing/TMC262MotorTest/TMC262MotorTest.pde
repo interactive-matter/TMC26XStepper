@@ -22,9 +22,9 @@ void setup() {
   size(800, 600);
   controlP5 = new ControlP5(this);
   //add a button te let the motor run
-  runToggle = controlP5.addToggle("run", false, 20, 20, 20, 20);
+  runToggle = controlP5.addToggle("run", false, 20, 20, 25, 25);
   // add a vertical slider for speed  
-  speedSlider = controlP5.addSlider("speed", 1, 100, 10, 75, 20, 20, 100);
+  speedSlider = controlP5.addSlider("speed", 1, 100, 75, 75, 20, 20, 110);
   //ad a multilist for the microstepping setting
   microsteppingButtons = controlP5.addRadioButton("microstepping", 150, 20);
   microsteppingButtons.addItem("1", 1);
