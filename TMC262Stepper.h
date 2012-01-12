@@ -113,6 +113,12 @@ class TMC262Stepper {
      * \param whatSpeed the desired speed in rotations per minute.
      */
     void setSpeed(long whatSpeed);
+    
+    /*!
+     * \brief reads out the currently selected speed in revolutions per minute.
+     * \sa setSpeed()
+     */
+    long getSpeed(void);
 
     /*!
      * \brief Set the number of microsteps in 2^i values (rounded) up to 256

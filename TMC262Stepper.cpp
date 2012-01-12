@@ -205,6 +205,10 @@ void TMC262Stepper::setSpeed(long whatSpeed)
 
 }
 
+long TMC262Stepper::getSpeed(void) {
+    return this->speed;
+}
+
 /*
   Moves the motor steps_to_move steps.  If the number is negative, 
    the motor moves in the reverse direction.
