@@ -11,15 +11,16 @@ int positionMin = -512;
 int positionMax = 512;
 
 int dataPointsWidth = 5;
-color stallGuardColor = #ff0000;
-color positionColor = #00ff00;
+
+color graphBackgroundColor = #131313;
+color stallGuardColor = #8c1c3d;
+color positionColor = #1a6699; //still to use #1a9933
 
 int numberOfDataPoints=100;
 
 DataTable stallGuardTable = new DataTable(numberOfDataPoints);
 DataTable positionTable = new DataTable(numberOfDataPoints);
 
-color graphBackgroundColor = #ffffff;
 
 void setupData() {
   plotBottom = height-50;
@@ -47,8 +48,8 @@ void drawData(DataTable table, int minValue, int maxValue) {
   int dataCount = table.getSize();
   for (int i=0; i<dataCount; i++) {
     int value = table.getEntry(i);
-    float x = map(i, 0, numberOfDataPoints-1, plotLeft, plotRight);
-    float y = map(value, minValue, maxValue, plotBottom, plotTop);
+    float x = map(i, 0, numberOfDataPoints-1, plotLeft+dataPointsWidth, plotRight-dataPointsWidth);
+    float y = map(value, minValue, maxValue, plotBottom-dataPointsWidth, plotTop+dataPointsWidth);
     point(x, y);
   }
 }
