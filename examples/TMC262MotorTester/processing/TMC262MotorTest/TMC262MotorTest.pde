@@ -14,6 +14,7 @@ Serial arduinoPort;
 Slider speedSlider;
 Toggle runToggle;
 RadioButton microsteppingButtons;
+boolean settingStatus=false;
 
 boolean running = false;
 
@@ -50,25 +51,30 @@ void setup() {
 
 void draw() {
   background(0);
+  decodeSerial();
 }
 
 void speed(float theSpeed) {
-  int speed = (int) theSpeed;
-  println("setting speed to "+speed);
-  arduinoPort.write("S"+speed+"\n");
+  if (!settingStatus) {
+    int speed = (int) theSpeed;
+    println("setting speed to "+speed);
+    arduinoPort.write("S"+speed+"\n");
+  }
 }
 
 void run(int theValue) {
-  println("button pressed");
-  if (running) {
-    println("stopping motor");
-    arduinoPort.write("s\n");
-    running = false;
-  } 
-  else {
-    println("starting motor");
-    arduinoPort.write("r\n");
-    running = true;
+  if (!settingStatus) {
+    println("button pressed");
+    if (running) {
+      println("stopping motor");
+      arduinoPort.write("s\n");
+      running = false;
+    } 
+    else {
+      println("starting motor");
+      arduinoPort.write("r\n");
+      running = true;
+    }
   }
 }
 
@@ -78,11 +84,53 @@ void microstepping(int value) {
 }
 
 void controlEvent(ControlEvent theEvent) {
-  if (theEvent.isGroup()) {
+  if (theEvent.isGroup() && !settingStatus) {
     if ("microstepping".equals(theEvent.group().name())) { 
       microstepping((int)theEvent.group().value());
     }
   }
 }
 
+StringBuilder serialStringBuilder = new StringBuilder();
 
+void decodeSerial() {
+  while (arduinoPort.available ()>0) {
+    char c = arduinoPort.readChar();
+    serialStringBuilder.append(c);
+    if (c=='\n') {
+      decodeSerial(serialStringBuilder.toString());
+      serialStringBuilder = new StringBuilder();
+    }
+  }
+}
+
+void decodeSerial(String line) {
+  settingStatus=true;
+  if (line.startsWith("#")) {
+    String status = line.substring(1);
+    StringTokenizer statusTokenizer = new StringTokenizer(status, ",");
+    while (statusTokenizer.hasMoreTokens ()) {
+      String statusToken = statusTokenizer.nextToken();
+      if ("s".equals(statusToken)) {
+        runToggle.setValue(0);
+      } 
+      else if ("r".equals(statusToken)) {
+        runToggle.setValue(1);
+      } 
+      else if (statusToken.startsWith("S")) {
+        speedSlider.setValue(getValueOfToken(statusToken));
+      } else if (statusToken.startsWith("m")) {
+        microsteppingButtons.activate(String.valueOf(getValueOfToken(statusToken)));
+      }
+    }
+  } 
+  else {
+    println(line);
+  }
+  settingStatus=false;
+}
+
+int getValueOfToken(String token) {
+  String value = token.substring(1);
+  return Integer.valueOf(value);
+}

@@ -1,3 +1,4 @@
+unsigned int motor_counter = 0;
 
 void startMotor() {
     Serial.println("Configuring stepper driver");
@@ -71,5 +72,6 @@ unsigned char setupTimer2(float timeoutFrequency){
 
 ISR(TIMER2_OVF_vect) {
     tmc262Stepper.move();
+    motor_counter++;
 
 }
