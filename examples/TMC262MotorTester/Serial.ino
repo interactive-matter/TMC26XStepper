@@ -51,6 +51,7 @@ void loopSerial() {
     Serial.print(',');
     Serial.print('p');
     Serial.print(tmc262Stepper.getMotorPosition(),DEC);
+    Serial.print(',');
     Serial.println();
   }
 }

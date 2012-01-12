@@ -47,10 +47,13 @@ void setup() {
    	Open whatever port is the one you're using.
    	*/
   arduinoPort = new Serial(this, Serial.list()[0], 115200);
+  smooth();
+  setupData();
 }
 
 void draw() {
   background(0);
+  drawData();
   decodeSerial();
 }
 
@@ -118,9 +121,16 @@ void decodeSerial(String line) {
         runToggle.setValue(1);
       } 
       else if (statusToken.startsWith("S")) {
-        speedSlider.setValue(getValueOfToken(statusToken));
-      } else if (statusToken.startsWith("m")) {
-        microsteppingButtons.activate(String.valueOf(getValueOfToken(statusToken)));
+        speedSlider.setValue(getValueOfToken(statusToken, 1));
+      } 
+      else if (statusToken.startsWith("m")) {
+        microsteppingButtons.activate(String.valueOf(getValueOfToken(statusToken, 1)));
+      } 
+      else if (statusToken.startsWith("sg")) {
+        addStallGuardReading(getValueOfToken(statusToken, 2));
+      } 
+      else if (statusToken.startsWith("p")) {
+        addPositionReading(getValueOfToken(statusToken, 1));
       }
     }
   } 
@@ -130,7 +140,8 @@ void decodeSerial(String line) {
   settingStatus=false;
 }
 
-int getValueOfToken(String token) {
-  String value = token.substring(1);
+int getValueOfToken(String token, int position) {
+  String value = token.substring(position);
   return Integer.valueOf(value);
 }
+
