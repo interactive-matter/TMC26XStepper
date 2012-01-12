@@ -46,6 +46,11 @@ void loopSerial() {
     Serial.print('m');
     Serial.print(tmc262Stepper.getMicrosteps(),DEC);
     Serial.print(',');
+    Serial.print("sg");
+    Serial.print(tmc262Stepper.getCurrentStallGuardReading(),DEC);
+    Serial.print(',');
+    Serial.print('p');
+    Serial.print(tmc262Stepper.getMotorPosition(),DEC);
     Serial.println();
   }
 }
