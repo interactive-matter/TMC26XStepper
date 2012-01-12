@@ -12,6 +12,7 @@ ControlP5 controlP5;
 Serial arduinoPort;
 
 Slider speedSlider;
+Slider sgtSlide;
 Toggle runToggle;
 RadioButton microsteppingButtons;
 boolean settingStatus=false;
@@ -37,6 +38,8 @@ void setup() {
   microsteppingButtons.addItem("128", 128);
   microsteppingButtons.addItem("256", 256);
   microsteppingButtons.showBar();
+  // add a vertical slider for stallGuard treshold  
+  sgtSlide = controlP5.addSlider("stall guard treshold", 1, 100, 75, 250, 20, 20, 80);
 
   //configure the serial connection
   // List all the available serial ports:
