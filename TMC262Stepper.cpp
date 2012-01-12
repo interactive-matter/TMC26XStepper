@@ -586,8 +586,8 @@ void TMC262Stepper::setRandomOffTime(char value) {
  *
  */
 void TMC262Stepper::readStatus(char read_value) {
-	//first of all reset the readout configuration
-	driver_configuration &= READ_SELECTION_PATTERN;
+	//reset the readout configuration
+	driver_configuration &= ~(READ_SELECTION_PATTERN);
 	//this now equals TMC262_READOUT_POSITION - so we just have to check the other two options
 	if (read_value == TMC262_READOUT_STALLGUARD) {
 		driver_configuration |= READ_STALL_GUARD_READING;
@@ -595,13 +595,25 @@ void TMC262Stepper::readStatus(char read_value) {
 		driver_configuration |= READ_STALL_GUARD_AND_COOL_STEP;
 	}
 	//all other cases are ignored to prevent funny values
+    //check if the readout is configured for the value we are interested in
+    if ((read_value==TMC262_READOUT_STALLGUARD && driver_configuration&READ_SELECTION_PATTERN!=READ_STALL_GUARD_READING)
+        || (read_value==TMC262_READOUT_POSITION && driver_configuration&READ_SELECTION_PATTERN!=READ_MICROSTEP_POSTION)) {
+            //because then we need to write the value twice - one time for configuring, second time
+            send262(driver_configuration);
+        }
+    //write the configuration to get the last status    
 	send262(driver_configuration);
 }
 
 int TMC262Stepper::getMotorPosition(void) {
 	//we read it out even if we are not started yet - perhaps it is useful information for somebody
 	readStatus(TMC262_READOUT_POSITION);
-	return getReadoutValue();
+    int result = getReadoutValue();
+    if (result & _BV(9)) {
+        return -(result & _BV(9));
+    } else {
+        return result;
+    }
 }
 
 //reads the stall guard setting from last status
