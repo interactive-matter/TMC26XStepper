@@ -586,6 +586,7 @@ void TMC262Stepper::setRandomOffTime(char value) {
  *
  */
 void TMC262Stepper::readStatus(char read_value) {
+    unsigned long old_driver_configuration = driver_configuration;
 	//reset the readout configuration
 	driver_configuration &= ~(READ_SELECTION_PATTERN);
 	//this now equals TMC262_READOUT_POSITION - so we just have to check the other two options
@@ -596,9 +597,9 @@ void TMC262Stepper::readStatus(char read_value) {
 	}
 	//all other cases are ignored to prevent funny values
     //check if the readout is configured for the value we are interested in
-    if ((read_value==TMC262_READOUT_STALLGUARD && driver_configuration&READ_SELECTION_PATTERN!=READ_STALL_GUARD_READING)
-        || (read_value==TMC262_READOUT_POSITION && driver_configuration&READ_SELECTION_PATTERN!=READ_MICROSTEP_POSTION)) {
-            //because then we need to write the value twice - one time for configuring, second time
+    if (((read_value==TMC262_READOUT_STALLGUARD) && ((old_driver_configuration&READ_SELECTION_PATTERN)!=READ_STALL_GUARD_READING))
+        || ((read_value==TMC262_READOUT_POSITION) && ((old_driver_configuration&READ_SELECTION_PATTERN)!=READ_MICROSTEP_POSTION))) {
+            //because then we need to write the value twice - one time for configuring, second time to get the value, see below
             send262(driver_configuration);
         }
     //write the configuration to get the last status    
