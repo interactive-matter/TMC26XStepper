@@ -194,7 +194,7 @@ void TMC262Stepper::start() {
 */
 void TMC262Stepper::setSpeed(long whatSpeed)
 {
-    //TODO take the microsteps into account (and change speed with changed microstepping
+  this->speed = whatSpeed;
   this->step_delay = (60UL * 1000UL * 1000UL) / ((unsigned long)this->number_of_steps * (unsigned long)whatSpeed * (unsigned long)this->microsteps);
 #ifdef DEBUG
     Serial.print("Step delay in micros: ");
@@ -383,6 +383,8 @@ void TMC262Stepper::setMicrosteps(int number_of_steps) {
 	if (started) {
 		send262(driver_control_register_value);
 	}
+    //recalculate the stepping delay by simply setting the speed again
+    this->setSpeed(this->speed);
 }
 
 /*

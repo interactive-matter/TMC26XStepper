@@ -377,9 +377,9 @@ class TMC262Stepper {
   private:    
   	int steps_left;		//the steps the motor has to do to complete the movement
     int direction;        // Direction of rotation
-    int speed;          // Speed in RPMs
     unsigned long step_delay;    // delay between steps, in ms, based on speed
     int number_of_steps;      // total number of steps this motor can take
+    long speed; // we need to store the current speed in order to change the speed after changing microstepping
         
     unsigned long last_step_time;      // time stamp in ms of when the last step was taken
     unsigned long next_step_time;      // time stamp in ms of when the last step was taken
