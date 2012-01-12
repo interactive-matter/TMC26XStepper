@@ -611,7 +611,7 @@ int TMC262Stepper::getMotorPosition(void) {
 	readStatus(TMC262_READOUT_POSITION);
     int result = getReadoutValue();
     if (result & _BV(9)) {
-        return -(result & _BV(9));
+        return -(result & ~(_BV(9)));
     } else {
         return result;
     }
