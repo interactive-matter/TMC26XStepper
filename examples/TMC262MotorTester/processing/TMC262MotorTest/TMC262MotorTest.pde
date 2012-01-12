@@ -19,7 +19,7 @@ boolean settingStatus=false;
 boolean running = false;
 
 void setup() {
-  size(800, 600);
+  size(1000, 800);
   controlP5 = new ControlP5(this);
   //add a button te let the motor run
   runToggle = controlP5.addToggle("run", false, 20, 20, 25, 25);
