@@ -30,6 +30,15 @@ void setSpeed(unsigned int targetSpeed) {
   }
 }
 
+void setMicrostepping(int microstepping) {
+  if (microstepping<1 || microstepping>256) {
+    Serial.print("Improperd microstepping setting [1...256]: ");
+    Serial.print(microstepping);
+  } else {
+    tmc262Stepper.setMicrosteps(microstepping);
+  }
+}
+
 //from http://www.uchobby.com/index.php/2007/11/24/arduino-interrupts/
 //Setup Timer2.s
 //Configures the ATMega168 8-Bit Timer2 to generate an interrupt

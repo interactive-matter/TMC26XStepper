@@ -21,20 +21,20 @@ void setup() {
   size(800, 600);
   controlP5 = new ControlP5(this);
   //add a button te let the motor run
-  runToggle = controlP5.addToggle("run",false,20,20,20,20);
+  runToggle = controlP5.addToggle("run", false, 20, 20, 20, 20);
   // add a vertical slider for speed  
   speedSlider = controlP5.addSlider("speed", 1, 100, 10, 75, 20, 20, 100);
   //ad a multilist for the microstepping setting
   microsteppingButtons = controlP5.addRadioButton("microstepping", 150, 20);
-  microsteppingButtons.addItem("1",1).setId(1);
-  microsteppingButtons.addItem("2",2);
-  microsteppingButtons.addItem("4",4);
-  microsteppingButtons.addItem("8",8);
-  microsteppingButtons.addItem("16",16);
-  microsteppingButtons.addItem("32",32);
-  microsteppingButtons.addItem("64",64);
-  microsteppingButtons.addItem("128",128);
-  microsteppingButtons.addItem("256",256);
+  microsteppingButtons.addItem("1", 1);
+  microsteppingButtons.addItem("2", 2);
+  microsteppingButtons.addItem("4", 4);
+  microsteppingButtons.addItem("8", 8);
+  microsteppingButtons.addItem("16", 16);
+  microsteppingButtons.addItem("32", 32);
+  microsteppingButtons.addItem("64", 64);
+  microsteppingButtons.addItem("128", 128);
+  microsteppingButtons.addItem("256", 256);
   microsteppingButtons.showBar();
 
   //configure the serial connection
@@ -72,7 +72,17 @@ void run(int theValue) {
   }
 }
 
-void microstepping(int id) {
-  println("mcrostepping: "+id);
+void microstepping(int value) {
+  println("mcrostepping: "+value);
+  arduinoPort.write("m"+value+"\n");
 }
+
+void controlEvent(ControlEvent theEvent) {
+  if (theEvent.isGroup()) {
+    if ("microstepping".equals(theEvent.group().name())) { 
+      microstepping((int)theEvent.group().value());
+    }
+  }
+}
+
 

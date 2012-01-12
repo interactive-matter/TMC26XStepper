@@ -44,15 +44,21 @@ void executeSerialCommand() {
     running = -1;
     break;
   case 'S':
-    int targetSpeed = decode(1);
-    setSpeed(targetSpeed);
+    {
+      int targetSpeed = decode(1);
+      setSpeed(targetSpeed);
+    }
+    break;
+  case 'm':
+    {
+      int microstepping = decode(1);
+      setMicrostepping(microstepping);
+    }
     break;
   }
   //at the end delete buffer
   inputBufferPosition=0;
   inputBuffer[0]=0;
-  
-   
 }
 
 int decode(unsigned char startPosition) {
@@ -67,5 +73,8 @@ int decode(unsigned char startPosition) {
   }
   return result;
 }
+
+
+
 
 
