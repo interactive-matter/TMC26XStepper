@@ -38,10 +38,10 @@ void drawData() {
   rect(plotLeft, plotBottom, plotRight, plotTop);
 
   strokeWeight(dataPointsWidth);
-  stroke(stallGuardColor);
-  drawData(stallGuardTable, stallGuardMin, stallGuardMax);
   stroke(positionColor);
   drawData(positionTable, positionMin, positionMax);
+  stroke(stallGuardColor);
+  drawData(stallGuardTable, stallGuardMin, stallGuardMax);
 }
 
 void drawData(DataTable table, int minValue, int maxValue) {

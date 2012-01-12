@@ -1,7 +1,7 @@
 #define INPUT_BUFFER_LENGTH 32
 
 #define SERIAL_SPEED 115200
-#define STATUS_COUNTER 250
+#define STATUS_COUNTER 100
 
 char inputBuffer[INPUT_BUFFER_LENGTH+1]; //ad on character to keep the trainling 0
 unsigned char inputBufferPosition;
@@ -33,10 +33,12 @@ void loopSerial() {
   }
   if (motor_counter>STATUS_COUNTER) {
     motor_counter=0;
-    Serial.print('#');
-    if (tmc262Stepper.isMoving()) {
+    char moving = tmc262Stepper.isMoving();
+      Serial.print('#');
+    if (moving) {
       Serial.print('r');
-    } else {
+    } 
+    else {
       Serial.print('s');
     }
     Serial.print(',');
@@ -46,11 +48,13 @@ void loopSerial() {
     Serial.print('m');
     Serial.print(tmc262Stepper.getMicrosteps(),DEC);
     Serial.print(',');
-    Serial.print("sg");
-    Serial.print(tmc262Stepper.getCurrentStallGuardReading(),DEC);
-    Serial.print(',');
-    Serial.print('p');
-    Serial.print(tmc262Stepper.getMotorPosition(),DEC);
+    if (moving) {
+      Serial.print("sg");
+      Serial.print(tmc262Stepper.getCurrentStallGuardReading(),DEC);
+      Serial.print(',');
+      Serial.print('p');
+      Serial.print(tmc262Stepper.getMotorPosition(),DEC);
+    }
     Serial.print(',');
     Serial.println();
   }
@@ -97,6 +101,7 @@ int decode(unsigned char startPosition) {
   }
   return result;
 }
+
 
 
 
