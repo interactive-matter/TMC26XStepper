@@ -10,15 +10,19 @@ int stallGuardMax =1024;
 int positionMin = 0;
 int positionMax = 1024;
 
-int dataPointsWidth = 5;
+int dataPointsWidth = 3;
 int dataLineWidth = 2;
+int highLightWidth = 7;
 
-int numberOfDataPoints=100;
+int numberOfDataPoints=1000;
 
 int stallGuardLabelInterval = 100;
 int stallGuardMinorTickInterval = 10;
 int positionLabelInterval = 64;
 int positionMinorTickInterval = 8;
+
+int stallGuardHighLightDistance = 1;
+int positionHighLightDistance = 3;
 
 DataTable stallGuardTable = new DataTable(numberOfDataPoints);
 DataTable positionTable = new DataTable(numberOfDataPoints);
@@ -42,9 +46,12 @@ void drawData() {
   strokeWeight(dataLineWidth);
   stroke(positionColor);
   drawDataLine(positionTable, positionMin, positionMax);
+  drawDataHighLight(positionTable, positionMin, positionMax, positionHighLightDistance, labelColor, "Microstep Position", false);
+
   strokeWeight(dataPointsWidth);
   stroke(stallGuardColor);
   drawDataPoints(stallGuardTable, stallGuardMin, stallGuardMax);
+  drawDataHighLight(stallGuardTable, stallGuardMin, stallGuardMax, stallGuardHighLightDistance, labelColor, "Stall Guard", true);
 
   textSize(15);
   textAlign(LEFT);
@@ -123,6 +130,28 @@ void drawDataLine(DataTable table, int minValue, int maxValue) {
     vertex(x, y);
   }
   endShape();
+}
+
+void drawDataHighLight(DataTable table, int minValue, int maxValue, int distance, color textColor, String name, boolean top) {
+  int dataCount = table.getSize();
+  for (int i=0; i<dataCount; i++) {
+    int value = table.getEntry(i);
+    float x = map(i, 0, numberOfDataPoints-1, plotLeft+dataPointsWidth, plotRight-dataPointsWidth);
+    float y = map(value, minValue, maxValue, plotBottom-dataPointsWidth, plotTop+dataPointsWidth);
+    if (dist(mouseX, mouseY, x, y) < distance) {
+      strokeWeight(highLightWidth);
+      point(x, y);
+      fill(textColor);
+      textSize(10);
+      textAlign(CENTER);
+      if (top) {
+        text(name+": "+value, x, y-8);
+      } 
+      else {
+        text(name+": "+value, x, y+8);
+      }
+    }
+  }
 }
 
 void addStallGuardReading(int value) {

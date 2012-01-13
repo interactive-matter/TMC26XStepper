@@ -31,6 +31,15 @@ void loopSerial() {
       executeSerialCommand();   
     }
   }
+  if (motor_moved) {
+    Serial.print('#');
+      Serial.print("sg");
+      Serial.print(tmc262Stepper.getCurrentStallGuardReading(),DEC);
+      Serial.print(',');
+      Serial.print('p');
+      Serial.print(tmc262Stepper.getMotorPosition(),DEC);
+    motor_moved=0;
+  }
   if (motor_counter>STATUS_COUNTER) {
     motor_counter=0;
     char moving = tmc262Stepper.isMoving();
@@ -52,11 +61,6 @@ void loopSerial() {
     Serial.print(tmc262Stepper.getMicrosteps(),DEC);
     Serial.print(',');
     if (moving) {
-      Serial.print("sg");
-      Serial.print(tmc262Stepper.getCurrentStallGuardReading(),DEC);
-      Serial.print(',');
-      Serial.print('p');
-      Serial.print(tmc262Stepper.getMotorPosition(),DEC);
     }
     Serial.print(',');
     Serial.print("t");
