@@ -314,7 +314,7 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 	}
 }
 
-void TMC262Stepper::setStallGuardTreshold(int stall_guard_treshold, char stall_guard_filter_enabled) {
+void TMC262Stepper::setStallGuardTreshold(char stall_guard_treshold, char stall_guard_filter_enabled) {
 	if (stall_guard_treshold<-64) {
 		stall_guard_treshold = -64;
 	//We just have 5 bits	
@@ -336,19 +336,26 @@ void TMC262Stepper::setStallGuardTreshold(int stall_guard_treshold, char stall_g
 	}
 }
 
-int TMC262Stepper::getStallGuardTreshold(void) {
+char TMC262Stepper::getStallGuardTreshold(void) {
     unsigned long stall_guard_treshold = stall_guard2_current_register_value & STALL_GUARD_VALUE_PATTERN;
     //shift it down to bit 0
     stall_guard_treshold >>=8;
     //convert the value to an int to correctly handle the negative numbers
-    int result = stall_guard_treshold;
+    char result = stall_guard_treshold;
     //check if it is negative and fill it up with leading 1 for proper negative number representation
     if (result & _BV(6)) {
-        result |= 0xFFC0;
+        result |= 0xC0;
     }
     return result;
 }
 
+char TMC262Stepper::getStallGuardFilter(void) {
+    if (stall_guard2_current_register_value & STALL_GUARD_FILTER_ENABLED) {
+        return -1;
+    } else {
+        return 0;
+    }
+}
 /*
  * Set the number of microsteps per step.
  * 0,2,4,8,16,32,64,128,256 is supported

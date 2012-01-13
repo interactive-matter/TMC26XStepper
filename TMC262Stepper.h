@@ -281,13 +281,19 @@ class TMC262Stepper {
      * 
      * \sa getCurrentStallGuardReading() to read out the current value.
      */ 
-	void setStallGuardTreshold(int stall_guard_treshold, char stall_guard_filter_enabled);
+	void setStallGuardTreshold(char stall_guard_treshold, char stall_guard_filter_enabled);
     
     /*!
      * \brief reads out the stall guard treshold
      * \return a number between -64 and 63.
      */
-    int getStallGuardTreshold(void);
+    char getStallGuardTreshold(void);
+    
+    /*!
+     * \brief returns the current setting of the stall guard filter
+     * \return 0 if not set, -1 if set
+     */
+    char getStallGuardFilter(void);
     
 	/*!
      * \brief Get the current microstep position for phase A
