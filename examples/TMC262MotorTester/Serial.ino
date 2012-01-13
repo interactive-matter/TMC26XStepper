@@ -57,7 +57,10 @@ void loopSerial() {
     }
     Serial.print(',');
     Serial.print("t");
-    Serial.print(tmc262Stepper.getStallGuardTreshold());
+    Serial.print(tmc262Stepper.getStallGuardTreshold(),DEC);
+    Serial.print(',');
+    Serial.print("f");
+    Serial.print(tmc262Stepper.getStallGuardFilter(),DEC);
     Serial.print(',');
     Serial.println();
   }
@@ -90,6 +93,12 @@ void executeSerialCommand() {
     {
       int treshold = decode(1);
       setStallGuardTreshold(treshold);
+    }
+    break;
+  case 'f':
+    {
+      int filter = decode(1);
+      setStallGuardFilter(filter);
     }
     break;
   }

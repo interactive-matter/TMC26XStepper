@@ -1,5 +1,5 @@
 
-void speed(float theSpeed) {
+void speed(int theSpeed) {
   if (!settingStatus) {
     int speed = (int) theSpeed;
     println("setting speed to "+speed);
@@ -7,7 +7,7 @@ void speed(float theSpeed) {
   }
 }
 
-void run(int theValue) {
+void run(int value) {
   if (!settingStatus) {
     println("button pressed");
     if (running) {
@@ -35,7 +35,32 @@ void stallguardtreshold(int value) {
     println("stall guard treshold: "+value);
     arduinoPort.write("t"+value+"\n");
   }
+  if (value==sgtSlider.max()) {
+    sgtPlus.lock();
+  } else {
+    sgtPlus.unlock();
+  }
+  if (value==sgtSlider.min()) {
+    sgtMinus.lock();
+  } else {
+    sgtMinus.unlock();
+  }
 }
+
+void sgtplus(int value) {
+  sgtSlider.setValue(sgtSlider.value()+1);
+}
+
+void sgtminus(int value) {
+  sgtSlider.setValue(sgtSlider.value()-1);
+}
+
+void sgfilter(int value) {
+  if (!settingStatus) {
+    println("filter: "+value);
+    arduinoPort.write("f"+value+"\n");
+  }
+}  
 
 void controlEvent(ControlEvent theEvent) {
   if (theEvent.isGroup() && !settingStatus) {
@@ -84,8 +109,9 @@ void decodeSerial(String line) {
         addPositionReading(getValueOfToken(statusToken, 1));
       } 
       else if (statusToken.startsWith("t")) {
-        println("sgt "+getValueOfToken(statusToken, 1));
         sgtSlider.setValue(getValueOfToken(statusToken, 1));
+      } else if(statusToken.startsWith("f")) {
+        sgFilterToggle.setValue(getValueOfToken(statusToken, 1));
       }
     }
   } 
@@ -101,7 +127,7 @@ int getValueOfToken(String token, int position) {
     return Integer.valueOf(value);
   } 
   catch (NumberFormatException e) {
-    println("Unable to decode '"+value+"'!");
+    println("Unable to decode '"+value+"'of '"+token+"' !");
     return 0;
   }
 }

@@ -12,10 +12,6 @@ int positionMax = 512;
 
 int dataPointsWidth = 5;
 
-color graphBackgroundColor = #131313;
-color stallGuardColor = #8c1c3d;
-color positionColor = #1a6699; //still to use #1a9933
-
 int numberOfDataPoints=100;
 
 int stallGuardLabelInterval = 100;
@@ -29,7 +25,7 @@ DataTable positionTable = new DataTable(numberOfDataPoints);
 
 void setupData() {
   plotBottom = height-20;
-  plotTop = 200;
+  plotTop = 300;
 
   plotLeft = 50;
   plotRight= width-plotLeft;

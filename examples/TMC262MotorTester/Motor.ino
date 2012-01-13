@@ -1,5 +1,8 @@
 unsigned int motor_counter = 0;
 unsigned char motor_moved = 0;
+int sgTreshold = 4;
+int sgFilter = 0;
+
 void startMotor() {
   Serial.println("Configuring stepper driver");
   //char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement
@@ -7,7 +10,7 @@ void startMotor() {
   tmc262Stepper.setRandomOffTime(0);
 
   tmc262Stepper.setMicrosteps(32);
-  tmc262Stepper.setStallGuardTreshold(4,0);
+  tmc262Stepper.setStallGuardTreshold(sgTreshold,sgFilter);
   //  Serial.println("config finished, starting");
   digitalWrite(ENABLE_PIN,LOW);
   tmc262Stepper.start();
@@ -47,8 +50,18 @@ void setStallGuardTreshold(int treshold) {
     Serial.println(treshold);
   } 
   else {
-    tmc262Stepper.setStallGuardTreshold(treshold,0);
+    sgTreshold = treshold;
+    tmc262Stepper.setStallGuardTreshold(treshold,sgFilter);
   }
+}
+
+void setStallGuardFilter(int filter) {
+  if (filter) {
+    sgFilter=1;
+  } else {
+    sgFilter=0;
+  }
+  tmc262Stepper.setStallGuardTreshold(sgTreshold,sgFilter);
 }
 
 //from http://www.uchobby.com/index.php/2007/11/24/arduino-interrupts/
