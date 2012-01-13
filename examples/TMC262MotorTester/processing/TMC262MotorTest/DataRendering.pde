@@ -7,8 +7,8 @@ int plotLeft, plotRight;
 int stallGuardMin =  0;
 int stallGuardMax =1024;
 
-int positionMin = -512;
-int positionMax = 512;
+int positionMin = 0;
+int positionMax = 1024;
 
 int dataPointsWidth = 5;
 

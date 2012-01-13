@@ -629,12 +629,7 @@ void TMC262Stepper::readStatus(char read_value) {
 int TMC262Stepper::getMotorPosition(void) {
 	//we read it out even if we are not started yet - perhaps it is useful information for somebody
 	readStatus(TMC262_READOUT_POSITION);
-    int result = getReadoutValue();
-    if (result & _BV(9)) {
-        return -(result & ~(_BV(9)));
-    } else {
-        return result;
-    }
+    return getReadoutValue();
 }
 
 //reads the stall guard setting from last status

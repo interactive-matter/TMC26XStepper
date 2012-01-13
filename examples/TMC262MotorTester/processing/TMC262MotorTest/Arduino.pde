@@ -73,10 +73,11 @@ void setDirection(int direction) {
   }
   if (!settingStatus) {
     if (direction<0) {
-      arduinoPort.write("d-1");
+      println("back");
+      arduinoPort.write("d-1\n");
     } 
     else {
-      arduinoPort.write("d1");
+      arduinoPort.write("d1\n");
     }
   }
 }
