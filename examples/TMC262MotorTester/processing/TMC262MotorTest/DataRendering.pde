@@ -40,7 +40,7 @@ void drawData() {
   fill(graphBackgroundColor);
   rectMode(CORNERS);
   noStroke();
-  rect(plotLeft, plotBottom, plotRight, plotTop);
+  //rect(plotLeft, plotBottom, plotRight, plotTop);
 
   strokeWeight(dataPointsWidth);
   stroke(positionColor);

@@ -1,14 +1,14 @@
 unsigned int motor_counter = 0;
 unsigned char motor_moved = 0;
 void startMotor() {
-    Serial.println("Configuring stepper driver");
+  Serial.println("Configuring stepper driver");
   //char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement
   tmc262Stepper.setSpreadCycleChopper(2,24,8,6,0);
   tmc262Stepper.setRandomOffTime(0);
-  
+
   tmc262Stepper.setMicrosteps(32);
   tmc262Stepper.setStallGuardTreshold(4,0);
-//  Serial.println("config finished, starting");
+  //  Serial.println("config finished, starting");
   digitalWrite(ENABLE_PIN,LOW);
   tmc262Stepper.start();
   tmc262Stepper.setSpeed(10);
@@ -35,8 +35,19 @@ void setMicrostepping(int microstepping) {
   if (microstepping<1 || microstepping>256) {
     Serial.print("Improperd microstepping setting [1...256]: ");
     Serial.print(microstepping);
-  } else {
+  } 
+  else {
     tmc262Stepper.setMicrosteps(microstepping);
+  }
+}
+
+void setStallGuardTreshold(int treshold) {
+  if (treshold<-64 || treshold > 63) {
+    Serial.print("Improper Stall Guard Treshold [-64...63]: ");
+    Serial.println(treshold);
+  } 
+  else {
+    tmc262Stepper.setStallGuardTreshold(treshold,0);
   }
 }
 
@@ -71,7 +82,8 @@ unsigned char setupTimer2(float timeoutFrequency){
 }
 
 ISR(TIMER2_OVF_vect) {
-    motor_moved = tmc262Stepper.move();
-    motor_counter++;
+  motor_moved = tmc262Stepper.move();
+  motor_counter++;
 
 }
+

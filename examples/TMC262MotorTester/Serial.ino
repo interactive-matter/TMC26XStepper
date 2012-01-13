@@ -34,7 +34,7 @@ void loopSerial() {
   if (motor_counter>STATUS_COUNTER) {
     motor_counter=0;
     char moving = tmc262Stepper.isMoving();
-      Serial.print('#');
+    Serial.print('#');
     if (moving) {
       Serial.print('r');
     } 
@@ -55,6 +55,9 @@ void loopSerial() {
       Serial.print('p');
       Serial.print(tmc262Stepper.getMotorPosition(),DEC);
     }
+    Serial.print(',');
+    Serial.print("t");
+    Serial.print(tmc262Stepper.getStallGuardTreshold());
     Serial.print(',');
     Serial.println();
   }
@@ -83,6 +86,12 @@ void executeSerialCommand() {
       setMicrostepping(microstepping);
     }
     break;
+  case 't':
+    {
+      int treshold = decode(1);
+      setStallGuardTreshold(treshold);
+    }
+    break;
   }
   //at the end delete buffer
   inputBufferPosition=0;
@@ -91,6 +100,11 @@ void executeSerialCommand() {
 
 int decode(unsigned char startPosition) {
   int result=0;
+  boolean negative = false;
+  if (inputBuffer[startPosition]=='-') {
+    negative=true;
+    startPosition++;
+  }
   for (unsigned char i=startPosition; i< (INPUT_BUFFER_LENGTH+1) && inputBuffer[i]!=0; i++) {
     char number = inputBuffer[i];
     //this very dumb approac can lead to errors, but we expect only numbers after the command anyway
@@ -99,8 +113,14 @@ int decode(unsigned char startPosition) {
       result += number - '0';
     } 
   }
-  return result;
+  if (negative) {
+    return -result;
+  } 
+  else {
+    return result;
+  }
 }
+
 
 
 
