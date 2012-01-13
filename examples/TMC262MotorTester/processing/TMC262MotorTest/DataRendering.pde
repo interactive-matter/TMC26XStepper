@@ -11,6 +11,7 @@ int positionMin = 0;
 int positionMax = 1024;
 
 int dataPointsWidth = 5;
+int dataLineWidth = 2;
 
 int numberOfDataPoints=100;
 
@@ -38,11 +39,12 @@ void drawData() {
   noStroke();
   //rect(plotLeft, plotBottom, plotRight, plotTop);
 
-  strokeWeight(dataPointsWidth);
+  strokeWeight(dataLineWidth);
   stroke(positionColor);
-  drawData(positionTable, positionMin, positionMax);
+  drawDataLine(positionTable, positionMin, positionMax);
+  strokeWeight(dataPointsWidth);
   stroke(stallGuardColor);
-  drawData(stallGuardTable, stallGuardMin, stallGuardMax);
+  drawDataPoints(stallGuardTable, stallGuardMin, stallGuardMax);
 
   textSize(15);
   textAlign(LEFT);
@@ -101,7 +103,7 @@ void drawData() {
   }
 }
 
-void drawData(DataTable table, int minValue, int maxValue) {
+void drawDataPoints(DataTable table, int minValue, int maxValue) {
   int dataCount = table.getSize();
   for (int i=0; i<dataCount; i++) {
     int value = table.getEntry(i);
@@ -109,6 +111,18 @@ void drawData(DataTable table, int minValue, int maxValue) {
     float y = map(value, minValue, maxValue, plotBottom-dataPointsWidth, plotTop+dataPointsWidth);
     point(x, y);
   }
+}
+
+void drawDataLine(DataTable table, int minValue, int maxValue) {
+  beginShape();
+  int dataCount = table.getSize();
+  for (int i=0; i<dataCount; i++) {
+    int value = table.getEntry(i);
+    float x = map(i, 0, numberOfDataPoints-1, plotLeft+dataPointsWidth, plotRight-dataPointsWidth);
+    float y = map(value, minValue, maxValue, plotBottom-dataPointsWidth, plotTop+dataPointsWidth);
+    vertex(x, y);
+  }
+  endShape();
 }
 
 void addStallGuardReading(int value) {
