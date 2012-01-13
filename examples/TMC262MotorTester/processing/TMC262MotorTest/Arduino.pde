@@ -37,12 +37,14 @@ void stallguardtreshold(int value) {
   }
   if (value==sgtSlider.max()) {
     sgtPlus.lock();
-  } else {
+  } 
+  else {
     sgtPlus.unlock();
   }
   if (value==sgtSlider.min()) {
     sgtMinus.lock();
-  } else {
+  } 
+  else {
     sgtMinus.unlock();
   }
 }
@@ -62,10 +64,30 @@ void sgfilter(int value) {
   }
 }  
 
+void setDirection(int direction) {
+  if (direction<0) {
+    directionButtons.activate(1);
+  } 
+  else {
+    directionButtons.activate(0);
+  }
+  if (!settingStatus) {
+    if (direction<0) {
+      arduinoPort.write("d-1");
+    } 
+    else {
+      arduinoPort.write("d1");
+    }
+  }
+}
+
 void controlEvent(ControlEvent theEvent) {
   if (theEvent.isGroup() && !settingStatus) {
     if ("microstepping".equals(theEvent.group().name())) { 
       microstepping((int)theEvent.group().value());
+    }
+    if ("direction".equals(theEvent.group().name())) {
+      setDirection((int)theEvent.group().value());
     }
   }
 }
@@ -110,8 +132,12 @@ void decodeSerial(String line) {
       } 
       else if (statusToken.startsWith("t")) {
         sgtSlider.setValue(getValueOfToken(statusToken, 1));
-      } else if(statusToken.startsWith("f")) {
+      } 
+      else if (statusToken.startsWith("f")) {
         sgFilterToggle.setValue(getValueOfToken(statusToken, 1));
+      } 
+      else if (statusToken.startsWith("d")) {
+        setDirection(getValueOfToken(statusToken, 1));
       }
     }
   } 

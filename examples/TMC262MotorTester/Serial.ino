@@ -42,6 +42,9 @@ void loopSerial() {
       Serial.print('s');
     }
     Serial.print(',');
+    Serial.print('d');
+    Serial.print(direction);
+    Serial.print(',');
     Serial.print('S');
     Serial.print(tmc262Stepper.getSpeed(),DEC);
     Serial.print(',');
@@ -101,6 +104,18 @@ void executeSerialCommand() {
       setStallGuardFilter(filter);
     }
     break;
+  case 'd':
+    {
+      int value = decode(1);
+      tmc262Stepper.stop();
+      if (value<0) {
+        direction=-1;
+      } 
+      else {
+        direction=1;
+      }
+    }
+    break;
   }
   //at the end delete buffer
   inputBufferPosition=0;
@@ -129,6 +144,7 @@ int decode(unsigned char startPosition) {
     return result;
   }
 }
+
 
 
 

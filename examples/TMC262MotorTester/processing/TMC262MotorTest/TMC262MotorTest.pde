@@ -22,11 +22,13 @@ color positionColor = #1a6699; //still to use #8c7f26
 
 Slider speedSlider;
 Toggle runToggle;
+RadioButton directionButtons;
 RadioButton microsteppingButtons;
 Slider sgtSlider;
 Button sgtPlus;
 Button sgtMinus;
 Toggle sgFilterToggle;
+
 boolean settingStatus=false;
 
 boolean running = false;
@@ -40,8 +42,13 @@ void setup() {
   //controlP5.getControlFont().setSize(10); - the font is too small, try to increase it!
   //add a button te let the motor run
   runToggle = controlP5.addToggle("run", false, 20, 20, 30, 30);
+  //add some directions buttons
+  directionButtons = controlP5.addRadioButton("direction",20,70);
+  directionButtons.addItem("forward",1);
+  directionButtons.addItem("backward",-1);
+  directionButtons.activate(0);
   // add a vertical slider for speed  
-  speedSlider = controlP5.addSlider("speed", 1, 100, 75, 75, 20, 20, 210);
+  speedSlider = controlP5.addSlider("speed", 1, 100, 10, 85, 20, 20, 210);
   //ad a multilist for the microstepping setting
   microsteppingButtons = controlP5.addRadioButton("microstepping", 150, 20);
   microsteppingButtons.addItem("1", 1);

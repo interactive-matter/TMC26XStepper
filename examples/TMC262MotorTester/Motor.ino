@@ -2,6 +2,7 @@ unsigned int motor_counter = 0;
 unsigned char motor_moved = 0;
 int sgTreshold = 4;
 int sgFilter = 0;
+int direction = 1;
 
 void startMotor() {
   Serial.println("Configuring stepper driver");
@@ -20,6 +21,14 @@ void startMotor() {
 }
 
 void runMotor() {
+  if (running && !tmc262Stepper.isMoving()) {
+    tmc262Stepper.step(direction*10000);
+    Serial.println("run");
+  }
+  if (!running & tmc262Stepper.isMoving()) {
+    tmc262Stepper.stop();
+    Serial.println("stop");
+  }
 }
 
 void setSpeed(unsigned int targetSpeed) {

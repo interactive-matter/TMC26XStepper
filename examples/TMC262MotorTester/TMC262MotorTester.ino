@@ -27,14 +27,7 @@ void setup() {
 
 void loop() {
   loopSerial();
-  if (running && !tmc262Stepper.isMoving()) {
-    tmc262Stepper.step(10000);
-    Serial.println("run");
-  }
-  if (!running & tmc262Stepper.isMoving()) {
-    tmc262Stepper.stop();
-    Serial.println("stop");
-  }
+  runMotor();
 }
 
 
