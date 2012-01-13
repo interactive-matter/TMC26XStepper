@@ -268,7 +268,7 @@ class TMC262Stepper {
     
 	/*!
      * \brief set the Stall Guard treshold in order to get sensible Stall Guard readings.
-     * \param stall_guard_treshold -64 … 64 the stall guard treshold
+     * \param stall_guard_treshold -64 … 63 the stall guard treshold
      * \param stall_guard_filter_enabled 0 if the filter is disabled, -1 if it is enabled
      *
      * The stall guard treshold is used to optimize the stall guard reading to sensible values. It should be at 0 at
@@ -282,6 +282,12 @@ class TMC262Stepper {
      * \sa getCurrentStallGuardReading() to read out the current value.
      */ 
 	void setStallGuardTreshold(int stall_guard_treshold, char stall_guard_filter_enabled);
+    
+    /*!
+     * \brief reads out the stall guard treshold
+     * \return a number between -64 and 63.
+     */
+    int getStallGuardTreshold(void);
     
 	/*!
      * \brief Get the current microstep position for phase A

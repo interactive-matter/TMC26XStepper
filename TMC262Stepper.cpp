@@ -85,6 +85,7 @@
 #define STALL_GUARD_TRESHHOLD_VALUE_PATTERN 0x17F00ul
 #define CURRENT_SCALING_PATTERN 0x1Ful
 #define STALL_GUARD_CONFIG_PATTERN 0x17F00ul
+#define STALL_GUARD_VALUE_PATTERN 0x7F00ul
 
 //definitions for the input from the TCM260
 #define STATUS_STALL_GUARD_STATUS 0x1ul
@@ -320,8 +321,8 @@ void TMC262Stepper::setStallGuardTreshold(int stall_guard_treshold, char stall_g
 	} else if (stall_guard_treshold > 63) {
 		stall_guard_treshold = 63;
 	}
-	//add the offset of 64
-	stall_guard_treshold &=0x3f;
+	//add trim down to 7 bits
+	stall_guard_treshold &=0x7f;
 	//delete old stall guard settings
 	stall_guard2_current_register_value &= ~(STALL_GUARD_CONFIG_PATTERN);
 	if (stall_guard_filter_enabled) {
@@ -335,6 +336,18 @@ void TMC262Stepper::setStallGuardTreshold(int stall_guard_treshold, char stall_g
 	}
 }
 
+int TMC262Stepper::getStallGuardTreshold(void) {
+    unsigned long stall_guard_treshold = stall_guard2_current_register_value & STALL_GUARD_VALUE_PATTERN;
+    //shift it down to bit 0
+    stall_guard_treshold >>=8;
+    //convert the value to an int to correctly handle the negative numbers
+    int result = stall_guard_treshold;
+    //check if it is negative and fill it up with leading 1 for proper negative number representation
+    if (result & _BV(6)) {
+        result |= 0xFFC0;
+    }
+    return result;
+}
 
 /*
  * Set the number of microsteps per step.
