@@ -284,18 +284,19 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 	float mASetting = current;
 	// remove vesense flag
 	this->driver_configuration &= ~(VSENSE);	
-	//this is derrived from I=Vsense/Rsense
+	//this is derrived from I=(cs+1)/32*(Vsense/Rsense)
+    //leading to cs = 32*r/((v+1)*1000)
 	//with Rsense=0,15
 	//for vsense = 0,310V (VSENSE not set)
 	//or vsense = 0,165V (VSENSE set)
-	current_scaling = (byte)((mASetting*0.029729032258065)); //theoretically - 1.0 for better rounding it is 0.5
+	current_scaling = (byte)((mASetting*0.01548387096774)-0.5); //theoretically - 1.0 for better rounding it is 0.5
 	Serial.print("CS: ");
 	Serial.println(current_scaling);
 	
 	//check if the current scalingis too low
 	if (current_scaling<16) {
 		this->driver_configuration|=VSENSE;
-		current_scaling = (byte)((mASetting*0.0158554838709681)); //theoretically - 1.0 for better rounding it is 0.5
+		current_scaling = (byte)((mASetting*0.02909090909091)-0.5); //theoretically - 1.0 for better rounding it is 0.5
 //#ifdef DEBUG
 		Serial.print("CS (Vsense=1): ");
 		Serial.println(current_scaling);
