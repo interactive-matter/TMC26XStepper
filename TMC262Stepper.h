@@ -416,7 +416,7 @@ class TMC262Stepper {
 	unsigned long chopper_config_register;
 	unsigned long cool_step_register_value;
 	unsigned long stall_guard2_current_register_value;
-	unsigned long driver_configuration;
+	unsigned long driver_configuration_register_value;
 	//the driver status result
 	unsigned long driver_status_result;
 	

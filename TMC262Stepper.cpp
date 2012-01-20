@@ -138,7 +138,7 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	chopper_config_register=CHOPPER_CONFIG_REGISTER;
 	cool_step_register_value=COOL_STEP_REGISTER;
 	stall_guard2_current_register_value=STALL_GUARD2_LOAD_MEASURE_REGISTER;
-	driver_configuration = DRIVER_CONFIG_REGISTER | READ_STALL_GUARD_READING;
+	driver_configuration_register_value = DRIVER_CONFIG_REGISTER | READ_STALL_GUARD_READING;
 
 	//set the current
 	setCurrent(current);
@@ -187,7 +187,7 @@ void TMC262Stepper::start() {
 	send262(chopper_config_register);
 	send262(cool_step_register_value);
 	send262(stall_guard2_current_register_value);
-	send262(driver_configuration);
+	send262(driver_configuration_register_value);
 	
 	//save that we are in running mode
 	started=-1;
@@ -286,7 +286,7 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 	double mASetting = (double)current;
     double resistor_value = (double) this->resistor;
 	// remove vesense flag
-	this->driver_configuration &= ~(VSENSE);	
+	this->driver_configuration_register_value &= ~(VSENSE);	
 	//this is derrived from I=(cs+1)/32*(Vsense/Rsense)
     //leading to cs = CS = 32*R*I/V (with V = 0,31V oder 0,165V  and I = 1000*current)
 	//with Rsense=0,15
@@ -296,7 +296,7 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 	
 	//check if the current scalingis too low
 	if (current_scaling<16) {
-		this->driver_configuration |= VSENSE;
+		this->driver_configuration_register_value |= VSENSE;
         current_scaling = (byte)((resistor_value*mASetting*32.0/(0.165*1000.0*1000.0))-0.5); //theoretically - 1.0 for better rounding it is 0.5
 //#ifdef DEBUG
 		Serial.print("CS (Vsense=1): ");
@@ -317,7 +317,7 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 	stall_guard2_current_register_value |= current_scaling;
 	//if started we directly send it to the motor
 	if (started) {
-        send262(driver_configuration);
+        send262(driver_configuration_register_value);
 		send262(stall_guard2_current_register_value);
 	}
 }
@@ -327,7 +327,7 @@ unsigned int TMC262Stepper::getCurrent(void) {
     //this is not the fastest but the most accurate and illustrative way
     double result = (double)(stall_guard2_current_register_value & CURRENT_SCALING_PATTERN);
     double resistor_value = (double)this->resistor;
-    double voltage = (driver_configuration & VSENSE)? 0.165:0.31;
+    double voltage = (driver_configuration_register_value & VSENSE)? 0.165:0.31;
     result = (result+1.0)/32.0*voltage/resistor_value*1000.0*1000.0;
     return (unsigned int)result;
 }
@@ -624,24 +624,24 @@ void TMC262Stepper::setRandomOffTime(char value) {
  *
  */
 void TMC262Stepper::readStatus(char read_value) {
-    unsigned long old_driver_configuration = driver_configuration;
+    unsigned long old_driver_configuration_register_value = driver_configuration_register_value;
 	//reset the readout configuration
-	driver_configuration &= ~(READ_SELECTION_PATTERN);
+	driver_configuration_register_value &= ~(READ_SELECTION_PATTERN);
 	//this now equals TMC262_READOUT_POSITION - so we just have to check the other two options
 	if (read_value == TMC262_READOUT_STALLGUARD) {
-		driver_configuration |= READ_STALL_GUARD_READING;
+		driver_configuration_register_value |= READ_STALL_GUARD_READING;
 	} else if (read_value == TMC262_READOUT_STALLGUARD) {
-		driver_configuration |= READ_STALL_GUARD_AND_COOL_STEP;
+		driver_configuration_register_value |= READ_STALL_GUARD_AND_COOL_STEP;
 	}
 	//all other cases are ignored to prevent funny values
     //check if the readout is configured for the value we are interested in
-    if (((read_value==TMC262_READOUT_STALLGUARD) && ((old_driver_configuration&READ_SELECTION_PATTERN)!=READ_STALL_GUARD_READING))
-        || ((read_value==TMC262_READOUT_POSITION) && ((old_driver_configuration&READ_SELECTION_PATTERN)!=READ_MICROSTEP_POSTION))) {
+    if (((read_value==TMC262_READOUT_STALLGUARD) && ((old_driver_configuration_register_value&READ_SELECTION_PATTERN)!=READ_STALL_GUARD_READING))
+        || ((read_value==TMC262_READOUT_POSITION) && ((old_driver_configuration_register_value&READ_SELECTION_PATTERN)!=READ_MICROSTEP_POSTION))) {
             //because then we need to write the value twice - one time for configuring, second time to get the value, see below
-            send262(driver_configuration);
+            send262(driver_configuration_register_value);
         }
     //write the configuration to get the last status    
-	send262(driver_configuration);
+	send262(driver_configuration_register_value);
 }
 
 int TMC262Stepper::getMotorPosition(void) {
@@ -779,7 +779,7 @@ if (this->started) {
 		if (this->isStandStill()) {
 			Serial.println("INFO: Motor is standing still.");
 		}
-		unsigned long readout_config = driver_configuration & READ_SELECTION_PATTERN;
+		unsigned long readout_config = driver_configuration_register_value & READ_SELECTION_PATTERN;
 		int value = getReadoutValue();
 		if (readout_config == READ_MICROSTEP_POSTION) {
 			Serial.print("Microstep postion phase A: ");
