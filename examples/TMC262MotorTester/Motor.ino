@@ -75,7 +75,7 @@ void setStallGuardFilter(int filter) {
 }
 
 void setCurrent(int current) {
-  if (current>0 && current <1200) {
+  if (current>0 && current <1700) {
     tmc262Stepper.setCurrent(current);
   } 
   else {
