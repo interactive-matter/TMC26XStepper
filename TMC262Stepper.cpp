@@ -83,7 +83,7 @@
 //definitions for stall guard2 current register
 #define STALL_GUARD_FILTER_ENABLED 0x10000ul
 #define STALL_GUARD_TRESHHOLD_VALUE_PATTERN 0x17F00ul
-#define CURRENT_SCALING_PATTERN 0x1Ful
+#define CURRENT_SCALING_PATTERN 0xFul
 #define STALL_GUARD_CONFIG_PATTERN 0x17F00ul
 #define STALL_GUARD_VALUE_PATTERN 0x7F00ul
 
@@ -278,10 +278,12 @@ char TMC262Stepper::stop(void) {
 }
 
 void TMC262Stepper::setCurrent(unsigned int current) {
+    //store the current
+    this->current = current;
 	//calculate the current scaling from the max current setting (in mA)
 	float mASetting = current;
 	// remove vesense flag
-	this->driver_control_register_value &=~(VSENSE);	
+	this->driver_configuration &= ~(VSENSE);	
 	//this is derrived from I=Vsense/Rsense
 	//with Rsense=0,15
 	//for vsense = 0,310V (VSENSE not set)
@@ -292,12 +294,12 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 	
 	//check if the current scalingis too low
 	if (current_scaling<16) {
-		this->driver_control_register_value|=VSENSE;
+		this->driver_configuration|=VSENSE;
 		current_scaling = (byte)((mASetting*0.0158554838709681)); //theoretically - 1.0 for better rounding it is 0.5
-#ifdef DEBUG
+//#ifdef DEBUG
 		Serial.print("CS (Vsense=1): ");
 		Serial.println(current_scaling);
-#endif
+//#endif
 	}
 
 	//do some sanity checks
@@ -310,8 +312,14 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 	stall_guard2_current_register_value |= current_scaling;
 	//if started we directly send it to the motor
 	if (started) {
-		send262(driver_control_register_value);
+        send262(driver_configuration);
+		send262(stall_guard2_current_register_value);
 	}
+}
+
+unsigned int TMC262Stepper::getCurrent(void) {
+    //simply return the current stored earlier
+    return this->current; 
 }
 
 void TMC262Stepper::setStallGuardTreshold(char stall_guard_treshold, char stall_guard_filter_enabled) {

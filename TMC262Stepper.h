@@ -261,10 +261,16 @@ class TMC262Stepper {
 	void setRandomOffTime(char value);
     
 	/*!
-     * \brief set the maximum motor current in mA
+     * \brief set the maximum motor current in mA (1000 is an Amp)
      * \param current the maximum RMS motor current in mA
      */
 	void setCurrent(unsigned int current);
+    
+    /*!
+     * \brief readout the motor maximum current in mA (1000 is an Amp)
+     *\return the maximum motor current in milli amps
+     */
+    unsigned int getCurrent(void);
     
 	/*!
      * \brief set the Stall Guard treshold in order to get sensible Stall Guard readings.
@@ -398,6 +404,7 @@ class TMC262Stepper {
     unsigned long step_delay;    // delay between steps, in ms, based on speed
     int number_of_steps;      // total number of steps this motor can take
     long speed; // we need to store the current speed in order to change the speed after changing microstepping
+    unsigned int current; // wen store the current for further reference
         
     unsigned long last_step_time;      // time stamp in ms of when the last step was taken
     unsigned long next_step_time;      // time stamp in ms of when the last step was taken
