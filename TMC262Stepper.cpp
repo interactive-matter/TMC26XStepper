@@ -83,7 +83,7 @@
 //definitions for stall guard2 current register
 #define STALL_GUARD_FILTER_ENABLED 0x10000ul
 #define STALL_GUARD_TRESHHOLD_VALUE_PATTERN 0x17F00ul
-#define CURRENT_SCALING_PATTERN 0xFul
+#define CURRENT_SCALING_PATTERN 0x1Ful
 #define STALL_GUARD_CONFIG_PATTERN 0x17F00ul
 #define STALL_GUARD_VALUE_PATTERN 0x7F00ul
 
@@ -111,7 +111,7 @@
  * dir_pin - the pin where the direction pin is connected
  * step_pin - the pin where the step pin is connected
  */
-TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int rms_current)
+TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor)
 {
 	//we are not started yet
 	started=0;
@@ -120,6 +120,9 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	this->cs_pin=cs_pin;
 	this->dir_pin=dir_pin;
 	this->step_pin = step_pin;
+    
+    //store the current sense resistor value for later use
+    this->resistor = resistor;
 	
 	//initizalize our status values
 	this->steps_left = 0;
@@ -138,7 +141,7 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	driver_configuration = DRIVER_CONFIG_REGISTER | READ_STALL_GUARD_READING;
 
 	//set the current
-	setCurrent(rms_current);
+	setCurrent(current);
 	//set to a conservative start value
 	setConstantOffTimeChopper(7, 54, 13,12,1);
     //set a nice microstepping value
@@ -146,6 +149,7 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
     //save the number of steps
     this->number_of_steps =   number_of_steps;
 }
+
 
 /*
  * start & configure the stepper driver
@@ -278,34 +282,34 @@ char TMC262Stepper::stop(void) {
 }
 
 void TMC262Stepper::setCurrent(unsigned int current) {
-    //store the current
-    this->current = current;
 	//calculate the current scaling from the max current setting (in mA)
-	float mASetting = current;
+	double mASetting = (double)current;
+    double resistor_value = (double) this->resistor;
 	// remove vesense flag
 	this->driver_configuration &= ~(VSENSE);	
 	//this is derrived from I=(cs+1)/32*(Vsense/Rsense)
-    //leading to cs = 32*r/((v+1)*1000)
+    //leading to cs = CS = 32*R*I/V (with V = 0,31V oder 0,165V  and I = 1000*current)
 	//with Rsense=0,15
 	//for vsense = 0,310V (VSENSE not set)
 	//or vsense = 0,165V (VSENSE set)
-	current_scaling = (byte)((mASetting*0.01548387096774)-0.5); //theoretically - 1.0 for better rounding it is 0.5
-	Serial.print("CS: ");
-	Serial.println(current_scaling);
+	current_scaling = (byte)((resistor_value*mASetting*32.0/(0.31*1000.0*1000.0))-0.5); //theoretically - 1.0 for better rounding it is 0.5
 	
 	//check if the current scalingis too low
 	if (current_scaling<16) {
-		this->driver_configuration|=VSENSE;
-		current_scaling = (byte)((mASetting*0.02909090909091)-0.5); //theoretically - 1.0 for better rounding it is 0.5
+		this->driver_configuration |= VSENSE;
+        current_scaling = (byte)((resistor_value*mASetting*32.0/(0.165*1000.0*1000.0))-0.5); //theoretically - 1.0 for better rounding it is 0.5
 //#ifdef DEBUG
 		Serial.print("CS (Vsense=1): ");
 		Serial.println(current_scaling);
+	} else {
+        Serial.print("CS: ");
+        Serial.println(current_scaling);
 //#endif
-	}
+    }
 
 	//do some sanity checks
-	if (current_scaling>32) {
-		current_scaling=32;
+	if (current_scaling>31) {
+		current_scaling=31;
 	}
 	//delete the old value
 	stall_guard2_current_register_value &= ~(CURRENT_SCALING_PATTERN);
@@ -319,8 +323,13 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 }
 
 unsigned int TMC262Stepper::getCurrent(void) {
-    //simply return the current stored earlier
-    return this->current; 
+    //we calculate the current according to the datasheet to be on the safe side
+    //this is not the fastest but the most accurate and illustrative way
+    double result = (double)(stall_guard2_current_register_value & CURRENT_SCALING_PATTERN);
+    double resistor_value = (double)this->resistor;
+    double voltage = (driver_configuration & VSENSE)? 0.165:0.31;
+    result = (result+1.0)/32.0*voltage/resistor_value*1000.0*1000.0;
+    return (unsigned int)result;
 }
 
 void TMC262Stepper::setStallGuardTreshold(char stall_guard_treshold, char stall_guard_filter_enabled) {

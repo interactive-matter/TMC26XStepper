@@ -86,7 +86,8 @@ class TMC262Stepper {
      * \param cs_pin The Arduino pin you have connected the Cient Select Pin (!CS) of the TMC262 for SPI
      * \param dir_pin the number of the Arduino pin the Direction input of the TMC262 is connected
      * \param step_pin the number of the Arduino pin the step pin of the TMC262 driver is connected.
-     * \param rms_current the maximum RMS current to privide to the motor in mA (!). A vlaue of 200 would send up to 200mA to the motor
+     * \param rms_current the maximum current to privide to the motor in mA (!). A value of 200 would send up to 200mA to the motor
+     * \param resistor the current sense resistor in milli Ohm, defaults to ,15 Ohm ( or 150 milli Ohm) as in the TMC260 Arduino Shield
      * TODO doens't it make send to also use the enable pin
      *
      * Keep in mind that you must also call TMC262Stepper.start() in order to configure the stepper driver for use.
@@ -97,7 +98,7 @@ class TMC262Stepper {
      * By default a microstepping of 1/32th is used to provide a smooth motor run, while still giving a good progression per step.
      * You can select a different stepping with setMicrosteps() to aa different value.
      */
-	TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int rms_current);
+	TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor=150);
 	
     /*!
      * \brief configures and starts the TMC262 stepper driver. Before you called this function the stepper driver is in nonfunctional mode.
@@ -180,6 +181,7 @@ class TMC262Stepper {
      * This method can be used to determine if the motor is ready for new movements.
      */
     char isMoving(void);
+    
     /*!
      * \brief Get the number of steps left in the current movement.
      * \return The number of steps left in the movement. This number is always positive.
@@ -261,8 +263,8 @@ class TMC262Stepper {
 	void setRandomOffTime(char value);
     
 	/*!
-     * \brief set the maximum motor current in mA (1000 is an Amp)
-     * \param current the maximum RMS motor current in mA
+     * \brief set the maximum motor current in mA (1000 is 1 Amp)
+     * \param current the maximum motor current in mA
      */
 	void setCurrent(unsigned int current);
     
@@ -404,7 +406,7 @@ class TMC262Stepper {
     unsigned long step_delay;    // delay between steps, in ms, based on speed
     int number_of_steps;      // total number of steps this motor can take
     long speed; // we need to store the current speed in order to change the speed after changing microstepping
-    unsigned int current; // wen store the current for further reference
+    unsigned int resistor; //current sense resitor value in milliohm
         
     unsigned long last_step_time;      // time stamp in ms of when the last step was taken
     unsigned long next_step_time;      // time stamp in ms of when the last step was taken
