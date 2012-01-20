@@ -28,6 +28,7 @@ Slider sgtSlider;
 Button sgtPlus;
 Button sgtMinus;
 Toggle sgFilterToggle;
+Slider currentSlider;
 
 boolean settingStatus=false;
 
@@ -73,6 +74,7 @@ void setup() {
   //adding a button for the filter
   sgFilterToggle = controlP5.addToggle("sgfilter", false, 250, 200, 30, 30);
   sgFilterToggle.setCaptionLabel("Stall GuardFilter");
+  currentSlider = controlP5.addSlider("current",0,1.2,0.4,950,20,20,210);
   //configure the serial connection
   // List all the available serial ports:
   println(Serial.list());

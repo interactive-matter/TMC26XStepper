@@ -67,10 +67,21 @@ void setStallGuardTreshold(int treshold) {
 void setStallGuardFilter(int filter) {
   if (filter) {
     sgFilter=1;
-  } else {
+  } 
+  else {
     sgFilter=0;
   }
   tmc262Stepper.setStallGuardTreshold(sgTreshold,sgFilter);
+}
+
+void setCurrent(int current) {
+  if (current>0 && current <1200) {
+    tmc262Stepper.setCurrent(current);
+  } 
+  else {
+    Serial.print("Improper current {0 ... 1200}: ");
+    Serial.print(current);
+  }
 }
 
 //from http://www.uchobby.com/index.php/2007/11/24/arduino-interrupts/
@@ -108,4 +119,5 @@ ISR(TIMER2_OVF_vect) {
   motor_counter++;
 
 }
+
 

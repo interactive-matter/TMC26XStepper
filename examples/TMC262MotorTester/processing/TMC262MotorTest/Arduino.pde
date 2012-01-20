@@ -64,6 +64,18 @@ void sgfilter(int value) {
   }
 }  
 
+void current(float value) {
+  if (!settingStatus) {
+    int realValue=(int)(value*1000.0);
+    println("current: "+((float)realValue/1000.0)+" = "+realValue);
+    arduinoPort.write("c"+realValue+"\n");
+  }
+}
+
+void setCurrent(int current) {
+  currentSlider.setValue((float)current/1000.0);
+}
+
 void setDirection(int direction) {
   if (direction<0) {
     directionButtons.activate(1);
@@ -139,6 +151,9 @@ void decodeSerial(String line) {
       } 
       else if (statusToken.startsWith("d")) {
         setDirection(getValueOfToken(statusToken, 1));
+      }
+      else if (statusToken.startsWith("c")) {
+        setCurrent(getValueOfToken(statusToken, 1));
       }
     }
   } 

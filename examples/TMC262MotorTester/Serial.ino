@@ -32,12 +32,11 @@ void loopSerial() {
     }
   }
   if (motor_moved) {
-    Serial.print('#');
-      Serial.print("sg");
-      Serial.print(tmc262Stepper.getCurrentStallGuardReading(),DEC);
-      Serial.print(',');
-      Serial.print('p');
-      Serial.print(tmc262Stepper.getMotorPosition(),DEC);
+    Serial.print("#sg");
+    Serial.print(tmc262Stepper.getCurrentStallGuardReading(),DEC);
+    Serial.print(",p");
+    Serial.print(tmc262Stepper.getMotorPosition(),DEC);
+    Serial.println(',');
     motor_moved=0;
   }
   if (motor_counter>STATUS_COUNTER) {
@@ -53,6 +52,9 @@ void loopSerial() {
     Serial.print(',');
     Serial.print('d');
     Serial.print(direction);
+    Serial.print(',');
+    Serial.print("c");
+    Serial.print(tmc262Stepper.getCurrent(),DEC);
     Serial.print(',');
     Serial.print('S');
     Serial.print(tmc262Stepper.getSpeed(),DEC);
@@ -120,6 +122,12 @@ void executeSerialCommand() {
       }
     }
     break;
+  case 'c':
+    {
+      int current = decode(1);
+      setCurrent(current);
+    }
+    break;
   }
   //at the end delete buffer
   inputBufferPosition=0;
@@ -148,6 +156,7 @@ int decode(unsigned char startPosition) {
     return result;
   }
 }
+
 
 
 
