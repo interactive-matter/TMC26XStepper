@@ -31,7 +31,7 @@ Slider fastDecaySlider;
 Slider sineWaveOffsetSlider;
 Toggle currentComparatorToggle;
 //for spread chopper
-//TODO come up with a clever way for hysteresis start/end
+Range hysteresisRange;
 RadioButton hysteresisDecrementButtons;
 
 Slider speedSlider;
