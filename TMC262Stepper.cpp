@@ -297,7 +297,9 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 	
 	//check if the current scalingis too low
 	if (current_scaling<16) {
+        //set the csense bit to get a use half the sense voltage (to support lower motor currents)
 		this->driver_configuration_register_value |= VSENSE;
+        //and recalculate the current setting
         current_scaling = (byte)((resistor_value*mASetting*32.0/(0.165*1000.0*1000.0))-0.5); //theoretically - 1.0 for better rounding it is 0.5
 //#ifdef DEBUG
 		Serial.print("CS (Vsense=1): ");
