@@ -22,7 +22,17 @@ color positionColor = #1a6699; //still to use #8c7f26
 color goodStatusColor = labelColor;
 color badStatusColor = stallGuardColor;
 
-Slider maxCurrentSlider;
+Slider constantOffSlider;
+Slider blankTimeSlider;
+Toggle randomOffTimeToggle;
+RadioButton ChopperModeButtons;
+//for constant off time chopeer
+Slider fastDecaySlider;
+Slider sineWaveOffsetSlider;
+Toggle currentComparatorToggle;
+//for spread chopper
+//TODO come up with a clever way for hysteresis start/end
+RadioButton hysteresisDecrementButtons;
 
 Slider speedSlider;
 Toggle runToggle;
