@@ -105,6 +105,9 @@ void controlEvent(ControlEvent theEvent) {
     if ("direction".equals(theEvent.group().name())) {
       setDirection((int)theEvent.group().value());
     }
+  } else if (theEvent.isTab()) {
+    activeTab = theEvent.tab();
+    println("Tab: "+activeTab.name());
   }
 }
 

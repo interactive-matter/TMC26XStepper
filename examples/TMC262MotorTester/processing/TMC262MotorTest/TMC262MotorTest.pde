@@ -32,6 +32,10 @@ Button sgtMinus;
 Toggle sgFilterToggle;
 Slider currentSlider;
 
+Tab configureTab;
+Tab runTab;
+Tab activeTab;
+
 boolean settingStatus=false;
 
 boolean running = false;
@@ -77,6 +81,25 @@ void setup() {
   sgFilterToggle = controlP5.addToggle("sgfilter", false, 250, 200, 30, 30);
   sgFilterToggle.setCaptionLabel("Stall GuardFilter");
   currentSlider = controlP5.addSlider("current",0.46,1.7,0.4,950,20,20,210);
+  //move those controls to the run configuration
+  runToggle.moveTo("run");
+  directionButtons.moveTo("run");
+  microsteppingButtons.moveTo("run");
+  speedSlider.moveTo("run");
+  sgtSlider.moveTo("run");
+  sgtPlus.moveTo("run");
+  sgtMinus.moveTo("run");
+  sgFilterToggle.moveTo("run");
+  currentSlider.moveTo("run");
+  //save the tabs for later use
+  configureTab = controlP5.getTab("default");
+  runTab = controlP5.getTab("run");
+  //customize the tabs a bit
+  configureTab.setLabel("configure");
+  activeTab = configureTab;
+  controlP5.setTabEventsActive(true);
+  configureTab.activateEvent(true);
+  runTab.activateEvent(true);
   //configure the serial connection
   // List all the available serial ports:
   println(Serial.list());
