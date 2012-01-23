@@ -282,6 +282,7 @@ char TMC262Stepper::stop(void) {
 }
 
 void TMC262Stepper::setCurrent(unsigned int current) {
+    unsigned char current_scaling = 0;
 	//calculate the current scaling from the max current setting (in mA)
 	double mASetting = (double)current;
     double resistor_value = (double) this->resistor;
