@@ -112,24 +112,31 @@ void drawData() {
   textSize(10);
   textAlign(CENTER);
   strokeWeight(1);
-  int channelY = height - 20;
+  int statusY = height - 20;
   int channelAX = width/4;
+  int temperatureX = width/2;
   int channelBX = width/4*3;
   if (channelAStatus==null) {
-    fill(goodChannelColor);
-    text("Channel A: OK",channelAX,channelY);
+    fill(goodStatusColor);
+    text("Channel A: OK",channelAX,statusY);
   } else {
-    fill(badChannelColor);
-    text("Channel A: "+channelAStatus,channelAX,channelY);
+    fill(badStatusColor);
+    text("Channel A: "+channelAStatus,channelAX,statusY);
   }    
   if (channelBStatus==null) {
-    fill(goodChannelColor);
-    text("Channel B: OK",channelBX,channelY);
+    fill(goodStatusColor);
+    text("Channel B: OK",channelBX,statusY);
   } else {
-    fill(badChannelColor);
-    text("Channel B: "+channelBStatus,channelBX,channelY);
+    fill(badStatusColor);
+    text("Channel B: "+channelBStatus,channelBX,statusY);
   }    
-  
+  if (temperatureStatus==null) {
+    fill(goodStatusColor);
+    text("Temperature: OK",temperatureX,statusY);
+  } else {
+    fill(badStatusColor);
+    text("Temperature: "+temperatureStatus,temperatureX,statusY);
+  }    
 }
 
 void drawDataPoints(DataTable table, int minValue, int maxValue) {
