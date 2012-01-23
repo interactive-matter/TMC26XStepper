@@ -45,17 +45,32 @@ void setup() {
   size(1000, 800);
   //load the font
   controlP5 = new ControlP5(this);
+  runTab = controlP5.addTab("run");
+  configureTab=controlP5.getTab("default");
+  //customize the tabs a bit
+  configureTab.setLabel("configure");
+  activeTab = configureTab;
+  controlP5.setTabEventsActive(true);
+  configureTab.activateEvent(true);
+  runTab.activateEvent(true);
+
   //configuring the general UI l&f
+  //the run configuration
   //controlP5.getControlFont().setSize(10); - the font is too small, try to increase it!
   //add a button te let the motor run
   runToggle = controlP5.addToggle("run", false, 20, 20, 30, 30);
+  runToggle.moveTo(runTab);
   //add some directions buttons
-  directionButtons = controlP5.addRadioButton("direction",20,70);
-  directionButtons.addItem("forward",1);
-  directionButtons.addItem("backward",-1);
+  directionButtons = controlP5.addRadioButton("direction", 20, 70);
+  directionButtons.addItem("forward", 1);
+  directionButtons.addItem("backward", -1);
   directionButtons.activate(0);
+  directionButtons.moveTo(runTab);
+  
   // add a vertical slider for speed  
   speedSlider = controlP5.addSlider("speed", 1, 100, 10, 85, 20, 20, 210);
+  speedSlider.moveTo(runTab);
+  
   //ad a multilist for the microstepping setting
   microsteppingButtons = controlP5.addRadioButton("microstepping", 150, 20);
   microsteppingButtons.addItem("1", 1);
@@ -68,38 +83,27 @@ void setup() {
   microsteppingButtons.addItem("128", 128);
   microsteppingButtons.addItem("256", 256);
   microsteppingButtons.showBar();
+  microsteppingButtons.moveTo(runTab);
   // add a vertical slider for stallGuard treshold  
   sgtSlider = controlP5.addSlider("stallguardtreshold", -64, 63, 0, 250, 20, 20, 150);
   sgtSlider.setSliderMode(Slider.FIX);
   sgtSlider.setCaptionLabel("Stall Guard Treshold");
-  sgtPlus = controlP5.addButton("sgtplus",0,300,20,20,20);
+  sgtSlider.moveTo(runTab);
+  sgtPlus = controlP5.addButton("sgtplus", 0, 300, 20, 20, 20);
   sgtPlus.setCaptionLabel("+");
-  sgtMinus = controlP5.addButton("sgtminus",1,300,50,20,20);
+  sgtPlus.moveTo(runTab);
+  sgtMinus = controlP5.addButton("sgtminus", 1, 300, 50, 20, 20);
   sgtMinus.setCaptionLabel("-");
+  sgtMinus.moveTo(runTab);
   //ading some buttons to have finer sg control
   //adding a button for the filter
   sgFilterToggle = controlP5.addToggle("sgfilter", false, 250, 200, 30, 30);
   sgFilterToggle.setCaptionLabel("Stall GuardFilter");
-  currentSlider = controlP5.addSlider("current",0.46,1.7,0.4,950,20,20,210);
-  //move those controls to the run configuration
-  runToggle.moveTo("run");
-  directionButtons.moveTo("run");
-  microsteppingButtons.moveTo("run");
-  speedSlider.moveTo("run");
-  sgtSlider.moveTo("run");
-  sgtPlus.moveTo("run");
-  sgtMinus.moveTo("run");
-  sgFilterToggle.moveTo("run");
-  currentSlider.moveTo("run");
-  //save the tabs for later use
-  configureTab = controlP5.getTab("default");
-  runTab = controlP5.getTab("run");
-  //customize the tabs a bit
-  configureTab.setLabel("configure");
-  activeTab = configureTab;
-  controlP5.setTabEventsActive(true);
-  configureTab.activateEvent(true);
-  runTab.activateEvent(true);
+  sgFilterToggle.moveTo(runTab);
+  
+  currentSlider = controlP5.addSlider("current", 0.46, 1.7, 0.4, 950, 20, 20, 210);
+  currentSlider.moveTo(runTab);
+
   //configure the serial connection
   // List all the available serial ports:
   println(Serial.list());
@@ -118,5 +122,4 @@ void draw() {
   drawData();
   decodeSerial();
 }
-
 
