@@ -331,7 +331,7 @@ class TMC262Stepper {
     
     /*!
      * \brief Return over temperature status of the last status readout
-     * return 0 is everything is OK, TMC_262_OVER_TEMPERATURE_PREWARING if status is reached, TMC_262_OVER_TEMPERATURE_SHUTDOWN is the chip is shutdown, -1 if the status is unknown.
+     * return 0 is everything is OK, TMC262_OVERTEMPERATURE_PREWARING if status is reached, TMC262_OVERTEMPERATURE_SHUTDOWN is the chip is shutdown, -1 if the status is unknown.
      * Keep in mind that this method does not enforce a readout but uses the value of the last status readout.
      * You may want to use getMotorPosition() or getCurrentStallGuardReading() to enforce an updated status readout.
      */
