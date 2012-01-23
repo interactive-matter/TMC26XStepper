@@ -1,5 +1,6 @@
 String channelAStatus=null;
 String channelBStatus=null;
+String temperatureStatus=null;
 
 void speed(int theSpeed) {
   if (!settingStatus) {
@@ -156,13 +157,38 @@ void decodeSerial(String line) {
       }
       else if (statusToken.startsWith("c")) {
         setCurrent(getValueOfToken(statusToken, 1));
-      } else if (statusToken.startsWith("a")) {
+      } 
+      else if (statusToken.startsWith("a")) {
         if (statusToken.charAt(1)=='o') {
           channelAStatus="Open Load";
-        } else if (statusToken.charAt(1)=='g') {
+        } 
+        else if (statusToken.charAt(1)=='g') {
           channelAStatus="Short to Ground!";
-        } else {
+        } 
+        else {
           channelAStatus=null;
+        }
+      } 
+      else if (statusToken.startsWith("b")) {
+        if (statusToken.charAt(1)=='o') {
+          channelBStatus="Open Load";
+        } 
+        else if (statusToken.charAt(1)=='g') {
+          channelBStatus="Short to Ground!";
+        } 
+        else {
+          channelBStatus=null;
+        }
+      } 
+      else if (statusToken.startsWith("x")) {
+        if (statusToken.charAt(1)=='w') {
+          temperatureStatus="Prewarning!";
+        } 
+        else if (statusToken.charAt(1)=='e') {
+          temperatureStatus="Error";
+        } 
+        else {
+          temperatureStatus=null;
         }
       }
     }

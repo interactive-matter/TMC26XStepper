@@ -71,6 +71,34 @@ void loopSerial() {
     Serial.print("f");
     Serial.print(tmc262Stepper.getStallGuardFilter(),DEC);
     Serial.print(',');
+    //detect the winding status
+    if (tmc262Stepper.isOpenLoadA()) {
+      Serial.print("ao,");
+    } 
+    else if(tmc262Stepper.isShortToGroundA()) {
+      Serial.print("ag,");
+    } 
+    else {
+      Serial.print("a-,");
+    }
+    //detect the winding status
+    if (tmc262Stepper.isOpenLoadB()) {
+      Serial.print("bo,");
+    } 
+    else if(tmc262Stepper.isShortToGroundB()) {
+      Serial.print("bg,");
+    } 
+    else {
+      Serial.print("b-,");
+    }
+    char temperature = tmc262Stepper.getOverTemperature();
+    if (temperature==0) {
+      Serial.print("x-,");
+    } else if (temperature==TMC262_OVERTEMPERATURE_PREWARING) {
+      Serial.print("xw,");
+    } else {
+      Serial.print("xe");
+    }
     Serial.println();
   }
 }
@@ -156,6 +184,7 @@ int decode(unsigned char startPosition) {
     return result;
   }
 }
+
 
 
 
