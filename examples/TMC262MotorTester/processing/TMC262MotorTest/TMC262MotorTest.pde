@@ -19,6 +19,8 @@ color valueColor = #f0f0f0;
 color graphBackgroundColor = #131313;
 color stallGuardColor = #991a1a;
 color positionColor = #1a6699; //still to use #8c7f26
+color goodChannelColor = labelColor;
+color badChannelColor = stallGuardColor;
 
 Slider speedSlider;
 Toggle runToggle;

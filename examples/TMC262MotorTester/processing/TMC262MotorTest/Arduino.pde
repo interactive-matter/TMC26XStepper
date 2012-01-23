@@ -1,3 +1,5 @@
+String channelAStatus=null;
+String channelBStatus=null;
 
 void speed(int theSpeed) {
   if (!settingStatus) {
@@ -154,6 +156,14 @@ void decodeSerial(String line) {
       }
       else if (statusToken.startsWith("c")) {
         setCurrent(getValueOfToken(statusToken, 1));
+      } else if (statusToken.startsWith("a")) {
+        if (statusToken.charAt(1)=='o') {
+          channelAStatus="Open Load";
+        } else if (statusToken.charAt(1)=='g') {
+          channelAStatus="Short to Ground!";
+        } else {
+          channelAStatus=null;
+        }
       }
     }
   } 

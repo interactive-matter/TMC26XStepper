@@ -29,7 +29,7 @@ DataTable positionTable = new DataTable(numberOfDataPoints);
 
 
 void setupData() {
-  plotBottom = height-20;
+  plotBottom = height-50;
   plotTop = 300;
 
   plotLeft = 50;
@@ -108,6 +108,28 @@ void drawData() {
       line (plotRight, y, plotRight+3, y);
     }
   }
+  //draw the channel status
+  textSize(10);
+  textAlign(CENTER);
+  strokeWeight(1);
+  int channelY = height - 20;
+  int channelAX = width/4;
+  int channelBX = width/4*3;
+  if (channelAStatus==null) {
+    fill(goodChannelColor);
+    text("Channel A: OK",channelAX,channelY);
+  } else {
+    fill(badChannelColor);
+    text("Channel A: "+channelAStatus,channelAX,channelY);
+  }    
+  if (channelBStatus==null) {
+    fill(goodChannelColor);
+    text("Channel B: OK",channelBX,channelY);
+  } else {
+    fill(badChannelColor);
+    text("Channel B: "+channelBStatus,channelBX,channelY);
+  }    
+  
 }
 
 void drawDataPoints(DataTable table, int minValue, int maxValue) {
