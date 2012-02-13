@@ -69,8 +69,8 @@ void setup() {
   //configuring the general UI l&f
   //the configuration UI
 
-
   setupRunConfig();
+  setupChooperConfig();
 
   //configure the serial connection
   // List all the available serial ports:
@@ -96,14 +96,22 @@ void controlEvent(ControlEvent theEvent) {
   if (theEvent.isGroup() && !settingStatus) {
     if ("microstepping".equals(theEvent.group().name())) { 
       microstepping((int)theEvent.group().value());
-    }
+    } else 
     if ("direction".equals(theEvent.group().name())) {
       setDirection((int)theEvent.group().value());
+    } else if ("decrement".equals(theEvent.group().name())) {
+      setHysteresisDecrement((int)theEvent.group().value());
     }
   } 
   else if (theEvent.isTab()) {
     activeTab = theEvent.tab();
     println("Tab: "+activeTab.name());
+  } 
+  else if (theEvent.controller().name().equals("hysteresisrange")) {
+    // min and max values are stored in an array.
+    // access this array with controller().arrayValue().
+    // min is at index 0, max is at index 1.
+    setHysteresis(int(theEvent.controller().arrayValue()[0]), int(theEvent.controller().arrayValue()[1]));
   }
 }
 
