@@ -75,6 +75,13 @@ void run(int value) {
   }
 }
 
+void enabled(int value) {
+  if (!settingStatus) {
+    println("enabled: "+value);
+    arduinoPort.write("e"+value+"\n");
+  }
+}
+
 void microstepping(int value) {
   if (!settingStatus) {
     println("microstepping: "+value);
