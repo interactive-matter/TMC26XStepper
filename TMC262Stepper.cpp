@@ -61,7 +61,7 @@
 //definitions for the chopper config register
 #define CHOPPER_MODE_STANDARD 0x0ul
 #define CHOPPER_MODE_T_OFF_FAST_DECAY 0x4000ul
-
+#define T_OFF_PATTERN 0xful
 #define RANDOM_TOFF_TIME 0x2000ul
 #define BLANK_TIMING_PATTERN 0x18000ul
 #define BLANK_TIMING_SHIFT 15
@@ -624,6 +624,14 @@ void TMC262Stepper::setRandomOffTime(char value) {
 		send262(driver_control_register_value);
 	}	
 }	
+
+boolean TMC262Stepper::isEnabled() {
+    if (chopper_config_register & T_OFF_PATTERN) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 /*
  * reads a value from the TMC262 status register. The value is not obtained directly but can then 

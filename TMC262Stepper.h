@@ -389,6 +389,12 @@ class TMC262Stepper {
      * \sa setStallGuardTreshold() for tuning the readout to sensible ranges.
      */
 	boolean isStallGuardReached(void);
+    
+    /*!
+     *\brief checks if the output bridges are enabled. If the bridges are not enabled the motor can run freely
+     *\return true if the bridges and by that the motor driver are enabled, false if not.
+     */
+    boolean isEnabled();
 
     /*!
      * \brief Prints out all the inforamtion that can be found in the last status read out - it does not force a status readout. The result is printed via Serial
