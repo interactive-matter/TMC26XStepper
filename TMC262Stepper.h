@@ -433,6 +433,7 @@ class TMC262Stepper {
 	//status values 
 	char started; //if the stepper has been started yet
 	int microsteps; //the current number of micro steps
+    char constant_off_time; //we need to remember this value in order to enable and disable the motor
 	
 	//SPI sender
 	inline void send262(unsigned long datagram);

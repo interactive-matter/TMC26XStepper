@@ -469,6 +469,8 @@ void TMC262Stepper::setConstantOffTimeChopper(char constant_off_time, char blank
 	} else if (constant_off_time>15) {
 		constant_off_time=15;
 	}
+    //save the constant off time
+    this->constant_off_time = constant_off_time;
 	char blank_value;
 	//calculate the value acc to the clock cycles
 	if (blank_time>=54) {
@@ -546,6 +548,8 @@ void TMC262Stepper::setSpreadCycleChopper(char constant_off_time, char blank_tim
 	} else if (constant_off_time>15) {
 		constant_off_time=15;
 	}
+    //save the constant off time
+    this->constant_off_time = constant_off_time;
 	char blank_value;
 	//calculate the value acc to the clock cycles
 	if (blank_time>=54) {
