@@ -37,6 +37,7 @@ RadioButton hysteresisDecrementButtons;
 Slider speedSlider;
 Toggle runToggle;
 RadioButton directionButtons;
+Toggle enabledToggle;
 RadioButton microsteppingButtons;
 Slider sgtSlider;
 Button sgtPlus;

@@ -10,6 +10,8 @@ void setupRunConfig() {
   directionButtons.addItem("backward", -1);
   directionButtons.activate(0);
   directionButtons.moveTo(runTab);
+  enabledToggle = controlP5.addToggle("enabled", false, 20, 220, 30, 30);
+  enabledToggle.moveTo(runTab);
 
   // add a vertical slider for speed  
   speedSlider = controlP5.addSlider("speed", 1, 100, 10, 85, 40, 20, 210);
