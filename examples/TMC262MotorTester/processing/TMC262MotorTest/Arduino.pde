@@ -28,6 +28,14 @@ void decodeSerial(String line) {
       else if ("r".equals(statusToken)) {
         runToggle.setValue(1);
       } 
+      else if (statusToken.startsWith("e")) {
+        int enabled = getValueOfToken(statusToken, 1);
+        if (enabled!=0) {
+          enabledToggle.setValue(1);
+        } else {
+          enabledToggle.setValue(0);
+        }
+      }
       else if (statusToken.startsWith("S")) {
         speedSlider.setValue(getValueOfToken(statusToken, 1));
       } 
