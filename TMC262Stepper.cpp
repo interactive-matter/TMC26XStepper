@@ -634,7 +634,7 @@ void TMC262Stepper::setEnabled(boolean enabled) {
     }
     //if not enabled we don't have to do anything since we already delete t_off from the register
 	if (started) {
-		send262(driver_control_register_value);
+		send262(chopper_config_register);
 	}	
 }
 
