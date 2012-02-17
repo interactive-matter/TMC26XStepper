@@ -105,7 +105,7 @@ void loopSerial() {
       Serial.println("e1,");
     } 
     else {
-      Serial.println("e0");
+      Serial.println("e0,");
     }
     Serial.println();
   }
