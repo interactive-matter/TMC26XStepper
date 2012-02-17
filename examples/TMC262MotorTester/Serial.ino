@@ -94,10 +94,18 @@ void loopSerial() {
     char temperature = tmc262Stepper.getOverTemperature();
     if (temperature==0) {
       Serial.print("x-,");
-    } else if (temperature==TMC262_OVERTEMPERATURE_PREWARING) {
+    } 
+    else if (temperature==TMC262_OVERTEMPERATURE_PREWARING) {
       Serial.print("xw,");
-    } else {
-      Serial.print("xe");
+    } 
+    else {
+      Serial.print("xe,");
+    }
+    if (tmc262Stepper.isEnabled()) {
+      Serial.println("e1,");
+    } 
+    else {
+      Serial.println("e0");
     }
     Serial.println();
   }
@@ -156,13 +164,14 @@ void executeSerialCommand() {
       setCurrent(current);
     }
     break;
-   case 'e':
-     int enabled = decode(1);
-     if (enabled) {
-       tmc262Stepper.setEnabled(true);
-     } else {
-       tmc262Stepper.setEnabled(false);
-     }
+  case 'e':
+    int enabled = decode(1);
+    if (enabled) {
+      tmc262Stepper.setEnabled(true);
+    } 
+    else {
+      tmc262Stepper.setEnabled(false);
+    }
   }
   //at the end delete buffer
   inputBufferPosition=0;
@@ -191,6 +200,7 @@ int decode(unsigned char startPosition) {
     return result;
   }
 }
+
 
 
 
