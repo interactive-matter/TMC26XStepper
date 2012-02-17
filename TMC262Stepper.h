@@ -391,6 +391,12 @@ class TMC262Stepper {
 	boolean isStallGuardReached(void);
     
     /*!
+     *\brief enables or disables the motor driver bridges. If disabled the motor can run freely. If enabled not.
+     *\param enabled a boolean value true if the motor should be enabled, false otherwise.
+     */
+    void setEnabled(boolean enabled);
+    
+    /*!
      *\brief checks if the output bridges are enabled. If the bridges are not enabled the motor can run freely
      *\return true if the bridges and by that the motor driver are enabled, false if not.
      */

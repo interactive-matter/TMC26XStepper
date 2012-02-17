@@ -625,6 +625,19 @@ void TMC262Stepper::setRandomOffTime(char value) {
 	}	
 }	
 
+void TMC262Stepper::setEnabled(boolean enabled) {
+    //delete the t_off in the chopper config to get sure
+    chopper_config_register &= ~(T_OFF_PATTERN);
+    if (enabled) {
+        //and set the t_off time
+        chopper_config_register |= this->constant_off_time;
+    }
+    //if not enabled we don't have to do anything since we already delete t_off from the register
+	if (started) {
+		send262(driver_control_register_value);
+	}	
+}
+
 boolean TMC262Stepper::isEnabled() {
     if (chopper_config_register & T_OFF_PATTERN) {
         return true;
