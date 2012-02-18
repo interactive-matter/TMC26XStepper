@@ -4,10 +4,18 @@ int sgTreshold = 4;
 int sgFilter = 0;
 int direction = 1;
 
+char chopperMode = 0; //0 for spread, 1 for constant off
+char t_off = 2;
+char t_blank = 24;
+char fast_decay = 8;
+char wave_offset = 6;
+char comparator = 0;
+
+
 void startMotor() {
   Serial.println("Configuring stepper driver");
   //char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement
-  tmc262Stepper.setSpreadCycleChopper(2,24,8,6,0);
+  tmc262Stepper.setSpreadCycleChopper(t_off,t_blank,fast_decay,wave_offset,comparator);
   tmc262Stepper.setRandomOffTime(0);
 
   tmc262Stepper.setMicrosteps(32);
