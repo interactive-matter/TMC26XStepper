@@ -108,18 +108,18 @@ void loopSerial() {
       Serial.print("e0,");
     }
     //write out the current chopper config
-    Serial.print("cm");
+    Serial.print("Cm");
     Serial.print(chopperMode,DEC);
-    Serial.print(",co");
+    Serial.print(",Co");
     Serial.print(t_off,DEC);
-    Serial.print(",cb");
+    Serial.print(",Cb");
     Serial.print(t_blank,DEC);
     if (chopperMode==0) {
-      Serial.print(",cs");
+      Serial.print(",Cs");
       Serial.print(h_start,DEC);
-      Serial.print(",ce");
+      Serial.print(",Ce");
       Serial.print(h_end,DEC);
-      Serial.print(",cd");
+      Serial.print(",Cd");
       Serial.print(h_decrement,DEC);
     }
     Serial.print(',');

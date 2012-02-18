@@ -37,3 +37,19 @@ void setHysteresis(int start, int end) {
 void setHysteresisDecrement(int theValue) {
   println("Hysteresis decrement "+theValue);
 }
+
+void setHystDecrement(int value) {
+  if (value>=0 && value<=3) {
+    hysteresisDecrementButtons.activate(value);  
+  } else {
+    println("this is no proper hysteresis decerement value: "+value);
+  }
+}
+
+void setHystStart(int value) {
+   hysteresisRange.setHighValue(value);   
+}
+
+void setHystEnd(int value) {
+   hysteresisRange.setLowValue(value);   
+}

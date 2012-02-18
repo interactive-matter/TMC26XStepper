@@ -93,6 +93,17 @@ void decodeSerial(String line) {
           temperatureStatus=null;
         }
       }
+      else if (statusToken.startsWith("Cm")) {
+        //chopper mode is currently ignored
+      } else if (statusToken.startsWith("Co")) {
+        constantOffSlider.setValue(getValueOfToken(statusToken, 2));
+      } else if (statusToken.startsWith("Cs")) {
+        setHystStart(getValueOfToken(statusToken, 2));
+      } else if (statusToken.startsWith("Ce")) {
+        setHystEnd(getValueOfToken(statusToken, 2));
+      } else if (statusToken.startsWith("Cd")) {
+        setHystDecrement(getValueOfToken(statusToken, 2));
+      }
     }
   } 
   else {
