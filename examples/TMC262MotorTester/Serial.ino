@@ -108,7 +108,9 @@ void loopSerial() {
       Serial.print("e0,");
     }
     //write out the current chopper config
-    Serial.print("co");
+    Serial.print("cm");
+    Serial.print(chopperMode,DEC);
+    Serial.print(",co");
     Serial.print(t_off,DEC);
     Serial.print(",cb");
     Serial.print(t_blank,DEC);
