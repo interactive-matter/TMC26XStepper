@@ -120,6 +120,7 @@ void loopSerial() {
       Serial.print(",cd");
       Serial.print(h_decrement,DEC);
     }
+    Serial.print(',');
     Serial.println();
   }
 }
