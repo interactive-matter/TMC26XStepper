@@ -102,10 +102,23 @@ void loopSerial() {
       Serial.print("xe,");
     }
     if (tmc262Stepper.isEnabled()) {
-      Serial.println("e1,");
+      Serial.print("e1,");
     } 
     else {
-      Serial.println("e0,");
+      Serial.print("e0,");
+    }
+    //write out the current chopper config
+    Serial.print("co");
+    Serial.print(t_off,DEC);
+    Serial.print(",cb");
+    Serial.print(t_blank,DEC);
+    if (chopperMode==0) {
+      Serial.print(",cs");
+      Serial.print(h_start,DEC);
+      Serial.print(",ce");
+      Serial.print(h_end,DEC);
+      Serial.print(",cd");
+      Serial.print(h_decrement,DEC);
     }
     Serial.println();
   }
