@@ -81,7 +81,7 @@ void hysteresisstart(int start) {
 
 void hysteresisend(int end) {
   if (!settingStatus) {
-    if (end>=-3 && end>=12) {
+    if (end>=-3 && end<=12) {
       println("hystereis end "+end);
       arduinoPort.write("Ce"+end+"\n");
     }
@@ -90,7 +90,13 @@ void hysteresisend(int end) {
 
 void setHysteresisDecrement(int theValue) {
   if (!settingStatus) {
-    println("Hysteresis decrement "+theValue);
+    if (theValue>=0 && theValue<=3) {
+      println("Hysteresis decrement "+theValue);
+      arduinoPort.write("Cd"+theValue+"\n");
+    } 
+    else {
+      println("cannot set decrement to "+theValue);
+    }
   }
 }
 
