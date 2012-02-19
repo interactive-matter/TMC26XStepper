@@ -22,28 +22,6 @@ color positionColor = #1a6699; //still to use #8c7f26
 color goodStatusColor = labelColor;
 color badStatusColor = stallGuardColor;
 
-Slider constantOffSlider;
-Slider blankTimeSlider;
-Toggle randomOffTimeToggle;
-RadioButton ChopperModeButtons;
-//for constant off time chopeer
-Slider fastDecaySlider;
-Slider sineWaveOffsetSlider;
-Toggle currentComparatorToggle;
-//for spread chopper
-Range hysteresisRange;
-RadioButton hysteresisDecrementButtons;
-
-Slider speedSlider;
-Toggle runToggle;
-RadioButton directionButtons;
-Toggle enabledToggle;
-RadioButton microsteppingButtons;
-Slider sgtSlider;
-Button sgtPlus;
-Button sgtMinus;
-Toggle sgFilterToggle;
-Slider currentSlider;
 
 Tab configureTab;
 Tab runTab;
@@ -109,11 +87,5 @@ void controlEvent(ControlEvent theEvent) {
     activeTab = theEvent.tab();
     println("Tab: "+activeTab.name());
   } 
-  else if (theEvent.controller().name().equals("hysteresisrange")) {
-    // min and max values are stored in an array.
-    // access this array with controller().arrayValue().
-    // min is at index 0, max is at index 1.
-    setHysteresis(int(theEvent.controller().arrayValue()[0]), int(theEvent.controller().arrayValue()[1]));
-  }
 }
 

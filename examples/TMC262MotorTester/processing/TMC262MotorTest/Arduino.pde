@@ -104,10 +104,10 @@ void decodeSerial(String line) {
         blankTimeSlider.setValue(getValueOfToken(statusToken, 2));
       } 
       else if (statusToken.startsWith("Cs")) {
-        setHystStart(getValueOfToken(statusToken, 2));
+        hysteresisStartSlider.setValue(getValueOfToken(statusToken, 2));
       } 
       else if (statusToken.startsWith("Ce")) {
-        setHystEnd(getValueOfToken(statusToken, 2));
+        hysteresisEndSlider.setValue(getValueOfToken(statusToken, 2));
       } 
       else if (statusToken.startsWith("Cd")) {
         setHystDecrement(getValueOfToken(statusToken, 2));

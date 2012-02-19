@@ -1,3 +1,16 @@
+
+Slider speedSlider;
+Toggle runToggle;
+RadioButton directionButtons;
+Toggle enabledToggle;
+RadioButton microsteppingButtons;
+Slider sgtSlider;
+Button sgtPlus;
+Button sgtMinus;
+Toggle sgFilterToggle;
+Slider currentSlider;
+
+
 void setupRunConfig() {
   //the run configuration
   //controlP5.getControlFont().setSize(10); - the font is too small, try to increase it!

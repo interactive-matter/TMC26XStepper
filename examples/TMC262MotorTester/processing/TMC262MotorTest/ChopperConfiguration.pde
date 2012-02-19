@@ -1,3 +1,16 @@
+Slider constantOffSlider;
+Slider blankTimeSlider;
+Toggle randomOffTimeToggle;
+RadioButton ChopperModeButtons;
+//for constant off time chopeer
+Slider fastDecaySlider;
+Slider sineWaveOffsetSlider;
+Toggle currentComparatorToggle;
+//for spread chopper
+Slider hysteresisStartSlider;
+Slider hysteresisEndSlider;
+RadioButton hysteresisDecrementButtons;
+
 PImage spreadChopperImage;
 
 void setupChooperConfig() {
@@ -11,11 +24,15 @@ void setupChooperConfig() {
   blankTimeSlider.setCaptionLabel("Blank Time");
   blankTimeSlider.moveTo(configureTab);
 
-  hysteresisRange =  controlP5.addRange("hysteresisrange", 0, 18, 2, 8, 15, 120, 400, 20);
-  hysteresisRange.setCaptionLabel("hysteresis start & end");
-  hysteresisRange.moveTo(configureTab);
+  hysteresisStartSlider =  controlP5.addSlider("hysteresisstart", 0, 8, 2, 15, 120, 400, 20);
+  hysteresisStartSlider.setCaptionLabel("Hysteresis Start");
+  hysteresisStartSlider.moveTo(configureTab);
+  
+  hysteresisEndSlider =  controlP5.addSlider("hysteresisend", -3, 12, 2, 15, 160, 400, 20);
+  hysteresisEndSlider.setCaptionLabel("Hysteresis End");
+  hysteresisEndSlider.moveTo(configureTab);
 
-  hysteresisDecrementButtons =controlP5.addRadioButton("decrement", 15, 160);
+  hysteresisDecrementButtons =controlP5.addRadioButton("decrement", 15, 200);
   hysteresisDecrementButtons.addItem("fastest", 0);
   hysteresisDecrementButtons.addItem("fast", 1);
   hysteresisDecrementButtons.addItem("medium", 2);
@@ -53,9 +70,15 @@ void blanktime(int theValue) {
   }
 }
 
-void setHysteresis(int start, int end) {
+void hysteresisstart(int start) {
   if (!settingStatus) {
-    println("hystereis from "+start+" to "+end);
+    println("hystereis start "+start);
+  }
+}
+
+void hysteresisend(int end) {
+  if (!settingStatus) {
+    println("hystereis end "+end);
   }
 }
 
@@ -72,13 +95,5 @@ void setHystDecrement(int value) {
   else {
     println("this is no proper hysteresis decerement value: "+value);
   }
-}
-
-void setHystStart(int value) {
-  hysteresisRange.setHighValue(value);
-}
-
-void setHystEnd(int value) {
-  hysteresisRange.setLowValue(value);
 }
 
