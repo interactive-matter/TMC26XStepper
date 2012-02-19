@@ -23,33 +23,43 @@ void setupChooperConfig() {
 }
 
 void constantoff(int theValue) {
-  println("Constant off "+theValue);
+  if (!settingStatus) {
+    println("Constant off "+theValue);
+  }
 }
 
 void blanktime(int theValue) {
-  println("blank time "+theValue);
+  if (!settingStatus) {
+    println("blank time "+theValue);
+  }
 }
 
 void setHysteresis(int start, int end) {
-  println("hystereis from "+start+" to "+end);
+  if (!settingStatus) {
+    println("hystereis from "+start+" to "+end);
+  }
 }
 
 void setHysteresisDecrement(int theValue) {
-  println("Hysteresis decrement "+theValue);
+  if (!settingStatus) {
+    println("Hysteresis decrement "+theValue);
+  }
 }
 
 void setHystDecrement(int value) {
   if (value>=0 && value<=3) {
-    hysteresisDecrementButtons.activate(value);  
-  } else {
+    hysteresisDecrementButtons.activate(value);
+  } 
+  else {
     println("this is no proper hysteresis decerement value: "+value);
   }
 }
 
 void setHystStart(int value) {
-   hysteresisRange.setHighValue(value);   
+  hysteresisRange.setHighValue(value);
 }
 
 void setHystEnd(int value) {
-   hysteresisRange.setLowValue(value);   
+  hysteresisRange.setLowValue(value);
 }
+
