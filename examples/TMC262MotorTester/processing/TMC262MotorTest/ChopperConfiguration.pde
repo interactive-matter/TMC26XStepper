@@ -27,7 +27,7 @@ void setupChooperConfig() {
   hysteresisStartSlider =  controlP5.addSlider("hysteresisstart", 0, 8, 2, 15, 120, 400, 20);
   hysteresisStartSlider.setCaptionLabel("Hysteresis Start");
   hysteresisStartSlider.moveTo(configureTab);
-  
+
   hysteresisEndSlider =  controlP5.addSlider("hysteresisend", -3, 12, 2, 15, 160, 400, 20);
   hysteresisEndSlider.setCaptionLabel("Hysteresis End");
   hysteresisEndSlider.moveTo(configureTab);
@@ -65,35 +65,39 @@ void blanktime(int theValue) {
   if (!settingStatus) {
     if (theValue>=0 && theValue<=3) {
       println("blank time "+theValue);
-      arduinoPort.write("cb"+theValue+"\n");
+      arduinoPort.write("Cb"+theValue+"\n");
     }
   }
 }
 
 void hysteresisstart(int start) {
   if (!settingStatus) {
-    println("hystereis start "+start);
+    if (start>=1 && start<=8)
+      println("hystereis start "+start);
+    arduinoPort.write("Cs"+\start+"\n");
   }
 }
 
 void hysteresisend(int end) {
   if (!settingStatus) {
-    println("hystereis end "+end);
+    if (end>=-3 && end>=12) {
+      println("hystereis end "+end);
+      arduinoPort.write("Ce"+end+"\n");
+    }
   }
-}
 
-void setHysteresisDecrement(int theValue) {
-  if (!settingStatus) {
-    println("Hysteresis decrement "+theValue);
+  void setHysteresisDecrement(int theValue) {
+    if (!settingStatus) {
+      println("Hysteresis decrement "+theValue);
+    }
   }
-}
 
-void setHystDecrement(int value) {
-  if (value>=0 && value<=3) {
-    hysteresisDecrementButtons.activate(value);
-  } 
-  else {
-    println("this is no proper hysteresis decerement value: "+value);
+  void setHystDecrement(int value) {
+    if (value>=0 && value<=3) {
+      hysteresisDecrementButtons.activate(value);
+    } 
+    else {
+      println("this is no proper hysteresis decerement value: "+value);
+    }
   }
-}
 

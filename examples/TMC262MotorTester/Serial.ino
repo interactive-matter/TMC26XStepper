@@ -192,26 +192,53 @@ void executeSerialCommand() {
     }
     break;
   case 'C':
-      switch(inputBuffer[1]) {
-      case 'o':
-        {
-          int value = decode(2);
-          if (value>0 && value<16) {
-            t_off=value;
-            updateChopper();
-          }
+    switch(inputBuffer[1]) {
+    case 'o':
+      {
+        int value = decode(2);
+        if (value>0 && value<16) {
+          t_off=value;
+          updateChopper();
         }
-        break;
-      case 'b':
-        {
-          int value = decode(2);
-          if (value>=0 && value<=3) {
-            t_blank=value;
-            updateChopper();
-          }
-        }
-        break;
       }
+      break;
+    case 'b':
+      {
+        int value = decode(2);
+        if (value>=0 && value<=3) {
+          t_blank=value;
+          updateChopper();
+        }
+      }
+      break;
+    case 's':
+      {
+        int value = decode(2);
+        if (value>=0 && value<=8) {
+          h_start=value;
+          updateChopper();
+        }
+      }
+      break;
+    case 'e':
+      {
+        int value = decode(2);
+        if (value>=-3 && value<=12) {
+          h_end=value;
+          updateChopper();
+        }
+      }
+      break;
+    case 'd':
+      {
+        int value = decode(2);
+        if (value>=0 && value<=3) {
+          h_decrement=value;
+          updateChopper();
+        }
+      }
+      break;
+    }
     break;
   }
   //at the end delete buffer
@@ -241,6 +268,7 @@ int decode(unsigned char startPosition) {
     return result;
   }
 }
+
 
 
 
