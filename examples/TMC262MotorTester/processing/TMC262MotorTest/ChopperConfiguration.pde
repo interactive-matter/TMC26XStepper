@@ -1,3 +1,5 @@
+PImage spreadChopperImage;
+
 void setupChooperConfig() {
   // add a vertical slider for speed  
   constantOffSlider = controlP5.addSlider("constantoff", 1, 15, 1, 15, 40, 400, 20);
@@ -20,17 +22,34 @@ void setupChooperConfig() {
   hysteresisDecrementButtons.addItem("slow", 3);
   hysteresisDecrementButtons.showBar();
   hysteresisDecrementButtons.moveTo(configureTab);
+
+  spreadChopperImage = loadImage("hysteresis.png");
+}
+
+void drawChopper() {
+  if (activeTab!=null && "default".equals(activeTab.name())) {
+    image(spreadChopperImage, 200, 400);
+  }
 }
 
 void constantoff(int theValue) {
   if (!settingStatus) {
-    println("Constant off "+theValue);
+    if (theValue>0 && theValue<16) {
+      println("Constant off "+theValue);
+      arduinoPort.write("cO"+theValue+"\n");
+    } 
+    else {
+      println("invalid blank time of "+theValue);
+    }
   }
 }
 
 void blanktime(int theValue) {
   if (!settingStatus) {
-    println("blank time "+theValue);
+    if (theValue>=0 && theValue<=3) {
+      println("blank time "+theValue);
+      arduinoPort.write("cb"+theValue+"\n");
+    }
   }
 }
 

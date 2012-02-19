@@ -92,6 +92,13 @@ void setCurrent(int current) {
   }
 }
 
+void updateChopper() {
+  //we can do only spread now
+  if (chopperMode==0) {
+    tmc262Stepper.setSpreadCycleChopper(t_off,t_blank,h_start,h_end,h_decrement);
+  }    
+}
+
 //from http://www.uchobby.com/index.php/2007/11/24/arduino-interrupts/
 //Setup Timer2.s
 //Configures the ATMega168 8-Bit Timer2 to generate an interrupt
@@ -127,5 +134,7 @@ ISR(TIMER2_OVF_vect) {
   motor_counter++;
 
 }
+
+
 
 

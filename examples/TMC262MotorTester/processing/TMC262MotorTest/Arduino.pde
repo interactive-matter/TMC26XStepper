@@ -32,7 +32,8 @@ void decodeSerial(String line) {
         int enabled = getValueOfToken(statusToken, 1);
         if (enabled!=0) {
           enabledToggle.setValue(1);
-        } else {
+        } 
+        else {
           enabledToggle.setValue(0);
         }
       }
@@ -95,13 +96,20 @@ void decodeSerial(String line) {
       }
       else if (statusToken.startsWith("Cm")) {
         //chopper mode is currently ignored
-      } else if (statusToken.startsWith("Co")) {
+      } 
+      else if (statusToken.startsWith("Co")) {
         constantOffSlider.setValue(getValueOfToken(statusToken, 2));
-      } else if (statusToken.startsWith("Cs")) {
+      }  
+      else if (statusToken.startsWith("Cb")) {
+        blankTimeSlider.setValue(getValueOfToken(statusToken, 2));
+      } 
+      else if (statusToken.startsWith("Cs")) {
         setHystStart(getValueOfToken(statusToken, 2));
-      } else if (statusToken.startsWith("Ce")) {
+      } 
+      else if (statusToken.startsWith("Ce")) {
         setHystEnd(getValueOfToken(statusToken, 2));
-      } else if (statusToken.startsWith("Cd")) {
+      } 
+      else if (statusToken.startsWith("Cd")) {
         setHystDecrement(getValueOfToken(statusToken, 2));
       }
     }

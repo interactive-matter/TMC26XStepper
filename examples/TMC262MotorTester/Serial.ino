@@ -181,13 +181,38 @@ void executeSerialCommand() {
     }
     break;
   case 'e':
-    int enabled = decode(1);
-    if (enabled) {
-      tmc262Stepper.setEnabled(true);
-    } 
-    else {
-      tmc262Stepper.setEnabled(false);
+    {
+      int enabled = decode(1);
+      if (enabled) {
+        tmc262Stepper.setEnabled(true);
+      } 
+      else {
+        tmc262Stepper.setEnabled(false);
+      }
     }
+    break;
+  case 'C':
+      switch(inputBuffer[1]) {
+      case 'o':
+        {
+          int value = decode(2);
+          if (value>0 && value<16) {
+            t_off=value;
+            updateChopper();
+          }
+        }
+        break;
+      case 'b':
+        {
+          int value = decode(2);
+          if (value>=0 && value<=3) {
+            t_blank=value;
+            updateChopper();
+          }
+        }
+        break;
+      }
+    break;
   }
   //at the end delete buffer
   inputBufferPosition=0;
@@ -216,6 +241,11 @@ int decode(unsigned char startPosition) {
     return result;
   }
 }
+
+
+
+
+
 
 
 

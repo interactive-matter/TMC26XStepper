@@ -88,6 +88,7 @@ void setup() {
 
 void draw() {
   background(graphBackgroundColor);
+  drawChopper();
   drawData();
   decodeSerial();
 }
