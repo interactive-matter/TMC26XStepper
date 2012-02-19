@@ -141,6 +141,9 @@ void current(float value) {
     int realValue=(int)(value*1000.0);
     println("current: "+((float)realValue/1000.0)+" = "+realValue);
     arduinoPort.write("c"+realValue+"\n");
+    if (activeTab!=null && "run".equals(activeTab.name())) {
+      motorCurrentBox.setValue(value);
+    }
   }
 }
 
