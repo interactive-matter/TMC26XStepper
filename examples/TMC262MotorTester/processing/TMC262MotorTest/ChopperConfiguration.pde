@@ -72,9 +72,10 @@ void blanktime(int theValue) {
 
 void hysteresisstart(int start) {
   if (!settingStatus) {
-    if (start>=1 && start<=8)
+    if (start>=1 && start<=8) {
       println("hystereis start "+start);
-    arduinoPort.write("Cs"+\start+"\n");
+      arduinoPort.write("Cs"+start+"\n");
+    }
   }
 }
 
@@ -85,19 +86,20 @@ void hysteresisend(int end) {
       arduinoPort.write("Ce"+end+"\n");
     }
   }
+}
 
-  void setHysteresisDecrement(int theValue) {
-    if (!settingStatus) {
-      println("Hysteresis decrement "+theValue);
-    }
+void setHysteresisDecrement(int theValue) {
+  if (!settingStatus) {
+    println("Hysteresis decrement "+theValue);
   }
+}
 
-  void setHystDecrement(int value) {
-    if (value>=0 && value<=3) {
-      hysteresisDecrementButtons.activate(value);
-    } 
-    else {
-      println("this is no proper hysteresis decerement value: "+value);
-    }
+void setHystDecrement(int value) {
+  if (value>=0 && value<=3) {
+    hysteresisDecrementButtons.activate(value);
+  } 
+  else {
+    println("this is no proper hysteresis decerement value: "+value);
   }
+}
 
