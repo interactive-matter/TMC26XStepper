@@ -682,6 +682,27 @@ boolean TMC262Stepper::isCoolStepEnabled(void) {
     return this->cool_step_enabled;
 }
 
+unsigned char TMC262Stepper::getCoolStepLowerSgTreshhold() {
+    //we return our internally stored value - in order to provide the correct setting even if cool step is not enabled
+    return this->cool_step_lower_treshhold;
+}
+
+unsigned char TMC262Stepper::getCoolStepUpperSgTreshhold() {
+    return (unsigned char)((cool_step_register_value & SE_MAX_PATTERN)>>8);
+}
+
+unsigned char TMC262Stepper::getCoolStepNumberOfSGReadings() {
+    return (unsigned char)((cool_step_register_value & CURRENT_DOWN_STEP_SPEED_PATTERN)>>13);
+}
+
+unsigned char TMC262Stepper::getCoolStepCurrentIncrementSize() {
+    return (unsigned char)((cool_step_register_value & SE_CURRENT_STEP_WIDTH_PATTERN)>>5);
+}
+
+unsigned char TMC262Stepper::getCoolStepLowerCurrentLimit() {
+    return (unsigned char)((cool_step_register_value & MINIMUM_CURRENT_FOURTH)>>15);
+}
+
 void TMC262Stepper::setEnabled(boolean enabled) {
     //delete the t_off in the chopper config to get sure
     chopper_config_register &= ~(T_OFF_PATTERN);

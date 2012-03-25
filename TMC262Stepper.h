@@ -348,11 +348,43 @@ class TMC262Stepper {
      */
     void setCoolStepEnabled(boolean enabled);
     
+    
     /*!
      * \brief check if the cool step feature is enabled
      * \sa setCoolStepEnabled()
      */
     boolean isCoolStepEnabled();
+
+    /*!
+     * \brief returns the lower stall guard treshhold for the cool step operation
+     * \sa setCoolStepConfiguration()
+     */
+    unsigned char getCoolStepLowerSgTreshhold();
+    
+    /*!
+     * \brief returns the upper stall guard treshhold for the cool step operation
+     * \sa setCoolStepConfiguration()
+     */
+    unsigned char getCoolStepUpperSgTreshhold();
+    
+    /*!
+     * \brief returns the number of stall guard readings befor cool step adjusts the motor current.
+     * \sa setCoolStepConfiguration()
+     */
+    unsigned char getCoolStepNumberOfSGReadings();
+    
+    /*!
+     * \brief returns the increment steps for the current for the cool step operation
+     * \sa setCoolStepConfiguration()
+     */
+    unsigned char getCoolStepCurrentIncrementSize();
+    
+    /*!
+     * \brief returns the absolut minium current for the cool step operation
+     * \sa setCoolStepConfiguration()
+     * \sa COOL_STEP_HALF_CS_LIMIT, COOL_STEP_QUARTER_CS_LIMIT
+     */
+    unsigned char getCoolStepLowerCurrentLimit();
     
 	/*!
      * \brief Get the current microstep position for phase A
