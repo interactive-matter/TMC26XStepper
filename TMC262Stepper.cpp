@@ -115,6 +115,8 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
 {
 	//we are not started yet
 	started=false;
+    //by default cool step is not enabled
+    cool_step_enabled=false;
 	
 	//save the pins for later use
 	this->cs_pin=cs_pin;
@@ -644,7 +646,12 @@ void TMC262Stepper::setCoolStepConfiguration(unsigned char lower_SG_treshhold, u
         lower_current_limit=1;
     }
     //TODO */ 32 for the sg values??
-    //TODO we need to store the lower level in order to enable/disable the coole step
+    //store the lower level in order to enable/disable the coole step
+    this->cool_step_register_value=lower_SG_treshhold;
+    //if cool step is not enabled we delete the lower value to keep it disabled
+    if (!this->cool_step_enabled) {
+        lower_SG_treshhold=0;
+    }
     //the good news is that we can start with a complete new cool step register value
     //and simply set the values in the register
     cool_step_register_value = lower_SG_treshhold | ((unsigned long)upper_SG_treshold<<8) || ((unsigned long)number_of_SG_readings<<5)
@@ -654,6 +661,25 @@ void TMC262Stepper::setCoolStepConfiguration(unsigned char lower_SG_treshhold, u
     if (started) {
         send262(cool_step_register_value);
     }
+}
+
+void TMC262Stepper::setCoolStepEnabled(boolean enabled) {
+    //simply delete the lower limit to disable the cool step
+    cool_step_register_value &= ~SE_MIN_PATTERN;
+    //and set it to the proper value if cool step is to be enabled
+    if (enabled) {
+        cool_step_register_value |=this->cool_step_lower_treshhold;
+    }
+    //and save the enabled status
+    this->cool_step_enabled = enabled;
+    //save the register value
+    if (started) {
+        send262(cool_step_register_value);
+    }
+}
+
+boolean TMC262Stepper::isCoolStepEnabled(void) {
+    return this->cool_step_enabled;
 }
 
 void TMC262Stepper::setEnabled(boolean enabled) {

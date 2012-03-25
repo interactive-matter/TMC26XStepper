@@ -341,6 +341,19 @@ class TMC262Stepper {
     void setCoolStepConfiguration(unsigned char lower_SG_treshhold, unsigned char upper_SG_treshold, unsigned char number_of_SG_readings,
                                   unsigned char current_increment_step_size, unsigned char lower_current_limit);
     
+    /*!
+     * \brief enables or disables the cool step smart energy operation feature. It must be configured before enabling it
+     * \param enabled tue if CoolStep tshould be enabled, false if not.
+     * \sa setCoolStepConfiguration()
+     */
+    void setCoolStepEnabled(boolean enabled);
+    
+    /*!
+     * \brief check if the cool step feature is enabled
+     * \sa setCoolStepEnabled()
+     */
+    boolean isCoolStepEnabled();
+    
 	/*!
      * \brief Get the current microstep position for phase A
      * \return The current microstep position for phase A 0…255
@@ -437,6 +450,7 @@ class TMC262Stepper {
     /*!
      *\brief checks if the output bridges are enabled. If the bridges are not enabled the motor can run freely
      *\return true if the bridges and by that the motor driver are enabled, false if not.
+     *\sa setEnabled()
      */
     boolean isEnabled();
 
@@ -494,6 +508,8 @@ class TMC262Stepper {
 	boolean started; //if the stepper has been started yet
 	int microsteps; //the current number of micro steps
     char constant_off_time; //we need to remember this value in order to enable and disable the motor
+    unsigned char cool_step_lower_treshhold; // we need to remember the treshhold to enable and disable the cool step feature
+    boolean cool_step_enabled; //we need to remember this to configure the coolstep if it si enabled
 	
 	//SPI sender
 	inline void send262(unsigned long datagram);
