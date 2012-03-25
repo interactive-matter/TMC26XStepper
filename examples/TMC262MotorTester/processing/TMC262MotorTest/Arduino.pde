@@ -48,8 +48,9 @@ void decodeSerial(String line) {
       } 
       else if (statusToken.startsWith("p")) {
         addPositionReading(getValueOfToken(statusToken, 1));
-      } 
-      else if (statusToken.startsWith("t")) {
+      } else if (statusToken.startsWith("k")) {
+        addCurrentReading(getValueOfToken(statusToken, 1));
+      } else if (statusToken.startsWith("t")) {
         sgtSlider.setValue(getValueOfToken(statusToken, 1));
       } 
       else if (statusToken.startsWith("f")) {

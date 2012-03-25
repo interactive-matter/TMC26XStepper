@@ -638,7 +638,7 @@ void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, un
     if (upper_SG_treshold>480) {
         upper_SG_treshold=480;
     }
-    upper_SG_treshold >>=32;
+    upper_SG_treshold >>=5;
     if (number_of_SG_readings>3) {
         number_of_SG_readings=3;
     }
@@ -739,13 +739,12 @@ void TMC262Stepper::readStatus(char read_value) {
 	//this now equals TMC262_READOUT_POSITION - so we just have to check the other two options
 	if (read_value == TMC262_READOUT_STALLGUARD) {
 		driver_configuration_register_value |= READ_STALL_GUARD_READING;
-	} else if (read_value == TMC262_READOUT_STALLGUARD) {
+	} else if (read_value == TMC262_READOUT_CURRENT) {
 		driver_configuration_register_value |= READ_STALL_GUARD_AND_COOL_STEP;
 	}
 	//all other cases are ignored to prevent funny values
     //check if the readout is configured for the value we are interested in
-    if (((read_value==TMC262_READOUT_STALLGUARD) && ((old_driver_configuration_register_value&READ_SELECTION_PATTERN)!=READ_STALL_GUARD_READING))
-        || ((read_value==TMC262_READOUT_POSITION) && ((old_driver_configuration_register_value&READ_SELECTION_PATTERN)!=READ_MICROSTEP_POSTION))) {
+    if (driver_configuration_register_value!=old_driver_configuration_register_value) {
             //because then we need to write the value twice - one time for configuring, second time to get the value, see below
             send262(driver_configuration_register_value);
         }
@@ -770,6 +769,17 @@ int TMC262Stepper::getCurrentStallGuardReading(void) {
 	//first read out the stall guard value
 	readStatus(TMC262_READOUT_STALLGUARD);
 	return getReadoutValue();
+}
+
+unsigned char TMC262Stepper::getCurrentCurrentReading(void) {
+	//if we don't yet started there cannot be a stall guard value
+	if (!started) {
+		return 0;
+	}
+	//not time optimal, but solution optiomal:
+	//first read out the stall guard value
+	readStatus(TMC262_READOUT_CURRENT);
+	return (getReadoutValue() & 0x1f);
 }
 
 /*

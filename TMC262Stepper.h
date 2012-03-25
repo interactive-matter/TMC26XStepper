@@ -403,6 +403,13 @@ class TMC262Stepper {
 	int getCurrentStallGuardReading(void);
     
     /*!
+     * \brief Reads the current current setting value as fraction of the maximum current
+     * Returns values between 0 and 31, representing 1/32 to 32/32 (=1)
+     * \sa setCoolStepConfiguration()
+     */
+    unsigned char getCurrentCurrentReading(void);
+    
+    /*!
      * \brief checks if there is a Stall Guard warning in the last status
      * \return 0 if there was no warning, -1 if there was some warning.
      * Keep in mind that this method does not enforce a readout but uses the value of the last status readout.

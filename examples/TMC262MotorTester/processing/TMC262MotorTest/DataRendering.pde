@@ -10,6 +10,9 @@ int stallGuardMax =1024;
 int positionMin = 0;
 int positionMax = 1024;
 
+float currentMin = 0;
+float currentMax = 100;
+
 int dataPointsWidth = 3;
 int dataLineWidth = 2;
 int highLightWidth = 7;
@@ -25,10 +28,11 @@ int coolStepActiveStroke = 2;
 int coolStepInactiveStroke = 1;
 int stallGuardHighLightDistance = 1;
 int positionHighLightDistance = 3;
+int currentHighLightDistance = 3;
 
 DataTable stallGuardTable = new DataTable(numberOfDataPoints);
 DataTable positionTable = new DataTable(numberOfDataPoints);
-
+DataTable currentTable =  new DataTable(numberOfDataPoints);
 
 void setupData() {
   plotBottom = height-50;
@@ -50,6 +54,11 @@ void drawData() {
     stroke(positionColor);
     drawDataLine(positionTable, positionMin, positionMax);
     drawDataHighLight(positionTable, positionMin, positionMax, positionHighLightDistance, labelColor, "Microstep Position", false);
+
+    strokeWeight(dataLineWidth);
+    stroke(coolStepColor);
+    drawCurrentLine(currentTable, currentMin, currentMax);
+    drawCurrentHighLight(positionTable, currentMin, currentMax, currentHighLightDistance, labelColor, "Current Ratio", false);
 
     strokeWeight(dataPointsWidth);
     stroke(stallGuardColor);
@@ -200,11 +209,49 @@ void drawDataHighLight(DataTable table, int minValue, int maxValue, int distance
   }
 }
 
+void drawCurrentLine(DataTable table, float minValue, float maxValue) {
+  beginShape();
+  int dataCount = table.getSize();
+  for (int i=0; i<dataCount; i++) {
+    float value = (table.getEntry(i)+1)/32.0*maxValue;
+    float x = map(i, 0, numberOfDataPoints-1, plotLeft+dataPointsWidth, plotRight-dataPointsWidth);
+    float y = map(value, minValue, maxValue, (float)plotBottom-dataPointsWidth, (float)plotTop+dataPointsWidth);
+    vertex(x, y);
+  }
+  endShape();
+}
+
+void drawCurrentHighLight(DataTable table, float minValue, float maxValue, int distance, color textColor, String name, boolean top) {
+  int dataCount = table.getSize();
+  for (int i=0; i<dataCount; i++) {
+    float value = (table.getEntry(i)+1)/32.0*(float)maxValue;
+    float x = map(i, 0, numberOfDataPoints-1, plotLeft+dataPointsWidth, plotRight-dataPointsWidth);
+    float y = map(value, minValue, maxValue, plotBottom-dataPointsWidth, plotTop+dataPointsWidth);
+    if (dist(mouseX, mouseY, x, y) < distance) {
+      strokeWeight(highLightWidth);
+      point(x, y);
+      fill(textColor);
+      textSize(10);
+      textAlign(CENTER);
+      if (top) {
+        text(name+": "+value, x, y-8);
+      } 
+      else {
+        text(name+": "+value, x, y+8);
+      }
+    }
+  }
+}
+
 void addStallGuardReading(int value) {
   stallGuardTable.addData(value);
 }
 
 void addPositionReading(int value) {
   positionTable.addData(value);
+}
+
+void addCurrentReading(int value) {
+  currentTable.addData(value);
 }
 
