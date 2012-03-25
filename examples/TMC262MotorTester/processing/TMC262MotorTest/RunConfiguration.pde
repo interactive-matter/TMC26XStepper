@@ -12,7 +12,9 @@ Slider currentSlider;
 Slider coolStepMinSlider;
 Slider coolStepMaxSlider;
 Toggle coolStepActiveToggle;
-
+RadioButton coolStepIncrementButtons;
+RadioButton coolStepDecrementButtons;
+RadioButton coolStepMinButtons;
 
 void setupRunConfig() {
   //the run configuration
@@ -75,6 +77,28 @@ void setupRunConfig() {
   coolStepActiveToggle = controlP5.addToggle("coolStepActive", false, 500, 220, 30, 30);  
   coolStepActiveToggle.setCaptionLabel("Enable CoolStep");
   coolStepActiveToggle.moveTo(runTab);
+
+  coolStepIncrementButtons = controlP5.addRadioButton("coolStepIncrement", 500, 40);
+  coolStepIncrementButtons.addItem("1", 0);
+  coolStepIncrementButtons.addItem("2", 1);
+  coolStepIncrementButtons.addItem("4", 2);
+  coolStepIncrementButtons.addItem("8", 3);
+  coolStepIncrementButtons.showBar();
+  coolStepIncrementButtons.moveTo(runTab);
+
+  coolStepDecrementButtons = controlP5.addRadioButton("coolStepDecrement", 500, 120);
+  coolStepDecrementButtons.addItem("32", 0);
+  coolStepDecrementButtons.addItem("8", 1);
+  coolStepDecrementButtons.addItem("2", 2);
+  coolStepDecrementButtons.addItem("1", 3);
+  coolStepDecrementButtons.showBar();
+  coolStepDecrementButtons.moveTo(runTab);
+
+  coolStepMinButtons = controlP5.addRadioButton("coolStepMin", 500, 180);
+  coolStepMinButtons.addItem("1/2", 0);
+  coolStepMinButtons.addItem("1/4", 1);
+  coolStepMinButtons.showBar();
+  coolStepMinButtons.moveTo(runTab);
 
   currentSlider = controlP5.addSlider("current", 0.46, 1.7, 0.4, 950, 50, 20, 210);
   currentSlider.moveTo(runTab);
@@ -195,4 +219,16 @@ void setDirection(int direction) {
       arduinoPort.write("d1\n");
     }
   }
+}
+
+void setCoolStepIncrement(int value) {
+  print("cool step increment :"+value);
+}
+
+void setCoolStepDecrement(int value) {
+  print("cool step decrement :"+value);
+}
+
+void setCoolStepMin(int value) {
+  print("cool step minimum :"+value);
 }

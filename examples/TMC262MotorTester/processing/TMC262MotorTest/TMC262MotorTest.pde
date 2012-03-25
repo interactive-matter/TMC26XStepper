@@ -83,6 +83,12 @@ void controlEvent(ControlEvent theEvent) {
       setDirection((int)theEvent.group().value());
     } else if ("decrement".equals(theEvent.group().name())) {
       setHysteresisDecrement((int)theEvent.group().value());
+    } else if ("coolStepIncrement".equals(theEvent.group().name())) {
+      setCoolStepIncrement((int)theEvent.group().value());
+    } else if ("coolStepDecrement".equals(theEvent.group().name())) {
+      setCoolStepDecrement((int)theEvent.group().value());
+    } else if ("coolStepMin".equals(theEvent.group().name())) {
+      setCoolStepMin((int)theEvent.group().value());
     }
   } 
   else if (theEvent.isTab()) {
