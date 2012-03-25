@@ -68,8 +68,8 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a1dd52ae6c864c8d4057af287f9e57f7a">TMC262Stepper</a> (int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int rms_current)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">creates a new represenatation of a stepper motor connected to a TMC262 stepper driver  <a href="#a1dd52ae6c864c8d4057af287f9e57f7a"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a36ba9791c1a2af305f4c1cbc3e8864f0">TMC262Stepper</a> (int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor=150)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">creates a new represenatation of a stepper motor connected to a TMC262 stepper driver  <a href="#a36ba9791c1a2af305f4c1cbc3e8864f0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a3ed2f641b0ce1abd2e0704a0e6078386">start</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">configures and starts the TMC262 stepper driver. Before you called this function the stepper driver is in nonfunctional mode.  <a href="#a3ed2f641b0ce1abd2e0704a0e6078386"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a4ee30d0fddcfcd2de542837861c46d4a">setSpeed</a> (long whatSpeed)</td></tr>
@@ -97,21 +97,41 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a3528268d956f800eaaa78e5f053af2ca">setRandomOffTime</a> (char value)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Use random off time for noise reduction (0 for off, -1 for on).  <a href="#a3528268d956f800eaaa78e5f053af2ca"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#ab8f4c5c7d4d40ba2b60573f17162dcc0">setCurrent</a> (unsigned int current)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">set the maximum motor current in mA  <a href="#ab8f4c5c7d4d40ba2b60573f17162dcc0"></a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">set the maximum motor current in mA (1000 is 1 Amp)  <a href="#ab8f4c5c7d4d40ba2b60573f17162dcc0"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a0cedeee217c3a3150c6102957f108d63">getCurrent</a> (void)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">readout the motor maximum current in mA (1000 is an Amp)  <a href="#a0cedeee217c3a3150c6102957f108d63"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a9ed91f6d80fb3fb3047d578c38c07929">setStallGuardTreshold</a> (char stall_guard_treshold, char stall_guard_filter_enabled)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">set the Stall Guard treshold in order to get sensible Stall Guard readings.  <a href="#a9ed91f6d80fb3fb3047d578c38c07929"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a2851e2c6a112b8db604d69ecc4482394">getStallGuardTreshold</a> (void)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">reads out the stall guard treshold  <a href="#a2851e2c6a112b8db604d69ecc4482394"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#ac860755cbd27fb5ad69a16ef39e858cc">getStallGuardFilter</a> (void)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the current setting of the stall guard filter  <a href="#ac860755cbd27fb5ad69a16ef39e858cc"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b">setCoolStepConfiguration</a> (unsigned int lower_SG_treshhold, unsigned int upper_SG_treshhold, unsigned char number_of_SG_readings, unsigned char current_increment_step_size, unsigned char lower_current_limit)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This method configures the CoolStep smart energy operation. You must have a proper stall guard configuration for the motor situation (current, voltage, speed) in rder to use this feature. The CoolStep smart energy operation automatically adjust the current sent into the motor according to the current load, read out by the StallGuard in order to provide the optimum torque with the minimal current consumption. You configure the CoolStep current regulator by defining upper and lower bounds of stall guard readouts. If the readout is above the limit the current gets increased, below the limit the current gets decreased. You can specify the upper an lower treshhold of the stall guard readout in order to adjust the current. You can also set the number of stall guard readings neccessary above or below the limit to get a more stable current adjustement. The current adjustement itself is configured by the number of steps the current gests in- or decreased and the absolut minimum current (1/2 or 1/4th otf the configured current).  <a href="#aeadc6befd5e122ee3235147fbc3edd8b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a363288840c95d4b28759eccdfb8001e3">setCoolStepEnabled</a> (boolean enabled)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">enables or disables the cool step smart energy operation feature. It must be configured before enabling it  <a href="#a363288840c95d4b28759eccdfb8001e3"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#aa7e7652cc7bfd83bb84dc093f0553222">isCoolStepEnabled</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">check if the cool step feature is enabled  <a href="#aa7e7652cc7bfd83bb84dc093f0553222"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#ae7bf778b94a2276052759a55b06f0f12">getCoolStepLowerSgTreshhold</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the lower stall guard treshhold for the cool step operation  <a href="#ae7bf778b94a2276052759a55b06f0f12"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a24e933e91f97aaf953d7710f6aabf5a7">getCoolStepUpperSgTreshhold</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the upper stall guard treshhold for the cool step operation  <a href="#a24e933e91f97aaf953d7710f6aabf5a7"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#aa465ea9148fc082e557b15c4c66a079c">getCoolStepNumberOfSGReadings</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the number of stall guard readings befor cool step adjusts the motor current.  <a href="#aa465ea9148fc082e557b15c4c66a079c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a6c5f52decc5f75300eef804843e69dc1">getCoolStepCurrentIncrementSize</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the increment steps for the current for the cool step operation  <a href="#a6c5f52decc5f75300eef804843e69dc1"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a45010101404adcb46aba5d0c9154e29e">getCoolStepLowerCurrentLimit</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the absolut minium current for the cool step operation  <a href="#a45010101404adcb46aba5d0c9154e29e"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704">getMotorPosition</a> (void)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current microstep position for phase A.  <a href="#a6957b84f7a3941e2a82fe72251dd9704"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b">getCurrentStallGuardReading</a> (void)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the current stall guard value.  <a href="#a7871e8851d90acaac372a90354508a2b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a68370cb224461b8e14fc3c7de3ade2b1">getCurrentCurrentReading</a> (void)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the current current setting value as fraction of the maximum current Returns values between 0 and 31, representing 1/32 to 32/32 (=1)  <a href="#a68370cb224461b8e14fc3c7de3ade2b1"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a7c43cd156a36f53d192e1b07df3464c8">isStallGuardOverTreshold</a> (void)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if there is a Stall Guard warning in the last status  <a href="#a7c43cd156a36f53d192e1b07df3464c8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#aa1ce5674925585ce6206b9a82548de8d">getOverTemperature</a> (void)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Return over temperature status of the last status readout return 0 is everything is OK, TMC_262_OVER_TEMPERATURE_PREWARING if status is reached, TMC_262_OVER_TEMPERATURE_SHUTDOWN is the chip is shutdown, -1 if the status is unknown. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout.  <a href="#aa1ce5674925585ce6206b9a82548de8d"></a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Return over temperature status of the last status readout return 0 is everything is OK, TMC262_OVERTEMPERATURE_PREWARING if status is reached, TMC262_OVERTEMPERATURE_SHUTDOWN is the chip is shutdown, -1 if the status is unknown. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout.  <a href="#aa1ce5674925585ce6206b9a82548de8d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a30f48c95d93fbfeacde56e3eef0b3ac4">isShortToGroundA</a> (void)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Is motor channel A shorted to ground detected in the last status readout.  <a href="#a30f48c95d93fbfeacde56e3eef0b3ac4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a61e724b8aeb4d6f1cb9c15b7b098e2b2">isShortToGroundB</a> (void)</td></tr>
@@ -124,30 +144,36 @@ Public Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Is chopper inactive since 2^20 clock cycles - defaults to ~0,08s.  <a href="#a566f37aee32e83423db0bdddc007ca94"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a2e520834597aa78af6224e2bc7f89387">isStallGuardReached</a> (void)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if there is a Stall Guard warning in the last status  <a href="#a2e520834597aa78af6224e2bc7f89387"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#ab9349b93705bee179a55b07943436d78">setEnabled</a> (boolean enabled)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">enables or disables the motor driver bridges. If disabled the motor can run freely. If enabled not.  <a href="#ab9349b93705bee179a55b07943436d78"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#ae64ef519b1f93b67b6474d1fb310636f">isEnabled</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if the output bridges are enabled. If the bridges are not enabled the motor can run freely  <a href="#ae64ef519b1f93b67b6474d1fb310636f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7">readStatus</a> (char read_value)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Manually read out the status register This function sends a byte to the motor driver in order to get the current readout. The parameter read_value seletcs which value will get returned. If the read_vlaue changes in respect to the previous readout this method automatically send two bytes to the motor: one to set the redout and one to get the actual readout. So this method may take time to send and read one or two bits - depending on the previous readout.  <a href="#ab90aa74939a7f31818dcbd658f2bddd7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a467fb62d852c2a6b5b2d94e877f843fc">debugLastStatus</a> (void)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints out all the inforamtion that can be found in the last status read out - it does not force a status readout. The result is printed via Serial.  <a href="#a467fb62d852c2a6b5b2d94e877f843fc"></a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints out all the information that can be found in the last status read out - it does not force a status readout. The result is printed via Serial.  <a href="#a467fb62d852c2a6b5b2d94e877f843fc"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a0514e8d8143463a8b5afca76b419a52d">version</a> (void)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">library version  <a href="#a0514e8d8143463a8b5afca76b419a52d"></a><br/></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Class representing a TMC262 stepper driver. </p>
 <p>In order to use one fo those drivers in your Arduino code you have to create an object of that class: </p>
-<div class="fragment"><pre class="fragment"> <a class="code" href="class_t_m_c262_stepper.html" title="Class representing a TMC262 stepper driver.">TMC262Stepper</a> stepper = <a class="code" href="class_t_m_c262_stepper.html#a1dd52ae6c864c8d4057af287f9e57f7a" title="creates a new represenatation of a stepper motor connected to a TMC262 stepper driver">TMC262Stepper</a>(200,1,2,3,500);
-</pre></div><p> see <a class="el" href="class_t_m_c262_stepper.html#a1dd52ae6c864c8d4057af287f9e57f7a" title="creates a new represenatation of a stepper motor connected to a TMC262 stepper driver">TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int rms_current)</a></p>
+<div class="fragment"><pre class="fragment"> <a class="code" href="class_t_m_c262_stepper.html" title="Class representing a TMC262 stepper driver.">TMC262Stepper</a> stepper = <a class="code" href="class_t_m_c262_stepper.html#a36ba9791c1a2af305f4c1cbc3e8864f0" title="creates a new represenatation of a stepper motor connected to a TMC262 stepper driver">TMC262Stepper</a>(200,1,2,3,500);
+</pre></div><p> see TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int rms_current)</p>
 <p>Keep in mind that you need to start the driver with <a class="el" href="class_t_m_c262_stepper.html#a3ed2f641b0ce1abd2e0704a0e6078386" title="configures and starts the TMC262 stepper driver. Before you called this function the stepper driver i...">start()</a> in order to get the TMC262 configured.</p>
 <p>The most important function is the <a class="el" href="class_t_m_c262_stepper.html#a552c0e80a6e113ae1a09a1d00b985788" title="Central movement method, must be calleda s often as possible in the lopp function and is very fast...">move()</a>. It checks if the motor has to do a step or not. It is important that you call <a class="el" href="class_t_m_c262_stepper.html#a552c0e80a6e113ae1a09a1d00b985788" title="Central movement method, must be calleda s often as possible in the lopp function and is very fast...">move()</a> as often as possible in your Arduino loop() routine. I suggest to use a very fast loop routine and always call it at the beginning or the end.</p>
 <p>In order to move you have to provide a movement speed with <a class="el" href="class_t_m_c262_stepper.html#a4ee30d0fddcfcd2de542837861c46d4a" title="Sets the rotation speed in revolutions per minute.">setSpeed()</a>. The speed is a positive value setting the rotations per minute.</p>
 <p>To really move the motor you have to call <a class="el" href="class_t_m_c262_stepper.html#a37dff68892cdc4c3d33d2a89da84b717" title="Initiate a movement for the given number of steps. Positive numbers move in one, negative numbers in ...">step()</a> to tell the driver to move the motor the given number of steps in the given direction. Positive values move the motor in one direction, negative values in the other direction.</p>
 <p>You can check with <a class="el" href="class_t_m_c262_stepper.html#a34e0adcdc4dbf6613dc7d2ed41fc654b" title="checks if the motor still has to move to fulfill the last movement command.">isMoving()</a> if the mototr is still moving or stop it apruptely with <a class="el" href="class_t_m_c262_stepper.html#a1c0498cd73fc3a798a230dc8cefa04dd" title="Stops the motor regardless if it moves or not.">stop()</a>. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8h_source.html#l00078">78</a> of file <a class="el" href="_t_m_c262_stepper_8h_source.html">TMC262Stepper.h</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8h_source.html#l00101">101</a> of file <a class="el" href="_t_m_c262_stepper_8h_source.html">TMC262Stepper.h</a>.</p>
 </div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a1dd52ae6c864c8d4057af287f9e57f7a"></a><!-- doxytag: member="TMC262Stepper::TMC262Stepper" ref="a1dd52ae6c864c8d4057af287f9e57f7a" args="(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int rms_current)" -->
+<a class="anchor" id="a36ba9791c1a2af305f4c1cbc3e8864f0"></a><!-- doxytag: member="TMC262Stepper::TMC262Stepper" ref="a36ba9791c1a2af305f4c1cbc3e8864f0" args="(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor=150)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_t_m_c262_stepper.html#a1dd52ae6c864c8d4057af287f9e57f7a">TMC262Stepper::TMC262Stepper</a> </td>
+          <td class="memname"><a class="el" href="class_t_m_c262_stepper.html#a36ba9791c1a2af305f4c1cbc3e8864f0">TMC262Stepper::TMC262Stepper</a> </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>number_of_steps</em>, </td>
@@ -174,7 +200,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">unsigned int&#160;</td>
-          <td class="paramname"><em>rms_current</em>&#160;</td>
+          <td class="paramname"><em>current</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>resistor</em> = <code>150</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -193,7 +225,8 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">cs_pin</td><td>The Arduino pin you have connected the Cient Select Pin (!CS) of the TMC262 for SPI </td></tr>
     <tr><td class="paramname">dir_pin</td><td>the number of the Arduino pin the Direction input of the TMC262 is connected </td></tr>
     <tr><td class="paramname">step_pin</td><td>the number of the Arduino pin the step pin of the TMC262 driver is connected. </td></tr>
-    <tr><td class="paramname">rms_current</td><td>the maximum RMS current to privide to the motor in mA (!). A vlaue of 200 would send up to 200mA to the motor TODO doens't it make send to also use the enable pin</td></tr>
+    <tr><td class="paramname">rms_current</td><td>the maximum current to privide to the motor in mA (!). A value of 200 would send up to 200mA to the motor </td></tr>
+    <tr><td class="paramname">resistor</td><td>the current sense resistor in milli Ohm, defaults to ,15 Ohm ( or 150 milli Ohm) as in the TMC260 Arduino Shield TODO doens't it make send to also use the enable pin</td></tr>
   </table>
   </dd>
 </dl>
@@ -221,9 +254,160 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Prints out all the inforamtion that can be found in the last status read out - it does not force a status readout. The result is printed via Serial. </p>
+<p>Prints out all the information that can be found in the last status read out - it does not force a status readout. The result is printed via Serial. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00739">739</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00877">877</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6c5f52decc5f75300eef804843e69dc1"></a><!-- doxytag: member="TMC262Stepper::getCoolStepCurrentIncrementSize" ref="a6c5f52decc5f75300eef804843e69dc1" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned char <a class="el" href="class_t_m_c262_stepper.html#a6c5f52decc5f75300eef804843e69dc1">TMC262Stepper::getCoolStepCurrentIncrementSize</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>returns the increment steps for the current for the cool step operation </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper stall guard config...">setCoolStepConfiguration()</a> </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00698">698</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a45010101404adcb46aba5d0c9154e29e"></a><!-- doxytag: member="TMC262Stepper::getCoolStepLowerCurrentLimit" ref="a45010101404adcb46aba5d0c9154e29e" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned char <a class="el" href="class_t_m_c262_stepper.html#a45010101404adcb46aba5d0c9154e29e">TMC262Stepper::getCoolStepLowerCurrentLimit</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>returns the absolut minium current for the cool step operation </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper stall guard config...">setCoolStepConfiguration()</a> </dd>
+<dd>
+<a class="el" href="_t_m_c262_stepper_8h.html#a28b1774bd4aa854fb5e4b6dc7db96ecb">COOL_STEP_HALF_CS_LIMIT</a>, COOL_STEP_QUARTER_CS_LIMIT </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00706">706</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae7bf778b94a2276052759a55b06f0f12"></a><!-- doxytag: member="TMC262Stepper::getCoolStepLowerSgTreshhold" ref="ae7bf778b94a2276052759a55b06f0f12" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int <a class="el" href="class_t_m_c262_stepper.html#ae7bf778b94a2276052759a55b06f0f12">TMC262Stepper::getCoolStepLowerSgTreshhold</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>returns the lower stall guard treshhold for the cool step operation </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper stall guard config...">setCoolStepConfiguration()</a> </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00689">689</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa465ea9148fc082e557b15c4c66a079c"></a><!-- doxytag: member="TMC262Stepper::getCoolStepNumberOfSGReadings" ref="aa465ea9148fc082e557b15c4c66a079c" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned char <a class="el" href="class_t_m_c262_stepper.html#aa465ea9148fc082e557b15c4c66a079c">TMC262Stepper::getCoolStepNumberOfSGReadings</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>returns the number of stall guard readings befor cool step adjusts the motor current. </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper stall guard config...">setCoolStepConfiguration()</a> </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00702">702</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a24e933e91f97aaf953d7710f6aabf5a7"></a><!-- doxytag: member="TMC262Stepper::getCoolStepUpperSgTreshhold" ref="a24e933e91f97aaf953d7710f6aabf5a7" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int <a class="el" href="class_t_m_c262_stepper.html#a24e933e91f97aaf953d7710f6aabf5a7">TMC262Stepper::getCoolStepUpperSgTreshhold</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>returns the upper stall guard treshhold for the cool step operation </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper stall guard config...">setCoolStepConfiguration()</a> </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00694">694</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0cedeee217c3a3150c6102957f108d63"></a><!-- doxytag: member="TMC262Stepper::getCurrent" ref="a0cedeee217c3a3150c6102957f108d63" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int <a class="el" href="class_t_m_c262_stepper.html#a0cedeee217c3a3150c6102957f108d63">TMC262Stepper::getCurrent</a> </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>readout the motor maximum current in mA (1000 is an Amp) </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the maximum motor current in milli amps </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00330">330</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a68370cb224461b8e14fc3c7de3ade2b1"></a><!-- doxytag: member="TMC262Stepper::getCurrentCurrentReading" ref="a68370cb224461b8e14fc3c7de3ade2b1" args="(void)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned char <a class="el" href="class_t_m_c262_stepper.html#a68370cb224461b8e14fc3c7de3ade2b1">TMC262Stepper::getCurrentCurrentReading</a> </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Reads the current current setting value as fraction of the maximum current Returns values between 0 and 31, representing 1/32 to 32/32 (=1) </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper stall guard config...">setCoolStepConfiguration()</a> </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00775">775</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -246,7 +430,7 @@ Public Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>The current Stall guard value, lesser values indicate higher load, 0 means stall detected. Keep in mind that this routine reads and writes a value via SPI - so this may take a bit time. </dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a9ed91f6d80fb3fb3047d578c38c07929" title="set the Stall Guard treshold in order to get sensible Stall Guard readings.">setStallGuardTreshold()</a> for tuning the readout to sensible ranges. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00637">637</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00764">764</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -269,7 +453,7 @@ Public Member Functions</h2></td></tr>
 <p>This function always returns the effective number of microsteps. This can be a bit different than the micro steps set in <a class="el" href="class_t_m_c262_stepper.html#ac1d294ce18d722c3b4c3f6c5ecaa3c7c" title="Set the number of microsteps in 2^i values (rounded) up to 256.">setMicrosteps()</a> since it is rounded to 2^i.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#ac1d294ce18d722c3b4c3f6c5ecaa3c7c" title="Set the number of microsteps in 2^i values (rounded) up to 256.">setMicrosteps()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00417">417</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00440">440</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -292,7 +476,7 @@ Public Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>The current microstep position for phase A 0…255</dd></dl>
 <p>Keep in mind that this routine reads and writes a value via SPI - so this may take a bit time. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00629">629</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00756">756</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -311,9 +495,9 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Return over temperature status of the last status readout return 0 is everything is OK, TMC_262_OVER_TEMPERATURE_PREWARING if status is reached, TMC_262_OVER_TEMPERATURE_SHUTDOWN is the chip is shutdown, -1 if the status is unknown. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </p>
+<p>Return over temperature status of the last status readout return 0 is everything is OK, TMC262_OVERTEMPERATURE_PREWARING if status is reached, TMC262_OVERTEMPERATURE_SHUTDOWN is the chip is shutdown, -1 if the status is unknown. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00664">664</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00802">802</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -335,7 +519,7 @@ Public Member Functions</h2></td></tr>
 <p>reads out the currently selected speed in revolutions per minute. </p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a4ee30d0fddcfcd2de542837861c46d4a" title="Sets the rotation speed in revolutions per minute.">setSpeed()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00209">209</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00215">215</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -357,7 +541,7 @@ Public Member Functions</h2></td></tr>
 <p>returns the current setting of the stall guard filter </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>0 if not set, -1 if set </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00352">352</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00375">375</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -379,7 +563,7 @@ Public Member Functions</h2></td></tr>
 <p>reads out the stall guard treshold </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>a number between -64 and 63. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00339">339</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00362">362</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -402,7 +586,51 @@ Public Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>The number of steps left in the movement. This number is always positive.</dd></dl>
 <p>TODO isn't an unsigend int more obvious? </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00266">266</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00272">272</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa7e7652cc7bfd83bb84dc093f0553222"></a><!-- doxytag: member="TMC262Stepper::isCoolStepEnabled" ref="aa7e7652cc7bfd83bb84dc093f0553222" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean <a class="el" href="class_t_m_c262_stepper.html#aa7e7652cc7bfd83bb84dc093f0553222">TMC262Stepper::isCoolStepEnabled</a> </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>check if the cool step feature is enabled </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a363288840c95d4b28759eccdfb8001e3" title="enables or disables the cool step smart energy operation feature. It must be configured before enabli...">setCoolStepEnabled()</a> </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00685">685</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae64ef519b1f93b67b6474d1fb310636f"></a><!-- doxytag: member="TMC262Stepper::isEnabled" ref="ae64ef519b1f93b67b6474d1fb310636f" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean <a class="el" href="class_t_m_c262_stepper.html#ae64ef519b1f93b67b6474d1fb310636f">TMC262Stepper::isEnabled</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>checks if the output bridges are enabled. If the bridges are not enabled the motor can run freely </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>true if the bridges and by that the motor driver are enabled, false if not. </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#ab9349b93705bee179a55b07943436d78" title="enables or disables the motor driver bridges. If disabled the motor can run freely. If enabled not.">setEnabled()</a> </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00723">723</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -425,7 +653,7 @@ Public Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>0 if the motor stops, -1 if the motor is moving.</dd></dl>
 <p>This method can be used to determine if the motor is ready for new movements. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00262">262</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00268">268</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -447,7 +675,7 @@ Public Member Functions</h2></td></tr>
 <p>iIs motor channel A connected according to the last statu readout. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true is yes, false if not. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00694">694</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00832">832</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -469,7 +697,7 @@ Public Member Functions</h2></td></tr>
 <p>iIs motor channel A connected according to the last statu readout. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true is yes, false if not. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00702">702</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00840">840</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -491,7 +719,7 @@ Public Member Functions</h2></td></tr>
 <p>Is motor channel A shorted to ground detected in the last status readout. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true is yes, false if not. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00678">678</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00816">816</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -513,7 +741,7 @@ Public Member Functions</h2></td></tr>
 <p>Is motor channel B shorted to ground detected in the last status readout. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true is yes, false if not. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00686">686</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00824">824</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -536,7 +764,7 @@ Public Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>0 if there was no warning, -1 if there was some warning. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout.</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a9ed91f6d80fb3fb3047d578c38c07929" title="set the Stall Guard treshold in order to get sensible Stall Guard readings.">setStallGuardTreshold()</a> for tuning the readout to sensible ranges. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00651">651</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00789">789</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -561,7 +789,7 @@ Public Member Functions</h2></td></tr>
 <dd>
 <a class="el" href="class_t_m_c262_stepper.html#a9ed91f6d80fb3fb3047d578c38c07929" title="set the Stall Guard treshold in order to get sensible Stall Guard readings.">setStallGuardTreshold()</a> for tuning the readout to sensible ranges. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00718">718</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00856">856</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -583,7 +811,7 @@ Public Member Functions</h2></td></tr>
 <p>Is chopper inactive since 2^20 clock cycles - defaults to ~0,08s. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true is yes, false if not. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00710">710</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00848">848</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -608,7 +836,35 @@ Public Member Functions</h2></td></tr>
 <p>You can call this routine even if you know that the motor is not miving. It introduces just a very small penalty in your code. You must not call <a class="el" href="class_t_m_c262_stepper.html#a34e0adcdc4dbf6613dc7d2ed41fc654b" title="checks if the motor still has to move to fulfill the last movement command.">isMoving()</a> to determine if you need to call this function, since taht is done internally already and only slows down you code.</p>
 <p>How often you call this function directly influences your top miving speed for the motor. It may be a good idea to call this from an timer overflow interrupt to ensure proper calling. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00234">234</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00240">240</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab90aa74939a7f31818dcbd658f2bddd7"></a><!-- doxytag: member="TMC262Stepper::readStatus" ref="ab90aa74939a7f31818dcbd658f2bddd7" args="(char read_value)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7">TMC262Stepper::readStatus</a> </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>read_value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Manually read out the status register This function sends a byte to the motor driver in order to get the current readout. The parameter read_value seletcs which value will get returned. If the read_vlaue changes in respect to the previous readout this method automatically send two bytes to the motor: one to set the redout and one to get the actual readout. So this method may take time to send and read one or two bits - depending on the previous readout. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">read_value</td><td>selects which value to read out (0..3). You can use the defines TMC262_READOUT_POSITION, TMC_262_READOUT_STALLGUARD, or TMC_262_READOUT_CURRENT </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_t_m_c262_stepper_8h.html#a7ed72cfe636c8169c88080b2633311b3">TMC262_READOUT_POSITION</a>, TMC_262_READOUT_STALLGUARD, TMC_262_READOUT_CURRENT </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00736">736</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -671,7 +927,85 @@ Public Member Functions</h2></td></tr>
 <dd>
 <a class="el" href="class_t_m_c262_stepper.html#a3528268d956f800eaaa78e5f053af2ca" title="Use random off time for noise reduction (0 for off, -1 for on).">setRandomOffTime()</a> for spreading the noise over a wider spectrum </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00444">444</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00467">467</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aeadc6befd5e122ee3235147fbc3edd8b"></a><!-- doxytag: member="TMC262Stepper::setCoolStepConfiguration" ref="aeadc6befd5e122ee3235147fbc3edd8b" args="(unsigned int lower_SG_treshhold, unsigned int upper_SG_treshhold, unsigned char number_of_SG_readings, unsigned char current_increment_step_size, unsigned char lower_current_limit)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b">TMC262Stepper::setCoolStepConfiguration</a> </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>lower_SG_treshhold</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>upper_SG_treshhold</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>number_of_SG_readings</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>current_increment_step_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>lower_current_limit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>This method configures the CoolStep smart energy operation. You must have a proper stall guard configuration for the motor situation (current, voltage, speed) in rder to use this feature. The CoolStep smart energy operation automatically adjust the current sent into the motor according to the current load, read out by the StallGuard in order to provide the optimum torque with the minimal current consumption. You configure the CoolStep current regulator by defining upper and lower bounds of stall guard readouts. If the readout is above the limit the current gets increased, below the limit the current gets decreased. You can specify the upper an lower treshhold of the stall guard readout in order to adjust the current. You can also set the number of stall guard readings neccessary above or below the limit to get a more stable current adjustement. The current adjustement itself is configured by the number of steps the current gests in- or decreased and the absolut minimum current (1/2 or 1/4th otf the configured current). </p>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_t_m_c262_stepper_8h.html#a28b1774bd4aa854fb5e4b6dc7db96ecb">COOL_STEP_HALF_CS_LIMIT</a>, COOL_STEP_QUARTER_CS_LIMIT </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00630">630</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a363288840c95d4b28759eccdfb8001e3"></a><!-- doxytag: member="TMC262Stepper::setCoolStepEnabled" ref="a363288840c95d4b28759eccdfb8001e3" args="(boolean enabled)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_t_m_c262_stepper.html#a363288840c95d4b28759eccdfb8001e3">TMC262Stepper::setCoolStepEnabled</a> </td>
+          <td>(</td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>enables or disables the cool step smart energy operation feature. It must be configured before enabling it </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enabled</td><td>tue if CoolStep tshould be enabled, false if not. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper stall guard config...">setCoolStepConfiguration()</a> </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00670">670</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -690,15 +1024,42 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>set the maximum motor current in mA </p>
+<p>set the maximum motor current in mA (1000 is 1 Amp) </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramname">current</td><td>the maximum RMS motor current in mA </td></tr>
+    <tr><td class="paramname">current</td><td>the maximum motor current in mA </td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00280">280</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00286">286</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab9349b93705bee179a55b07943436d78"></a><!-- doxytag: member="TMC262Stepper::setEnabled" ref="ab9349b93705bee179a55b07943436d78" args="(boolean enabled)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_t_m_c262_stepper.html#ab9349b93705bee179a55b07943436d78">TMC262Stepper::setEnabled</a> </td>
+          <td>(</td>
+          <td class="paramtype">boolean&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>enables or disables the motor driver bridges. If disabled the motor can run freely. If enabled not. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enabled</td><td>a boolean value true if the motor should be enabled, false otherwise. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00710">710</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -720,7 +1081,7 @@ Public Member Functions</h2></td></tr>
 <p>Set the number of microsteps in 2^i values (rounded) up to 256. </p>
 <p>This method set's the number of microsteps per step in 2^i interval. This means you can select 1, 2, 4, 16, 32, 64, 128 or 256 as valid microsteps. If you give any other value it will be rounded to the next smaller number (3 would give a microstepping of 2). You can always check the current microstepping with <a class="el" href="class_t_m_c262_stepper.html#a96a370ce2e5d055a19cf4bf57ad2ea45" title="returns the effective current number of microsteps selected.">getMicrosteps()</a>. TODO unsingend char maybe enough </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00365">365</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00388">388</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -748,7 +1109,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <p>In a constant off time chopper scheme both coil choppers run freely, i.e. are not synchronized. The frequency of each chopper mainly depends on the coil current and the position dependant motor coil inductivity, thus it depends on the microstep position. With some motors a slightly audible beat can occur between the chopper frequencies, especially when they are near to each other. This typically occurs at a few microstep positions within each quarter wave. This effect normally is not audible when compared to mechanical noise generated by ball bearings, etc. Further factors which can cause a similar effect are a poor layout of sense resistor GND connection. In order to minimize the effect of a beat between both chopper frequencies, an internal random generator is provided. It modulates the slow decay time setting when switched on. The random off time feature further spreads the chopper spectrum, reducing electromagnetic emission on single frequencies. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00591">591</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00618">618</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -775,7 +1136,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00196">196</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00202">202</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -836,7 +1197,7 @@ Public Member Functions</h2></td></tr>
 <p>The spreadCycle chopper scheme (pat.fil.) is a precise and simple to use chopper principle, which automatically determines the optimum fast decay portion for the motor. Anyhow, a number of settings can be made in order to optimally fit the driver to the motor. Each chopper cycle is comprised of an on-phase, a slow decay phase, a fast decay phase and a second slow decay phase. The slow decay phases limit the maximum chopper frequency and are important for low motor and driver power dissipation. The hysteresis start setting limits the chopper frequency by forcing the driver to introduce a minimum amount of current ripple into the motor coils. The motor inductivity determines the ability to follow a changing motor current. The duration of the on- and fast decay phase needs to cover at least the blank time, because the current comparator is disabled during this time.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a3528268d956f800eaaa78e5f053af2ca" title="Use random off time for noise reduction (0 for off, -1 for on).">setRandomOffTime()</a> for spreading the noise over a wider spectrum </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00521">521</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00546">546</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -877,7 +1238,7 @@ Public Member Functions</h2></td></tr>
 <p>If you switch on the filter the stall guard reading is only updated each 4th full step to reduce the noise in the reading.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current stall guard value.">getCurrentStallGuardReading()</a> to read out the current value. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00317">317</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00340">340</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -898,7 +1259,7 @@ Public Member Functions</h2></td></tr>
 <p>configures and starts the TMC262 stepper driver. Before you called this function the stepper driver is in nonfunctional mode. </p>
 <p>This routine configures the TMC262 stepper driver for the given values via SPI. Most member functions are non functional if the driver has not been started. Therefore it is best to call this in your Arduinosetup() function. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00154">154</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00160">160</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -929,7 +1290,7 @@ Public Member Functions</h2></td></tr>
 <p>You can always verify with <a class="el" href="class_t_m_c262_stepper.html#a34e0adcdc4dbf6613dc7d2ed41fc654b" title="checks if the motor still has to move to fulfill the last movement command.">isMoving()</a> or even use <a class="el" href="class_t_m_c262_stepper.html#a1c0498cd73fc3a798a230dc8cefa04dd" title="Stops the motor regardless if it moves or not.">stop()</a> to stop the motor before gibving it new step directions. </p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a34e0adcdc4dbf6613dc7d2ed41fc654b" title="checks if the motor still has to move to fulfill the last movement command.">isMoving()</a>, <a class="el" href="class_t_m_c262_stepper.html#ae96c33de0cca9700f8abe44a7c618519" title="Get the number of steps left in the current movement.">getStepsLeft()</a>, <a class="el" href="class_t_m_c262_stepper.html#a1c0498cd73fc3a798a230dc8cefa04dd" title="Stops the motor regardless if it moves or not.">stop()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00217">217</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00223">223</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -952,7 +1313,7 @@ Public Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>-1 if the motor was moving and is really stoped or 0 if it was not moving at all.</dd></dl>
 <p>This method directly and apruptely stops the motor and may be used as an emergency stop. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00270">270</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00276">276</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -974,7 +1335,7 @@ Public Member Functions</h2></td></tr>
 <p>library version </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>the version number as int. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00734">734</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00872">872</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -986,7 +1347,7 @@ Public Member Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 13 2012 19:14:22 for Trinamic TMC260/TMC261/TMC262 Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 25 2012 19:36:50 for Trinamic TMC260/TMC261/TMC262 Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
