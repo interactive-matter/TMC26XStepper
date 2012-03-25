@@ -67,11 +67,11 @@ void setupRunConfig() {
   
   //add the coolstep sliders
   coolStepMaxSlider = controlP5.addSlider("coolStepUpper", 0, 480, 0, 400, 40, 20, 90);
-  coolStepMaxSlider.setCaptionLabel("Cool Step Maximum");
+  coolStepMaxSlider.setCaptionLabel("Cool Step Hysteresis");
   coolStepMaxSlider.moveTo(runTab);
 
   coolStepMinSlider = controlP5.addSlider("coolStepLower", 0, 480, 0, 400, 160, 20, 90);
-  coolStepMinSlider.setCaptionLabel("Cool Step Hysteresis");
+  coolStepMinSlider.setCaptionLabel("Cool Step Minimum");
   coolStepMinSlider.moveTo(runTab);
   
   coolStepActiveToggle = controlP5.addToggle("coolStepActive", false, 500, 220, 30, 30);  

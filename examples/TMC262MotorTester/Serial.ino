@@ -262,6 +262,7 @@ void executeSerialCommand() {
     case 'l':
       {
         int value = decode(2);
+        Serial.println(value,DEC);
         if (value>0 && value<480) {
           lower_SG_treshhold=value;
           updateCoolStep();

@@ -657,10 +657,11 @@ void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, un
     }
     //the good news is that we can start with a complete new cool step register value
     //and simply set the values in the register
-    cool_step_register_value = lower_SG_treshhold | ((unsigned long)upper_SG_treshhold<<8) || ((unsigned long)number_of_SG_readings<<5)
-        || ((unsigned long)current_increment_step_size<<13) | ((unsigned long)lower_current_limit<<15)
+    cool_step_register_value = lower_SG_treshhold | ((unsigned long)upper_SG_treshhold<<8) | ((unsigned long)number_of_SG_readings<<5)
+        | ((unsigned long)current_increment_step_size<<13) | ((unsigned long)lower_current_limit<<15)
         //and of course we have to include the signature of the register
-        || COOL_STEP_REGISTER;
+        | COOL_STEP_REGISTER;
+    Serial.println(cool_step_register_value);
     if (started) {
         send262(cool_step_register_value);
     }
