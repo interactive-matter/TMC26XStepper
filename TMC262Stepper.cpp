@@ -625,9 +625,35 @@ void TMC262Stepper::setRandomOffTime(char value) {
 	}	
 }	
 
-void TMC262Stepper::setCoolStepConfiguration(unsigned char lower_SG_treshhold, unsigned char upper_SE_treshold, unsigned char number_of_SG_readigns,
+void TMC262Stepper::setCoolStepConfiguration(unsigned char lower_SG_treshhold, unsigned char upper_SG_treshold, unsigned char number_of_SG_readings,
                               unsigned char current_increment_step_size, unsigned char lower_current_limit) {
-    
+    //sanitize the input values
+    if (lower_SG_treshhold>15) {
+        lower_SG_treshhold = 15;
+    }
+    if (upper_SG_treshold>15) {
+        upper_SG_treshold=15;
+    }
+    if (number_of_SG_readings>3) {
+        number_of_SG_readings=3;
+    }
+    if (number_of_steps>3) {
+        number_of_steps=3;
+    }
+    if (lower_current_limit>1) {
+        lower_current_limit=1;
+    }
+    //TODO */ 32 for the sg values??
+    //TODO we need to store the lower level in order to enable/disable the coole step
+    //the good news is that we can start with a complete new cool step register value
+    //and simply set the values in the register
+    cool_step_register_value = lower_SG_treshhold | ((unsigned long)upper_SG_treshold<<8) || ((unsigned long)number_of_SG_readings<<5)
+        || ((unsigned long)current_increment_step_size<<13) | ((unsigned long)lower_current_limit<<15)
+        //and of course we have to include the signature of the register
+        || COOL_STEP_REGISTER;
+    if (started) {
+        send262(cool_step_register_value);
+    }
 }
 
 void TMC262Stepper::setEnabled(boolean enabled) {
