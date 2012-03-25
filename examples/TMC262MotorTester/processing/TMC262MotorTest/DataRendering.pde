@@ -21,6 +21,8 @@ int stallGuardMinorTickInterval = 10;
 int positionLabelInterval = 64;
 int positionMinorTickInterval = 8;
 
+int coolStepActiveStroke = 2;
+int coolStepInactiveStroke = 1;
 int stallGuardHighLightDistance = 1;
 int positionHighLightDistance = 3;
 
@@ -53,6 +55,17 @@ void drawData() {
     stroke(stallGuardColor);
     drawDataPoints(stallGuardTable, stallGuardMin, stallGuardMax);
     drawDataHighLight(stallGuardTable, stallGuardMin, stallGuardMax, stallGuardHighLightDistance, labelColor, "Stall Guard", true);
+    
+    if (coolStepActive) {
+      strokeWeight(coolStepActiveStroke); 
+    } else {
+      strokeWeight(coolStepInactiveStroke);
+    }
+    stroke(coolStepColor);
+    float coolStepMinHeight = map(coolStepMin, 0, stallGuardMax, plotBottom, plotTop);
+    line(plotLeft,coolStepMinHeight, plotRight, coolStepMinHeight);
+    float coolStepMaxHeight = map(coolStepMin+coolStepMax+1, 0, stallGuardMax, plotBottom, plotTop);
+    line(plotLeft,coolStepMaxHeight, plotRight, coolStepMaxHeight);
 
     textSize(15);
     textAlign(LEFT);

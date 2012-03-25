@@ -9,6 +9,8 @@ Button sgtPlus;
 Button sgtMinus;
 Toggle sgFilterToggle;
 Slider currentSlider;
+Slider coolStepMinSlider;
+Slider coolStepMaxSlider;
 
 
 void setupRunConfig() {
@@ -59,6 +61,15 @@ void setupRunConfig() {
   sgFilterToggle = controlP5.addToggle("sgfilter", false, 250, 220, 30, 30);
   sgFilterToggle.setCaptionLabel("Stall GuardFilter");
   sgFilterToggle.moveTo(runTab);
+  
+  //add the coolstep sliders
+  coolStepMaxSlider = controlP5.addSlider("coolStepMax", 0, 480, 0, 400, 40, 20, 90);
+  coolStepMaxSlider.setCaptionLabel("Cool Step Maximum");
+  coolStepMaxSlider.moveTo(runTab);
+
+  coolStepMinSlider = controlP5.addSlider("coolStepMin", 0, 480, 0, 400, 165, 20, 90);
+  coolStepMinSlider.setCaptionLabel("Cool Step Minimum");
+  coolStepMinSlider.moveTo(runTab);
 
   currentSlider = controlP5.addSlider("current", 0.46, 1.7, 0.4, 950, 50, 20, 210);
   currentSlider.moveTo(runTab);
@@ -145,6 +156,14 @@ void current(float value) {
       motorCurrentBox.setValue(value);
     }
   }
+}
+
+void coolStepMax(int value) {
+  coolStepMax=value;
+}
+
+void coolStepMin(int value) {
+  coolStepMin = value;
 }
 
 void setCurrent(int current) {
