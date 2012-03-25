@@ -625,6 +625,11 @@ void TMC262Stepper::setRandomOffTime(char value) {
 	}	
 }	
 
+void TMC262Stepper::setCoolStepConfiguration(unsigned char lower_SG_treshhold, unsigned char upper_SE_treshold, unsigned char number_of_SG_readigns,
+                              unsigned char current_increment_step_size, unsigned char lower_current_limit) {
+    
+}
+
 void TMC262Stepper::setEnabled(boolean enabled) {
     //delete the t_off in the chopper config to get sure
     chopper_config_register &= ~(T_OFF_PATTERN);

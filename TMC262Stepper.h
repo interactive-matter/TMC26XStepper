@@ -47,9 +47,32 @@
 #define TMC262_OVERTEMPERATURE_SHUTDOWN 2
 
 //which values can be read out
+/*!
+ * Selects to readout the microstep position from the motor.
+ *\sa readStatus()
+ */
 #define TMC262_READOUT_POSITION 0
+/*!
+ * Selects to read out the stall guard value of the motor.
+ *\sa readStatus()
+ */
 #define TMC262_READOUT_STALLGUARD 1
+/*!
+ * Selects to read out the current current setting (acc. to cool step) and the upper bits of the stall guard value from the motor.
+ *\sa readStatus(), setCurrent()
+ */
 #define TMC262_READOUT_CURRENT 3
+
+/*!
+ * Define to set the minimum current for cool step operation to 1/2 of the selected CS minium.
+ *\sa setCoolStepConfiguration()
+ */
+#define COOL_STEP_HALF_CS_LIMIT 0
+/*!
+ * Define to set the minimum current for cool step operation to 1/4 of the selected CS minium.
+ *\sa setCoolStepConfiguration()
+ */
+#define COOL_STEP_QUARTDER_CS_LIMIT 1
 
 /*!
  * \class TMC262Stepper
@@ -303,6 +326,21 @@ class TMC262Stepper {
      */
     char getStallGuardFilter(void);
     
+    /*!
+     * \brief This method configures the CoolStep smart energy operation. You must have a proper stall guard configuration for the motor situation (current, voltage, speed) in rder to use this feature.
+     * The CoolStep smart energy operation automatically adjust the current sent into the motor according to the current load,
+     * read out by the StallGuard in order to provide the optimum torque with the minimal current consumption.
+     * You configure the CoolStep current regulator by defining upper and lower bounds of stall guard readouts. If the readout is above the 
+     * limit the current gets increased, below the limit the current gets decreased.
+     * You can specify the upper an lower treshhold of the stall guard readout in order to adjust the current. You can also set the number of
+     * stall guard readings neccessary above or below the limit to get a more stable current adjustement.
+     * The current adjustement itself is configured by the number of steps the current gests in- or decreased and the absolut minimum current
+     * (1/2 or 1/4th otf the configured current).
+     * \sa COOL_STEP_HALF_CS_LIMIT, COOL_STEP_QUARTER_CS_LIMIT
+     */
+    void setCoolStepConfiguration(unsigned char lower_SG_treshhold, unsigned char upper_SE_treshold, unsigned char number_of_SG_readigns,
+                                  unsigned char current_increment_step_size, unsigned char lower_current_limit);
+    
 	/*!
      * \brief Get the current microstep position for phase A
      * \return The current microstep position for phase A 0…255
@@ -402,8 +440,20 @@ class TMC262Stepper {
      */
     boolean isEnabled();
 
+	/*!
+     * \brief Manually read out the status register
+     * This function sends a byte to the motor driver in order to get the current readout. The parameter read_value
+     * seletcs which value will get returned. If the read_vlaue changes in respect to the previous readout this method
+     * automatically send two bytes to the motor: one to set the redout and one to get the actual readout. So this method 
+     * may take time to send and read one or two bits - depending on the previous readout.
+     * \param read_value selects which value to read out (0..3). You can use the defines TMC262_READOUT_POSITION, TMC_262_READOUT_STALLGUARD, or TMC_262_READOUT_CURRENT
+     * \sa TMC262_READOUT_POSITION, TMC_262_READOUT_STALLGUARD, TMC_262_READOUT_CURRENT
+     */
+	void readStatus(char read_value);
+
     /*!
-     * \brief Prints out all the inforamtion that can be found in the last status read out - it does not force a status readout. The result is printed via Serial
+     * \brief Prints out all the information that can be found in the last status read out - it does not force a status readout. 
+     * The result is printed via Serial
      */
 	void debugLastStatus(void);
 	/*!
@@ -432,8 +482,6 @@ class TMC262Stepper {
 	//the driver status result
 	unsigned long driver_status_result;
 	
-	//manually read out the status register
-	void readStatus(char read_value);
 	//helper routione to get the top 10 bit of the readout
 	inline int getReadoutValue();
 	
