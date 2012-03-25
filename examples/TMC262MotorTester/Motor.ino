@@ -4,6 +4,13 @@ int sgTreshold = 4;
 int sgFilter = 0;
 int direction = 1;
 
+unsigned int lower_SG_treshhold = 0;
+unsigned int upper_SG_treshhold = 0;
+unsigned char number_of_SG_readings=0;
+unsigned char current_increment_step_size=0;
+unsigned char lower_current_limit=0;
+
+
 char chopperMode = 0; //0 for spread, 1 for constant off
 char t_off = 2;
 char t_blank = 24;
@@ -97,6 +104,12 @@ void updateChopper() {
   if (chopperMode==0) {
     tmc262Stepper.setSpreadCycleChopper(t_off,t_blank,h_start,h_end,h_decrement);
   }    
+}
+
+void updateCoolStep() {
+  tmc262Stepper.setCoolStepConfiguration(
+    lower_SG_treshhold, upper_SG_treshhold, number_of_SG_readings,
+    current_increment_step_size, lower_current_limit);
 }
 
 //from http://www.uchobby.com/index.php/2007/11/24/arduino-interrupts/

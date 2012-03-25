@@ -338,7 +338,7 @@ class TMC262Stepper {
      * (1/2 or 1/4th otf the configured current).
      * \sa COOL_STEP_HALF_CS_LIMIT, COOL_STEP_QUARTER_CS_LIMIT
      */
-    void setCoolStepConfiguration(unsigned int lower_SG_treshhold, unsigned int upper_SG_treshold, unsigned char number_of_SG_readings,
+    void setCoolStepConfiguration(unsigned int lower_SG_treshhold, unsigned int upper_SG_treshhold, unsigned char number_of_SG_readings,
                                   unsigned char current_increment_step_size, unsigned char lower_current_limit);
     
     /*!

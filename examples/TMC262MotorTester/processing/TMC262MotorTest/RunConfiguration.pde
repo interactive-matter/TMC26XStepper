@@ -66,12 +66,12 @@ void setupRunConfig() {
   sgFilterToggle.moveTo(runTab);
   
   //add the coolstep sliders
-  coolStepMaxSlider = controlP5.addSlider("coolStepMax", 0, 480, 0, 400, 40, 20, 90);
+  coolStepMaxSlider = controlP5.addSlider("coolStepUpper", 0, 480, 0, 400, 40, 20, 90);
   coolStepMaxSlider.setCaptionLabel("Cool Step Maximum");
   coolStepMaxSlider.moveTo(runTab);
 
-  coolStepMinSlider = controlP5.addSlider("coolStepMin", 0, 480, 0, 400, 160, 20, 90);
-  coolStepMinSlider.setCaptionLabel("Cool Step Minimum");
+  coolStepMinSlider = controlP5.addSlider("coolStepLower", 0, 480, 0, 400, 160, 20, 90);
+  coolStepMinSlider.setCaptionLabel("Cool Step Hysteresis");
   coolStepMinSlider.moveTo(runTab);
   
   coolStepActiveToggle = controlP5.addToggle("coolStepActive", false, 500, 220, 30, 30);  
@@ -187,12 +187,40 @@ void current(float value) {
   }
 }
 
-void coolStepMax(int value) {
+void coolStepUpper(int value) {
   coolStepMax=value;
+  if (!settingStatus) {
+    arduinoPort.write("Ku"+value+"\n");
+  }
 }
 
-void coolStepMin(int value) {
+void coolStepLower(int value) {
   coolStepMin = value;
+  if (!settingStatus) {
+    arduinoPort.write("Kl"+value+"\n");
+  }
+}
+
+
+void setCoolStepIncrement(int value) {
+  if (!settingStatus) {
+    println("cool step increment :"+value);
+    arduinoPort.write("Ki"+value+"\n");
+  }
+}
+
+void setCoolStepDecrement(int value) {
+  if (!settingStatus) {
+    println("cool step decrement :"+value);
+    arduinoPort.write("Kn"+value+"\n");
+  }
+}
+
+void setCoolStepMin(int value) {
+  if (!settingStatus) {
+    println("cool step minimum :"+value);
+    arduinoPort.write("Km"+value+"\n");
+  }
 }
 
 void coolStepActive(int value) {
@@ -221,14 +249,3 @@ void setDirection(int direction) {
   }
 }
 
-void setCoolStepIncrement(int value) {
-  print("cool step increment :"+value);
-}
-
-void setCoolStepDecrement(int value) {
-  print("cool step decrement :"+value);
-}
-
-void setCoolStepMin(int value) {
-  print("cool step minimum :"+value);
-}

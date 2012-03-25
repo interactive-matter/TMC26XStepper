@@ -73,7 +73,8 @@ void loopSerial() {
     //print out the general cool step config
     if (tmc262Stepper.isCoolStepEnabled()) {
       Serial.print("Ke+,");
-    } else {
+    } 
+    else {
       Serial.print("Ke-,");
     }
     Serial.print("Kl");
@@ -256,6 +257,51 @@ void executeSerialCommand() {
       break;
     }
     break;
+  case 'K':
+    switch(inputBuffer[1]) {
+    case 'l':
+      {
+        int value = decode(2);
+        if (value>0 && value<480) {
+          lower_SG_treshhold=value;
+          updateCoolStep();
+        }
+      }
+    case 'u':
+      {
+        int value = decode(2);
+        if (value>0 && value<480) {
+          upper_SG_treshhold=value;
+          updateCoolStep();
+        }
+      }
+      break;
+    case 'n':
+      {
+        int value = decode(2);
+        if (value>0 && value<4) {
+          number_of_SG_readings=value;
+          updateCoolStep();
+        }
+      }
+    case 'i':
+      {
+        int value = decode(2);
+        if (value>0 && value<4) {
+          current_increment_step_size=value;
+          updateCoolStep();
+        }
+      }
+    case 'm':
+      {
+        int value = decode(2);
+        if (value>0 && value<2) {
+          lower_current_limit=value;
+          updateCoolStep();
+        }
+      }
+    }
+    break;
   }
   //at the end delete buffer
   inputBufferPosition=0;
@@ -284,4 +330,6 @@ int decode(unsigned char startPosition) {
     return result;
   }
 }
+
+
 
