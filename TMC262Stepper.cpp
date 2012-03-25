@@ -627,15 +627,18 @@ void TMC262Stepper::setRandomOffTime(char value) {
 	}	
 }	
 
-void TMC262Stepper::setCoolStepConfiguration(unsigned char lower_SG_treshhold, unsigned char upper_SG_treshold, unsigned char number_of_SG_readings,
+void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, unsigned int upper_SG_treshold, unsigned char number_of_SG_readings,
                               unsigned char current_increment_step_size, unsigned char lower_current_limit) {
     //sanitize the input values
-    if (lower_SG_treshhold>15) {
-        lower_SG_treshhold = 15;
+    if (lower_SG_treshhold>480) {
+        lower_SG_treshhold = 480;
     }
-    if (upper_SG_treshold>15) {
-        upper_SG_treshold=15;
+    //divide by 32
+    lower_SG_treshhold >>=5;
+    if (upper_SG_treshold>480) {
+        upper_SG_treshold=480;
     }
+    upper_SG_treshold >>=32;
     if (number_of_SG_readings>3) {
         number_of_SG_readings=3;
     }
@@ -682,13 +685,13 @@ boolean TMC262Stepper::isCoolStepEnabled(void) {
     return this->cool_step_enabled;
 }
 
-unsigned char TMC262Stepper::getCoolStepLowerSgTreshhold() {
+unsigned int TMC262Stepper::getCoolStepLowerSgTreshhold() {
     //we return our internally stored value - in order to provide the correct setting even if cool step is not enabled
-    return this->cool_step_lower_treshhold;
+    return this->cool_step_lower_treshhold<<5;
 }
 
-unsigned char TMC262Stepper::getCoolStepUpperSgTreshhold() {
-    return (unsigned char)((cool_step_register_value & SE_MAX_PATTERN)>>8);
+unsigned int TMC262Stepper::getCoolStepUpperSgTreshhold() {
+    return (unsigned char)((cool_step_register_value & SE_MAX_PATTERN)>>8)<<5;
 }
 
 unsigned char TMC262Stepper::getCoolStepNumberOfSGReadings() {
