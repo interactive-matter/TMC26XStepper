@@ -650,18 +650,18 @@ void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, un
     }
     //TODO */ 32 for the sg values??
     //store the lower level in order to enable/disable the coole step
-    this->cool_step_register_value=lower_SG_treshhold;
+    this->cool_step_lower_treshhold=lower_SG_treshhold;
     //if cool step is not enabled we delete the lower value to keep it disabled
     if (!this->cool_step_enabled) {
         lower_SG_treshhold=0;
     }
     //the good news is that we can start with a complete new cool step register value
     //and simply set the values in the register
-    cool_step_register_value = lower_SG_treshhold | ((unsigned long)upper_SG_treshhold<<8) | ((unsigned long)number_of_SG_readings<<5)
-        | ((unsigned long)current_increment_step_size<<13) | ((unsigned long)lower_current_limit<<15)
+    cool_step_register_value = ((unsigned long)lower_SG_treshhold) | (((unsigned long)upper_SG_treshhold)<<8) | (((unsigned long)number_of_SG_readings)<<5)
+        | (((unsigned long)current_increment_step_size)<<13) | (((unsigned long)lower_current_limit)<<15)
         //and of course we have to include the signature of the register
         | COOL_STEP_REGISTER;
-    Serial.println(cool_step_register_value);
+    Serial.println(cool_step_register_value,HEX);
     if (started) {
         send262(cool_step_register_value);
     }
@@ -695,11 +695,11 @@ unsigned int TMC262Stepper::getCoolStepUpperSgTreshhold() {
     return (unsigned char)((cool_step_register_value & SE_MAX_PATTERN)>>8)<<5;
 }
 
-unsigned char TMC262Stepper::getCoolStepNumberOfSGReadings() {
+unsigned char TMC262Stepper::getCoolStepCurrentIncrementSize() {
     return (unsigned char)((cool_step_register_value & CURRENT_DOWN_STEP_SPEED_PATTERN)>>13);
 }
 
-unsigned char TMC262Stepper::getCoolStepCurrentIncrementSize() {
+unsigned char TMC262Stepper::getCoolStepNumberOfSGReadings() {
     return (unsigned char)((cool_step_register_value & SE_CURRENT_STEP_WIDTH_PATTERN)>>5);
 }
 

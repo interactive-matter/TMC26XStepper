@@ -262,15 +262,16 @@ void executeSerialCommand() {
     case 'l':
       {
         int value = decode(2);
-        if (value>0 && value<480) {
+        if (value>=0 && value<480) {
           lower_SG_treshhold=value;
           updateCoolStep();
         }
       }
+      break;
     case 'u':
       {
         int value = decode(2);
-        if (value>0 && value<480) {
+        if (value>=0 && value<480) {
           upper_SG_treshhold=value;
           updateCoolStep();
         }
@@ -279,27 +280,30 @@ void executeSerialCommand() {
     case 'n':
       {
         int value = decode(2);
-        if (value>0 && value<4) {
+        if (value>=0 && value<4) {
           number_of_SG_readings=value;
           updateCoolStep();
         }
       }
+      break;
     case 'i':
       {
         int value = decode(2);
-        if (value>0 && value<4) {
+        if (value>=0 && value<4) {
           current_increment_step_size=value;
           updateCoolStep();
         }
       }
+      break;
     case 'm':
       {
         int value = decode(2);
-        if (value>0 && value<2) {
+        if (value>=0 && value<2) {
           lower_current_limit=value;
           updateCoolStep();
         }
       }
+      break;
     }
     break;
   }
