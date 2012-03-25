@@ -11,6 +11,7 @@ Toggle sgFilterToggle;
 Slider currentSlider;
 Slider coolStepMinSlider;
 Slider coolStepMaxSlider;
+Toggle coolStepActiveToggle;
 
 
 void setupRunConfig() {
@@ -67,9 +68,13 @@ void setupRunConfig() {
   coolStepMaxSlider.setCaptionLabel("Cool Step Maximum");
   coolStepMaxSlider.moveTo(runTab);
 
-  coolStepMinSlider = controlP5.addSlider("coolStepMin", 0, 480, 0, 400, 165, 20, 90);
+  coolStepMinSlider = controlP5.addSlider("coolStepMin", 0, 480, 0, 400, 160, 20, 90);
   coolStepMinSlider.setCaptionLabel("Cool Step Minimum");
   coolStepMinSlider.moveTo(runTab);
+  
+  coolStepActiveToggle = controlP5.addToggle("coolStepActive", false, 500, 220, 30, 30);  
+  coolStepActiveToggle.setCaptionLabel("Enable CoolStep");
+  coolStepActiveToggle.moveTo(runTab);
 
   currentSlider = controlP5.addSlider("current", 0.46, 1.7, 0.4, 950, 50, 20, 210);
   currentSlider.moveTo(runTab);
@@ -164,6 +169,10 @@ void coolStepMax(int value) {
 
 void coolStepMin(int value) {
   coolStepMin = value;
+}
+
+void coolStepActive(int value) {
+  coolStepActive = (value!=0);
 }
 
 void setCurrent(int current) {
