@@ -86,7 +86,7 @@ void setupRunConfig() {
   coolStepIncrementButtons.showBar();
   coolStepIncrementButtons.moveTo(runTab);
 
-  coolStepDecrementButtons = controlP5.addRadioButton("coolStepDecrement", 500, 120);
+  coolStepDecrementButtons = controlP5.addRadioButton("coolStepDecrement", 500, 110);
   coolStepDecrementButtons.addItem("32", 0);
   coolStepDecrementButtons.addItem("8", 1);
   coolStepDecrementButtons.addItem("2", 2);

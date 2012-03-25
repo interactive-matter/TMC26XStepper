@@ -64,14 +64,28 @@ void loopSerial() {
     Serial.print('m');
     Serial.print(tmc262Stepper.getMicrosteps(),DEC);
     Serial.print(',');
-    if (moving) {
-    }
-    Serial.print(',');
     Serial.print("t");
     Serial.print(tmc262Stepper.getStallGuardTreshold(),DEC);
     Serial.print(',');
     Serial.print("f");
     Serial.print(tmc262Stepper.getStallGuardFilter(),DEC);
+    Serial.print(',');
+    //print out the general cool step config
+    if (tmc262Stepper.isCoolStepEnabled()) {
+      Serial.print("Ke+,");
+    } else {
+      Serial.print("Ke-,");
+    }
+    Serial.print("Kl");
+    Serial.print(tmc262Stepper.getCoolStepLowerSgTreshhold(),DEC);
+    Serial.print(",Ku");
+    Serial.print(tmc262Stepper.getCoolStepUpperSgTreshhold(),DEC);
+    Serial.print(",Kn");
+    Serial.print(tmc262Stepper.getCoolStepNumberOfSGReadings(),DEC);
+    Serial.print(",Ki");
+    Serial.print(tmc262Stepper.getCoolStepCurrentIncrementSize(),DEC);
+    Serial.print(",Km");
+    Serial.print(tmc262Stepper.getCoolStepLowerCurrentLimit(),DEC);
     Serial.print(',');
     //detect the winding status
     if (tmc262Stepper.isOpenLoadA()) {
