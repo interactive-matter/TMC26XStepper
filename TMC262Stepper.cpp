@@ -114,7 +114,7 @@
 TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor)
 {
 	//we are not started yet
-	started=0;
+	started=false;
 	
 	//save the pins for later use
 	this->cs_pin=cs_pin;
@@ -190,7 +190,7 @@ void TMC262Stepper::start() {
 	send262(driver_configuration_register_value);
 	
 	//save that we are in running mode
-	started=-1;
+	started=true;
 }
 
 /*

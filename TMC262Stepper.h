@@ -491,7 +491,7 @@ class TMC262Stepper {
 	int dir_pin;
 	
 	//status values 
-	char started; //if the stepper has been started yet
+	boolean started; //if the stepper has been started yet
 	int microsteps; //the current number of micro steps
     char constant_off_time; //we need to remember this value in order to enable and disable the motor
 	
