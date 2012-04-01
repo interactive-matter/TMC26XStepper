@@ -53,23 +53,23 @@
  */
 #define TMC262_READOUT_POSITION 0
 /*!
- * Selects to read out the stall guard value of the motor.
+ * Selects to read out the StallGuard value of the motor.
  *\sa readStatus()
  */
 #define TMC262_READOUT_STALLGUARD 1
 /*!
- * Selects to read out the current current setting (acc. to cool step) and the upper bits of the stall guard value from the motor.
+ * Selects to read out the current current setting (acc. to CoolStep) and the upper bits of the StallGuard value from the motor.
  *\sa readStatus(), setCurrent()
  */
 #define TMC262_READOUT_CURRENT 3
 
 /*!
- * Define to set the minimum current for cool step operation to 1/2 of the selected CS minium.
+ * Define to set the minimum current for CoolStep operation to 1/2 of the selected CS minium.
  *\sa setCoolStepConfiguration()
  */
 #define COOL_STEP_HALF_CS_LIMIT 0
 /*!
- * Define to set the minimum current for cool step operation to 1/4 of the selected CS minium.
+ * Define to set the minimum current for CoolStep operation to 1/4 of the selected CS minium.
  *\sa setCoolStepConfiguration()
  */
 #define COOL_STEP_QUARTDER_CS_LIMIT 1
@@ -111,7 +111,6 @@ class TMC262Stepper {
      * \param step_pin the number of the Arduino pin the step pin of the TMC262 driver is connected.
      * \param rms_current the maximum current to privide to the motor in mA (!). A value of 200 would send up to 200mA to the motor
      * \param resistor the current sense resistor in milli Ohm, defaults to ,15 Ohm ( or 150 milli Ohm) as in the TMC260 Arduino Shield
-     * TODO doens't it make send to also use the enable pin
      *
      * Keep in mind that you must also call TMC262Stepper.start() in order to configure the stepper driver for use.
      *
@@ -120,6 +119,7 @@ class TMC262Stepper {
      *
      * By default a microstepping of 1/32th is used to provide a smooth motor run, while still giving a good progression per step.
      * You can select a different stepping with setMicrosteps() to aa different value.
+     * \sa start(), setMicrosteps()
      */
 	TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor=150);
 	
@@ -128,7 +128,7 @@ class TMC262Stepper {
      *
      * This routine configures the TMC262 stepper driver for the given values via SPI. 
      * Most member functions are non functional if the driver has not been started.
-     * Therefore it is best to call this in your Arduinosetup() function.
+     * Therefore it is best to call this in your Arduino setup() function.
      */
 	void start();
 
@@ -136,13 +136,13 @@ class TMC262Stepper {
      * \brief Sets the rotation speed in revolutions per minute.
      * \param whatSpeed the desired speed in rotations per minute.
      */
-    void setSpeed(long whatSpeed);
+    void setSpeed(unsigned int whatSpeed);
     
     /*!
      * \brief reads out the currently selected speed in revolutions per minute.
      * \sa setSpeed()
      */
-    long getSpeed(void);
+    unsigned int getSpeed(void);
 
     /*!
      * \brief Set the number of microsteps in 2^i values (rounded) up to 256
@@ -151,7 +151,6 @@ class TMC262Stepper {
      * This means you can select 1, 2, 4, 16, 32, 64, 128 or 256 as valid microsteps.
      * If you give any other value it will be rounded to the next smaller number (3 would give a microstepping of 2).
      * You can always check the current microstepping with getMicrosteps(). 
-     * TODO unsingend char maybe enough
      */ 
 	void setMicrosteps(int number_of_steps);
 	/*!
@@ -173,13 +172,16 @@ class TMC262Stepper {
      * If the previous movement is not finished yet the function will return -1 and not change the steps to move the motor.
 	 * If the motor does not move it return 0
      *
-     * You can always verify with isMoving() or even use stop() to stop the motor before gibving it new step directions.
+     * The direction of the movement is indicated by the sign of the steps parameter. It is not determinable if positive values are right 
+     * or left This depends on the internal construction of the motor and how you connected it to the stepper driver.
+     *
+     * You can always verify with isMoving() or even use stop() to stop the motor before giving it new step directions.
      * \sa isMoving(), getStepsLeft(), stop()
      */
     char step(int number_of_steps);
     
     /*!
-     * \brief Central movement method, must be calleda s often as possible in the lopp function and is very fast.
+     * \brief Central movement method, must be called as often as possible in the lopp function and is very fast.
      *
      * This routine checks if the motor still has to move, if the waiting delay has passed to send a new step command to the motor 
      * and manages the number of steps yet to move to fulfill the current move command.
@@ -194,6 +196,7 @@ class TMC262Stepper {
      * 
      * How often you call this function directly influences your top miving speed for the motor. It may be a good idea to call this
      * from an timer overflow interrupt to ensure proper calling.
+     * \sa step()
      */
     char move(void);
 
@@ -202,22 +205,15 @@ class TMC262Stepper {
      * \return 0 if the motor stops, -1 if the motor is moving.
      *
      * This method can be used to determine if the motor is ready for new movements.
+     *\sa step(), move()
      */
     char isMoving(void);
     
     /*!
      * \brief Get the number of steps left in the current movement.
      * \return The number of steps left in the movement. This number is always positive.
-     *
-     * TODO isn't an unsigend int more obvious?
      */
-    int getStepsLeft(void);
-    
-    /*!
-     *\brief a convenience method to determine if the current scaling uses 0.31V or 0.165V as reference.
-     *\return false if 0.13V is the reference voltage, true if 0.165V is used.
-     */
-    boolean isCurrentScalingHalfed();
+    unsigned int getStepsLeft(void);
     
     /*!
      * \brief Stops the motor regardless if it moves or not.
@@ -274,6 +270,7 @@ class TMC262Stepper {
      * \sa setRandomOffTime() for spreading the noise over a wider spectrum
      */
 	void setSpreadCycleChopper(char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement);
+
 	/*!
      * \brief Use random off time for noise reduction (0 for off, -1 for on).
      * \param value 0 for off, -1 for on
@@ -293,29 +290,32 @@ class TMC262Stepper {
     
 	/*!
      * \brief set the maximum motor current in mA (1000 is 1 Amp)
+     * Keep in mind this is the maximum peak Current. The RMS current will be 1/sqrt(2) smaller. The actual current can also be smaller
+     * by employing CoolStep.
      * \param current the maximum motor current in mA
+     * \sa getCurrent(), getCurrentCurrent()
      */
 	void setCurrent(unsigned int current);
     
     /*!
      * \brief readout the motor maximum current in mA (1000 is an Amp)
-     * This is the maximum current. to get the current current - which may be affected by cool step us getCurrentCurrent()
+     * This is the maximum current. to get the current current - which may be affected by CoolStep us getCurrentCurrent()
      *\return the maximum motor current in milli amps
      * \sa getCurrentCurrent()
      */
     unsigned int getCurrent(void);
     
 	/*!
-     * \brief set the Stall Guard treshold in order to get sensible Stall Guard readings.
-     * \param stall_guard_treshold -64 … 63 the stall guard treshold
+     * \brief set the StallGuard treshold in order to get sensible StallGuard readings.
+     * \param stall_guard_treshold -64 … 63 the StallGuard treshold
      * \param stall_guard_filter_enabled 0 if the filter is disabled, -1 if it is enabled
      *
-     * The stall guard treshold is used to optimize the stall guard reading to sensible values. It should be at 0 at
+     * The StallGuard treshold is used to optimize the StallGuard reading to sensible values. It should be at 0 at
      * the maximum allowable load on the otor (but not before). = is a good starting point (and the default)
      * If you get Stall Gaurd readings of 0 without any load or with too little laod increase the value.
      * If you get readings of 1023 even with load decrease the setting.
      *
-     * If you switch on the filter the stall guard reading is only updated each 4th full step to reduce the noise in the
+     * If you switch on the filter the StallGuard reading is only updated each 4th full step to reduce the noise in the
      * reading.
      * 
      * \sa getCurrentStallGuardReading() to read out the current value.
@@ -323,25 +323,30 @@ class TMC262Stepper {
 	void setStallGuardTreshold(char stall_guard_treshold, char stall_guard_filter_enabled);
     
     /*!
-     * \brief reads out the stall guard treshold
+     * \brief reads out the StallGuard treshold
      * \return a number between -64 and 63.
      */
     char getStallGuardTreshold(void);
     
     /*!
-     * \brief returns the current setting of the stall guard filter
+     * \brief returns the current setting of the StallGuard filter
      * \return 0 if not set, -1 if set
      */
     char getStallGuardFilter(void);
     
     /*!
-     * \brief This method configures the CoolStep smart energy operation. You must have a proper stall guard configuration for the motor situation (current, voltage, speed) in rder to use this feature.
+     * \brief This method configures the CoolStep smart energy operation. You must have a proper StallGuard configuration for the motor situation (current, voltage, speed) in rder to use this feature.
+     * \param lower_SG_treshhold Sets the lower threshold for stallGuard2TM reading. Below this value, the motor current becomes increased. Allowed values are 0...480
+     * \param upper_SG_treshhold Sets the distance between the lower and the upper threshold for stallGuard2TM reading. Above the upper threshold the motor current becomes decreased. Allowed values are 0...480
+     * \param number_of_SG_readings Sets the number of stallGuard2TM readings above the upper threshold necessary for each current decrement of the motor current. 0...32
+     * \param current_increment_step_size Sets the current increment step. The current becomes incremented for each measured stallGuard2TM value below the lower threshold. 0...8
+     * \param lower_current_limit Sets the lower motor current limit for coolStepTM operation by scaling the CS value. Values can be COOL_STEP_HALF_CS_LIMIT, COOL_STEP_QUARTER_CS_LIMIT
      * The CoolStep smart energy operation automatically adjust the current sent into the motor according to the current load,
      * read out by the StallGuard in order to provide the optimum torque with the minimal current consumption.
-     * You configure the CoolStep current regulator by defining upper and lower bounds of stall guard readouts. If the readout is above the 
+     * You configure the CoolStep current regulator by defining upper and lower bounds of StallGuard readouts. If the readout is above the 
      * limit the current gets increased, below the limit the current gets decreased.
-     * You can specify the upper an lower treshhold of the stall guard readout in order to adjust the current. You can also set the number of
-     * stall guard readings neccessary above or below the limit to get a more stable current adjustement.
+     * You can specify the upper an lower treshhold of the StallGuard readout in order to adjust the current. You can also set the number of
+     * StallGuard readings neccessary above or below the limit to get a more stable current adjustement.
      * The current adjustement itself is configured by the number of steps the current gests in- or decreased and the absolut minimum current
      * (1/2 or 1/4th otf the configured current).
      * \sa COOL_STEP_HALF_CS_LIMIT, COOL_STEP_QUARTER_CS_LIMIT
@@ -350,45 +355,45 @@ class TMC262Stepper {
                                   unsigned char current_increment_step_size, unsigned char lower_current_limit);
     
     /*!
-     * \brief enables or disables the cool step smart energy operation feature. It must be configured before enabling it
-     * \param enabled tue if CoolStep tshould be enabled, false if not.
+     * \brief enables or disables the CoolStep smart energy operation feature. It must be configured before enabling it.
+     * \param enabled true if CoolStep should be enabled, false if not.
      * \sa setCoolStepConfiguration()
      */
     void setCoolStepEnabled(boolean enabled);
     
     
     /*!
-     * \brief check if the cool step feature is enabled
+     * \brief check if the CoolStep feature is enabled
      * \sa setCoolStepEnabled()
      */
     boolean isCoolStepEnabled();
 
     /*!
-     * \brief returns the lower stall guard treshhold for the cool step operation
+     * \brief returns the lower StallGuard treshhold for the CoolStep operation
      * \sa setCoolStepConfiguration()
      */
     unsigned int getCoolStepLowerSgTreshhold();
     
     /*!
-     * \brief returns the upper stall guard treshhold for the cool step operation
+     * \brief returns the upper StallGuard treshhold for the CoolStep operation
      * \sa setCoolStepConfiguration()
      */
     unsigned int getCoolStepUpperSgTreshhold();
     
     /*!
-     * \brief returns the number of stall guard readings befor cool step adjusts the motor current.
+     * \brief returns the number of StallGuard readings befor CoolStep adjusts the motor current.
      * \sa setCoolStepConfiguration()
      */
     unsigned char getCoolStepNumberOfSGReadings();
     
     /*!
-     * \brief returns the increment steps for the current for the cool step operation
+     * \brief returns the increment steps for the current for the CoolStep operation
      * \sa setCoolStepConfiguration()
      */
     unsigned char getCoolStepCurrentIncrementSize();
     
     /*!
-     * \brief returns the absolut minium current for the cool step operation
+     * \brief returns the absolut minium current for the CoolStep operation
      * \sa setCoolStepConfiguration()
      * \sa COOL_STEP_HALF_CS_LIMIT, COOL_STEP_QUARTER_CS_LIMIT
      */
@@ -403,8 +408,8 @@ class TMC262Stepper {
 	int getMotorPosition(void);
     
     /*!
-     * \brief Reads the current stall guard value.
-     * \return The current Stall guard value, lesser values indicate higher load, 0 means stall detected.
+     * \brief Reads the current StallGuard value.
+     * \return The current StallGuard value, lesser values indicate higher load, 0 means stall detected.
      * Keep in mind that this routine reads and writes a value via SPI - so this may take a bit time.
      * \sa setStallGuardTreshold() for tuning the readout to sensible ranges.
      */
@@ -417,9 +422,16 @@ class TMC262Stepper {
      */
     unsigned char getCurrentCSReading(void);
     
+    
+    /*!
+     *\brief a convenience method to determine if the current scaling uses 0.31V or 0.165V as reference.
+     *\return false if 0.13V is the reference voltage, true if 0.165V is used.
+     */
+    boolean isCurrentScalingHalfed();
+
     /*!
      * \brief Reads the current current setting value and recalculates the absolute current in mA (1A would be 1000).
-     * This method calculates the currently used current setting (either by setting or by cool step) and reconstructs
+     * This method calculates the currently used current setting (either by setting or by CoolStep) and reconstructs
      * the current in mA by usinge the VSENSE and resistor value. This method uses floating point math - so it 
      * may not be the fastest.
      * \sa getCurrentCSReading(), getResistor(), isCurrentScalingHalfed(), getCurrent()
@@ -427,7 +439,7 @@ class TMC262Stepper {
     unsigned int getCurrentCurrent(void);
     
     /*!
-     * \brief checks if there is a Stall Guard warning in the last status
+     * \brief checks if there is a StallGuard warning in the last status
      * \return 0 if there was no warning, -1 if there was some warning.
      * Keep in mind that this method does not enforce a readout but uses the value of the last status readout.
      * You may want to use getMotorPosition() or getCurrentStallGuardReading() to enforce an updated status readout.
@@ -485,7 +497,7 @@ class TMC262Stepper {
 	boolean isStandStill(void);
 
     /*!
-     * \brief checks if there is a Stall Guard warning in the last status
+     * \brief checks if there is a StallGuard warning in the last status
      * \return 0 if there was no warning, -1 if there was some warning.
      * Keep in mind that this method does not enforce a readout but uses the value of the last status readout.
      * You may want to use getMotorPosition() or getCurrentStallGuardReading() to enforce an updated status readout.
@@ -539,11 +551,11 @@ class TMC262Stepper {
     int version(void);
 
   private:    
-  	int steps_left;		//the steps the motor has to do to complete the movement
+  	unsigned int steps_left;		//the steps the motor has to do to complete the movement
     int direction;        // Direction of rotation
     unsigned long step_delay;    // delay between steps, in ms, based on speed
     int number_of_steps;      // total number of steps this motor can take
-    long speed; // we need to store the current speed in order to change the speed after changing microstepping
+    unsigned int speed; // we need to store the current speed in order to change the speed after changing microstepping
     unsigned int resistor; //current sense resitor value in milliohm
         
     unsigned long last_step_time;      // time stamp in ms of when the last step was taken
@@ -570,7 +582,7 @@ class TMC262Stepper {
 	boolean started; //if the stepper has been started yet
 	int microsteps; //the current number of micro steps
     char constant_off_time; //we need to remember this value in order to enable and disable the motor
-    unsigned char cool_step_lower_treshhold; // we need to remember the treshhold to enable and disable the cool step feature
+    unsigned char cool_step_lower_treshhold; // we need to remember the treshhold to enable and disable the CoolStep feature
     boolean cool_step_enabled; //we need to remember this to configure the coolstep if it si enabled
 	
 	//SPI sender

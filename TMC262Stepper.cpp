@@ -199,7 +199,7 @@ void TMC262Stepper::start() {
   Sets the speed in revs per minute
 
 */
-void TMC262Stepper::setSpeed(long whatSpeed)
+void TMC262Stepper::setSpeed(unsigned int whatSpeed)
 {
   this->speed = whatSpeed;
   this->step_delay = (60UL * 1000UL * 1000UL) / ((unsigned long)this->number_of_steps * (unsigned long)whatSpeed * (unsigned long)this->microsteps);
@@ -212,7 +212,7 @@ void TMC262Stepper::setSpeed(long whatSpeed)
 
 }
 
-long TMC262Stepper::getSpeed(void) {
+unsigned int TMC262Stepper::getSpeed(void) {
     return this->speed;
 }
 
@@ -269,7 +269,7 @@ char TMC262Stepper::isMoving(void) {
 	return (this->steps_left>0);
 }
 
-int TMC262Stepper::getStepsLeft(void) {
+unsigned int TMC262Stepper::getStepsLeft(void) {
 	return this->steps_left;
 }
 
