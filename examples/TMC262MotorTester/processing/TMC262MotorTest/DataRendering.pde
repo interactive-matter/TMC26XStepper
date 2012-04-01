@@ -207,7 +207,7 @@ void drawDataHighLight(DataTable table, int minValue, int maxValue, int distance
 }
 
 void drawCurrentLine(DataTable table) {
-  beginShape();
+  beginShape(LINES);
   int dataCount = table.getSize();
   for (int i=0; i<dataCount; i++) {
     float value = (table.getEntry(i)+1)/1000.0;
