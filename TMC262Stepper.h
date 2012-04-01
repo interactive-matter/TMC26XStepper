@@ -416,6 +416,15 @@ class TMC262Stepper {
     unsigned char getCurrentCSReading(void);
     
     /*!
+     * \brief Reads the current current setting value and recalculates the absolute current in mA (1A would be 1000).
+     * This method calculates the currently used current setting (either by setting or by cool step) and reconstructs
+     * the current in mA by usinge the VSENSE and resistor value. This method uses floating point math - so it 
+     * may not be the fastest.
+     * \sa getCurrentCSReading(), getResistor(), isCurrentScalingHalfed()
+     */
+    unsigned int getCurrentCurrent(void);
+    
+    /*!
      * \brief checks if there is a Stall Guard warning in the last status
      * \return 0 if there was no warning, -1 if there was some warning.
      * Keep in mind that this method does not enforce a readout but uses the value of the last status readout.
