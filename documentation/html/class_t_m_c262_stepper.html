@@ -155,7 +155,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7">readStatus</a> (char read_value)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Manually read out the status register This function sends a byte to the motor driver in order to get the current readout. The parameter read_value seletcs which value will get returned. If the read_vlaue changes in respect to the previous readout this method automatically send two bytes to the motor: one to set the redout and one to get the actual readout. So this method may take time to send and read one or two bits - depending on the previous readout.  <a href="#ab90aa74939a7f31818dcbd658f2bddd7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a1b88189e7a59d69b35d1cd1c7c8fdb03">getResistor</a> ()</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current sense resistor value in milliohm. The defulat Value of ,15 Ohm will return 150.  <a href="#a1b88189e7a59d69b35d1cd1c7c8fdb03"></a><br/></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current sense resistor value in milliohm. The default value of ,15 Ohm will return 150.  <a href="#a1b88189e7a59d69b35d1cd1c7c8fdb03"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a467fb62d852c2a6b5b2d94e877f843fc">debugLastStatus</a> (void)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints out all the information that can be found in the last status read out - it does not force a status readout. The result is printed via Serial.  <a href="#a467fb62d852c2a6b5b2d94e877f843fc"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a0514e8d8143463a8b5afca76b419a52d">version</a> (void)</td></tr>
@@ -435,7 +435,7 @@ Public Member Functions</h2></td></tr>
 <div class="memdoc">
 
 <p>Reads the current current setting value and recalculates the absolute current in mA (1A would be 1000). This method calculates the currently used current setting (either by setting or by CoolStep) and reconstructs the current in mA by usinge the VSENSE and resistor value. This method uses floating point math - so it may not be the fastest. </p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aa378ae53c5508646cd4971f60aaadd94" title="Reads the current current setting value as fraction of the maximum current Returns values between 0 a...">getCurrentCSReading()</a>, <a class="el" href="class_t_m_c262_stepper.html#a1b88189e7a59d69b35d1cd1c7c8fdb03" title="Returns the current sense resistor value in milliohm. The defulat Value of ,15 Ohm will return 150...">getResistor()</a>, <a class="el" href="class_t_m_c262_stepper.html#a1d749ca888b861475f0d785f13f2306e" title="a convenience method to determine if the current scaling uses 0.31V or 0.165V as reference.">isCurrentScalingHalfed()</a>, <a class="el" href="class_t_m_c262_stepper.html#a0cedeee217c3a3150c6102957f108d63" title="readout the motor maximum current in mA (1000 is an Amp) This is the maximum current. to get the current current - which may be affected by CoolStep us getCurrentCurrent()">getCurrent()</a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aa378ae53c5508646cd4971f60aaadd94" title="Reads the current current setting value as fraction of the maximum current Returns values between 0 a...">getCurrentCSReading()</a>, <a class="el" href="class_t_m_c262_stepper.html#a1b88189e7a59d69b35d1cd1c7c8fdb03" title="Returns the current sense resistor value in milliohm. The default value of ,15 Ohm will return 150...">getResistor()</a>, <a class="el" href="class_t_m_c262_stepper.html#a1d749ca888b861475f0d785f13f2306e" title="a convenience method to determine if the current scaling uses 0.31V or 0.165V as reference.">isCurrentScalingHalfed()</a>, <a class="el" href="class_t_m_c262_stepper.html#a0cedeee217c3a3150c6102957f108d63" title="readout the motor maximum current in mA (1000 is an Amp) This is the maximum current. to get the current current - which may be affected by CoolStep us getCurrentCurrent()">getCurrent()</a> </dd></dl>
 
 <p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00786">786</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
@@ -545,7 +545,7 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 
-<p>Returns the current sense resistor value in milliohm. The defulat Value of ,15 Ohm will return 150. </p>
+<p>Returns the current sense resistor value in milliohm. The default value of ,15 Ohm will return 150. </p>
 
 <p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00877">877</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
@@ -1431,7 +1431,7 @@ Public Member Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 1 2012 17:46:04 for Trinamic TMC260/TMC261/TMC262 Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 1 2012 17:57:22 for Trinamic TMC260/TMC261/TMC262 Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

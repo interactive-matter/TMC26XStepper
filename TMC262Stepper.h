@@ -535,7 +535,7 @@ class TMC262Stepper {
     
     /*!
      * \brief Returns the current sense resistor value in milliohm.
-     * The defulat Value of ,15 Ohm will return 150.
+     * The default value of ,15 Ohm will return 150.
      */
     int getResistor();
 
