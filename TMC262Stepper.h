@@ -503,6 +503,12 @@ class TMC262Stepper {
      * \sa TMC262_READOUT_POSITION, TMC_262_READOUT_STALLGUARD, TMC_262_READOUT_CURRENT
      */
 	void readStatus(char read_value);
+    
+    /*!
+     * \brief Returns the current sense resistor value in milliohm.
+     * The defulat Value of ,15 Ohm will return 150.
+     */
+    int getResistor();
 
     /*!
      * \brief Prints out all the information that can be found in the last status read out - it does not force a status readout. 

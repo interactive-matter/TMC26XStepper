@@ -866,6 +866,9 @@ int TMC262Stepper::getReadoutValue(void) {
 	return (int)(driver_status_result >> 10);
 }
 
+int TMC262Stepper::getResistor() {
+    return this->resistor;
+}
 /*
  version() returns the version of the library:
  */
