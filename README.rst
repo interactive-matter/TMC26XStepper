@@ -64,6 +64,153 @@ This library resolves all the complicated stuff so taht you can use TMC262 strai
 Furthermore all the settings are implemented in high level interfaces so that configuring your
 motor is a breeze.
 
+How to use
+----------
+
+Basic Usage
+~~~~~~~~~~~
+
+If you want to directly use the library scroll down for the description of the most important 
+features of the library. But the easiest approach is to upload and start the examples of this 
+library to get a feeling of the capabilities of this library and your motor.
+
+Installation
+~~~~~~~~~~~~
+
+Download the library and copy it into your *libraries* directory of your Arduino Sketch directory.
+If this description is to brief for you check out the description on installing contributed
+Libraries for Arduino on the Arduino Library Page http://arduino.cc/en/Reference/Libraries
+
+Attach the break out board or shield to your Arduino.
+
+Now you can connect the Motor to your shield or breakout board. Bipolar stepper motors have 4 wires.
+2 for each phase. One phase goes to A1 and A2 - the other phase goes to B1 and B2.
+
+If you are unsure which wires belong to which phase you can simlpy check this:
+* Make sure none of the wires are connected (i.e. touching each other on the unisolated end).
+  You should be able to turn shaft of the motor quite easily with no really noticable steps. It 
+  should be considerable smooth.
+
+* Now hold two wires of the motor togehter so that the unisolated wire ends are touching each other.
+  Or add a jumper wire to two sockets of your motor connector if it is present.
+
+* Turn the shaft of your motor.
+  
+* Now exchange one wire to any other of the 2 remaining wires. Turn the shaft of your motor again.
+
+* In one of the combination you should be able to fell a considerable detent or steps. If you do
+  so the wires you are holding together are two wires of one phase. The other two wires belong to 
+  the other phase.
+  
+* If the above method does not work for you or your motor has more than two wires you can check it
+  with your Ohmmmeter (multimeter measuring the resistance). E.g. unipolar stepper motors have 
+  6 wires, but can be used as bipolar stepper motors if you use the correct wires). Check the 
+  resistance between each wire combination. You should get the following result: In a lot wire 
+  configurations there is no connection. Two wire ends have a reasonyble high resistance (normally
+  below 10 Ohms). For unipolar motors you have two wires which have half the resistance to the other
+  wires of the same phase (i.e. if there is a connection at all). 
+  The wires with the higher resistance compromise one phase. And for unipolar motors the wires with
+  half the resistance are the 'common wire'. You don't need those in biploar configuration.
+  
+Testing the Motor Parameters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The fastest way to see your motor moving is to use the sketch *TMC262MotorTest* from the examples
+directory in the library (File->Examples->TMC262Stepper->TMC262MotorTest in the Arduino menu).
+
+It assumes the following connections for the shield or brakout board:
+* The CS Pin on Arduino Pin 8
+* The DIR Pin on Arduino Pin 6
+* The STEP Pin on Arduino Pin 7
+* The ENABLE Pin on Arduino Pin 8 (even though the shield works without that connection)
+
+If this is different for you you have two different ways to react:
+
+* Connect the pins accordingly
+* Change the definitions in the TMXC262MotorTester to reflect your conditions.
+
+If you check the content of the example in your library (with your finder, exploerer or whatever 
+you call your file browser) you see the that there is a directory *processing*. It contains a 
+Processing sketch which acts as host side control program for the motor tester. If you do not
+have processing installed on your computer head over to http://processing.org/ to download a copy
+for you operating system.
+
+*Attention:* You must have the ControlP5 library installed for processing. Refer to 
+http://www.sojamo.de/libraries/controlP5/ for download and details.
+
+*It is planned that once the Processing sketch is a tad more matured ot offer prebuilt binaries for 
+various operating systems.* Anyway installing and using Precessing is good for proramming skills
+and marvelous fun.
+
+Now upload the motor tester sketch to your Arduino, open the control sketch in Processing, check
+that the serial port used in the processing sketch fits your Arduino connection. You are looking
+for that line::
+
+  arduinoPort = new Serial(this, Serial.list()[0], 115200);
+
+*This will also get much more convenient in future version.*
+
+Now attach power to your motor (i.e. connect 10-40V to the shield or break out board). Reset the 
+Arduino - it configures the motor after boot up - so you should reset it every time you switch on
+the motor power. Often this is done automatically by the Processing sketch - but it is better to get 
+sure. Now start up the Processing sketch.
+
+If everything goes fine you should see the main window with two tabs 'configure' and 'run'. In most
+cases you can use the 'run' tab to play around with the various parameters:
+
+* The 'RUN'  button starts and stops the motor
+
+* The 'FORWARD'/'BACKWARD' knobs control the direction of your motor
+
+* The 'ENABLED' Button can be used to switch on or off the motor driver. If not enabled the otor can 
+  be turned freely. If enabled it cannot (or hardly) be turned by hand. If it is different for you
+  there is smoething wrong with your motor or pin connections, or power supply, or Arduino.
+  
+* The 'SPEED' slider let's you select different motor speeds. It of course only has effect if the
+  motor is running.
+  
+* The 'MICROSTEPPING' selection can be used to choose various microsteppings (1 for full step to 256
+  for 1/256th stepping). Obey that the maximum achievable motor speed is also determined by your 
+  micro stepping. The Arduino is only able togerneate step impulses up to a certain frequency
+  
+* The 'STALL GUARD TRESHHOLD' slider with it's + and - buttons can be used to fine tune the load
+  detection of the motor driver. If the red line is at the top reduce the setting, if it is at the 
+  bottom increase it (and keep in mind that the stall guard value - the red lin - changes with 
+  various motor speeds and current settings at the same load).
+  
+* The 'STALL GUARD FILTER' button enables or disables stall guard filtering. If the filter is enabled 
+  the value will only be updated at each 4th full step to increase the precision and reduce noise.
+  If the filter is disable you will see something more like a read out cloud than a line - which can 
+  be useful too.
+  
+* The 'CURRENT' slider determine the maximum current for driving the motor. It starts at a much to
+  low value of 0.5A current for the motor. This is too low for most motors but safe enough for most
+  motors. You should not increase it to a higher value than your motor is specified (if you want to
+  keep your motor).
+  
+In the lower window you can see curves for the current motor values:
+
+* The microstepping position in blue. This is not really useful by itself but indicates the 
+   microstepping and can be used to analyze how the various values change if you change microstepping
+   or according to the current microstepping position
+   
+* The stall guard readout in red. 
+
+* The current the motor is currently runnning at in yellow. This is an important value if you are
+  configuring the cool step configuration.
+
+*The description for the cool step config is currently missing*
+
+The 'configure' tab can be used to fine tune the way the driver supplies the current to the motor. 
+For now you unfortunately have to check the datasheet for details.
+
+The Minimal Sketch
+~~~~~~~~~~~~~~~~~~
+
+In the TMC262 stepper driver you will find the sketch 'TMC262Example' sketch. This is the bare 
+minimun code you need to use the TMC262 stepper driver. You can use this as basis for your code.
+
+
 Basic Usage
 -----------
 
@@ -221,5 +368,9 @@ From the datasheet:
  This typically occurs at a few microstep positions within each quarter wave. This effect normally 
  is not audible when compared to mechanical noise generated by ball bearings, etc. Further factors 
  which can cause a similar effect are a poor layout of sense resistor GND connection.
-Hint: A common factor, which can cause motor noise, is a bad PCB layout causing coupling of both sense resistor voltages (please refer to sense resistor layout hint in chapter 8.1).
-In order to minimize the effect of a beat between both chopper frequencies, an internal random generator is provided. It modulates the slow decay time setting when switched on by the RNDTF bit. The RNDTF feature further spreads the chopper spectrum, reducing electromagnetic emission on single frequencies.
+Hint: A common factor, which can cause motor noise, is a bad PCB layout causing coupling of both 
+sense resistor voltages.
+In order to minimize the effect of a beat between both chopper frequencies, an internal random 
+generator is provided. It modulates the slow decay time setting when switched on by the RNDTF bit. 
+The RNDTF feature further spreads the chopper spectrum, reducing electromagnetic emission on single 
+frequencies.
