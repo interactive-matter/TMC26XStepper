@@ -259,6 +259,12 @@ void executeSerialCommand() {
     break;
   case 'K':
     switch(inputBuffer[1]) {
+    case '+':
+      tmc262Stepper.setCoolStepEnabled(true);
+      break;
+    case '-':
+      tmc262Stepper.setCoolStepEnabled(false);
+      break;
     case 'l':
       {
         int value = decode(2);

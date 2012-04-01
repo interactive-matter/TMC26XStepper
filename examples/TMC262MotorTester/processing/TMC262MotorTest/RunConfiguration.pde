@@ -224,7 +224,10 @@ void setCoolStepMin(int value) {
 }
 
 void coolStepActive(int value) {
-  coolStepActive = (value!=0);
+  if (!settingStatus) {
+    coolStepActive = (value!=0);
+    arduinoPort.write(coolStepActive? "K+\n":"K-\n");
+  }
 }
 
 void setCurrent(int current) {
