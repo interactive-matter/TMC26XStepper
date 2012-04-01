@@ -214,6 +214,12 @@ class TMC262Stepper {
     int getStepsLeft(void);
     
     /*!
+     *\brief a convenience method to determine if the current scaling uses 0.31V or 0.165V as reference.
+     *\return false if 0.13V is the reference voltage, true if 0.165V is used.
+     */
+    boolean isCurrentScalingHalfed();
+    
+    /*!
      * \brief Stops the motor regardless if it moves or not.
      * \return -1 if the motor was moving and is really stoped or 0 if it was not moving at all.
      *

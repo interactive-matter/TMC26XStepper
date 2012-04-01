@@ -869,6 +869,14 @@ int TMC262Stepper::getReadoutValue(void) {
 int TMC262Stepper::getResistor() {
     return this->resistor;
 }
+
+boolean TMC262Stepper::isCurrentScalingHalfed() {
+    if (this->driver_configuration_register_value & VSENSE) {
+        return true;
+    } else {
+        return false;
+    }
+}
 /*
  version() returns the version of the library:
  */
