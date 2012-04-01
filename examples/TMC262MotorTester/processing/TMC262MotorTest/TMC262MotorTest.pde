@@ -44,7 +44,7 @@ void setup() {
   configureTab =controlP5.addTab("configure"); 
   //customize the tabs a bit
   configureTab.setLabel("configure");
-  activeTab = runTab;
+  activeTab =  controlP5.getTab("default");
   controlP5.setTabEventsActive(true);
   configureTab.activateEvent(true);
   runTab.activateEvent(true);
