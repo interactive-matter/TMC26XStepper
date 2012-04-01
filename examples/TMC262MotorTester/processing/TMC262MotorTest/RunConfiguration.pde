@@ -100,7 +100,7 @@ void setupRunConfig() {
   coolStepMinButtons.showBar();
   coolStepMinButtons.moveTo(runTab);
 
-  currentSlider = controlP5.addSlider("current", 0.46, 1.7, 0.4, 950, 50, 20, 210);
+  currentSlider = controlP5.addSlider("current", 0.46, maxCurrent, 0.4, 950, 50, 20, 210);
   currentSlider.moveTo(runTab);
 }
 

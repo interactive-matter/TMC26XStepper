@@ -784,17 +784,11 @@ unsigned char TMC262Stepper::getCurrentCSReading(void) {
 }
 
 unsigned int TMC262Stepper::getCurrentCurrent(void) {
-    float cs_reading = getCurrentCSReading(); //we do floating point calulation anyway, so let it convert it directly to float
-    float resistor = this->resistor;
-    float voltage_reference;
-    //set the voltage reference to the correct value acc to VSENSE
-    if (this->isCurrentScalingHalfed()) {
-        voltage_reference=0.165;
-    } else {
-        voltage_reference=0.31;
-    }
-    //and reconstruct the current
-    return (1000.0* 1000.0*cs_reading)/(resistor*32*voltage_reference);
+    double result = (double)getCurrentCSReading();
+    double resistor_value = (double)this->resistor;
+    double voltage = (driver_configuration_register_value & VSENSE)? 0.165:0.31;
+    result = (result+1.0)/32.0*voltage/resistor_value*1000.0*1000.0;
+    return (unsigned int)result;
 }
 
 /*

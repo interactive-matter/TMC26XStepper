@@ -299,7 +299,9 @@ class TMC262Stepper {
     
     /*!
      * \brief readout the motor maximum current in mA (1000 is an Amp)
+     * This is the maximum current. to get the current current - which may be affected by cool step us getCurrentCurrent()
      *\return the maximum motor current in milli amps
+     * \sa getCurrentCurrent()
      */
     unsigned int getCurrent(void);
     
@@ -420,7 +422,7 @@ class TMC262Stepper {
      * This method calculates the currently used current setting (either by setting or by cool step) and reconstructs
      * the current in mA by usinge the VSENSE and resistor value. This method uses floating point math - so it 
      * may not be the fastest.
-     * \sa getCurrentCSReading(), getResistor(), isCurrentScalingHalfed()
+     * \sa getCurrentCSReading(), getResistor(), isCurrentScalingHalfed(), getCurrent()
      */
     unsigned int getCurrentCurrent(void);
     

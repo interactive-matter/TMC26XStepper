@@ -34,6 +34,8 @@ int coolStepMin = 0;
 int coolStepMax = 0;
 boolean coolStepActive = false;
 
+float maxCurrent = 1.7;
+
 void setup() {
   size(1000, 800);
   //load the font

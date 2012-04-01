@@ -10,9 +10,6 @@ int stallGuardMax =1024;
 int positionMin = 0;
 int positionMax = 1024;
 
-float currentMin = 0;
-float currentMax = 100;
-
 int dataPointsWidth = 3;
 int dataLineWidth = 2;
 int highLightWidth = 7;
@@ -57,8 +54,8 @@ void drawData() {
 
     strokeWeight(dataLineWidth);
     stroke(coolStepColor);
-    drawCurrentLine(currentTable, currentMin, currentMax);
-    drawCurrentHighLight(positionTable, currentMin, currentMax, currentHighLightDistance, labelColor, "Current Ratio", false);
+    drawCurrentLine(currentTable);
+    drawCurrentHighLight(positionTable, currentHighLightDistance, labelColor, "Current Ratio", false);
 
     strokeWeight(dataPointsWidth);
     stroke(stallGuardColor);
@@ -209,24 +206,24 @@ void drawDataHighLight(DataTable table, int minValue, int maxValue, int distance
   }
 }
 
-void drawCurrentLine(DataTable table, float minValue, float maxValue) {
+void drawCurrentLine(DataTable table) {
   beginShape();
   int dataCount = table.getSize();
   for (int i=0; i<dataCount; i++) {
-    float value = (table.getEntry(i)+1)/32.0*maxValue;
+    float value = (table.getEntry(i)+1)/1000.0;
     float x = map(i, 0, numberOfDataPoints-1, plotLeft+dataPointsWidth, plotRight-dataPointsWidth);
-    float y = map(value, minValue, maxValue, (float)plotBottom-dataPointsWidth, (float)plotTop+dataPointsWidth);
+    float y = map(value, 0.0, maxCurrent, (float)plotBottom-dataPointsWidth, (float)plotTop+dataPointsWidth);
     vertex(x, y);
   }
   endShape();
 }
 
-void drawCurrentHighLight(DataTable table, float minValue, float maxValue, int distance, color textColor, String name, boolean top) {
+void drawCurrentHighLight(DataTable table, int distance, color textColor, String name, boolean top) {
   int dataCount = table.getSize();
   for (int i=0; i<dataCount; i++) {
-    float value = (table.getEntry(i)+1)/32.0*(float)maxValue;
+    float value = (table.getEntry(i)+1)/1000.0;
     float x = map(i, 0, numberOfDataPoints-1, plotLeft+dataPointsWidth, plotRight-dataPointsWidth);
-    float y = map(value, minValue, maxValue, plotBottom-dataPointsWidth, plotTop+dataPointsWidth);
+    float y = map(value, 0.0, maxCurrent, plotBottom-dataPointsWidth, plotTop+dataPointsWidth);
     if (dist(mouseX, mouseY, x, y) < distance) {
       strokeWeight(highLightWidth);
       point(x, y);
