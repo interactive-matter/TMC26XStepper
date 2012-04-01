@@ -40,11 +40,11 @@ void setup() {
   size(1000, 800);
   //load the font
   controlP5 = new ControlP5(this);
-  runTab = controlP5.addTab("run");
-  configureTab=controlP5.getTab("default");
+  runTab = controlP5.getTab("default");
+  configureTab =controlP5.addTab("configure"); 
   //customize the tabs a bit
   configureTab.setLabel("configure");
-  activeTab = configureTab;
+  activeTab = runTab;
   controlP5.setTabEventsActive(true);
   configureTab.activateEvent(true);
   runTab.activateEvent(true);

@@ -41,7 +41,7 @@ void setupData() {
 
 void drawData() {
 
-  if (activeTab!=null && "run".equals(activeTab.name())) {
+  if (activeTab!=null && runTab.equals(activeTab)) {
     fill(graphBackgroundColor);
     rectMode(CORNERS);
     noStroke();
