@@ -772,7 +772,7 @@ int TMC262Stepper::getCurrentStallGuardReading(void) {
 	return getReadoutValue();
 }
 
-unsigned char TMC262Stepper::getCurrentCurrentReading(void) {
+unsigned char TMC262Stepper::getCurrentCSReading(void) {
 	//if we don't yet started there cannot be a stall guard value
 	if (!started) {
 		return 0;

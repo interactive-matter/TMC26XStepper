@@ -413,7 +413,7 @@ class TMC262Stepper {
      * Returns values between 0 and 31, representing 1/32 to 32/32 (=1)
      * \sa setCoolStepConfiguration()
      */
-    unsigned char getCurrentCurrentReading(void);
+    unsigned char getCurrentCSReading(void);
     
     /*!
      * \brief checks if there is a Stall Guard warning in the last status
