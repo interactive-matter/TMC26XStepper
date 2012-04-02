@@ -106,8 +106,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">reads out the StallGuard treshold  <a href="#a2851e2c6a112b8db604d69ecc4482394"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#ac860755cbd27fb5ad69a16ef39e858cc">getStallGuardFilter</a> (void)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the current setting of the StallGuard filter  <a href="#ac860755cbd27fb5ad69a16ef39e858cc"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b">setCoolStepConfiguration</a> (unsigned int lower_SG_treshhold, unsigned int upper_SG_treshhold, unsigned char number_of_SG_readings, unsigned char current_increment_step_size, unsigned char lower_current_limit)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This method configures the CoolStep smart energy operation. You must have a proper StallGuard configuration for the motor situation (current, voltage, speed) in rder to use this feature.  <a href="#aeadc6befd5e122ee3235147fbc3edd8b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a4bc3050fab7dba93828c39dd508bbdd9">setCoolStepConfiguration</a> (unsigned int lower_SG_treshhold, unsigned int SG_hysteresis, unsigned char current_decrement_step_size, unsigned char current_increment_step_size, unsigned char lower_current_limit)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This method configures the CoolStep smart energy operation. You must have a proper StallGuard configuration for the motor situation (current, voltage, speed) in rder to use this feature.  <a href="#a4bc3050fab7dba93828c39dd508bbdd9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#a363288840c95d4b28759eccdfb8001e3">setCoolStepEnabled</a> (boolean enabled)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">enables or disables the CoolStep smart energy operation feature. It must be configured before enabling it.  <a href="#a363288840c95d4b28759eccdfb8001e3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_m_c262_stepper.html#aa7e7652cc7bfd83bb84dc093f0553222">isCoolStepEnabled</a> ()</td></tr>
@@ -263,7 +263,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Prints out all the information that can be found in the last status read out - it does not force a status readout. The result is printed via Serial. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00896">896</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00895">895</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -282,9 +282,9 @@ Public Member Functions</h2></td></tr>
 <div class="memdoc">
 
 <p>returns the increment steps for the current for the CoolStep operation </p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a4bc3050fab7dba93828c39dd508bbdd9" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00698">698</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00697">697</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -303,11 +303,11 @@ Public Member Functions</h2></td></tr>
 <div class="memdoc">
 
 <p>returns the absolut minium current for the CoolStep operation </p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a4bc3050fab7dba93828c39dd508bbdd9" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd>
 <dd>
 <a class="el" href="_t_m_c262_stepper_8h.html#a28b1774bd4aa854fb5e4b6dc7db96ecb">COOL_STEP_HALF_CS_LIMIT</a>, COOL_STEP_QUARTER_CS_LIMIT </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00706">706</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00705">705</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -326,9 +326,9 @@ Public Member Functions</h2></td></tr>
 <div class="memdoc">
 
 <p>returns the lower StallGuard treshhold for the CoolStep operation </p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a4bc3050fab7dba93828c39dd508bbdd9" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00689">689</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00688">688</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -347,9 +347,9 @@ Public Member Functions</h2></td></tr>
 <div class="memdoc">
 
 <p>returns the number of StallGuard readings befor CoolStep adjusts the motor current. </p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a4bc3050fab7dba93828c39dd508bbdd9" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00702">702</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00701">701</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -368,9 +368,9 @@ Public Member Functions</h2></td></tr>
 <div class="memdoc">
 
 <p>returns the upper StallGuard treshhold for the CoolStep operation </p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a4bc3050fab7dba93828c39dd508bbdd9" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00694">694</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00693">693</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -413,9 +413,9 @@ Public Member Functions</h2></td></tr>
 <div class="memdoc">
 
 <p>Reads the current current setting value as fraction of the maximum current Returns values between 0 and 31, representing 1/32 to 32/32 (=1) </p>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a4bc3050fab7dba93828c39dd508bbdd9" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00775">775</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00774">774</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -437,7 +437,7 @@ Public Member Functions</h2></td></tr>
 <p>Reads the current current setting value and recalculates the absolute current in mA (1A would be 1000). This method calculates the currently used current setting (either by setting or by CoolStep) and reconstructs the current in mA by usinge the VSENSE and resistor value. This method uses floating point math - so it may not be the fastest. </p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aa378ae53c5508646cd4971f60aaadd94" title="Reads the current current setting value as fraction of the maximum current Returns values between 0 a...">getCurrentCSReading()</a>, <a class="el" href="class_t_m_c262_stepper.html#a1b88189e7a59d69b35d1cd1c7c8fdb03" title="Returns the current sense resistor value in milliohm. The default value of ,15 Ohm will return 150...">getResistor()</a>, <a class="el" href="class_t_m_c262_stepper.html#a1d749ca888b861475f0d785f13f2306e" title="a convenience method to determine if the current scaling uses 0.31V or 0.165V as reference.">isCurrentScalingHalfed()</a>, <a class="el" href="class_t_m_c262_stepper.html#a0cedeee217c3a3150c6102957f108d63" title="readout the motor maximum current in mA (1000 is an Amp) This is the maximum current. to get the current current - which may be affected by CoolStep us getCurrentCurrent()">getCurrent()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00786">786</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00785">785</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -460,7 +460,7 @@ Public Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>The current StallGuard value, lesser values indicate higher load, 0 means stall detected. Keep in mind that this routine reads and writes a value via SPI - so this may take a bit time. </dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a9ed91f6d80fb3fb3047d578c38c07929" title="set the StallGuard treshold in order to get sensible StallGuard readings.">setStallGuardTreshold()</a> for tuning the readout to sensible ranges. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00764">764</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00763">763</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -506,7 +506,7 @@ Public Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>The current microstep position for phase A 0…255</dd></dl>
 <p>Keep in mind that this routine reads and writes a value via SPI - so this may take a bit time. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00756">756</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00755">755</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -527,7 +527,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Return over temperature status of the last status readout return 0 is everything is OK, TMC262_OVERTEMPERATURE_PREWARING if status is reached, TMC262_OVERTEMPERATURE_SHUTDOWN is the chip is shutdown, -1 if the status is unknown. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current StallGuard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00810">810</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00809">809</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -547,7 +547,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Returns the current sense resistor value in milliohm. The default value of ,15 Ohm will return 150. </p>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00877">877</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00876">876</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -657,7 +657,7 @@ Public Member Functions</h2></td></tr>
 <p>check if the CoolStep feature is enabled </p>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a363288840c95d4b28759eccdfb8001e3" title="enables or disables the CoolStep smart energy operation feature. It must be configured before enablin...">setCoolStepEnabled()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00685">685</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00684">684</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -678,7 +678,7 @@ Public Member Functions</h2></td></tr>
 <p>a convenience method to determine if the current scaling uses 0.31V or 0.165V as reference. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>false if 0.13V is the reference voltage, true if 0.165V is used. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00881">881</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00880">880</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -700,7 +700,7 @@ Public Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true if the bridges and by that the motor driver are enabled, false if not. </dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#ab9349b93705bee179a55b07943436d78" title="enables or disables the motor driver bridges. If disabled the motor can run freely. If enabled not.">setEnabled()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00723">723</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00722">722</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -746,7 +746,7 @@ Public Member Functions</h2></td></tr>
 <p>iIs motor channel A connected according to the last statu readout. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true is yes, false if not. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current StallGuard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00840">840</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00839">839</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -768,7 +768,7 @@ Public Member Functions</h2></td></tr>
 <p>iIs motor channel A connected according to the last statu readout. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true is yes, false if not. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current StallGuard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00848">848</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00847">847</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -790,7 +790,7 @@ Public Member Functions</h2></td></tr>
 <p>Is motor channel A shorted to ground detected in the last status readout. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true is yes, false if not. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current StallGuard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00824">824</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00823">823</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -812,7 +812,7 @@ Public Member Functions</h2></td></tr>
 <p>Is motor channel B shorted to ground detected in the last status readout. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true is yes, false if not. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current StallGuard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00832">832</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00831">831</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -835,7 +835,7 @@ Public Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>0 if there was no warning, -1 if there was some warning. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current StallGuard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout.</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a9ed91f6d80fb3fb3047d578c38c07929" title="set the StallGuard treshold in order to get sensible StallGuard readings.">setStallGuardTreshold()</a> for tuning the readout to sensible ranges. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00797">797</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00796">796</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -860,7 +860,7 @@ Public Member Functions</h2></td></tr>
 <dd>
 <a class="el" href="class_t_m_c262_stepper.html#a9ed91f6d80fb3fb3047d578c38c07929" title="set the StallGuard treshold in order to get sensible StallGuard readings.">setStallGuardTreshold()</a> for tuning the readout to sensible ranges. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00864">864</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00863">863</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -882,7 +882,7 @@ Public Member Functions</h2></td></tr>
 <p>Is chopper inactive since 2^20 clock cycles - defaults to ~0,08s. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true is yes, false if not. Keep in mind that this method does not enforce a readout but uses the value of the last status readout. You may want to use <a class="el" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">getMotorPosition()</a> or <a class="el" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current StallGuard value.">getCurrentStallGuardReading()</a> to enforce an updated status readout. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00856">856</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00855">855</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -936,7 +936,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="_t_m_c262_stepper_8h.html#a7ed72cfe636c8169c88080b2633311b3">TMC262_READOUT_POSITION</a>, TMC_262_READOUT_STALLGUARD, TMC_262_READOUT_CURRENT </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00736">736</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00735">735</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -1003,12 +1003,12 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aeadc6befd5e122ee3235147fbc3edd8b"></a><!-- doxytag: member="TMC262Stepper::setCoolStepConfiguration" ref="aeadc6befd5e122ee3235147fbc3edd8b" args="(unsigned int lower_SG_treshhold, unsigned int upper_SG_treshhold, unsigned char number_of_SG_readings, unsigned char current_increment_step_size, unsigned char lower_current_limit)" -->
+<a class="anchor" id="a4bc3050fab7dba93828c39dd508bbdd9"></a><!-- doxytag: member="TMC262Stepper::setCoolStepConfiguration" ref="a4bc3050fab7dba93828c39dd508bbdd9" args="(unsigned int lower_SG_treshhold, unsigned int SG_hysteresis, unsigned char current_decrement_step_size, unsigned char current_increment_step_size, unsigned char lower_current_limit)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b">TMC262Stepper::setCoolStepConfiguration</a> </td>
+          <td class="memname">void <a class="el" href="class_t_m_c262_stepper.html#a4bc3050fab7dba93828c39dd508bbdd9">TMC262Stepper::setCoolStepConfiguration</a> </td>
           <td>(</td>
           <td class="paramtype">unsigned int&#160;</td>
           <td class="paramname"><em>lower_SG_treshhold</em>, </td>
@@ -1017,13 +1017,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">unsigned int&#160;</td>
-          <td class="paramname"><em>upper_SG_treshhold</em>, </td>
+          <td class="paramname"><em>SG_hysteresis</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">unsigned char&#160;</td>
-          <td class="paramname"><em>number_of_SG_readings</em>, </td>
+          <td class="paramname"><em>current_decrement_step_size</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1050,8 +1050,8 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">lower_SG_treshhold</td><td>Sets the lower threshold for stallGuard2TM reading. Below this value, the motor current becomes increased. Allowed values are 0...480 </td></tr>
-    <tr><td class="paramname">upper_SG_treshhold</td><td>Sets the distance between the lower and the upper threshold for stallGuard2TM reading. Above the upper threshold the motor current becomes decreased. Allowed values are 0...480 </td></tr>
-    <tr><td class="paramname">number_of_SG_readings</td><td>Sets the number of stallGuard2TM readings above the upper threshold necessary for each current decrement of the motor current. 0...32 </td></tr>
+    <tr><td class="paramname">SG_hysteresis</td><td>Sets the distance between the lower and the upper threshold for stallGuard2TM reading. Above the upper threshold (which is lower_SG_treshhold+SG_hysteresis+1) the motor current becomes decreased. Allowed values are 0...480 </td></tr>
+    <tr><td class="paramname">current_decrement_step_size</td><td>Sets the current decrement steps. If the StallGuard value is above the treshhold the current gets decremented by this step size. 0...32 </td></tr>
     <tr><td class="paramname">current_increment_step_size</td><td>Sets the current increment step. The current becomes incremented for each measured stallGuard2TM value below the lower threshold. 0...8 </td></tr>
     <tr><td class="paramname">lower_current_limit</td><td>Sets the lower motor current limit for coolStepTM operation by scaling the CS value. Values can be COOL_STEP_HALF_CS_LIMIT, COOL_STEP_QUARTER_CS_LIMIT The CoolStep smart energy operation automatically adjust the current sent into the motor according to the current load, read out by the StallGuard in order to provide the optimum torque with the minimal current consumption. You configure the CoolStep current regulator by defining upper and lower bounds of StallGuard readouts. If the readout is above the limit the current gets increased, below the limit the current gets decreased. You can specify the upper an lower treshhold of the StallGuard readout in order to adjust the current. You can also set the number of StallGuard readings neccessary above or below the limit to get a more stable current adjustement. The current adjustement itself is configured by the number of steps the current gests in- or decreased and the absolut minimum current (1/2 or 1/4th otf the configured current). </td></tr>
   </table>
@@ -1085,9 +1085,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="class_t_m_c262_stepper.html#a4bc3050fab7dba93828c39dd508bbdd9" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">setCoolStepConfiguration()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00670">670</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00669">669</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -1142,7 +1142,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00710">710</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00709">709</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -1419,7 +1419,7 @@ Public Member Functions</h2></td></tr>
 <p>library version </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>the version number as int. </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00891">891</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00890">890</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -1431,7 +1431,7 @@ Public Member Functions</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 1 2012 17:57:22 for Trinamic TMC260/TMC261/TMC262 Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2012 17:21:46 for Trinamic TMC260/TMC261/TMC262 Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

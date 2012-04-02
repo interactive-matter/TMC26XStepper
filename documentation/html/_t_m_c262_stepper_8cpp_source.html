@@ -684,7 +684,7 @@
 <a name="l00627"></a>00627         }       
 <a name="l00628"></a>00628 }       
 <a name="l00629"></a>00629 
-<a name="l00630"></a><a class="code" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b">00630</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c262_stepper.html#aeadc6befd5e122ee3235147fbc3edd8b" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">TMC262Stepper::setCoolStepConfiguration</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> lower_SG_treshhold, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> upper_SG_treshhold, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> number_of_SG_readings,
+<a name="l00630"></a><a class="code" href="class_t_m_c262_stepper.html#a4bc3050fab7dba93828c39dd508bbdd9">00630</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c262_stepper.html#a4bc3050fab7dba93828c39dd508bbdd9" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">TMC262Stepper::setCoolStepConfiguration</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> lower_SG_treshhold, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> SG_hysteresis, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> current_decrement_step_size,
 <a name="l00631"></a>00631                               <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> current_increment_step_size, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> lower_current_limit) {
 <a name="l00632"></a>00632     <span class="comment">//sanitize the input values</span>
 <a name="l00633"></a>00633     <span class="keywordflow">if</span> (lower_SG_treshhold&gt;480) {
@@ -692,12 +692,12 @@
 <a name="l00635"></a>00635     }
 <a name="l00636"></a>00636     <span class="comment">//divide by 32</span>
 <a name="l00637"></a>00637     lower_SG_treshhold &gt;&gt;=5;
-<a name="l00638"></a>00638     <span class="keywordflow">if</span> (upper_SG_treshhold&gt;480) {
-<a name="l00639"></a>00639         upper_SG_treshhold=480;
+<a name="l00638"></a>00638     <span class="keywordflow">if</span> (SG_hysteresis&gt;480) {
+<a name="l00639"></a>00639         SG_hysteresis=480;
 <a name="l00640"></a>00640     }
-<a name="l00641"></a>00641     upper_SG_treshhold &gt;&gt;=5;
-<a name="l00642"></a>00642     <span class="keywordflow">if</span> (number_of_SG_readings&gt;3) {
-<a name="l00643"></a>00643         number_of_SG_readings=3;
+<a name="l00641"></a>00641     SG_hysteresis &gt;&gt;=5;
+<a name="l00642"></a>00642     <span class="keywordflow">if</span> (current_decrement_step_size&gt;3) {
+<a name="l00643"></a>00643         current_decrement_step_size=3;
 <a name="l00644"></a>00644     }
 <a name="l00645"></a>00645     <span class="keywordflow">if</span> (number_of_steps&gt;3) {
 <a name="l00646"></a>00646         number_of_steps=3;
@@ -705,338 +705,337 @@
 <a name="l00648"></a>00648     <span class="keywordflow">if</span> (lower_current_limit&gt;1) {
 <a name="l00649"></a>00649         lower_current_limit=1;
 <a name="l00650"></a>00650     }
-<a name="l00651"></a>00651     <span class="comment">//TODO */ 32 for the sg values??</span>
-<a name="l00652"></a>00652     <span class="comment">//store the lower level in order to enable/disable the coole step</span>
-<a name="l00653"></a>00653     this-&gt;cool_step_lower_treshhold=lower_SG_treshhold;
-<a name="l00654"></a>00654     <span class="comment">//if cool step is not enabled we delete the lower value to keep it disabled</span>
-<a name="l00655"></a>00655     <span class="keywordflow">if</span> (!this-&gt;cool_step_enabled) {
-<a name="l00656"></a>00656         lower_SG_treshhold=0;
-<a name="l00657"></a>00657     }
-<a name="l00658"></a>00658     <span class="comment">//the good news is that we can start with a complete new cool step register value</span>
-<a name="l00659"></a>00659     <span class="comment">//and simply set the values in the register</span>
-<a name="l00660"></a>00660     cool_step_register_value = ((<span class="keywordtype">unsigned</span> long)lower_SG_treshhold) | (((<span class="keywordtype">unsigned</span> long)upper_SG_treshhold)&lt;&lt;8) | (((<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>)number_of_SG_readings)&lt;&lt;5)
-<a name="l00661"></a>00661         | (((<span class="keywordtype">unsigned</span> long)current_increment_step_size)&lt;&lt;13) | (((<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>)lower_current_limit)&lt;&lt;15)
-<a name="l00662"></a>00662         <span class="comment">//and of course we have to include the signature of the register</span>
-<a name="l00663"></a>00663         | <a class="code" href="_t_m_c262_stepper_8cpp.html#ab9828bfaa075a0a8647c709136016317">COOL_STEP_REGISTER</a>;
-<a name="l00664"></a>00664     Serial.println(cool_step_register_value,HEX);
-<a name="l00665"></a>00665     <span class="keywordflow">if</span> (started) {
-<a name="l00666"></a>00666         send262(cool_step_register_value);
-<a name="l00667"></a>00667     }
-<a name="l00668"></a>00668 }
-<a name="l00669"></a>00669 
-<a name="l00670"></a><a class="code" href="class_t_m_c262_stepper.html#a363288840c95d4b28759eccdfb8001e3">00670</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c262_stepper.html#a363288840c95d4b28759eccdfb8001e3" title="enables or disables the CoolStep smart energy operation feature. It must be configured before enablin...">TMC262Stepper::setCoolStepEnabled</a>(<span class="keywordtype">boolean</span> enabled) {
-<a name="l00671"></a>00671     <span class="comment">//simply delete the lower limit to disable the cool step</span>
-<a name="l00672"></a>00672     cool_step_register_value &amp;= ~<a class="code" href="_t_m_c262_stepper_8cpp.html#ae1862dfb958c03698b0abd95fda033ea">SE_MIN_PATTERN</a>;
-<a name="l00673"></a>00673     <span class="comment">//and set it to the proper value if cool step is to be enabled</span>
-<a name="l00674"></a>00674     <span class="keywordflow">if</span> (enabled) {
-<a name="l00675"></a>00675         cool_step_register_value |=this-&gt;cool_step_lower_treshhold;
-<a name="l00676"></a>00676     }
-<a name="l00677"></a>00677     <span class="comment">//and save the enabled status</span>
-<a name="l00678"></a>00678     this-&gt;cool_step_enabled = enabled;
-<a name="l00679"></a>00679     <span class="comment">//save the register value</span>
-<a name="l00680"></a>00680     <span class="keywordflow">if</span> (started) {
-<a name="l00681"></a>00681         send262(cool_step_register_value);
-<a name="l00682"></a>00682     }
-<a name="l00683"></a>00683 }
-<a name="l00684"></a>00684 
-<a name="l00685"></a><a class="code" href="class_t_m_c262_stepper.html#aa7e7652cc7bfd83bb84dc093f0553222">00685</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#aa7e7652cc7bfd83bb84dc093f0553222" title="check if the CoolStep feature is enabled">TMC262Stepper::isCoolStepEnabled</a>(<span class="keywordtype">void</span>) {
-<a name="l00686"></a>00686     <span class="keywordflow">return</span> this-&gt;cool_step_enabled;
-<a name="l00687"></a>00687 }
-<a name="l00688"></a>00688 
-<a name="l00689"></a><a class="code" href="class_t_m_c262_stepper.html#ae7bf778b94a2276052759a55b06f0f12">00689</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#ae7bf778b94a2276052759a55b06f0f12" title="returns the lower StallGuard treshhold for the CoolStep operation">TMC262Stepper::getCoolStepLowerSgTreshhold</a>() {
-<a name="l00690"></a>00690     <span class="comment">//we return our internally stored value - in order to provide the correct setting even if cool step is not enabled</span>
-<a name="l00691"></a>00691     <span class="keywordflow">return</span> this-&gt;cool_step_lower_treshhold&lt;&lt;5;
-<a name="l00692"></a>00692 }
-<a name="l00693"></a>00693 
-<a name="l00694"></a><a class="code" href="class_t_m_c262_stepper.html#a24e933e91f97aaf953d7710f6aabf5a7">00694</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a24e933e91f97aaf953d7710f6aabf5a7" title="returns the upper StallGuard treshhold for the CoolStep operation">TMC262Stepper::getCoolStepUpperSgTreshhold</a>() {
-<a name="l00695"></a>00695     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)((cool_step_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#ac8f748bf735c447dbed7dd4c7b631a87">SE_MAX_PATTERN</a>)&gt;&gt;8)&lt;&lt;5;
-<a name="l00696"></a>00696 }
-<a name="l00697"></a>00697 
-<a name="l00698"></a><a class="code" href="class_t_m_c262_stepper.html#a6c5f52decc5f75300eef804843e69dc1">00698</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c262_stepper.html#a6c5f52decc5f75300eef804843e69dc1" title="returns the increment steps for the current for the CoolStep operation">TMC262Stepper::getCoolStepCurrentIncrementSize</a>() {
-<a name="l00699"></a>00699     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)((cool_step_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#adbe13a0464355e42fbe786ca5f58ed8d">CURRENT_DOWN_STEP_SPEED_PATTERN</a>)&gt;&gt;13);
-<a name="l00700"></a>00700 }
-<a name="l00701"></a>00701 
-<a name="l00702"></a><a class="code" href="class_t_m_c262_stepper.html#aa465ea9148fc082e557b15c4c66a079c">00702</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c262_stepper.html#aa465ea9148fc082e557b15c4c66a079c" title="returns the number of StallGuard readings befor CoolStep adjusts the motor current.">TMC262Stepper::getCoolStepNumberOfSGReadings</a>() {
-<a name="l00703"></a>00703     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)((cool_step_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#aba6c07e5672e34e618bb3a550ab0d2bc">SE_CURRENT_STEP_WIDTH_PATTERN</a>)&gt;&gt;5);
-<a name="l00704"></a>00704 }
-<a name="l00705"></a>00705 
-<a name="l00706"></a><a class="code" href="class_t_m_c262_stepper.html#a45010101404adcb46aba5d0c9154e29e">00706</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c262_stepper.html#a45010101404adcb46aba5d0c9154e29e" title="returns the absolut minium current for the CoolStep operation">TMC262Stepper::getCoolStepLowerCurrentLimit</a>() {
-<a name="l00707"></a>00707     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)((cool_step_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#a8a261a77d198b85f6dd8416387b354b3">MINIMUM_CURRENT_FOURTH</a>)&gt;&gt;15);
-<a name="l00708"></a>00708 }
-<a name="l00709"></a>00709 
-<a name="l00710"></a><a class="code" href="class_t_m_c262_stepper.html#ab9349b93705bee179a55b07943436d78">00710</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c262_stepper.html#ab9349b93705bee179a55b07943436d78" title="enables or disables the motor driver bridges. If disabled the motor can run freely. If enabled not.">TMC262Stepper::setEnabled</a>(<span class="keywordtype">boolean</span> enabled) {
-<a name="l00711"></a>00711     <span class="comment">//delete the t_off in the chopper config to get sure</span>
-<a name="l00712"></a>00712     chopper_config_register &amp;= ~(<a class="code" href="_t_m_c262_stepper_8cpp.html#aa4e49237f2671e7f28aa34ae0e89da8d">T_OFF_PATTERN</a>);
-<a name="l00713"></a>00713     <span class="keywordflow">if</span> (enabled) {
-<a name="l00714"></a>00714         <span class="comment">//and set the t_off time</span>
-<a name="l00715"></a>00715         chopper_config_register |= this-&gt;constant_off_time;
-<a name="l00716"></a>00716     }
-<a name="l00717"></a>00717     <span class="comment">//if not enabled we don&#39;t have to do anything since we already delete t_off from the register</span>
-<a name="l00718"></a>00718         <span class="keywordflow">if</span> (started) {
-<a name="l00719"></a>00719                 send262(chopper_config_register);
-<a name="l00720"></a>00720         }       
-<a name="l00721"></a>00721 }
-<a name="l00722"></a>00722 
-<a name="l00723"></a><a class="code" href="class_t_m_c262_stepper.html#ae64ef519b1f93b67b6474d1fb310636f">00723</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#ae64ef519b1f93b67b6474d1fb310636f" title="checks if the output bridges are enabled. If the bridges are not enabled the motor can run freely...">TMC262Stepper::isEnabled</a>() {
-<a name="l00724"></a>00724     <span class="keywordflow">if</span> (chopper_config_register &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#aa4e49237f2671e7f28aa34ae0e89da8d">T_OFF_PATTERN</a>) {
-<a name="l00725"></a>00725         <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00726"></a>00726     } <span class="keywordflow">else</span> {
-<a name="l00727"></a>00727         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00728"></a>00728     }
-<a name="l00729"></a>00729 }
-<a name="l00730"></a>00730 
-<a name="l00731"></a>00731 <span class="comment">/*</span>
-<a name="l00732"></a>00732 <span class="comment"> * reads a value from the TMC262 status register. The value is not obtained directly but can then </span>
-<a name="l00733"></a>00733 <span class="comment"> * be read by the various status routines.</span>
-<a name="l00734"></a>00734 <span class="comment"> *</span>
-<a name="l00735"></a>00735 <span class="comment"> */</span>
-<a name="l00736"></a><a class="code" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7">00736</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7" title="Manually read out the status register This function sends a byte to the motor driver in order to get ...">TMC262Stepper::readStatus</a>(<span class="keywordtype">char</span> read_value) {
-<a name="l00737"></a>00737     <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> old_driver_configuration_register_value = driver_configuration_register_value;
-<a name="l00738"></a>00738         <span class="comment">//reset the readout configuration</span>
-<a name="l00739"></a>00739         driver_configuration_register_value &amp;= ~(<a class="code" href="_t_m_c262_stepper_8cpp.html#a88a4b45fa6385eba8aa4f0342334b832">READ_SELECTION_PATTERN</a>);
-<a name="l00740"></a>00740         <span class="comment">//this now equals TMC262_READOUT_POSITION - so we just have to check the other two options</span>
-<a name="l00741"></a>00741         <span class="keywordflow">if</span> (read_value == <a class="code" href="_t_m_c262_stepper_8h.html#a7a228ab00e802471496dd38a2c513435">TMC262_READOUT_STALLGUARD</a>) {
-<a name="l00742"></a>00742                 driver_configuration_register_value |= <a class="code" href="_t_m_c262_stepper_8cpp.html#ac1bd4da94fab7ce1049be2f866211819">READ_STALL_GUARD_READING</a>;
-<a name="l00743"></a>00743         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (read_value == <a class="code" href="_t_m_c262_stepper_8h.html#ae0cf2ef789c56b7a3ce7690c051f4890">TMC262_READOUT_CURRENT</a>) {
-<a name="l00744"></a>00744                 driver_configuration_register_value |= <a class="code" href="_t_m_c262_stepper_8cpp.html#aef62b7fdcbac0b33b2d6e9cea4b5f9b2">READ_STALL_GUARD_AND_COOL_STEP</a>;
-<a name="l00745"></a>00745         }
-<a name="l00746"></a>00746         <span class="comment">//all other cases are ignored to prevent funny values</span>
-<a name="l00747"></a>00747     <span class="comment">//check if the readout is configured for the value we are interested in</span>
-<a name="l00748"></a>00748     <span class="keywordflow">if</span> (driver_configuration_register_value!=old_driver_configuration_register_value) {
-<a name="l00749"></a>00749             <span class="comment">//because then we need to write the value twice - one time for configuring, second time to get the value, see below</span>
-<a name="l00750"></a>00750             send262(driver_configuration_register_value);
-<a name="l00751"></a>00751         }
-<a name="l00752"></a>00752     <span class="comment">//write the configuration to get the last status    </span>
-<a name="l00753"></a>00753         send262(driver_configuration_register_value);
-<a name="l00754"></a>00754 }
-<a name="l00755"></a>00755 
-<a name="l00756"></a><a class="code" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704">00756</a> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">TMC262Stepper::getMotorPosition</a>(<span class="keywordtype">void</span>) {
-<a name="l00757"></a>00757         <span class="comment">//we read it out even if we are not started yet - perhaps it is useful information for somebody</span>
-<a name="l00758"></a>00758         <a class="code" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7" title="Manually read out the status register This function sends a byte to the motor driver in order to get ...">readStatus</a>(<a class="code" href="_t_m_c262_stepper_8h.html#a7ed72cfe636c8169c88080b2633311b3">TMC262_READOUT_POSITION</a>);
-<a name="l00759"></a>00759     <span class="keywordflow">return</span> getReadoutValue();
-<a name="l00760"></a>00760 }
-<a name="l00761"></a>00761 
-<a name="l00762"></a>00762 <span class="comment">//reads the stall guard setting from last status</span>
-<a name="l00763"></a>00763 <span class="comment">//returns -1 if stallguard information is not present</span>
-<a name="l00764"></a><a class="code" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b">00764</a> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current StallGuard value.">TMC262Stepper::getCurrentStallGuardReading</a>(<span class="keywordtype">void</span>) {
-<a name="l00765"></a>00765         <span class="comment">//if we don&#39;t yet started there cannot be a stall guard value</span>
-<a name="l00766"></a>00766         <span class="keywordflow">if</span> (!started) {
-<a name="l00767"></a>00767                 <span class="keywordflow">return</span> -1;
-<a name="l00768"></a>00768         }
-<a name="l00769"></a>00769         <span class="comment">//not time optimal, but solution optiomal:</span>
-<a name="l00770"></a>00770         <span class="comment">//first read out the stall guard value</span>
-<a name="l00771"></a>00771         <a class="code" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7" title="Manually read out the status register This function sends a byte to the motor driver in order to get ...">readStatus</a>(<a class="code" href="_t_m_c262_stepper_8h.html#a7a228ab00e802471496dd38a2c513435">TMC262_READOUT_STALLGUARD</a>);
-<a name="l00772"></a>00772         <span class="keywordflow">return</span> getReadoutValue();
-<a name="l00773"></a>00773 }
-<a name="l00774"></a>00774 
-<a name="l00775"></a><a class="code" href="class_t_m_c262_stepper.html#aa378ae53c5508646cd4971f60aaadd94">00775</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c262_stepper.html#aa378ae53c5508646cd4971f60aaadd94" title="Reads the current current setting value as fraction of the maximum current Returns values between 0 a...">TMC262Stepper::getCurrentCSReading</a>(<span class="keywordtype">void</span>) {
-<a name="l00776"></a>00776         <span class="comment">//if we don&#39;t yet started there cannot be a stall guard value</span>
-<a name="l00777"></a>00777         <span class="keywordflow">if</span> (!started) {
-<a name="l00778"></a>00778                 <span class="keywordflow">return</span> 0;
-<a name="l00779"></a>00779         }
-<a name="l00780"></a>00780         <span class="comment">//not time optimal, but solution optiomal:</span>
-<a name="l00781"></a>00781         <span class="comment">//first read out the stall guard value</span>
-<a name="l00782"></a>00782         <a class="code" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7" title="Manually read out the status register This function sends a byte to the motor driver in order to get ...">readStatus</a>(<a class="code" href="_t_m_c262_stepper_8h.html#ae0cf2ef789c56b7a3ce7690c051f4890">TMC262_READOUT_CURRENT</a>);
-<a name="l00783"></a>00783         <span class="keywordflow">return</span> (getReadoutValue() &amp; 0x1f);
-<a name="l00784"></a>00784 }
-<a name="l00785"></a>00785 
-<a name="l00786"></a><a class="code" href="class_t_m_c262_stepper.html#a1f7f0e2a9a4abbcad7861eab52f9271a">00786</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a1f7f0e2a9a4abbcad7861eab52f9271a" title="Reads the current current setting value and recalculates the absolute current in mA (1A would be 1000...">TMC262Stepper::getCurrentCurrent</a>(<span class="keywordtype">void</span>) {
-<a name="l00787"></a>00787     <span class="keywordtype">double</span> result = (double)<a class="code" href="class_t_m_c262_stepper.html#aa378ae53c5508646cd4971f60aaadd94" title="Reads the current current setting value as fraction of the maximum current Returns values between 0 a...">getCurrentCSReading</a>();
-<a name="l00788"></a>00788     <span class="keywordtype">double</span> resistor_value = (double)this-&gt;resistor;
-<a name="l00789"></a>00789     <span class="keywordtype">double</span> voltage = (driver_configuration_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#a4fb1c008e2ff76eee9362600eed112e1">VSENSE</a>)? 0.165:0.31;
-<a name="l00790"></a>00790     result = (result+1.0)/32.0*voltage/resistor_value*1000.0*1000.0;
-<a name="l00791"></a>00791     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)result;
-<a name="l00792"></a>00792 }
-<a name="l00793"></a>00793 
-<a name="l00794"></a>00794 <span class="comment">/*</span>
-<a name="l00795"></a>00795 <span class="comment"> return true if the stallguard treshold has been reached</span>
-<a name="l00796"></a>00796 <span class="comment">*/</span>
-<a name="l00797"></a><a class="code" href="class_t_m_c262_stepper.html#a7c43cd156a36f53d192e1b07df3464c8">00797</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a7c43cd156a36f53d192e1b07df3464c8" title="checks if there is a StallGuard warning in the last status">TMC262Stepper::isStallGuardOverTreshold</a>(<span class="keywordtype">void</span>) {
-<a name="l00798"></a>00798         <span class="keywordflow">if</span> (!this-&gt;started) {
-<a name="l00799"></a>00799                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00800"></a>00800         }
-<a name="l00801"></a>00801         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#aa09ef662fd19bf2d063d6bd0f48eca14">STATUS_STALL_GUARD_STATUS</a>);
-<a name="l00802"></a>00802 }
-<a name="l00803"></a>00803 
-<a name="l00804"></a>00804 <span class="comment">/*</span>
-<a name="l00805"></a>00805 <span class="comment"> returns if there is any over temperature condition:</span>
-<a name="l00806"></a>00806 <span class="comment"> OVER_TEMPERATURE_PREWARING if pre warning level has been reached</span>
-<a name="l00807"></a>00807 <span class="comment"> OVER_TEMPERATURE_SHUTDOWN if the temperature is so hot that the driver is shut down</span>
-<a name="l00808"></a>00808 <span class="comment"> Any of those levels are not too good.</span>
-<a name="l00809"></a>00809 <span class="comment">*/</span>
-<a name="l00810"></a><a class="code" href="class_t_m_c262_stepper.html#aa1ce5674925585ce6206b9a82548de8d">00810</a> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c262_stepper.html#aa1ce5674925585ce6206b9a82548de8d" title="Return over temperature status of the last status readout return 0 is everything is OK...">TMC262Stepper::getOverTemperature</a>(<span class="keywordtype">void</span>) {
-<a name="l00811"></a>00811         <span class="keywordflow">if</span> (!this-&gt;started) {
-<a name="l00812"></a>00812                 <span class="keywordflow">return</span> 0;
-<a name="l00813"></a>00813         }
-<a name="l00814"></a>00814         <span class="keywordflow">if</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#adbb23d2f055c9eab55eac29d1a75deb4">STATUS_OVER_TEMPERATURE_SHUTDOWN</a>) {
-<a name="l00815"></a>00815                 <span class="keywordflow">return</span> <a class="code" href="_t_m_c262_stepper_8h.html#a8ba5fc32656d91f7958c90e909b871c5" title="return value for TMC262Stepper.getOverTemperature() if there is a overtemperature shutdown in the TMC...">TMC262_OVERTEMPERATURE_SHUTDOWN</a>;
-<a name="l00816"></a>00816         }
-<a name="l00817"></a>00817         <span class="keywordflow">if</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#aa317fd77f2f26fdfbfd331e21d9069e8">STATUS_OVER_TEMPERATURE_WARNING</a>) {
-<a name="l00818"></a>00818                 <span class="keywordflow">return</span> <a class="code" href="_t_m_c262_stepper_8h.html#a295fc9431e0f79157b79013abcd56b5d" title="return value for TMC262Stepper.getOverTemperature() if there is a overtemperature situation in the TM...">TMC262_OVERTEMPERATURE_PREWARING</a>;
-<a name="l00819"></a>00819         }
-<a name="l00820"></a>00820         <span class="keywordflow">return</span> 0;
-<a name="l00821"></a>00821 }
-<a name="l00822"></a>00822 
-<a name="l00823"></a>00823 <span class="comment">//is motor channel A shorted to ground</span>
-<a name="l00824"></a><a class="code" href="class_t_m_c262_stepper.html#a30f48c95d93fbfeacde56e3eef0b3ac4">00824</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a30f48c95d93fbfeacde56e3eef0b3ac4" title="Is motor channel A shorted to ground detected in the last status readout.">TMC262Stepper::isShortToGroundA</a>(<span class="keywordtype">void</span>) {
-<a name="l00825"></a>00825         <span class="keywordflow">if</span> (!this-&gt;started) {
-<a name="l00826"></a>00826                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00827"></a>00827         }
-<a name="l00828"></a>00828         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#a8e03041302a092174fa33b3cf837dca2">STATUS_SHORT_TO_GROUND_A</a>);
-<a name="l00829"></a>00829 }
-<a name="l00830"></a>00830 
-<a name="l00831"></a>00831 <span class="comment">//is motor channel B shorted to ground</span>
-<a name="l00832"></a><a class="code" href="class_t_m_c262_stepper.html#a61e724b8aeb4d6f1cb9c15b7b098e2b2">00832</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a61e724b8aeb4d6f1cb9c15b7b098e2b2" title="Is motor channel B shorted to ground detected in the last status readout.">TMC262Stepper::isShortToGroundB</a>(<span class="keywordtype">void</span>) {
-<a name="l00833"></a>00833         <span class="keywordflow">if</span> (!this-&gt;started) {
-<a name="l00834"></a>00834                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00835"></a>00835         }
-<a name="l00836"></a>00836         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#a903c3eba99695a32c6736463dcfd93ae">STATUS_SHORT_TO_GROUND_B</a>);
-<a name="l00837"></a>00837 }
-<a name="l00838"></a>00838 
-<a name="l00839"></a>00839 <span class="comment">//is motor channel A connected</span>
-<a name="l00840"></a><a class="code" href="class_t_m_c262_stepper.html#ad017c64b0bbb4f2dbad4d255c4533f4c">00840</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#ad017c64b0bbb4f2dbad4d255c4533f4c" title="iIs motor channel A connected according to the last statu readout.">TMC262Stepper::isOpenLoadA</a>(<span class="keywordtype">void</span>) {
-<a name="l00841"></a>00841         <span class="keywordflow">if</span> (!this-&gt;started) {
-<a name="l00842"></a>00842                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00843"></a>00843         }
-<a name="l00844"></a>00844         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#ae9cbbe5af7188e6bff8fe412f8e42f59">STATUS_OPEN_LOAD_A</a>);
-<a name="l00845"></a>00845 }
-<a name="l00846"></a>00846 
-<a name="l00847"></a>00847 <span class="comment">//is motor channel B connected</span>
-<a name="l00848"></a><a class="code" href="class_t_m_c262_stepper.html#a9e01335ffedd8bdaa47f61d53045bbbd">00848</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a9e01335ffedd8bdaa47f61d53045bbbd" title="iIs motor channel A connected according to the last statu readout.">TMC262Stepper::isOpenLoadB</a>(<span class="keywordtype">void</span>) {
-<a name="l00849"></a>00849         <span class="keywordflow">if</span> (!this-&gt;started) {
-<a name="l00850"></a>00850                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00851"></a>00851         }
-<a name="l00852"></a>00852         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#ab29dc5cd6c6c4e5bf99e71bd563e1be1">STATUS_OPEN_LOAD_B</a>);
-<a name="l00853"></a>00853 }
-<a name="l00854"></a>00854 
-<a name="l00855"></a>00855 <span class="comment">//is chopper inactive since 2^20 clock cycles - defaults to ~0,08s</span>
-<a name="l00856"></a><a class="code" href="class_t_m_c262_stepper.html#a566f37aee32e83423db0bdddc007ca94">00856</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a566f37aee32e83423db0bdddc007ca94" title="Is chopper inactive since 2^20 clock cycles - defaults to ~0,08s.">TMC262Stepper::isStandStill</a>(<span class="keywordtype">void</span>) {
-<a name="l00857"></a>00857         <span class="keywordflow">if</span> (!this-&gt;started) {
-<a name="l00858"></a>00858                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00859"></a>00859         }
-<a name="l00860"></a>00860         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#ab96ed1635faee6650e9cce73598a2773">STATUS_STAND_STILL</a>);
-<a name="l00861"></a>00861 }
-<a name="l00862"></a>00862 
-<a name="l00863"></a>00863 <span class="comment">//is chopper inactive since 2^20 clock cycles - defaults to ~0,08s</span>
-<a name="l00864"></a><a class="code" href="class_t_m_c262_stepper.html#a2e520834597aa78af6224e2bc7f89387">00864</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a2e520834597aa78af6224e2bc7f89387" title="checks if there is a StallGuard warning in the last status">TMC262Stepper::isStallGuardReached</a>(<span class="keywordtype">void</span>) {
-<a name="l00865"></a>00865         <span class="keywordflow">if</span> (!this-&gt;started) {
-<a name="l00866"></a>00866                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00867"></a>00867         }
-<a name="l00868"></a>00868         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#aa09ef662fd19bf2d063d6bd0f48eca14">STATUS_STALL_GUARD_STATUS</a>);
-<a name="l00869"></a>00869 }
-<a name="l00870"></a>00870 
-<a name="l00871"></a>00871 <span class="comment">//reads the stall guard setting from last status</span>
-<a name="l00872"></a>00872 <span class="comment">//returns -1 if stallguard inforamtion is not present</span>
-<a name="l00873"></a>00873 <span class="keywordtype">int</span> TMC262Stepper::getReadoutValue(<span class="keywordtype">void</span>) {
-<a name="l00874"></a>00874         <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)(driver_status_result &gt;&gt; 10);
-<a name="l00875"></a>00875 }
-<a name="l00876"></a>00876 
-<a name="l00877"></a><a class="code" href="class_t_m_c262_stepper.html#a1b88189e7a59d69b35d1cd1c7c8fdb03">00877</a> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a1b88189e7a59d69b35d1cd1c7c8fdb03" title="Returns the current sense resistor value in milliohm. The default value of ,15 Ohm will return 150...">TMC262Stepper::getResistor</a>() {
-<a name="l00878"></a>00878     <span class="keywordflow">return</span> this-&gt;resistor;
-<a name="l00879"></a>00879 }
-<a name="l00880"></a>00880 
-<a name="l00881"></a><a class="code" href="class_t_m_c262_stepper.html#a1d749ca888b861475f0d785f13f2306e">00881</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a1d749ca888b861475f0d785f13f2306e" title="a convenience method to determine if the current scaling uses 0.31V or 0.165V as reference.">TMC262Stepper::isCurrentScalingHalfed</a>() {
-<a name="l00882"></a>00882     <span class="keywordflow">if</span> (this-&gt;driver_configuration_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#a4fb1c008e2ff76eee9362600eed112e1">VSENSE</a>) {
-<a name="l00883"></a>00883         <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00884"></a>00884     } <span class="keywordflow">else</span> {
-<a name="l00885"></a>00885         <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00886"></a>00886     }
-<a name="l00887"></a>00887 }
-<a name="l00888"></a>00888 <span class="comment">/*</span>
-<a name="l00889"></a>00889 <span class="comment"> version() returns the version of the library:</span>
-<a name="l00890"></a>00890 <span class="comment"> */</span>
-<a name="l00891"></a><a class="code" href="class_t_m_c262_stepper.html#a0514e8d8143463a8b5afca76b419a52d">00891</a> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a0514e8d8143463a8b5afca76b419a52d" title="library version">TMC262Stepper::version</a>(<span class="keywordtype">void</span>)
-<a name="l00892"></a>00892 {
-<a name="l00893"></a>00893         <span class="keywordflow">return</span> 1;
-<a name="l00894"></a>00894 }
-<a name="l00895"></a>00895 
-<a name="l00896"></a><a class="code" href="class_t_m_c262_stepper.html#a467fb62d852c2a6b5b2d94e877f843fc">00896</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c262_stepper.html#a467fb62d852c2a6b5b2d94e877f843fc" title="Prints out all the information that can be found in the last status read out - it does not force a st...">TMC262Stepper::debugLastStatus</a>() {
-<a name="l00897"></a>00897 <span class="keywordflow">if</span> (this-&gt;started) {
-<a name="l00898"></a>00898                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#aa1ce5674925585ce6206b9a82548de8d" title="Return over temperature status of the last status readout return 0 is everything is OK...">getOverTemperature</a>()&amp;<a class="code" href="_t_m_c262_stepper_8h.html#a295fc9431e0f79157b79013abcd56b5d" title="return value for TMC262Stepper.getOverTemperature() if there is a overtemperature situation in the TM...">TMC262_OVERTEMPERATURE_PREWARING</a>) {
-<a name="l00899"></a>00899                         Serial.println(<span class="stringliteral">&quot;WARNING: Overtemperature Prewarning!&quot;</span>);
-<a name="l00900"></a>00900                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#aa1ce5674925585ce6206b9a82548de8d" title="Return over temperature status of the last status readout return 0 is everything is OK...">getOverTemperature</a>()&amp;<a class="code" href="_t_m_c262_stepper_8h.html#a8ba5fc32656d91f7958c90e909b871c5" title="return value for TMC262Stepper.getOverTemperature() if there is a overtemperature shutdown in the TMC...">TMC262_OVERTEMPERATURE_SHUTDOWN</a>) {
-<a name="l00901"></a>00901                         Serial.println(<span class="stringliteral">&quot;ERROR: Overtemperature Shutdown!&quot;</span>);
-<a name="l00902"></a>00902                 }
-<a name="l00903"></a>00903                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#a30f48c95d93fbfeacde56e3eef0b3ac4" title="Is motor channel A shorted to ground detected in the last status readout.">isShortToGroundA</a>()) {
-<a name="l00904"></a>00904                         Serial.println(<span class="stringliteral">&quot;ERROR: SHORT to ground on channel A!&quot;</span>);
-<a name="l00905"></a>00905                 }
-<a name="l00906"></a>00906                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#a61e724b8aeb4d6f1cb9c15b7b098e2b2" title="Is motor channel B shorted to ground detected in the last status readout.">isShortToGroundB</a>()) {
-<a name="l00907"></a>00907                         Serial.println(<span class="stringliteral">&quot;ERROR: SHORT to ground on channel A!&quot;</span>);
-<a name="l00908"></a>00908                 }
-<a name="l00909"></a>00909                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#ad017c64b0bbb4f2dbad4d255c4533f4c" title="iIs motor channel A connected according to the last statu readout.">isOpenLoadA</a>()) {
-<a name="l00910"></a>00910                         Serial.println(<span class="stringliteral">&quot;ERROR: Channel A seems to be unconnected!&quot;</span>);
-<a name="l00911"></a>00911                 }
-<a name="l00912"></a>00912                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#a9e01335ffedd8bdaa47f61d53045bbbd" title="iIs motor channel A connected according to the last statu readout.">isOpenLoadB</a>()) {
-<a name="l00913"></a>00913                         Serial.println(<span class="stringliteral">&quot;ERROR: Channel B seems to be unconnected!&quot;</span>);
-<a name="l00914"></a>00914                 }
-<a name="l00915"></a>00915                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#a2e520834597aa78af6224e2bc7f89387" title="checks if there is a StallGuard warning in the last status">isStallGuardReached</a>()) {      
-<a name="l00916"></a>00916                         Serial.println(<span class="stringliteral">&quot;INFO: Stall Guard level reached!&quot;</span>);
-<a name="l00917"></a>00917                 }
-<a name="l00918"></a>00918                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#a566f37aee32e83423db0bdddc007ca94" title="Is chopper inactive since 2^20 clock cycles - defaults to ~0,08s.">isStandStill</a>()) {
-<a name="l00919"></a>00919                         Serial.println(<span class="stringliteral">&quot;INFO: Motor is standing still.&quot;</span>);
-<a name="l00920"></a>00920                 }
-<a name="l00921"></a>00921                 <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> readout_config = driver_configuration_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#a88a4b45fa6385eba8aa4f0342334b832">READ_SELECTION_PATTERN</a>;
-<a name="l00922"></a>00922                 <span class="keywordtype">int</span> value = getReadoutValue();
-<a name="l00923"></a>00923                 <span class="keywordflow">if</span> (readout_config == <a class="code" href="_t_m_c262_stepper_8cpp.html#a143b7757272f07866d9655bde8303d9a">READ_MICROSTEP_POSTION</a>) {
-<a name="l00924"></a>00924                         Serial.print(<span class="stringliteral">&quot;Microstep postion phase A: &quot;</span>);
-<a name="l00925"></a>00925                         Serial.println(value);
-<a name="l00926"></a>00926                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (readout_config == <a class="code" href="_t_m_c262_stepper_8cpp.html#ac1bd4da94fab7ce1049be2f866211819">READ_STALL_GUARD_READING</a>) {
-<a name="l00927"></a>00927                         Serial.print(<span class="stringliteral">&quot;Stall Guard value:&quot;</span>);
-<a name="l00928"></a>00928                         Serial.println(value);
-<a name="l00929"></a>00929                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (readout_config == <a class="code" href="_t_m_c262_stepper_8cpp.html#aef62b7fdcbac0b33b2d6e9cea4b5f9b2">READ_STALL_GUARD_AND_COOL_STEP</a>) {
-<a name="l00930"></a>00930                         <span class="keywordtype">int</span> stallGuard = value &amp; 0xf;
-<a name="l00931"></a>00931                         <span class="keywordtype">int</span> current = value &amp; 0x1F0;
-<a name="l00932"></a>00932                         Serial.print(<span class="stringliteral">&quot;Approx Stall Guard: &quot;</span>);
-<a name="l00933"></a>00933                         Serial.println(stallGuard);
-<a name="l00934"></a>00934                         Serial.print(<span class="stringliteral">&quot;Current level&quot;</span>);
-<a name="l00935"></a>00935                         Serial.println(current);
-<a name="l00936"></a>00936                 }
-<a name="l00937"></a>00937         }
-<a name="l00938"></a>00938 }
-<a name="l00939"></a>00939 
-<a name="l00940"></a>00940 <span class="comment">/*</span>
-<a name="l00941"></a>00941 <span class="comment"> * send register settings to the stepper driver via SPI</span>
-<a name="l00942"></a>00942 <span class="comment"> * returns the current status</span>
-<a name="l00943"></a>00943 <span class="comment"> */</span>
-<a name="l00944"></a>00944 <span class="keyword">inline</span> <span class="keywordtype">void</span> TMC262Stepper::send262(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> datagram) {
-<a name="l00945"></a>00945         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> i_datagram;
+<a name="l00651"></a>00651     <span class="comment">//store the lower level in order to enable/disable the coole step</span>
+<a name="l00652"></a>00652     this-&gt;cool_step_lower_treshhold=lower_SG_treshhold;
+<a name="l00653"></a>00653     <span class="comment">//if cool step is not enabled we delete the lower value to keep it disabled</span>
+<a name="l00654"></a>00654     <span class="keywordflow">if</span> (!this-&gt;cool_step_enabled) {
+<a name="l00655"></a>00655         lower_SG_treshhold=0;
+<a name="l00656"></a>00656     }
+<a name="l00657"></a>00657     <span class="comment">//the good news is that we can start with a complete new cool step register value</span>
+<a name="l00658"></a>00658     <span class="comment">//and simply set the values in the register</span>
+<a name="l00659"></a>00659     cool_step_register_value = ((<span class="keywordtype">unsigned</span> long)lower_SG_treshhold) | (((<span class="keywordtype">unsigned</span> long)SG_hysteresis)&lt;&lt;8) | (((<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>)current_decrement_step_size)&lt;&lt;5)
+<a name="l00660"></a>00660         | (((<span class="keywordtype">unsigned</span> long)current_increment_step_size)&lt;&lt;13) | (((<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>)lower_current_limit)&lt;&lt;15)
+<a name="l00661"></a>00661         <span class="comment">//and of course we have to include the signature of the register</span>
+<a name="l00662"></a>00662         | <a class="code" href="_t_m_c262_stepper_8cpp.html#ab9828bfaa075a0a8647c709136016317">COOL_STEP_REGISTER</a>;
+<a name="l00663"></a>00663     Serial.println(cool_step_register_value,HEX);
+<a name="l00664"></a>00664     <span class="keywordflow">if</span> (started) {
+<a name="l00665"></a>00665         send262(cool_step_register_value);
+<a name="l00666"></a>00666     }
+<a name="l00667"></a>00667 }
+<a name="l00668"></a>00668 
+<a name="l00669"></a><a class="code" href="class_t_m_c262_stepper.html#a363288840c95d4b28759eccdfb8001e3">00669</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c262_stepper.html#a363288840c95d4b28759eccdfb8001e3" title="enables or disables the CoolStep smart energy operation feature. It must be configured before enablin...">TMC262Stepper::setCoolStepEnabled</a>(<span class="keywordtype">boolean</span> enabled) {
+<a name="l00670"></a>00670     <span class="comment">//simply delete the lower limit to disable the cool step</span>
+<a name="l00671"></a>00671     cool_step_register_value &amp;= ~<a class="code" href="_t_m_c262_stepper_8cpp.html#ae1862dfb958c03698b0abd95fda033ea">SE_MIN_PATTERN</a>;
+<a name="l00672"></a>00672     <span class="comment">//and set it to the proper value if cool step is to be enabled</span>
+<a name="l00673"></a>00673     <span class="keywordflow">if</span> (enabled) {
+<a name="l00674"></a>00674         cool_step_register_value |=this-&gt;cool_step_lower_treshhold;
+<a name="l00675"></a>00675     }
+<a name="l00676"></a>00676     <span class="comment">//and save the enabled status</span>
+<a name="l00677"></a>00677     this-&gt;cool_step_enabled = enabled;
+<a name="l00678"></a>00678     <span class="comment">//save the register value</span>
+<a name="l00679"></a>00679     <span class="keywordflow">if</span> (started) {
+<a name="l00680"></a>00680         send262(cool_step_register_value);
+<a name="l00681"></a>00681     }
+<a name="l00682"></a>00682 }
+<a name="l00683"></a>00683 
+<a name="l00684"></a><a class="code" href="class_t_m_c262_stepper.html#aa7e7652cc7bfd83bb84dc093f0553222">00684</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#aa7e7652cc7bfd83bb84dc093f0553222" title="check if the CoolStep feature is enabled">TMC262Stepper::isCoolStepEnabled</a>(<span class="keywordtype">void</span>) {
+<a name="l00685"></a>00685     <span class="keywordflow">return</span> this-&gt;cool_step_enabled;
+<a name="l00686"></a>00686 }
+<a name="l00687"></a>00687 
+<a name="l00688"></a><a class="code" href="class_t_m_c262_stepper.html#ae7bf778b94a2276052759a55b06f0f12">00688</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#ae7bf778b94a2276052759a55b06f0f12" title="returns the lower StallGuard treshhold for the CoolStep operation">TMC262Stepper::getCoolStepLowerSgTreshhold</a>() {
+<a name="l00689"></a>00689     <span class="comment">//we return our internally stored value - in order to provide the correct setting even if cool step is not enabled</span>
+<a name="l00690"></a>00690     <span class="keywordflow">return</span> this-&gt;cool_step_lower_treshhold&lt;&lt;5;
+<a name="l00691"></a>00691 }
+<a name="l00692"></a>00692 
+<a name="l00693"></a><a class="code" href="class_t_m_c262_stepper.html#a24e933e91f97aaf953d7710f6aabf5a7">00693</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a24e933e91f97aaf953d7710f6aabf5a7" title="returns the upper StallGuard treshhold for the CoolStep operation">TMC262Stepper::getCoolStepUpperSgTreshhold</a>() {
+<a name="l00694"></a>00694     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)((cool_step_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#ac8f748bf735c447dbed7dd4c7b631a87">SE_MAX_PATTERN</a>)&gt;&gt;8)&lt;&lt;5;
+<a name="l00695"></a>00695 }
+<a name="l00696"></a>00696 
+<a name="l00697"></a><a class="code" href="class_t_m_c262_stepper.html#a6c5f52decc5f75300eef804843e69dc1">00697</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c262_stepper.html#a6c5f52decc5f75300eef804843e69dc1" title="returns the increment steps for the current for the CoolStep operation">TMC262Stepper::getCoolStepCurrentIncrementSize</a>() {
+<a name="l00698"></a>00698     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)((cool_step_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#adbe13a0464355e42fbe786ca5f58ed8d">CURRENT_DOWN_STEP_SPEED_PATTERN</a>)&gt;&gt;13);
+<a name="l00699"></a>00699 }
+<a name="l00700"></a>00700 
+<a name="l00701"></a><a class="code" href="class_t_m_c262_stepper.html#aa465ea9148fc082e557b15c4c66a079c">00701</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c262_stepper.html#aa465ea9148fc082e557b15c4c66a079c" title="returns the number of StallGuard readings befor CoolStep adjusts the motor current.">TMC262Stepper::getCoolStepNumberOfSGReadings</a>() {
+<a name="l00702"></a>00702     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)((cool_step_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#aba6c07e5672e34e618bb3a550ab0d2bc">SE_CURRENT_STEP_WIDTH_PATTERN</a>)&gt;&gt;5);
+<a name="l00703"></a>00703 }
+<a name="l00704"></a>00704 
+<a name="l00705"></a><a class="code" href="class_t_m_c262_stepper.html#a45010101404adcb46aba5d0c9154e29e">00705</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c262_stepper.html#a45010101404adcb46aba5d0c9154e29e" title="returns the absolut minium current for the CoolStep operation">TMC262Stepper::getCoolStepLowerCurrentLimit</a>() {
+<a name="l00706"></a>00706     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)((cool_step_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#a8a261a77d198b85f6dd8416387b354b3">MINIMUM_CURRENT_FOURTH</a>)&gt;&gt;15);
+<a name="l00707"></a>00707 }
+<a name="l00708"></a>00708 
+<a name="l00709"></a><a class="code" href="class_t_m_c262_stepper.html#ab9349b93705bee179a55b07943436d78">00709</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c262_stepper.html#ab9349b93705bee179a55b07943436d78" title="enables or disables the motor driver bridges. If disabled the motor can run freely. If enabled not.">TMC262Stepper::setEnabled</a>(<span class="keywordtype">boolean</span> enabled) {
+<a name="l00710"></a>00710     <span class="comment">//delete the t_off in the chopper config to get sure</span>
+<a name="l00711"></a>00711     chopper_config_register &amp;= ~(<a class="code" href="_t_m_c262_stepper_8cpp.html#aa4e49237f2671e7f28aa34ae0e89da8d">T_OFF_PATTERN</a>);
+<a name="l00712"></a>00712     <span class="keywordflow">if</span> (enabled) {
+<a name="l00713"></a>00713         <span class="comment">//and set the t_off time</span>
+<a name="l00714"></a>00714         chopper_config_register |= this-&gt;constant_off_time;
+<a name="l00715"></a>00715     }
+<a name="l00716"></a>00716     <span class="comment">//if not enabled we don&#39;t have to do anything since we already delete t_off from the register</span>
+<a name="l00717"></a>00717         <span class="keywordflow">if</span> (started) {
+<a name="l00718"></a>00718                 send262(chopper_config_register);
+<a name="l00719"></a>00719         }       
+<a name="l00720"></a>00720 }
+<a name="l00721"></a>00721 
+<a name="l00722"></a><a class="code" href="class_t_m_c262_stepper.html#ae64ef519b1f93b67b6474d1fb310636f">00722</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#ae64ef519b1f93b67b6474d1fb310636f" title="checks if the output bridges are enabled. If the bridges are not enabled the motor can run freely...">TMC262Stepper::isEnabled</a>() {
+<a name="l00723"></a>00723     <span class="keywordflow">if</span> (chopper_config_register &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#aa4e49237f2671e7f28aa34ae0e89da8d">T_OFF_PATTERN</a>) {
+<a name="l00724"></a>00724         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00725"></a>00725     } <span class="keywordflow">else</span> {
+<a name="l00726"></a>00726         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00727"></a>00727     }
+<a name="l00728"></a>00728 }
+<a name="l00729"></a>00729 
+<a name="l00730"></a>00730 <span class="comment">/*</span>
+<a name="l00731"></a>00731 <span class="comment"> * reads a value from the TMC262 status register. The value is not obtained directly but can then </span>
+<a name="l00732"></a>00732 <span class="comment"> * be read by the various status routines.</span>
+<a name="l00733"></a>00733 <span class="comment"> *</span>
+<a name="l00734"></a>00734 <span class="comment"> */</span>
+<a name="l00735"></a><a class="code" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7">00735</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7" title="Manually read out the status register This function sends a byte to the motor driver in order to get ...">TMC262Stepper::readStatus</a>(<span class="keywordtype">char</span> read_value) {
+<a name="l00736"></a>00736     <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> old_driver_configuration_register_value = driver_configuration_register_value;
+<a name="l00737"></a>00737         <span class="comment">//reset the readout configuration</span>
+<a name="l00738"></a>00738         driver_configuration_register_value &amp;= ~(<a class="code" href="_t_m_c262_stepper_8cpp.html#a88a4b45fa6385eba8aa4f0342334b832">READ_SELECTION_PATTERN</a>);
+<a name="l00739"></a>00739         <span class="comment">//this now equals TMC262_READOUT_POSITION - so we just have to check the other two options</span>
+<a name="l00740"></a>00740         <span class="keywordflow">if</span> (read_value == <a class="code" href="_t_m_c262_stepper_8h.html#a7a228ab00e802471496dd38a2c513435">TMC262_READOUT_STALLGUARD</a>) {
+<a name="l00741"></a>00741                 driver_configuration_register_value |= <a class="code" href="_t_m_c262_stepper_8cpp.html#ac1bd4da94fab7ce1049be2f866211819">READ_STALL_GUARD_READING</a>;
+<a name="l00742"></a>00742         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (read_value == <a class="code" href="_t_m_c262_stepper_8h.html#ae0cf2ef789c56b7a3ce7690c051f4890">TMC262_READOUT_CURRENT</a>) {
+<a name="l00743"></a>00743                 driver_configuration_register_value |= <a class="code" href="_t_m_c262_stepper_8cpp.html#aef62b7fdcbac0b33b2d6e9cea4b5f9b2">READ_STALL_GUARD_AND_COOL_STEP</a>;
+<a name="l00744"></a>00744         }
+<a name="l00745"></a>00745         <span class="comment">//all other cases are ignored to prevent funny values</span>
+<a name="l00746"></a>00746     <span class="comment">//check if the readout is configured for the value we are interested in</span>
+<a name="l00747"></a>00747     <span class="keywordflow">if</span> (driver_configuration_register_value!=old_driver_configuration_register_value) {
+<a name="l00748"></a>00748             <span class="comment">//because then we need to write the value twice - one time for configuring, second time to get the value, see below</span>
+<a name="l00749"></a>00749             send262(driver_configuration_register_value);
+<a name="l00750"></a>00750         }
+<a name="l00751"></a>00751     <span class="comment">//write the configuration to get the last status    </span>
+<a name="l00752"></a>00752         send262(driver_configuration_register_value);
+<a name="l00753"></a>00753 }
+<a name="l00754"></a>00754 
+<a name="l00755"></a><a class="code" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704">00755</a> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a6957b84f7a3941e2a82fe72251dd9704" title="Get the current microstep position for phase A.">TMC262Stepper::getMotorPosition</a>(<span class="keywordtype">void</span>) {
+<a name="l00756"></a>00756         <span class="comment">//we read it out even if we are not started yet - perhaps it is useful information for somebody</span>
+<a name="l00757"></a>00757         <a class="code" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7" title="Manually read out the status register This function sends a byte to the motor driver in order to get ...">readStatus</a>(<a class="code" href="_t_m_c262_stepper_8h.html#a7ed72cfe636c8169c88080b2633311b3">TMC262_READOUT_POSITION</a>);
+<a name="l00758"></a>00758     <span class="keywordflow">return</span> getReadoutValue();
+<a name="l00759"></a>00759 }
+<a name="l00760"></a>00760 
+<a name="l00761"></a>00761 <span class="comment">//reads the stall guard setting from last status</span>
+<a name="l00762"></a>00762 <span class="comment">//returns -1 if stallguard information is not present</span>
+<a name="l00763"></a><a class="code" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b">00763</a> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a7871e8851d90acaac372a90354508a2b" title="Reads the current StallGuard value.">TMC262Stepper::getCurrentStallGuardReading</a>(<span class="keywordtype">void</span>) {
+<a name="l00764"></a>00764         <span class="comment">//if we don&#39;t yet started there cannot be a stall guard value</span>
+<a name="l00765"></a>00765         <span class="keywordflow">if</span> (!started) {
+<a name="l00766"></a>00766                 <span class="keywordflow">return</span> -1;
+<a name="l00767"></a>00767         }
+<a name="l00768"></a>00768         <span class="comment">//not time optimal, but solution optiomal:</span>
+<a name="l00769"></a>00769         <span class="comment">//first read out the stall guard value</span>
+<a name="l00770"></a>00770         <a class="code" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7" title="Manually read out the status register This function sends a byte to the motor driver in order to get ...">readStatus</a>(<a class="code" href="_t_m_c262_stepper_8h.html#a7a228ab00e802471496dd38a2c513435">TMC262_READOUT_STALLGUARD</a>);
+<a name="l00771"></a>00771         <span class="keywordflow">return</span> getReadoutValue();
+<a name="l00772"></a>00772 }
+<a name="l00773"></a>00773 
+<a name="l00774"></a><a class="code" href="class_t_m_c262_stepper.html#aa378ae53c5508646cd4971f60aaadd94">00774</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c262_stepper.html#aa378ae53c5508646cd4971f60aaadd94" title="Reads the current current setting value as fraction of the maximum current Returns values between 0 a...">TMC262Stepper::getCurrentCSReading</a>(<span class="keywordtype">void</span>) {
+<a name="l00775"></a>00775         <span class="comment">//if we don&#39;t yet started there cannot be a stall guard value</span>
+<a name="l00776"></a>00776         <span class="keywordflow">if</span> (!started) {
+<a name="l00777"></a>00777                 <span class="keywordflow">return</span> 0;
+<a name="l00778"></a>00778         }
+<a name="l00779"></a>00779         <span class="comment">//not time optimal, but solution optiomal:</span>
+<a name="l00780"></a>00780         <span class="comment">//first read out the stall guard value</span>
+<a name="l00781"></a>00781         <a class="code" href="class_t_m_c262_stepper.html#ab90aa74939a7f31818dcbd658f2bddd7" title="Manually read out the status register This function sends a byte to the motor driver in order to get ...">readStatus</a>(<a class="code" href="_t_m_c262_stepper_8h.html#ae0cf2ef789c56b7a3ce7690c051f4890">TMC262_READOUT_CURRENT</a>);
+<a name="l00782"></a>00782         <span class="keywordflow">return</span> (getReadoutValue() &amp; 0x1f);
+<a name="l00783"></a>00783 }
+<a name="l00784"></a>00784 
+<a name="l00785"></a><a class="code" href="class_t_m_c262_stepper.html#a1f7f0e2a9a4abbcad7861eab52f9271a">00785</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a1f7f0e2a9a4abbcad7861eab52f9271a" title="Reads the current current setting value and recalculates the absolute current in mA (1A would be 1000...">TMC262Stepper::getCurrentCurrent</a>(<span class="keywordtype">void</span>) {
+<a name="l00786"></a>00786     <span class="keywordtype">double</span> result = (double)<a class="code" href="class_t_m_c262_stepper.html#aa378ae53c5508646cd4971f60aaadd94" title="Reads the current current setting value as fraction of the maximum current Returns values between 0 a...">getCurrentCSReading</a>();
+<a name="l00787"></a>00787     <span class="keywordtype">double</span> resistor_value = (double)this-&gt;resistor;
+<a name="l00788"></a>00788     <span class="keywordtype">double</span> voltage = (driver_configuration_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#a4fb1c008e2ff76eee9362600eed112e1">VSENSE</a>)? 0.165:0.31;
+<a name="l00789"></a>00789     result = (result+1.0)/32.0*voltage/resistor_value*1000.0*1000.0;
+<a name="l00790"></a>00790     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)result;
+<a name="l00791"></a>00791 }
+<a name="l00792"></a>00792 
+<a name="l00793"></a>00793 <span class="comment">/*</span>
+<a name="l00794"></a>00794 <span class="comment"> return true if the stallguard treshold has been reached</span>
+<a name="l00795"></a>00795 <span class="comment">*/</span>
+<a name="l00796"></a><a class="code" href="class_t_m_c262_stepper.html#a7c43cd156a36f53d192e1b07df3464c8">00796</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a7c43cd156a36f53d192e1b07df3464c8" title="checks if there is a StallGuard warning in the last status">TMC262Stepper::isStallGuardOverTreshold</a>(<span class="keywordtype">void</span>) {
+<a name="l00797"></a>00797         <span class="keywordflow">if</span> (!this-&gt;started) {
+<a name="l00798"></a>00798                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00799"></a>00799         }
+<a name="l00800"></a>00800         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#aa09ef662fd19bf2d063d6bd0f48eca14">STATUS_STALL_GUARD_STATUS</a>);
+<a name="l00801"></a>00801 }
+<a name="l00802"></a>00802 
+<a name="l00803"></a>00803 <span class="comment">/*</span>
+<a name="l00804"></a>00804 <span class="comment"> returns if there is any over temperature condition:</span>
+<a name="l00805"></a>00805 <span class="comment"> OVER_TEMPERATURE_PREWARING if pre warning level has been reached</span>
+<a name="l00806"></a>00806 <span class="comment"> OVER_TEMPERATURE_SHUTDOWN if the temperature is so hot that the driver is shut down</span>
+<a name="l00807"></a>00807 <span class="comment"> Any of those levels are not too good.</span>
+<a name="l00808"></a>00808 <span class="comment">*/</span>
+<a name="l00809"></a><a class="code" href="class_t_m_c262_stepper.html#aa1ce5674925585ce6206b9a82548de8d">00809</a> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c262_stepper.html#aa1ce5674925585ce6206b9a82548de8d" title="Return over temperature status of the last status readout return 0 is everything is OK...">TMC262Stepper::getOverTemperature</a>(<span class="keywordtype">void</span>) {
+<a name="l00810"></a>00810         <span class="keywordflow">if</span> (!this-&gt;started) {
+<a name="l00811"></a>00811                 <span class="keywordflow">return</span> 0;
+<a name="l00812"></a>00812         }
+<a name="l00813"></a>00813         <span class="keywordflow">if</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#adbb23d2f055c9eab55eac29d1a75deb4">STATUS_OVER_TEMPERATURE_SHUTDOWN</a>) {
+<a name="l00814"></a>00814                 <span class="keywordflow">return</span> <a class="code" href="_t_m_c262_stepper_8h.html#a8ba5fc32656d91f7958c90e909b871c5" title="return value for TMC262Stepper.getOverTemperature() if there is a overtemperature shutdown in the TMC...">TMC262_OVERTEMPERATURE_SHUTDOWN</a>;
+<a name="l00815"></a>00815         }
+<a name="l00816"></a>00816         <span class="keywordflow">if</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#aa317fd77f2f26fdfbfd331e21d9069e8">STATUS_OVER_TEMPERATURE_WARNING</a>) {
+<a name="l00817"></a>00817                 <span class="keywordflow">return</span> <a class="code" href="_t_m_c262_stepper_8h.html#a295fc9431e0f79157b79013abcd56b5d" title="return value for TMC262Stepper.getOverTemperature() if there is a overtemperature situation in the TM...">TMC262_OVERTEMPERATURE_PREWARING</a>;
+<a name="l00818"></a>00818         }
+<a name="l00819"></a>00819         <span class="keywordflow">return</span> 0;
+<a name="l00820"></a>00820 }
+<a name="l00821"></a>00821 
+<a name="l00822"></a>00822 <span class="comment">//is motor channel A shorted to ground</span>
+<a name="l00823"></a><a class="code" href="class_t_m_c262_stepper.html#a30f48c95d93fbfeacde56e3eef0b3ac4">00823</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a30f48c95d93fbfeacde56e3eef0b3ac4" title="Is motor channel A shorted to ground detected in the last status readout.">TMC262Stepper::isShortToGroundA</a>(<span class="keywordtype">void</span>) {
+<a name="l00824"></a>00824         <span class="keywordflow">if</span> (!this-&gt;started) {
+<a name="l00825"></a>00825                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00826"></a>00826         }
+<a name="l00827"></a>00827         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#a8e03041302a092174fa33b3cf837dca2">STATUS_SHORT_TO_GROUND_A</a>);
+<a name="l00828"></a>00828 }
+<a name="l00829"></a>00829 
+<a name="l00830"></a>00830 <span class="comment">//is motor channel B shorted to ground</span>
+<a name="l00831"></a><a class="code" href="class_t_m_c262_stepper.html#a61e724b8aeb4d6f1cb9c15b7b098e2b2">00831</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a61e724b8aeb4d6f1cb9c15b7b098e2b2" title="Is motor channel B shorted to ground detected in the last status readout.">TMC262Stepper::isShortToGroundB</a>(<span class="keywordtype">void</span>) {
+<a name="l00832"></a>00832         <span class="keywordflow">if</span> (!this-&gt;started) {
+<a name="l00833"></a>00833                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00834"></a>00834         }
+<a name="l00835"></a>00835         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#a903c3eba99695a32c6736463dcfd93ae">STATUS_SHORT_TO_GROUND_B</a>);
+<a name="l00836"></a>00836 }
+<a name="l00837"></a>00837 
+<a name="l00838"></a>00838 <span class="comment">//is motor channel A connected</span>
+<a name="l00839"></a><a class="code" href="class_t_m_c262_stepper.html#ad017c64b0bbb4f2dbad4d255c4533f4c">00839</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#ad017c64b0bbb4f2dbad4d255c4533f4c" title="iIs motor channel A connected according to the last statu readout.">TMC262Stepper::isOpenLoadA</a>(<span class="keywordtype">void</span>) {
+<a name="l00840"></a>00840         <span class="keywordflow">if</span> (!this-&gt;started) {
+<a name="l00841"></a>00841                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00842"></a>00842         }
+<a name="l00843"></a>00843         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#ae9cbbe5af7188e6bff8fe412f8e42f59">STATUS_OPEN_LOAD_A</a>);
+<a name="l00844"></a>00844 }
+<a name="l00845"></a>00845 
+<a name="l00846"></a>00846 <span class="comment">//is motor channel B connected</span>
+<a name="l00847"></a><a class="code" href="class_t_m_c262_stepper.html#a9e01335ffedd8bdaa47f61d53045bbbd">00847</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a9e01335ffedd8bdaa47f61d53045bbbd" title="iIs motor channel A connected according to the last statu readout.">TMC262Stepper::isOpenLoadB</a>(<span class="keywordtype">void</span>) {
+<a name="l00848"></a>00848         <span class="keywordflow">if</span> (!this-&gt;started) {
+<a name="l00849"></a>00849                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00850"></a>00850         }
+<a name="l00851"></a>00851         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#ab29dc5cd6c6c4e5bf99e71bd563e1be1">STATUS_OPEN_LOAD_B</a>);
+<a name="l00852"></a>00852 }
+<a name="l00853"></a>00853 
+<a name="l00854"></a>00854 <span class="comment">//is chopper inactive since 2^20 clock cycles - defaults to ~0,08s</span>
+<a name="l00855"></a><a class="code" href="class_t_m_c262_stepper.html#a566f37aee32e83423db0bdddc007ca94">00855</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a566f37aee32e83423db0bdddc007ca94" title="Is chopper inactive since 2^20 clock cycles - defaults to ~0,08s.">TMC262Stepper::isStandStill</a>(<span class="keywordtype">void</span>) {
+<a name="l00856"></a>00856         <span class="keywordflow">if</span> (!this-&gt;started) {
+<a name="l00857"></a>00857                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00858"></a>00858         }
+<a name="l00859"></a>00859         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#ab96ed1635faee6650e9cce73598a2773">STATUS_STAND_STILL</a>);
+<a name="l00860"></a>00860 }
+<a name="l00861"></a>00861 
+<a name="l00862"></a>00862 <span class="comment">//is chopper inactive since 2^20 clock cycles - defaults to ~0,08s</span>
+<a name="l00863"></a><a class="code" href="class_t_m_c262_stepper.html#a2e520834597aa78af6224e2bc7f89387">00863</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a2e520834597aa78af6224e2bc7f89387" title="checks if there is a StallGuard warning in the last status">TMC262Stepper::isStallGuardReached</a>(<span class="keywordtype">void</span>) {
+<a name="l00864"></a>00864         <span class="keywordflow">if</span> (!this-&gt;started) {
+<a name="l00865"></a>00865                 <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00866"></a>00866         }
+<a name="l00867"></a>00867         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#aa09ef662fd19bf2d063d6bd0f48eca14">STATUS_STALL_GUARD_STATUS</a>);
+<a name="l00868"></a>00868 }
+<a name="l00869"></a>00869 
+<a name="l00870"></a>00870 <span class="comment">//reads the stall guard setting from last status</span>
+<a name="l00871"></a>00871 <span class="comment">//returns -1 if stallguard inforamtion is not present</span>
+<a name="l00872"></a>00872 <span class="keywordtype">int</span> TMC262Stepper::getReadoutValue(<span class="keywordtype">void</span>) {
+<a name="l00873"></a>00873         <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)(driver_status_result &gt;&gt; 10);
+<a name="l00874"></a>00874 }
+<a name="l00875"></a>00875 
+<a name="l00876"></a><a class="code" href="class_t_m_c262_stepper.html#a1b88189e7a59d69b35d1cd1c7c8fdb03">00876</a> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a1b88189e7a59d69b35d1cd1c7c8fdb03" title="Returns the current sense resistor value in milliohm. The default value of ,15 Ohm will return 150...">TMC262Stepper::getResistor</a>() {
+<a name="l00877"></a>00877     <span class="keywordflow">return</span> this-&gt;resistor;
+<a name="l00878"></a>00878 }
+<a name="l00879"></a>00879 
+<a name="l00880"></a><a class="code" href="class_t_m_c262_stepper.html#a1d749ca888b861475f0d785f13f2306e">00880</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c262_stepper.html#a1d749ca888b861475f0d785f13f2306e" title="a convenience method to determine if the current scaling uses 0.31V or 0.165V as reference.">TMC262Stepper::isCurrentScalingHalfed</a>() {
+<a name="l00881"></a>00881     <span class="keywordflow">if</span> (this-&gt;driver_configuration_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#a4fb1c008e2ff76eee9362600eed112e1">VSENSE</a>) {
+<a name="l00882"></a>00882         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00883"></a>00883     } <span class="keywordflow">else</span> {
+<a name="l00884"></a>00884         <span class="keywordflow">return</span> <span class="keyword">false</span>;
+<a name="l00885"></a>00885     }
+<a name="l00886"></a>00886 }
+<a name="l00887"></a>00887 <span class="comment">/*</span>
+<a name="l00888"></a>00888 <span class="comment"> version() returns the version of the library:</span>
+<a name="l00889"></a>00889 <span class="comment"> */</span>
+<a name="l00890"></a><a class="code" href="class_t_m_c262_stepper.html#a0514e8d8143463a8b5afca76b419a52d">00890</a> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c262_stepper.html#a0514e8d8143463a8b5afca76b419a52d" title="library version">TMC262Stepper::version</a>(<span class="keywordtype">void</span>)
+<a name="l00891"></a>00891 {
+<a name="l00892"></a>00892         <span class="keywordflow">return</span> 1;
+<a name="l00893"></a>00893 }
+<a name="l00894"></a>00894 
+<a name="l00895"></a><a class="code" href="class_t_m_c262_stepper.html#a467fb62d852c2a6b5b2d94e877f843fc">00895</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c262_stepper.html#a467fb62d852c2a6b5b2d94e877f843fc" title="Prints out all the information that can be found in the last status read out - it does not force a st...">TMC262Stepper::debugLastStatus</a>() {
+<a name="l00896"></a>00896 <span class="keywordflow">if</span> (this-&gt;started) {
+<a name="l00897"></a>00897                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#aa1ce5674925585ce6206b9a82548de8d" title="Return over temperature status of the last status readout return 0 is everything is OK...">getOverTemperature</a>()&amp;<a class="code" href="_t_m_c262_stepper_8h.html#a295fc9431e0f79157b79013abcd56b5d" title="return value for TMC262Stepper.getOverTemperature() if there is a overtemperature situation in the TM...">TMC262_OVERTEMPERATURE_PREWARING</a>) {
+<a name="l00898"></a>00898                         Serial.println(<span class="stringliteral">&quot;WARNING: Overtemperature Prewarning!&quot;</span>);
+<a name="l00899"></a>00899                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#aa1ce5674925585ce6206b9a82548de8d" title="Return over temperature status of the last status readout return 0 is everything is OK...">getOverTemperature</a>()&amp;<a class="code" href="_t_m_c262_stepper_8h.html#a8ba5fc32656d91f7958c90e909b871c5" title="return value for TMC262Stepper.getOverTemperature() if there is a overtemperature shutdown in the TMC...">TMC262_OVERTEMPERATURE_SHUTDOWN</a>) {
+<a name="l00900"></a>00900                         Serial.println(<span class="stringliteral">&quot;ERROR: Overtemperature Shutdown!&quot;</span>);
+<a name="l00901"></a>00901                 }
+<a name="l00902"></a>00902                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#a30f48c95d93fbfeacde56e3eef0b3ac4" title="Is motor channel A shorted to ground detected in the last status readout.">isShortToGroundA</a>()) {
+<a name="l00903"></a>00903                         Serial.println(<span class="stringliteral">&quot;ERROR: SHORT to ground on channel A!&quot;</span>);
+<a name="l00904"></a>00904                 }
+<a name="l00905"></a>00905                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#a61e724b8aeb4d6f1cb9c15b7b098e2b2" title="Is motor channel B shorted to ground detected in the last status readout.">isShortToGroundB</a>()) {
+<a name="l00906"></a>00906                         Serial.println(<span class="stringliteral">&quot;ERROR: SHORT to ground on channel A!&quot;</span>);
+<a name="l00907"></a>00907                 }
+<a name="l00908"></a>00908                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#ad017c64b0bbb4f2dbad4d255c4533f4c" title="iIs motor channel A connected according to the last statu readout.">isOpenLoadA</a>()) {
+<a name="l00909"></a>00909                         Serial.println(<span class="stringliteral">&quot;ERROR: Channel A seems to be unconnected!&quot;</span>);
+<a name="l00910"></a>00910                 }
+<a name="l00911"></a>00911                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#a9e01335ffedd8bdaa47f61d53045bbbd" title="iIs motor channel A connected according to the last statu readout.">isOpenLoadB</a>()) {
+<a name="l00912"></a>00912                         Serial.println(<span class="stringliteral">&quot;ERROR: Channel B seems to be unconnected!&quot;</span>);
+<a name="l00913"></a>00913                 }
+<a name="l00914"></a>00914                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#a2e520834597aa78af6224e2bc7f89387" title="checks if there is a StallGuard warning in the last status">isStallGuardReached</a>()) {      
+<a name="l00915"></a>00915                         Serial.println(<span class="stringliteral">&quot;INFO: Stall Guard level reached!&quot;</span>);
+<a name="l00916"></a>00916                 }
+<a name="l00917"></a>00917                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c262_stepper.html#a566f37aee32e83423db0bdddc007ca94" title="Is chopper inactive since 2^20 clock cycles - defaults to ~0,08s.">isStandStill</a>()) {
+<a name="l00918"></a>00918                         Serial.println(<span class="stringliteral">&quot;INFO: Motor is standing still.&quot;</span>);
+<a name="l00919"></a>00919                 }
+<a name="l00920"></a>00920                 <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> readout_config = driver_configuration_register_value &amp; <a class="code" href="_t_m_c262_stepper_8cpp.html#a88a4b45fa6385eba8aa4f0342334b832">READ_SELECTION_PATTERN</a>;
+<a name="l00921"></a>00921                 <span class="keywordtype">int</span> value = getReadoutValue();
+<a name="l00922"></a>00922                 <span class="keywordflow">if</span> (readout_config == <a class="code" href="_t_m_c262_stepper_8cpp.html#a143b7757272f07866d9655bde8303d9a">READ_MICROSTEP_POSTION</a>) {
+<a name="l00923"></a>00923                         Serial.print(<span class="stringliteral">&quot;Microstep postion phase A: &quot;</span>);
+<a name="l00924"></a>00924                         Serial.println(value);
+<a name="l00925"></a>00925                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (readout_config == <a class="code" href="_t_m_c262_stepper_8cpp.html#ac1bd4da94fab7ce1049be2f866211819">READ_STALL_GUARD_READING</a>) {
+<a name="l00926"></a>00926                         Serial.print(<span class="stringliteral">&quot;Stall Guard value:&quot;</span>);
+<a name="l00927"></a>00927                         Serial.println(value);
+<a name="l00928"></a>00928                 } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (readout_config == <a class="code" href="_t_m_c262_stepper_8cpp.html#aef62b7fdcbac0b33b2d6e9cea4b5f9b2">READ_STALL_GUARD_AND_COOL_STEP</a>) {
+<a name="l00929"></a>00929                         <span class="keywordtype">int</span> stallGuard = value &amp; 0xf;
+<a name="l00930"></a>00930                         <span class="keywordtype">int</span> current = value &amp; 0x1F0;
+<a name="l00931"></a>00931                         Serial.print(<span class="stringliteral">&quot;Approx Stall Guard: &quot;</span>);
+<a name="l00932"></a>00932                         Serial.println(stallGuard);
+<a name="l00933"></a>00933                         Serial.print(<span class="stringliteral">&quot;Current level&quot;</span>);
+<a name="l00934"></a>00934                         Serial.println(current);
+<a name="l00935"></a>00935                 }
+<a name="l00936"></a>00936         }
+<a name="l00937"></a>00937 }
+<a name="l00938"></a>00938 
+<a name="l00939"></a>00939 <span class="comment">/*</span>
+<a name="l00940"></a>00940 <span class="comment"> * send register settings to the stepper driver via SPI</span>
+<a name="l00941"></a>00941 <span class="comment"> * returns the current status</span>
+<a name="l00942"></a>00942 <span class="comment"> */</span>
+<a name="l00943"></a>00943 <span class="keyword">inline</span> <span class="keywordtype">void</span> TMC262Stepper::send262(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> datagram) {
+<a name="l00944"></a>00944         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> i_datagram;
+<a name="l00945"></a>00945         
 <a name="l00946"></a>00946         
-<a name="l00947"></a>00947         
-<a name="l00948"></a>00948         <span class="comment">//select the TMC driver</span>
-<a name="l00949"></a>00949         digitalWrite(cs_pin,LOW);
-<a name="l00950"></a>00950 
-<a name="l00951"></a>00951         <span class="comment">//ensure that only valid bist are set (0-19)</span>
-<a name="l00952"></a>00952         <span class="comment">//datagram &amp;=REGISTER_BIT_PATTERN;</span>
-<a name="l00953"></a>00953         
-<a name="l00954"></a>00954 <span class="preprocessor">#ifdef DEBUG</span>
-<a name="l00955"></a>00955 <span class="preprocessor"></span>        Serial.print(<span class="stringliteral">&quot;Sending &quot;</span>);
-<a name="l00956"></a>00956         Serial.println(datagram,HEX);
-<a name="l00957"></a>00957 <span class="preprocessor">#endif</span>
-<a name="l00958"></a>00958 <span class="preprocessor"></span>
-<a name="l00959"></a>00959         <span class="comment">//write/read the values</span>
-<a name="l00960"></a>00960         i_datagram = SPI.transfer((datagram &gt;&gt; 16) &amp; 0xff);
-<a name="l00961"></a>00961         i_datagram &lt;&lt;= 8;
-<a name="l00962"></a>00962         i_datagram |= SPI.transfer((datagram &gt;&gt;  8) &amp; 0xff);
-<a name="l00963"></a>00963         i_datagram &lt;&lt;= 8;
-<a name="l00964"></a>00964         i_datagram |= SPI.transfer((datagram) &amp; 0xff);
-<a name="l00965"></a>00965         i_datagram &gt;&gt;= 4;
-<a name="l00966"></a>00966         
-<a name="l00967"></a>00967 <span class="preprocessor">#ifdef DEBUG</span>
-<a name="l00968"></a>00968 <span class="preprocessor"></span>        Serial.print(<span class="stringliteral">&quot;Received &quot;</span>);
-<a name="l00969"></a>00969         Serial.println(i_datagram,HEX);
-<a name="l00970"></a>00970         <a class="code" href="class_t_m_c262_stepper.html#a467fb62d852c2a6b5b2d94e877f843fc" title="Prints out all the information that can be found in the last status read out - it does not force a st...">debugLastStatus</a>();
-<a name="l00971"></a>00971 <span class="preprocessor">#endif</span>
-<a name="l00972"></a>00972 <span class="preprocessor"></span>        <span class="comment">//deselect the TMC chip</span>
-<a name="l00973"></a>00973         digitalWrite(cs_pin,HIGH); 
-<a name="l00974"></a>00974         
-<a name="l00975"></a>00975         <span class="comment">//store the datagram as status result</span>
-<a name="l00976"></a>00976         driver_status_result = i_datagram;
-<a name="l00977"></a>00977 }
+<a name="l00947"></a>00947         <span class="comment">//select the TMC driver</span>
+<a name="l00948"></a>00948         digitalWrite(cs_pin,LOW);
+<a name="l00949"></a>00949 
+<a name="l00950"></a>00950         <span class="comment">//ensure that only valid bist are set (0-19)</span>
+<a name="l00951"></a>00951         <span class="comment">//datagram &amp;=REGISTER_BIT_PATTERN;</span>
+<a name="l00952"></a>00952         
+<a name="l00953"></a>00953 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00954"></a>00954 <span class="preprocessor"></span>        Serial.print(<span class="stringliteral">&quot;Sending &quot;</span>);
+<a name="l00955"></a>00955         Serial.println(datagram,HEX);
+<a name="l00956"></a>00956 <span class="preprocessor">#endif</span>
+<a name="l00957"></a>00957 <span class="preprocessor"></span>
+<a name="l00958"></a>00958         <span class="comment">//write/read the values</span>
+<a name="l00959"></a>00959         i_datagram = SPI.transfer((datagram &gt;&gt; 16) &amp; 0xff);
+<a name="l00960"></a>00960         i_datagram &lt;&lt;= 8;
+<a name="l00961"></a>00961         i_datagram |= SPI.transfer((datagram &gt;&gt;  8) &amp; 0xff);
+<a name="l00962"></a>00962         i_datagram &lt;&lt;= 8;
+<a name="l00963"></a>00963         i_datagram |= SPI.transfer((datagram) &amp; 0xff);
+<a name="l00964"></a>00964         i_datagram &gt;&gt;= 4;
+<a name="l00965"></a>00965         
+<a name="l00966"></a>00966 <span class="preprocessor">#ifdef DEBUG</span>
+<a name="l00967"></a>00967 <span class="preprocessor"></span>        Serial.print(<span class="stringliteral">&quot;Received &quot;</span>);
+<a name="l00968"></a>00968         Serial.println(i_datagram,HEX);
+<a name="l00969"></a>00969         <a class="code" href="class_t_m_c262_stepper.html#a467fb62d852c2a6b5b2d94e877f843fc" title="Prints out all the information that can be found in the last status read out - it does not force a st...">debugLastStatus</a>();
+<a name="l00970"></a>00970 <span class="preprocessor">#endif</span>
+<a name="l00971"></a>00971 <span class="preprocessor"></span>        <span class="comment">//deselect the TMC chip</span>
+<a name="l00972"></a>00972         digitalWrite(cs_pin,HIGH); 
+<a name="l00973"></a>00973         
+<a name="l00974"></a>00974         <span class="comment">//store the datagram as status result</span>
+<a name="l00975"></a>00975         driver_status_result = i_datagram;
+<a name="l00976"></a>00976 }
 </pre></div></div><!-- contents -->
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 1 2012 17:57:22 for Trinamic TMC260/TMC261/TMC262 Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 2 2012 17:21:46 for Trinamic TMC260/TMC261/TMC262 Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>
