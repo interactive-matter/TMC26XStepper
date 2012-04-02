@@ -25,7 +25,7 @@ void setup() {
   startSerial();
   startMotor();
   //set this according to you stepper
-  Serial.println("started");
+  Serial.println(F("started"));
 }
 
 void loop() {

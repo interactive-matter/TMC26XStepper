@@ -8,9 +8,9 @@ unsigned char inputBufferPosition;
 
 void startSerial() {
   Serial.begin(SERIAL_SPEED);
-  Serial.println("=================================");
-  Serial.println("TMC262 Stepper Driver Motor Tuner");
-  Serial.println("=================================");
+  Serial.println(F("================================="));
+  Serial.println(F("TMC262 Stepper Driver Motor Tuner"));
+  Serial.println(F("================================="));
   //empty the input buffer
   for (unsigned char i=0; i< INPUT_BUFFER_LENGTH+1; i++) {
     inputBuffer[i]=0;
@@ -67,7 +67,7 @@ void loopSerial() {
     Serial.print("t");
     Serial.print(tmc262Stepper.getStallGuardTreshold(),DEC);
     Serial.print(',');
-    Serial.print("f");
+    Serial.print('f');
     Serial.print(tmc262Stepper.getStallGuardFilter(),DEC);
     Serial.print(',');
     //print out the general cool step config
