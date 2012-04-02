@@ -48,37 +48,43 @@ void setupRunConfig() {
   microsteppingButtons.addItem("256", 256);
   microsteppingButtons.showBar();
   microsteppingButtons.moveTo(runTab);
+
+
+
+  currentSlider = controlP5.addSlider("current", 0.46, maxCurrent, 0.4, 300, 50, 20, 210);
+  currentSlider.moveTo(runTab);
+
   // add a vertical slider for stallGuard treshold  
-  sgtSlider = controlP5.addSlider("stallguardtreshold", -64, 63, 0, 250, 40, 20, 150);
+  sgtSlider = controlP5.addSlider("stallguardtreshold", -64, 63, 0, 500, 40, 20, 150);
   sgtSlider.setSliderMode(Slider.FIX);
   sgtSlider.setCaptionLabel("Stall Guard Treshold");
   sgtSlider.moveTo(runTab);
-  sgtPlus = controlP5.addButton("sgtplus", 0, 300, 40, 20, 20);
+  sgtPlus = controlP5.addButton("sgtplus", 0, 550, 40, 20, 20);
   sgtPlus.setCaptionLabel("+");
   sgtPlus.moveTo(runTab);
-  sgtMinus = controlP5.addButton("sgtminus", 1, 300, 70, 20, 20);
+  sgtMinus = controlP5.addButton("sgtminus", 1, 550, 70, 20, 20);
   sgtMinus.setCaptionLabel("-");
   sgtMinus.moveTo(runTab);
   //ading some buttons to have finer sg control
   //adding a button for the filter
-  sgFilterToggle = controlP5.addToggle("sgfilter", false, 250, 220, 30, 30);
+  sgFilterToggle = controlP5.addToggle("sgfilter", false, 500, 220, 30, 30);
   sgFilterToggle.setCaptionLabel("Stall GuardFilter");
   sgFilterToggle.moveTo(runTab);
   
   //add the coolstep sliders
-  coolStepMaxSlider = controlP5.addSlider("coolStepUpper", 0, 480, 0, 400, 40, 20, 90);
+  coolStepMaxSlider = controlP5.addSlider("coolStepUpper", 0, 480, 0, 750, 40, 20, 90);
   coolStepMaxSlider.setCaptionLabel("Cool Step Hysteresis");
   coolStepMaxSlider.moveTo(runTab);
 
-  coolStepMinSlider = controlP5.addSlider("coolStepLower", 0, 480, 0, 400, 160, 20, 90);
+  coolStepMinSlider = controlP5.addSlider("coolStepLower", 0, 480, 0, 750, 160, 20, 90);
   coolStepMinSlider.setCaptionLabel("Cool Step Minimum");
   coolStepMinSlider.moveTo(runTab);
   
-  coolStepActiveToggle = controlP5.addToggle("coolStepActive", false, 500, 220, 30, 30);  
+  coolStepActiveToggle = controlP5.addToggle("coolStepActive", false, 850, 220, 30, 30);  
   coolStepActiveToggle.setCaptionLabel("Enable CoolStep");
   coolStepActiveToggle.moveTo(runTab);
 
-  coolStepIncrementButtons = controlP5.addRadioButton("coolStepIncrement", 500, 40);
+  coolStepIncrementButtons = controlP5.addRadioButton("coolStepIncrement", 850, 40);
   coolStepIncrementButtons.addItem("1", 0);
   coolStepIncrementButtons.addItem("2", 1);
   coolStepIncrementButtons.addItem("4", 2);
@@ -86,7 +92,7 @@ void setupRunConfig() {
   coolStepIncrementButtons.showBar();
   coolStepIncrementButtons.moveTo(runTab);
 
-  coolStepDecrementButtons = controlP5.addRadioButton("coolStepDecrement", 500, 110);
+  coolStepDecrementButtons = controlP5.addRadioButton("coolStepDecrement", 850, 110);
   coolStepDecrementButtons.addItem("32", 0);
   coolStepDecrementButtons.addItem("8", 1);
   coolStepDecrementButtons.addItem("2", 2);
@@ -94,14 +100,11 @@ void setupRunConfig() {
   coolStepDecrementButtons.showBar();
   coolStepDecrementButtons.moveTo(runTab);
 
-  coolStepMinButtons = controlP5.addRadioButton("coolStepMin", 500, 180);
+  coolStepMinButtons = controlP5.addRadioButton("coolStepMin", 850, 180);
   coolStepMinButtons.addItem("1/2", 0);
   coolStepMinButtons.addItem("1/4", 1);
   coolStepMinButtons.showBar();
   coolStepMinButtons.moveTo(runTab);
-
-  currentSlider = controlP5.addSlider("current", 0.46, maxCurrent, 0.4, 950, 50, 20, 210);
-  currentSlider.moveTo(runTab);
 }
 
 void speed(int theSpeed) {
