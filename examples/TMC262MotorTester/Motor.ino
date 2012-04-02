@@ -145,7 +145,6 @@ unsigned char setupTimer2(float timeoutFrequency){
 ISR(TIMER2_OVF_vect) {
   motor_moved = tmc262Stepper.move();
   motor_counter++;
-
 }
 
 
