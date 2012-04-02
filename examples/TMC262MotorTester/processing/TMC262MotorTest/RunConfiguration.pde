@@ -85,6 +85,7 @@ void setupRunConfig() {
   coolStepActiveToggle.moveTo(runTab);
 
   coolStepIncrementButtons = controlP5.addRadioButton("coolStepIncrement", 850, 40);
+  coolStepIncrementButtons.captionLabel().set("Cool Step  Increment");
   coolStepIncrementButtons.addItem("1", 0);
   coolStepIncrementButtons.addItem("2", 1);
   coolStepIncrementButtons.addItem("4", 2);
@@ -93,6 +94,7 @@ void setupRunConfig() {
   coolStepIncrementButtons.moveTo(runTab);
 
   coolStepDecrementButtons = controlP5.addRadioButton("coolStepDecrement", 850, 110);
+  coolStepDecrementButtons.captionLabel().set("Cool Step Decrement");
   coolStepDecrementButtons.addItem("32", 0);
   coolStepDecrementButtons.addItem("8", 1);
   coolStepDecrementButtons.addItem("2", 2);
