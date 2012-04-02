@@ -16,6 +16,12 @@ int highLightWidth = 7;
 
 int numberOfDataPoints=1000;
 
+int legendTitleSize = 10;
+int legendTextSize = 10;
+int currentLabelInterval = 500;
+int currentMinorTickInterval = 25;
+DecimalFormat currentLabelFormat = new DecimalFormat("#0.0A");
+
 int stallGuardLabelInterval = 100;
 int stallGuardMinorTickInterval = 10;
 int positionLabelInterval = 64;
@@ -35,8 +41,8 @@ void setupData() {
   plotBottom = height-50;
   plotTop = 300;
 
-  plotLeft = 50;
-  plotRight= width-plotLeft;
+  plotLeft = 150;
+  plotRight= width-50;
 }
 
 void drawData() {
@@ -73,11 +79,41 @@ void drawData() {
     float coolStepMaxHeight = map(coolStepMin+coolStepMax+1, 0, stallGuardMax, plotBottom, plotTop);
     line(plotLeft,coolStepMaxHeight, plotRight, coolStepMaxHeight);
 
-    textSize(15);
+    textSize(legendTitleSize);
+    textAlign(RIGHT);
+    fill(coolStepColor);
+    text("Motor Current", plotLeft - 50, plotTop - 10);
+    textSize(legendTextSize);
+    textAlign(RIGHT);
+    strokeWeight(1);
+    stroke(coolStepColor);
+    int currentScaleMax = (int)(maxCurrent*1000.0);
+    for (int i=0; i<=currentScaleMax; i++) {
+      float y = map(i, 0, currentScaleMax, plotBottom, plotTop);
+      if (i % currentLabelInterval == 0) {
+        if (i==0) {
+          textAlign(RIGHT, BOTTOM);
+        } 
+        else if (i==currentScaleMax) {
+          textAlign(RIGHT, TOP);
+        } 
+        else {
+          textAlign(RIGHT, CENTER);
+        }        
+        text(currentLabelFormat.format((float)i/1000.0), plotLeft-58, y);
+        line (plotLeft-55, y, plotLeft-50, y);
+      } 
+      else if (i % currentMinorTickInterval == 0) {
+        line (plotLeft-53, y, plotLeft-50, y);
+      }
+      
+    }
+
+    textSize(legendTitleSize);
     textAlign(LEFT);
     fill(stallGuardColor);
     text("Stall Guard Reading", plotLeft - 30, plotTop - 10);
-    textSize(10);
+    textSize(legendTextSize);
     textAlign(RIGHT);
     strokeWeight(1);
     stroke(stallGuardColor);
@@ -101,11 +137,11 @@ void drawData() {
       }
     }
 
-    textSize(15);
+    textSize(legendTitleSize);
     fill(positionColor);
     textAlign(RIGHT);
     text("Position", plotRight + 30, plotTop - 10);
-    textSize(10);
+    textSize(legendTextSize);
     textAlign(LEFT);
     strokeWeight(1);
     stroke(positionColor);
@@ -129,7 +165,7 @@ void drawData() {
       }
     }
     //draw the channel status
-    textSize(10);
+    textSize(legendTextSize);
     textAlign(CENTER);
     strokeWeight(1);
     int statusY = height - 20;
