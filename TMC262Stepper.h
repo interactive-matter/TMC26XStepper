@@ -337,8 +337,8 @@ class TMC262Stepper {
     /*!
      * \brief This method configures the CoolStep smart energy operation. You must have a proper StallGuard configuration for the motor situation (current, voltage, speed) in rder to use this feature.
      * \param lower_SG_treshhold Sets the lower threshold for stallGuard2TM reading. Below this value, the motor current becomes increased. Allowed values are 0...480
-     * \param upper_SG_treshhold Sets the distance between the lower and the upper threshold for stallGuard2TM reading. Above the upper threshold the motor current becomes decreased. Allowed values are 0...480
-     * \param number_of_SG_readings Sets the number of stallGuard2TM readings above the upper threshold necessary for each current decrement of the motor current. 0...32
+     * \param SG_hysteresis Sets the distance between the lower and the upper threshold for stallGuard2TM reading. Above the upper threshold (which is lower_SG_treshhold+SG_hysteresis+1) the motor current becomes decreased. Allowed values are 0...480
+     * \param current_decrement_step_size Sets the current decrement steps. If the StallGuard value is above the treshhold the current gets decremented by this step size. 0...32
      * \param current_increment_step_size Sets the current increment step. The current becomes incremented for each measured stallGuard2TM value below the lower threshold. 0...8
      * \param lower_current_limit Sets the lower motor current limit for coolStepTM operation by scaling the CS value. Values can be COOL_STEP_HALF_CS_LIMIT, COOL_STEP_QUARTER_CS_LIMIT
      * The CoolStep smart energy operation automatically adjust the current sent into the motor according to the current load,
@@ -351,7 +351,7 @@ class TMC262Stepper {
      * (1/2 or 1/4th otf the configured current).
      * \sa COOL_STEP_HALF_CS_LIMIT, COOL_STEP_QUARTER_CS_LIMIT
      */
-    void setCoolStepConfiguration(unsigned int lower_SG_treshhold, unsigned int upper_SG_treshhold, unsigned char number_of_SG_readings,
+    void setCoolStepConfiguration(unsigned int lower_SG_treshhold, unsigned int SG_hysteresis, unsigned char current_decrement_step_size,
                                   unsigned char current_increment_step_size, unsigned char lower_current_limit);
     
     /*!

@@ -627,7 +627,7 @@ void TMC262Stepper::setRandomOffTime(char value) {
 	}	
 }	
 
-void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, unsigned int upper_SG_treshhold, unsigned char number_of_SG_readings,
+void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, unsigned int SG_hysteresis, unsigned char current_decrement_step_size,
                               unsigned char current_increment_step_size, unsigned char lower_current_limit) {
     //sanitize the input values
     if (lower_SG_treshhold>480) {
@@ -635,12 +635,12 @@ void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, un
     }
     //divide by 32
     lower_SG_treshhold >>=5;
-    if (upper_SG_treshhold>480) {
-        upper_SG_treshhold=480;
+    if (SG_hysteresis>480) {
+        SG_hysteresis=480;
     }
-    upper_SG_treshhold >>=5;
-    if (number_of_SG_readings>3) {
-        number_of_SG_readings=3;
+    SG_hysteresis >>=5;
+    if (current_decrement_step_size>3) {
+        current_decrement_step_size=3;
     }
     if (number_of_steps>3) {
         number_of_steps=3;
@@ -648,7 +648,6 @@ void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, un
     if (lower_current_limit>1) {
         lower_current_limit=1;
     }
-    //TODO */ 32 for the sg values??
     //store the lower level in order to enable/disable the coole step
     this->cool_step_lower_treshhold=lower_SG_treshhold;
     //if cool step is not enabled we delete the lower value to keep it disabled
@@ -657,7 +656,7 @@ void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, un
     }
     //the good news is that we can start with a complete new cool step register value
     //and simply set the values in the register
-    cool_step_register_value = ((unsigned long)lower_SG_treshhold) | (((unsigned long)upper_SG_treshhold)<<8) | (((unsigned long)number_of_SG_readings)<<5)
+    cool_step_register_value = ((unsigned long)lower_SG_treshhold) | (((unsigned long)SG_hysteresis)<<8) | (((unsigned long)current_decrement_step_size)<<5)
         | (((unsigned long)current_increment_step_size)<<13) | (((unsigned long)lower_current_limit)<<15)
         //and of course we have to include the signature of the register
         | COOL_STEP_REGISTER;
