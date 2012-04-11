@@ -51,12 +51,12 @@ The unique features of the TMC262 are that everything can (and must) be controll
 
 * the motor current
 * microstepping
-* stall protetction
+* stall protection
 * current reduction according to load
 * stallGuard2™ sensorless load detection
 * coolStep™ load dependent current control
 * spreadCycle hysteresis PWM chopper 
-* microPlyer 16-to-256 μStep multiplyer
+* microPlyer 16-to-256 μStep multiplier
 * full protection and diagnostics
 
 This makes the TMC262 a bit harder to use than other stepper motors but much more versatile.
@@ -86,12 +86,12 @@ Attach the break out board or shield to your Arduino.
 Now you can connect the Motor to your shield or breakout board. Bipolar stepper motors have 4 wires.
 2 for each phase. One phase goes to A1 and A2 - the other phase goes to B1 and B2.
 
-If you are unsure which wires belong to which phase you can simlpy check this:
+If you are unsure which wires belong to which phase you can simply check this:
 * Make sure none of the wires are connected (i.e. touching each other on the unisolated end).
-  You should be able to turn shaft of the motor quite easily with no really noticable steps. It 
+  You should be able to turn shaft of the motor quite easily with no really noticeable steps. It 
   should be considerable smooth.
 
-* Now hold two wires of the motor togehter so that the unisolated wire ends are touching each other.
+* Now hold two wires of the motor together so that the unisolated wire ends are touching each other.
   Or add a jumper wire to two sockets of your motor connector if it is present.
 
 * Turn the shaft of your motor.
@@ -103,14 +103,14 @@ If you are unsure which wires belong to which phase you can simlpy check this:
   the other phase.
   
 * If the above method does not work for you or your motor has more than two wires you can check it
-  with your Ohmmmeter (multimeter measuring the resistance). E.g. unipolar stepper motors have 
+  with your Ohmmeter (multimeter measuring the resistance). E.g. unipolar stepper motors have 
   6 wires, but can be used as bipolar stepper motors if you use the correct wires). Check the 
   resistance between each wire combination. You should get the following result: In a lot wire 
-  configurations there is no connection. Two wire ends have a reasonyble high resistance (normally
+  configurations there is no connection. Two wire ends have a reasonable high resistance (normally
   below 10 Ohms). For unipolar motors you have two wires which have half the resistance to the other
   wires of the same phase (i.e. if there is a connection at all). 
   The wires with the higher resistance compromise one phase. And for unipolar motors the wires with
-  half the resistance are the 'common wire'. You don't need those in biploar configuration.
+  half the resistance are the 'common wire'. You don't need those in bipolar configuration.
   
 Testing the Motor Parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,8 +118,9 @@ Testing the Motor Parameters
 The fastest way to see your motor moving is to use the sketch *TMC262MotorTest* from the examples
 directory in the library (File->Examples->TMC262Stepper->TMC262MotorTest in the Arduino menu).
 
-It assumes the following connections for the shield or brakout board:
-* The CS Pin on Arduino Pin 8
+It assumes the following connections for the shield or breakout board:
+
+* The CS Pin on Arduino Pin 2
 * The DIR Pin on Arduino Pin 6
 * The STEP Pin on Arduino Pin 7
 * The ENABLE Pin on Arduino Pin 8 (even though the shield works without that connection)
@@ -129,7 +130,7 @@ If this is different for you you have two different ways to react:
 * Connect the pins accordingly
 * Change the definitions in the TMXC262MotorTester to reflect your conditions.
 
-If you check the content of the example in your library (with your finder, exploerer or whatever 
+If you check the content of the example in your library (with your finder, explorer or whatever 
 you call your file browser) you see the that there is a directory *processing*. It contains a 
 Processing sketch which acts as host side control program for the motor tester. If you do not
 have processing installed on your computer head over to http://processing.org/ to download a copy
@@ -138,8 +139,8 @@ for you operating system.
 *Attention:* You must have the ControlP5 library installed for processing. Refer to 
 http://www.sojamo.de/libraries/controlP5/ for download and details.
 
-*It is planned that once the Processing sketch is a tad more matured ot offer prebuilt binaries for 
-various operating systems.* Anyway installing and using Precessing is good for proramming skills
+*It is planned that once the Processing sketch is a tad more matured to offer prebuilt binaries for 
+various operating systems.* Anyway installing and using Precessing is good for programming skills
 and marvelous fun.
 
 Now upload the motor tester sketch to your Arduino, open the control sketch in Processing, check
@@ -150,7 +151,7 @@ for that line::
 
 *This will also get much more convenient in future version.*
 
-Now attach power to your motor (i.e. connect 10-40V to the shield or break out board). Reset the 
+Now attach power to your motor (i.e., connect 10-40V to the shield or break out board). Reset the 
 Arduino - it configures the motor after boot up - so you should reset it every time you switch on
 the motor power. Often this is done automatically by the Processing sketch - but it is better to get 
 sure. Now start up the Processing sketch.
@@ -162,18 +163,18 @@ cases you can use the 'run' tab to play around with the various parameters:
 
 * The 'FORWARD'/'BACKWARD' knobs control the direction of your motor
 
-* The 'ENABLED' Button can be used to switch on or off the motor driver. If not enabled the otor can 
+* The 'ENABLED' Button can be used to switch on or off the motor driver. If not enabled the motor can 
   be turned freely. If enabled it cannot (or hardly) be turned by hand. If it is different for you
-  there is smoething wrong with your motor or pin connections, or power supply, or Arduino.
+  there is something wrong with your motor or pin connections, or power supply, or Arduino.
   
 * The 'SPEED' slider let's you select different motor speeds. It of course only has effect if the
   motor is running.
   
 * The 'MICROSTEPPING' selection can be used to choose various microsteppings (1 for full step to 256
   for 1/256th stepping). Obey that the maximum achievable motor speed is also determined by your 
-  micro stepping. The Arduino is only able togerneate step impulses up to a certain frequency
+  micro stepping. The Arduino is only able to gerneate step impulses up to a certain frequency
   
-* The 'STALL GUARD TRESHHOLD' slider with it's + and - buttons can be used to fine tune the load
+* The 'STALL GUARD TRESHOLD' slider with it's + and - buttons can be used to fine tune the load
   detection of the motor driver. If the red line is at the top reduce the setting, if it is at the 
   bottom increase it (and keep in mind that the stall guard value - the red lin - changes with 
   various motor speeds and current settings at the same load).
@@ -183,9 +184,9 @@ cases you can use the 'run' tab to play around with the various parameters:
   If the filter is disable you will see something more like a read out cloud than a line - which can 
   be useful too.
   
-* The 'CURRENT' slider determine the maximum current for driving the motor. It starts at a much to
+* The 'CURRENT' slider determines the maximum current for driving the motor. It starts at a much too
   low value of 0.5A current for the motor. This is too low for most motors but safe enough for most
-  motors. You should not increase it to a higher value than your motor is specified (if you want to
+  motors. You should not increase it to a value higher than specified for your motor (if you want to
   keep your motor).
   
 In the lower window you can see curves for the current motor values:
@@ -196,7 +197,7 @@ In the lower window you can see curves for the current motor values:
    
 * The stall guard readout in red. 
 
-* The current the motor is currently runnning at in yellow. This is an important value if you are
+* The current the motor is currently running at in yellow. This is an important value if you are
   configuring the cool step configuration.
 
 *The description for the cool step config is currently missing*
@@ -221,7 +222,7 @@ Creating a stepper motor driver::
 TMC262Stepper tmc262Stepper = TMC262Stepper(200,2,3,4,300);
 
 The settings are:
-* the steps per rotation to calulate the speed correctly - here a 200 steps/rotation motor
+* the steps per rotation to calculate the speed correctly - here a 200 steps/rotation motor
 * the client select pin for SPI - here pin 2
 * the direction pin for stepping - here pin 3
 * the step pin for stepping - here pin 4
@@ -251,6 +252,7 @@ To set the number of microsteps you can use::
     tmc262Stepper.setMicrosteps(32);
 
 The following values are supported:
+
 * 0 for full step
 * 2 for half step
 * 4 for 1/4th
@@ -329,7 +331,7 @@ Explained in the datasheet like this:
 Spread Cycle Chopper
 ~~~~~~~~~~~~~~~~~~~~
 
-If you know your motor parameters well (current, winding resistance and windind inductance) it may
+If you know your motor parameters well (current, winding resistance and winding inductance) it may
 be easier and better to use the spread cycle chopper.
 To calculate the values refer to the excel sheet provided by trinamic:
 http://trinamic.com/tmc/media/Downloads/integrated_circuits/TMC262/Application_notes/tmc262_calculations.xls
@@ -362,7 +364,7 @@ A value of 0 disables the random off time. Any other value enables it.
 
 From the datasheet:
  In a constant off time chopper scheme both coil choppers run freely, i.e. are not synchronized. 
- The frequency of each chopper mainly depends on the coil current and the position dependant 
+ The frequency of each chopper mainly depends on the coil current and the position dependent 
  motor coil inductivity, thus it depends on the microstep position. With some motors a slightly 
  audible beat can occur between the chopper frequencies, especially when they are near to each other. 
  This typically occurs at a few microstep positions within each quarter wave. This effect normally 
