@@ -47,7 +47,7 @@ The TMC262 is a stepper motor controller for bipolar stepper motors. From the tr
  even at high environment temperatures.
 
 
-The unique features of the TMC262 are that everything ca (and must) be controlled in software:
+The unique features of the TMC262 are that everything can (and must) be controlled in software:
 
 * the motor current
 * microstepping
@@ -59,9 +59,9 @@ The unique features of the TMC262 are that everything ca (and must) be controlle
 * microPlyer 16-to-256 μStep multiplyer
 * full protection and diagnostics
 
-This makes the TMC262 a bit harder to use than other stepper motor but much more versatile.
-This library resolves all the complicated stuff so taht you can use TMC262 straight away.
-Furthermore all the settings are implemented in high level interfaces so that configuring your
+This makes the TMC262 a bit harder to use than other stepper motors but much more versatile.
+This library resolves all the complicated stuff so that you can use TMC262 straight away.
+Furthermore, all the settings are implemented in high level interfaces so that configuring your
 motor is a breeze.
 
 Basic Usage
