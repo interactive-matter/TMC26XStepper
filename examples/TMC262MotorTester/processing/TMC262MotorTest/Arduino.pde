@@ -49,6 +49,9 @@ void decodeSerial(String line) {
       else if (statusToken.startsWith("p")) {
         addPositionReading(getValueOfToken(statusToken, 1));
       } 
+      else if (statusToken.startsWith("k")) {
+        addCurrentReading(getValueOfToken(statusToken, 1));
+      } 
       else if (statusToken.startsWith("t")) {
         sgtSlider.setValue(getValueOfToken(statusToken, 1));
       } 
@@ -111,9 +114,30 @@ void decodeSerial(String line) {
       } 
       else if (statusToken.startsWith("Cd")) {
         setHystDecrement(getValueOfToken(statusToken, 2));
+      } 
+      else if ("Ke+".equals(statusToken)) {
+        coolStepActiveToggle.setValue(1);
+      } 
+      else if ("Ke-".equals(statusToken)) {
+        coolStepActiveToggle.setValue(0);
+      } 
+      else if (statusToken.startsWith("Kl")) {
+        coolStepMinSlider.setValue(getValueOfToken(statusToken, 2));
+      } 
+      else if (statusToken.startsWith("Ku")) {
+        coolStepMaxSlider.setValue(getValueOfToken(statusToken, 2));
+      }
+      else if (statusToken.startsWith("Kn")) {
+        coolStepDecrementButtons.activate(getValueOfToken(statusToken, 2));
+      } 
+      else if (statusToken.startsWith("Ki")) {
+        coolStepIncrementButtons.activate(getValueOfToken(statusToken, 2));
+      }
+      else if (statusToken.startsWith("Km")) {
+        coolStepMinButtons.activate(getValueOfToken(statusToken, 2));
       }
     }
-  } 
+  }
   else {
     println(line);
   }

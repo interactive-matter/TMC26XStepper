@@ -36,6 +36,8 @@ void loopSerial() {
     Serial.print(tmc262Stepper.getCurrentStallGuardReading(),DEC);
     Serial.print(",p");
     Serial.print(tmc262Stepper.getMotorPosition(),DEC);
+    Serial.print(",k");
+    Serial.print(tmc262Stepper.getCurrentCurrent(),DEC);
     Serial.println(',');
     motor_moved=0;
   }
@@ -62,14 +64,29 @@ void loopSerial() {
     Serial.print('m');
     Serial.print(tmc262Stepper.getMicrosteps(),DEC);
     Serial.print(',');
-    if (moving) {
-    }
-    Serial.print(',');
     Serial.print("t");
     Serial.print(tmc262Stepper.getStallGuardTreshold(),DEC);
     Serial.print(',');
     Serial.print("f");
     Serial.print(tmc262Stepper.getStallGuardFilter(),DEC);
+    Serial.print(',');
+    //print out the general cool step config
+    if (tmc262Stepper.isCoolStepEnabled()) {
+      Serial.print("Ke+,");
+    } 
+    else {
+      Serial.print("Ke-,");
+    }
+    Serial.print("Kl");
+    Serial.print(tmc262Stepper.getCoolStepLowerSgTreshhold(),DEC);
+    Serial.print(",Ku");
+    Serial.print(tmc262Stepper.getCoolStepUpperSgTreshhold(),DEC);
+    Serial.print(",Kn");
+    Serial.print(tmc262Stepper.getCoolStepNumberOfSGReadings(),DEC);
+    Serial.print(",Ki");
+    Serial.print(tmc262Stepper.getCoolStepCurrentIncrementSize(),DEC);
+    Serial.print(",Km");
+    Serial.print(tmc262Stepper.getCoolStepLowerCurrentLimit(),DEC);
     Serial.print(',');
     //detect the winding status
     if (tmc262Stepper.isOpenLoadA()) {
@@ -240,6 +257,61 @@ void executeSerialCommand() {
       break;
     }
     break;
+  case 'K':
+    switch(inputBuffer[1]) {
+    case '+':
+      tmc262Stepper.setCoolStepEnabled(true);
+      break;
+    case '-':
+      tmc262Stepper.setCoolStepEnabled(false);
+      break;
+    case 'l':
+      {
+        int value = decode(2);
+        if (value>=0 && value<480) {
+          lower_SG_treshhold=value;
+          updateCoolStep();
+        }
+      }
+      break;
+    case 'u':
+      {
+        int value = decode(2);
+        if (value>=0 && value<480) {
+          upper_SG_treshhold=value;
+          updateCoolStep();
+        }
+      }
+      break;
+    case 'n':
+      {
+        int value = decode(2);
+        if (value>=0 && value<4) {
+          number_of_SG_readings=value;
+          updateCoolStep();
+        }
+      }
+      break;
+    case 'i':
+      {
+        int value = decode(2);
+        if (value>=0 && value<4) {
+          current_increment_step_size=value;
+          updateCoolStep();
+        }
+      }
+      break;
+    case 'm':
+      {
+        int value = decode(2);
+        if (value>=0 && value<2) {
+          lower_current_limit=value;
+          updateCoolStep();
+        }
+      }
+      break;
+    }
+    break;
   }
   //at the end delete buffer
   inputBufferPosition=0;
@@ -268,20 +340,6 @@ int decode(unsigned char startPosition) {
     return result;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

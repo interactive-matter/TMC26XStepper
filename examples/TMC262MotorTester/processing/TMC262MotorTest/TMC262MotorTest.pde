@@ -21,7 +21,7 @@ color stallGuardColor = #991a1a;
 color positionColor = #1a6699; //still to use #8c7f26
 color goodStatusColor = labelColor;
 color badStatusColor = stallGuardColor;
-
+color coolStepColor = #8c7f26;
 
 Tab configureTab;
 Tab runTab;
@@ -30,17 +30,21 @@ Tab activeTab;
 boolean settingStatus=false;
 
 boolean running = false;
+int coolStepMin = 0;
+int coolStepMax = 0;
+boolean coolStepActive = false;
 
+float maxCurrent = 1.7;
 
 void setup() {
   size(1000, 800);
   //load the font
   controlP5 = new ControlP5(this);
-  runTab = controlP5.addTab("run");
-  configureTab=controlP5.getTab("default");
+  runTab = controlP5.getTab("default");
+  configureTab =controlP5.addTab("configure"); 
   //customize the tabs a bit
   configureTab.setLabel("configure");
-  activeTab = configureTab;
+  activeTab =  controlP5.getTab("default");
   controlP5.setTabEventsActive(true);
   configureTab.activateEvent(true);
   runTab.activateEvent(true);
@@ -81,6 +85,12 @@ void controlEvent(ControlEvent theEvent) {
       setDirection((int)theEvent.group().value());
     } else if ("decrement".equals(theEvent.group().name())) {
       setHysteresisDecrement((int)theEvent.group().value());
+    } else if ("coolStepIncrement".equals(theEvent.group().name())) {
+      setCoolStepIncrement((int)theEvent.group().value());
+    } else if ("coolStepDecrement".equals(theEvent.group().name())) {
+      setCoolStepDecrement((int)theEvent.group().value());
+    } else if ("coolStepMin".equals(theEvent.group().name())) {
+      setCoolStepMin((int)theEvent.group().value());
     }
   } 
   else if (theEvent.isTab()) {

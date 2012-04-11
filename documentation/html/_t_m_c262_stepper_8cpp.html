@@ -82,6 +82,7 @@ Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#a88a4b45fa6385eba8aa4f0342334b832">READ_SELECTION_PATTERN</a>&#160;&#160;&#160;0x30ul</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#a57418a67ff726d540b813230bca1d536">CHOPPER_MODE_STANDARD</a>&#160;&#160;&#160;0x0ul</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#aaf1b564ced7de8ff3245c964e3775826">CHOPPER_MODE_T_OFF_FAST_DECAY</a>&#160;&#160;&#160;0x4000ul</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#aa4e49237f2671e7f28aa34ae0e89da8d">T_OFF_PATTERN</a>&#160;&#160;&#160;0xful</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#a64520580cffd416668f3b91bd60f84e1">RANDOM_TOFF_TIME</a>&#160;&#160;&#160;0x2000ul</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#a42cb2ce84258587d514ec3268548ba89">BLANK_TIMING_PATTERN</a>&#160;&#160;&#160;0x18000ul</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#abdac78f7f2c506972265a8e5883e1eae">BLANK_TIMING_SHIFT</a>&#160;&#160;&#160;15</td></tr>
@@ -105,11 +106,11 @@ Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#aa09ef662fd19bf2d063d6bd0f48eca14">STATUS_STALL_GUARD_STATUS</a>&#160;&#160;&#160;0x1ul</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#adbb23d2f055c9eab55eac29d1a75deb4">STATUS_OVER_TEMPERATURE_SHUTDOWN</a>&#160;&#160;&#160;0x2ul</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#aa317fd77f2f26fdfbfd331e21d9069e8">STATUS_OVER_TEMPERATURE_WARNING</a>&#160;&#160;&#160;0x4ul</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#a8e03041302a092174fa33b3cf837dca2">STATUS_SHORT_TO_GROUND_A</a>&#160;&#160;&#160;0x4ul</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#a903c3eba99695a32c6736463dcfd93ae">STATUS_SHORT_TO_GROUND_B</a>&#160;&#160;&#160;0x8ul</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#ae9cbbe5af7188e6bff8fe412f8e42f59">STATUS_OPEN_LOAD_A</a>&#160;&#160;&#160;0x10ul</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#ab29dc5cd6c6c4e5bf99e71bd563e1be1">STATUS_OPEN_LOAD_B</a>&#160;&#160;&#160;0x20ul</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#ab96ed1635faee6650e9cce73598a2773">STATUS_STAND_STILL</a>&#160;&#160;&#160;0x30ul</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#a8e03041302a092174fa33b3cf837dca2">STATUS_SHORT_TO_GROUND_A</a>&#160;&#160;&#160;0x8ul</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#a903c3eba99695a32c6736463dcfd93ae">STATUS_SHORT_TO_GROUND_B</a>&#160;&#160;&#160;0x10ul</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#ae9cbbe5af7188e6bff8fe412f8e42f59">STATUS_OPEN_LOAD_A</a>&#160;&#160;&#160;0x20ul</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#ab29dc5cd6c6c4e5bf99e71bd563e1be1">STATUS_OPEN_LOAD_B</a>&#160;&#160;&#160;0x40ul</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#ab96ed1635faee6650e9cce73598a2773">STATUS_STAND_STILL</a>&#160;&#160;&#160;0x80ul</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#a5c3d76da63f585e37813c32be2e11ab7">READOUT_VALUE_PATTERN</a>&#160;&#160;&#160;0xFFC00ul</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8cpp.html#a54a6d12e96d851361974b10614a00e45">INITIAL_MICROSTEPPING</a>&#160;&#160;&#160;0x3ul</td></tr>
 </table>
@@ -659,7 +660,7 @@ Defines</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8cpp.html#ae9cbbe5af7188e6bff8fe412f8e42f59">STATUS_OPEN_LOAD_A</a>&#160;&#160;&#160;0x10ul</td>
+          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8cpp.html#ae9cbbe5af7188e6bff8fe412f8e42f59">STATUS_OPEN_LOAD_A</a>&#160;&#160;&#160;0x20ul</td>
         </tr>
       </table>
 </div>
@@ -674,7 +675,7 @@ Defines</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8cpp.html#ab29dc5cd6c6c4e5bf99e71bd563e1be1">STATUS_OPEN_LOAD_B</a>&#160;&#160;&#160;0x20ul</td>
+          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8cpp.html#ab29dc5cd6c6c4e5bf99e71bd563e1be1">STATUS_OPEN_LOAD_B</a>&#160;&#160;&#160;0x40ul</td>
         </tr>
       </table>
 </div>
@@ -719,7 +720,7 @@ Defines</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8cpp.html#a8e03041302a092174fa33b3cf837dca2">STATUS_SHORT_TO_GROUND_A</a>&#160;&#160;&#160;0x4ul</td>
+          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8cpp.html#a8e03041302a092174fa33b3cf837dca2">STATUS_SHORT_TO_GROUND_A</a>&#160;&#160;&#160;0x8ul</td>
         </tr>
       </table>
 </div>
@@ -734,7 +735,7 @@ Defines</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8cpp.html#a903c3eba99695a32c6736463dcfd93ae">STATUS_SHORT_TO_GROUND_B</a>&#160;&#160;&#160;0x8ul</td>
+          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8cpp.html#a903c3eba99695a32c6736463dcfd93ae">STATUS_SHORT_TO_GROUND_B</a>&#160;&#160;&#160;0x10ul</td>
         </tr>
       </table>
 </div>
@@ -764,7 +765,7 @@ Defines</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8cpp.html#ab96ed1635faee6650e9cce73598a2773">STATUS_STAND_STILL</a>&#160;&#160;&#160;0x30ul</td>
+          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8cpp.html#ab96ed1635faee6650e9cce73598a2773">STATUS_STAND_STILL</a>&#160;&#160;&#160;0x80ul</td>
         </tr>
       </table>
 </div>
@@ -786,6 +787,21 @@ Defines</h2></td></tr>
 <div class="memdoc">
 
 <p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00053">53</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa4e49237f2671e7f28aa34ae0e89da8d"></a><!-- doxytag: member="TMC262Stepper.cpp::T_OFF_PATTERN" ref="aa4e49237f2671e7f28aa34ae0e89da8d" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8cpp.html#aa4e49237f2671e7f28aa34ae0e89da8d">T_OFF_PATTERN</a>&#160;&#160;&#160;0xful</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8cpp_source.html#l00064">64</a> of file <a class="el" href="_t_m_c262_stepper_8cpp_source.html">TMC262Stepper.cpp</a>.</p>
 
 </div>
 </div>
@@ -823,7 +839,7 @@ Defines</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 13 2012 19:14:22 for Trinamic TMC260/TMC261/TMC262 Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 1 2012 17:57:22 for Trinamic TMC260/TMC261/TMC262 Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

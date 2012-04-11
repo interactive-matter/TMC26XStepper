@@ -114,7 +114,9 @@
 TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor)
 {
 	//we are not started yet
-	started=0;
+	started=false;
+    //by default cool step is not enabled
+    cool_step_enabled=false;
 	
 	//save the pins for later use
 	this->cs_pin=cs_pin;
@@ -190,14 +192,14 @@ void TMC262Stepper::start() {
 	send262(driver_configuration_register_value);
 	
 	//save that we are in running mode
-	started=-1;
+	started=true;
 }
 
 /*
   Sets the speed in revs per minute
 
 */
-void TMC262Stepper::setSpeed(long whatSpeed)
+void TMC262Stepper::setSpeed(unsigned int whatSpeed)
 {
   this->speed = whatSpeed;
   this->step_delay = (60UL * 1000UL * 1000UL) / ((unsigned long)this->number_of_steps * (unsigned long)whatSpeed * (unsigned long)this->microsteps);
@@ -210,7 +212,7 @@ void TMC262Stepper::setSpeed(long whatSpeed)
 
 }
 
-long TMC262Stepper::getSpeed(void) {
+unsigned int TMC262Stepper::getSpeed(void) {
     return this->speed;
 }
 
@@ -267,7 +269,7 @@ char TMC262Stepper::isMoving(void) {
 	return (this->steps_left>0);
 }
 
-int TMC262Stepper::getStepsLeft(void) {
+unsigned int TMC262Stepper::getStepsLeft(void) {
 	return this->steps_left;
 }
 
@@ -625,6 +627,85 @@ void TMC262Stepper::setRandomOffTime(char value) {
 	}	
 }	
 
+void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, unsigned int SG_hysteresis, unsigned char current_decrement_step_size,
+                              unsigned char current_increment_step_size, unsigned char lower_current_limit) {
+    //sanitize the input values
+    if (lower_SG_treshhold>480) {
+        lower_SG_treshhold = 480;
+    }
+    //divide by 32
+    lower_SG_treshhold >>=5;
+    if (SG_hysteresis>480) {
+        SG_hysteresis=480;
+    }
+    SG_hysteresis >>=5;
+    if (current_decrement_step_size>3) {
+        current_decrement_step_size=3;
+    }
+    if (number_of_steps>3) {
+        number_of_steps=3;
+    }
+    if (lower_current_limit>1) {
+        lower_current_limit=1;
+    }
+    //store the lower level in order to enable/disable the coole step
+    this->cool_step_lower_treshhold=lower_SG_treshhold;
+    //if cool step is not enabled we delete the lower value to keep it disabled
+    if (!this->cool_step_enabled) {
+        lower_SG_treshhold=0;
+    }
+    //the good news is that we can start with a complete new cool step register value
+    //and simply set the values in the register
+    cool_step_register_value = ((unsigned long)lower_SG_treshhold) | (((unsigned long)SG_hysteresis)<<8) | (((unsigned long)current_decrement_step_size)<<5)
+        | (((unsigned long)current_increment_step_size)<<13) | (((unsigned long)lower_current_limit)<<15)
+        //and of course we have to include the signature of the register
+        | COOL_STEP_REGISTER;
+    Serial.println(cool_step_register_value,HEX);
+    if (started) {
+        send262(cool_step_register_value);
+    }
+}
+
+void TMC262Stepper::setCoolStepEnabled(boolean enabled) {
+    //simply delete the lower limit to disable the cool step
+    cool_step_register_value &= ~SE_MIN_PATTERN;
+    //and set it to the proper value if cool step is to be enabled
+    if (enabled) {
+        cool_step_register_value |=this->cool_step_lower_treshhold;
+    }
+    //and save the enabled status
+    this->cool_step_enabled = enabled;
+    //save the register value
+    if (started) {
+        send262(cool_step_register_value);
+    }
+}
+
+boolean TMC262Stepper::isCoolStepEnabled(void) {
+    return this->cool_step_enabled;
+}
+
+unsigned int TMC262Stepper::getCoolStepLowerSgTreshhold() {
+    //we return our internally stored value - in order to provide the correct setting even if cool step is not enabled
+    return this->cool_step_lower_treshhold<<5;
+}
+
+unsigned int TMC262Stepper::getCoolStepUpperSgTreshhold() {
+    return (unsigned char)((cool_step_register_value & SE_MAX_PATTERN)>>8)<<5;
+}
+
+unsigned char TMC262Stepper::getCoolStepCurrentIncrementSize() {
+    return (unsigned char)((cool_step_register_value & CURRENT_DOWN_STEP_SPEED_PATTERN)>>13);
+}
+
+unsigned char TMC262Stepper::getCoolStepNumberOfSGReadings() {
+    return (unsigned char)((cool_step_register_value & SE_CURRENT_STEP_WIDTH_PATTERN)>>5);
+}
+
+unsigned char TMC262Stepper::getCoolStepLowerCurrentLimit() {
+    return (unsigned char)((cool_step_register_value & MINIMUM_CURRENT_FOURTH)>>15);
+}
+
 void TMC262Stepper::setEnabled(boolean enabled) {
     //delete the t_off in the chopper config to get sure
     chopper_config_register &= ~(T_OFF_PATTERN);
@@ -658,13 +739,12 @@ void TMC262Stepper::readStatus(char read_value) {
 	//this now equals TMC262_READOUT_POSITION - so we just have to check the other two options
 	if (read_value == TMC262_READOUT_STALLGUARD) {
 		driver_configuration_register_value |= READ_STALL_GUARD_READING;
-	} else if (read_value == TMC262_READOUT_STALLGUARD) {
+	} else if (read_value == TMC262_READOUT_CURRENT) {
 		driver_configuration_register_value |= READ_STALL_GUARD_AND_COOL_STEP;
 	}
 	//all other cases are ignored to prevent funny values
     //check if the readout is configured for the value we are interested in
-    if (((read_value==TMC262_READOUT_STALLGUARD) && ((old_driver_configuration_register_value&READ_SELECTION_PATTERN)!=READ_STALL_GUARD_READING))
-        || ((read_value==TMC262_READOUT_POSITION) && ((old_driver_configuration_register_value&READ_SELECTION_PATTERN)!=READ_MICROSTEP_POSTION))) {
+    if (driver_configuration_register_value!=old_driver_configuration_register_value) {
             //because then we need to write the value twice - one time for configuring, second time to get the value, see below
             send262(driver_configuration_register_value);
         }
@@ -689,6 +769,25 @@ int TMC262Stepper::getCurrentStallGuardReading(void) {
 	//first read out the stall guard value
 	readStatus(TMC262_READOUT_STALLGUARD);
 	return getReadoutValue();
+}
+
+unsigned char TMC262Stepper::getCurrentCSReading(void) {
+	//if we don't yet started there cannot be a stall guard value
+	if (!started) {
+		return 0;
+	}
+	//not time optimal, but solution optiomal:
+	//first read out the stall guard value
+	readStatus(TMC262_READOUT_CURRENT);
+	return (getReadoutValue() & 0x1f);
+}
+
+unsigned int TMC262Stepper::getCurrentCurrent(void) {
+    double result = (double)getCurrentCSReading();
+    double resistor_value = (double)this->resistor;
+    double voltage = (driver_configuration_register_value & VSENSE)? 0.165:0.31;
+    result = (result+1.0)/32.0*voltage/resistor_value*1000.0*1000.0;
+    return (unsigned int)result;
 }
 
 /*
@@ -774,6 +873,17 @@ int TMC262Stepper::getReadoutValue(void) {
 	return (int)(driver_status_result >> 10);
 }
 
+int TMC262Stepper::getResistor() {
+    return this->resistor;
+}
+
+boolean TMC262Stepper::isCurrentScalingHalfed() {
+    if (this->driver_configuration_register_value & VSENSE) {
+        return true;
+    } else {
+        return false;
+    }
+}
 /*
  version() returns the version of the library:
  */

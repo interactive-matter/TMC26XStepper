@@ -77,7 +77,7 @@ void setupChooperConfig() {
 }
 
 void drawChopper() {
-  if (activeTab!=null && "default".equals(activeTab.name())) {
+  if (activeTab!=null && configureTab.equals(activeTab)) {
     image(spreadChopperImage, 200, 400);
   }
 }

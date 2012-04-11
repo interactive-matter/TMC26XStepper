@@ -16,29 +16,38 @@ int highLightWidth = 7;
 
 int numberOfDataPoints=1000;
 
+int legendTitleSize = 10;
+int legendTextSize = 10;
+int currentLabelInterval = 500;
+int currentMinorTickInterval = 25;
+DecimalFormat currentLabelFormat = new DecimalFormat("#0.0A");
+
 int stallGuardLabelInterval = 100;
 int stallGuardMinorTickInterval = 10;
 int positionLabelInterval = 64;
 int positionMinorTickInterval = 8;
 
+int coolStepActiveStroke = 2;
+int coolStepInactiveStroke = 1;
 int stallGuardHighLightDistance = 1;
 int positionHighLightDistance = 3;
+int currentHighLightDistance = 3;
 
 DataTable stallGuardTable = new DataTable(numberOfDataPoints);
 DataTable positionTable = new DataTable(numberOfDataPoints);
-
+DataTable currentTable =  new DataTable(numberOfDataPoints);
 
 void setupData() {
   plotBottom = height-50;
   plotTop = 300;
 
-  plotLeft = 50;
-  plotRight= width-plotLeft;
+  plotLeft = 150;
+  plotRight= width-50;
 }
 
 void drawData() {
 
-  if (activeTab!=null && "run".equals(activeTab.name())) {
+  if (activeTab!=null && runTab.equals(activeTab)) {
     fill(graphBackgroundColor);
     rectMode(CORNERS);
     noStroke();
@@ -49,16 +58,62 @@ void drawData() {
     drawDataLine(positionTable, positionMin, positionMax);
     drawDataHighLight(positionTable, positionMin, positionMax, positionHighLightDistance, labelColor, "Microstep Position", false);
 
+    strokeWeight(dataLineWidth);
+    stroke(coolStepColor);
+    drawCurrentLine(currentTable);
+    drawCurrentHighLight(positionTable, currentHighLightDistance, labelColor, "Current Ratio", false);
+
     strokeWeight(dataPointsWidth);
     stroke(stallGuardColor);
     drawDataPoints(stallGuardTable, stallGuardMin, stallGuardMax);
     drawDataHighLight(stallGuardTable, stallGuardMin, stallGuardMax, stallGuardHighLightDistance, labelColor, "Stall Guard", true);
+    
+    if (coolStepActive) {
+      strokeWeight(coolStepActiveStroke); 
+    } else {
+      strokeWeight(coolStepInactiveStroke);
+    }
+    stroke(coolStepColor);
+    float coolStepMinHeight = map(coolStepMin, 0, stallGuardMax, plotBottom, plotTop);
+    line(plotLeft,coolStepMinHeight, plotRight, coolStepMinHeight);
+    float coolStepMaxHeight = map(coolStepMin+coolStepMax+1, 0, stallGuardMax, plotBottom, plotTop);
+    line(plotLeft,coolStepMaxHeight, plotRight, coolStepMaxHeight);
 
-    textSize(15);
+    textSize(legendTitleSize);
+    textAlign(RIGHT);
+    fill(coolStepColor);
+    text("Motor Current", plotLeft - 50, plotTop - 10);
+    textSize(legendTextSize);
+    textAlign(RIGHT);
+    strokeWeight(1);
+    stroke(coolStepColor);
+    int currentScaleMax = (int)(maxCurrent*1000.0);
+    for (int i=0; i<=currentScaleMax; i++) {
+      float y = map(i, 0, currentScaleMax, plotBottom, plotTop);
+      if (i % currentLabelInterval == 0) {
+        if (i==0) {
+          textAlign(RIGHT, BOTTOM);
+        } 
+        else if (i==currentScaleMax) {
+          textAlign(RIGHT, TOP);
+        } 
+        else {
+          textAlign(RIGHT, CENTER);
+        }        
+        text(currentLabelFormat.format((float)i/1000.0), plotLeft-58, y);
+        line (plotLeft-55, y, plotLeft-50, y);
+      } 
+      else if (i % currentMinorTickInterval == 0) {
+        line (plotLeft-53, y, plotLeft-50, y);
+      }
+      
+    }
+
+    textSize(legendTitleSize);
     textAlign(LEFT);
     fill(stallGuardColor);
     text("Stall Guard Reading", plotLeft - 30, plotTop - 10);
-    textSize(10);
+    textSize(legendTextSize);
     textAlign(RIGHT);
     strokeWeight(1);
     stroke(stallGuardColor);
@@ -82,11 +137,11 @@ void drawData() {
       }
     }
 
-    textSize(15);
+    textSize(legendTitleSize);
     fill(positionColor);
     textAlign(RIGHT);
     text("Position", plotRight + 30, plotTop - 10);
-    textSize(10);
+    textSize(legendTextSize);
     textAlign(LEFT);
     strokeWeight(1);
     stroke(positionColor);
@@ -110,7 +165,7 @@ void drawData() {
       }
     }
     //draw the channel status
-    textSize(10);
+    textSize(legendTextSize);
     textAlign(CENTER);
     strokeWeight(1);
     int statusY = height - 20;
@@ -187,11 +242,50 @@ void drawDataHighLight(DataTable table, int minValue, int maxValue, int distance
   }
 }
 
+void drawCurrentLine(DataTable table) {
+  noFill();
+  beginShape();
+  int dataCount = table.getSize();
+  for (int i=0; i<dataCount; i++) {
+    float value = (table.getEntry(i)+1)/1000.0;
+    float x = map(i, 0, numberOfDataPoints-1, plotLeft+dataPointsWidth, plotRight-dataPointsWidth);
+    float y = map(value, 0.0, maxCurrent, (float)plotBottom-dataPointsWidth, (float)plotTop+dataPointsWidth);
+    vertex(x, y);
+  }
+  endShape();
+}
+
+void drawCurrentHighLight(DataTable table, int distance, color textColor, String name, boolean top) {
+  int dataCount = table.getSize();
+  for (int i=0; i<dataCount; i++) {
+    float value = (table.getEntry(i)+1)/1000.0;
+    float x = map(i, 0, numberOfDataPoints-1, plotLeft+dataPointsWidth, plotRight-dataPointsWidth);
+    float y = map(value, 0.0, maxCurrent, plotBottom-dataPointsWidth, plotTop+dataPointsWidth);
+    if (dist(mouseX, mouseY, x, y) < distance) {
+      strokeWeight(highLightWidth);
+      point(x, y);
+      fill(textColor);
+      textSize(10);
+      textAlign(CENTER);
+      if (top) {
+        text(name+": "+value, x, y-8);
+      } 
+      else {
+        text(name+": "+value, x, y+8);
+      }
+    }
+  }
+}
+
 void addStallGuardReading(int value) {
   stallGuardTable.addData(value);
 }
 
 void addPositionReading(int value) {
   positionTable.addData(value);
+}
+
+void addCurrentReading(int value) {
+  currentTable.addData(value);
 }
 

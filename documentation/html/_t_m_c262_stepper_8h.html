@@ -74,8 +74,44 @@ Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8h.html#a7ed72cfe636c8169c88080b2633311b3">TMC262_READOUT_POSITION</a>&#160;&#160;&#160;0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8h.html#a7a228ab00e802471496dd38a2c513435">TMC262_READOUT_STALLGUARD</a>&#160;&#160;&#160;1</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8h.html#ae0cf2ef789c56b7a3ce7690c051f4890">TMC262_READOUT_CURRENT</a>&#160;&#160;&#160;3</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8h.html#a28b1774bd4aa854fb5e4b6dc7db96ecb">COOL_STEP_HALF_CS_LIMIT</a>&#160;&#160;&#160;0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_t_m_c262_stepper_8h.html#a1a4db5eafd0a9247677153cb4c8b7d54">COOL_STEP_QUARTDER_CS_LIMIT</a>&#160;&#160;&#160;1</td></tr>
 </table>
 <hr/><h2>Define Documentation</h2>
+<a class="anchor" id="a28b1774bd4aa854fb5e4b6dc7db96ecb"></a><!-- doxytag: member="TMC262Stepper.h::COOL_STEP_HALF_CS_LIMIT" ref="a28b1774bd4aa854fb5e4b6dc7db96ecb" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8h.html#a28b1774bd4aa854fb5e4b6dc7db96ecb">COOL_STEP_HALF_CS_LIMIT</a>&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Define to set the minimum current for CoolStep operation to 1/2 of the selected CS minium. </p>
+<dl class="see"><dt><b>See also:</b></dt><dd>setCoolStepConfiguration() </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8h_source.html#l00070">70</a> of file <a class="el" href="_t_m_c262_stepper_8h_source.html">TMC262Stepper.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1a4db5eafd0a9247677153cb4c8b7d54"></a><!-- doxytag: member="TMC262Stepper.h::COOL_STEP_QUARTDER_CS_LIMIT" ref="a1a4db5eafd0a9247677153cb4c8b7d54" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define <a class="el" href="_t_m_c262_stepper_8h.html#a1a4db5eafd0a9247677153cb4c8b7d54">COOL_STEP_QUARTDER_CS_LIMIT</a>&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Define to set the minimum current for CoolStep operation to 1/4 of the selected CS minium. </p>
+<dl class="see"><dt><b>See also:</b></dt><dd>setCoolStepConfiguration() </dd></dl>
+
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8h_source.html#l00075">75</a> of file <a class="el" href="_t_m_c262_stepper_8h_source.html">TMC262Stepper.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a295fc9431e0f79157b79013abcd56b5d"></a><!-- doxytag: member="TMC262Stepper.h::TMC262_OVERTEMPERATURE_PREWARING" ref="a295fc9431e0f79157b79013abcd56b5d" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -122,8 +158,10 @@ Defines</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>Selects to read out the current current setting (acc. to CoolStep) and the upper bits of the StallGuard value from the motor. </p>
+<dl class="see"><dt><b>See also:</b></dt><dd>readStatus(), setCurrent() </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8h_source.html#l00052">52</a> of file <a class="el" href="_t_m_c262_stepper_8h_source.html">TMC262Stepper.h</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8h_source.html#l00064">64</a> of file <a class="el" href="_t_m_c262_stepper_8h_source.html">TMC262Stepper.h</a>.</p>
 
 </div>
 </div>
@@ -137,8 +175,10 @@ Defines</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>Selects to readout the microstep position from the motor. </p>
+<dl class="see"><dt><b>See also:</b></dt><dd>readStatus() </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8h_source.html#l00050">50</a> of file <a class="el" href="_t_m_c262_stepper_8h_source.html">TMC262Stepper.h</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8h_source.html#l00054">54</a> of file <a class="el" href="_t_m_c262_stepper_8h_source.html">TMC262Stepper.h</a>.</p>
 
 </div>
 </div>
@@ -152,8 +192,10 @@ Defines</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p>Selects to read out the StallGuard value of the motor. </p>
+<dl class="see"><dt><b>See also:</b></dt><dd>readStatus() </dd></dl>
 
-<p>Definition at line <a class="el" href="_t_m_c262_stepper_8h_source.html#l00051">51</a> of file <a class="el" href="_t_m_c262_stepper_8h_source.html">TMC262Stepper.h</a>.</p>
+<p>Definition at line <a class="el" href="_t_m_c262_stepper_8h_source.html#l00059">59</a> of file <a class="el" href="_t_m_c262_stepper_8h_source.html">TMC262Stepper.h</a>.</p>
 
 </div>
 </div>
@@ -161,7 +203,7 @@ Defines</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 13 2012 19:14:22 for Trinamic TMC260/TMC261/TMC262 Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 1 2012 17:57:22 for Trinamic TMC260/TMC261/TMC262 Stepper Driver for Arduino by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

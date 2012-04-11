@@ -9,7 +9,12 @@ Button sgtPlus;
 Button sgtMinus;
 Toggle sgFilterToggle;
 Slider currentSlider;
-
+Slider coolStepMinSlider;
+Slider coolStepMaxSlider;
+Toggle coolStepActiveToggle;
+RadioButton coolStepIncrementButtons;
+RadioButton coolStepDecrementButtons;
+RadioButton coolStepMinButtons;
 
 void setupRunConfig() {
   //the run configuration
@@ -43,25 +48,65 @@ void setupRunConfig() {
   microsteppingButtons.addItem("256", 256);
   microsteppingButtons.showBar();
   microsteppingButtons.moveTo(runTab);
+
+
+
+  currentSlider = controlP5.addSlider("current", 0.46, maxCurrent, 0.4, 300, 50, 20, 210);
+  currentSlider.moveTo(runTab);
+
   // add a vertical slider for stallGuard treshold  
-  sgtSlider = controlP5.addSlider("stallguardtreshold", -64, 63, 0, 250, 40, 20, 150);
+  sgtSlider = controlP5.addSlider("stallguardtreshold", -64, 63, 0, 500, 40, 20, 150);
   sgtSlider.setSliderMode(Slider.FIX);
   sgtSlider.setCaptionLabel("Stall Guard Treshold");
   sgtSlider.moveTo(runTab);
-  sgtPlus = controlP5.addButton("sgtplus", 0, 300, 40, 20, 20);
+  sgtPlus = controlP5.addButton("sgtplus", 0, 550, 40, 20, 20);
   sgtPlus.setCaptionLabel("+");
   sgtPlus.moveTo(runTab);
-  sgtMinus = controlP5.addButton("sgtminus", 1, 300, 70, 20, 20);
+  sgtMinus = controlP5.addButton("sgtminus", 1, 550, 70, 20, 20);
   sgtMinus.setCaptionLabel("-");
   sgtMinus.moveTo(runTab);
   //ading some buttons to have finer sg control
   //adding a button for the filter
-  sgFilterToggle = controlP5.addToggle("sgfilter", false, 250, 220, 30, 30);
+  sgFilterToggle = controlP5.addToggle("sgfilter", false, 500, 220, 30, 30);
   sgFilterToggle.setCaptionLabel("Stall GuardFilter");
   sgFilterToggle.moveTo(runTab);
+  
+  //add the coolstep sliders
+  coolStepMaxSlider = controlP5.addSlider("coolStepUpper", 0, 480, 0, 750, 40, 20, 90);
+  coolStepMaxSlider.setCaptionLabel("Cool Step Hysteresis");
+  coolStepMaxSlider.moveTo(runTab);
 
-  currentSlider = controlP5.addSlider("current", 0.46, 1.7, 0.4, 950, 50, 20, 210);
-  currentSlider.moveTo(runTab);
+  coolStepMinSlider = controlP5.addSlider("coolStepLower", 0, 480, 0, 750, 160, 20, 90);
+  coolStepMinSlider.setCaptionLabel("Cool Step Minimum");
+  coolStepMinSlider.moveTo(runTab);
+  
+  coolStepActiveToggle = controlP5.addToggle("coolStepActive", false, 850, 220, 30, 30);  
+  coolStepActiveToggle.setCaptionLabel("Enable CoolStep");
+  coolStepActiveToggle.moveTo(runTab);
+
+  coolStepIncrementButtons = controlP5.addRadioButton("coolStepIncrement", 850, 40);
+  coolStepIncrementButtons.captionLabel().set("Cool Step  Increment");
+  coolStepIncrementButtons.addItem("1", 0);
+  coolStepIncrementButtons.addItem("2", 1);
+  coolStepIncrementButtons.addItem("4", 2);
+  coolStepIncrementButtons.addItem("8", 3);
+  coolStepIncrementButtons.showBar();
+  coolStepIncrementButtons.moveTo(runTab);
+
+  coolStepDecrementButtons = controlP5.addRadioButton("coolStepDecrement", 850, 110);
+  coolStepDecrementButtons.captionLabel().set("Cool Step Decrement");
+  coolStepDecrementButtons.addItem("32", 0);
+  coolStepDecrementButtons.addItem("8", 1);
+  coolStepDecrementButtons.addItem("2", 2);
+  coolStepDecrementButtons.addItem("1", 3);
+  coolStepDecrementButtons.showBar();
+  coolStepDecrementButtons.moveTo(runTab);
+
+  coolStepMinButtons = controlP5.addRadioButton("coolStepMin", 850, 180);
+  coolStepMinButtons.addItem("1/2", 0);
+  coolStepMinButtons.addItem("1/4", 1);
+  coolStepMinButtons.showBar();
+  coolStepMinButtons.moveTo(runTab);
 }
 
 void speed(int theSpeed) {
@@ -147,6 +192,49 @@ void current(float value) {
   }
 }
 
+void coolStepUpper(int value) {
+  coolStepMax=value;
+  if (!settingStatus) {
+    arduinoPort.write("Ku"+value+"\n");
+  }
+}
+
+void coolStepLower(int value) {
+  coolStepMin = value;
+  if (!settingStatus) {
+    arduinoPort.write("Kl"+value+"\n");
+  }
+}
+
+
+void setCoolStepIncrement(int value) {
+  if (!settingStatus) {
+    println("cool step increment :"+value);
+    arduinoPort.write("Ki"+value+"\n");
+  }
+}
+
+void setCoolStepDecrement(int value) {
+  if (!settingStatus) {
+    println("cool step decrement :"+value);
+    arduinoPort.write("Kn"+value+"\n");
+  }
+}
+
+void setCoolStepMin(int value) {
+  if (!settingStatus) {
+    println("cool step minimum :"+value);
+    arduinoPort.write("Km"+value+"\n");
+  }
+}
+
+void coolStepActive(int value) {
+  if (!settingStatus) {
+    coolStepActive = (value!=0);
+    arduinoPort.write(coolStepActive? "K+\n":"K-\n");
+  }
+}
+
 void setCurrent(int current) {
   currentSlider.setValue((float)current/1000.0);
 }
@@ -168,3 +256,4 @@ void setDirection(int direction) {
     }
   }
 }
+
