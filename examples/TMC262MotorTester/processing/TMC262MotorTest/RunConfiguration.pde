@@ -240,12 +240,6 @@ void setCurrent(int current) {
 }
 
 void setDirection(int direction) {
-  if (direction<0) {
-    directionButtons.activate(1);
-  } 
-  else {
-    directionButtons.activate(0);
-  }
   if (!settingStatus) {
     if (direction<0) {
       println("back");
