@@ -1,9 +1,3 @@
-/**
- * ControlP5 Slider. Horizontal and vertical sliders, 
- * with and without tick marks and snap-to-tick.
- * by andreas schlegel, 2010
- */
-
 import controlP5.*;
 import processing.serial.*;
 

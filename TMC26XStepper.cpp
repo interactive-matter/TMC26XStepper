@@ -1,5 +1,5 @@
 /*
- TMC262Stepper.cpp - - TMC262 Stepper library for Wiring/Arduino - Version 0.1
+ TMC26XStepper.cpp - - TMC26X Stepper library for Wiring/Arduino - Version 0.1
  
  based on the stepper library by Tom Igoe, et. al.
  
@@ -34,12 +34,12 @@
 	#include <WProgram.h>
 #endif
 #include <SPI.h>
-#include "TMC262Stepper.h"
+#include "TMC26XStepper.h"
 
 //some default values used in initialization
 #define DEFAULT_MICROSTEPPING_VALUE 32
 
-//TMC262 register definitions
+//TMC26X register definitions
 #define DRIVER_CONTROL_REGISTER 0x0ul
 #define CHOPPER_CONFIG_REGISTER 0x80000ul
 #define COOL_STEP_REGISTER  0xA0000ul
@@ -111,7 +111,7 @@
  * dir_pin - the pin where the direction pin is connected
  * step_pin - the pin where the step pin is connected
  */
-TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor)
+TMC26XStepper::TMC26XStepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor)
 {
 	//we are not started yet
 	started=false;
@@ -157,10 +157,10 @@ TMC262Stepper::TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int s
  * start & configure the stepper driver
  * just must be called.
  */
-void TMC262Stepper::start() {
+void TMC26XStepper::start() {
 
 #ifdef DEBUG	
-	Serial.println("TMC262 stepper library");
+	Serial.println("TMC26X stepper library");
 	Serial.print("CS pin: ");
 	Serial.println(cs_pin);
 	Serial.print("DIR pin: ");
@@ -199,7 +199,7 @@ void TMC262Stepper::start() {
   Sets the speed in revs per minute
 
 */
-void TMC262Stepper::setSpeed(unsigned int whatSpeed)
+void TMC26XStepper::setSpeed(unsigned int whatSpeed)
 {
   this->speed = whatSpeed;
   this->step_delay = (60UL * 1000UL * 1000UL) / ((unsigned long)this->number_of_steps * (unsigned long)whatSpeed * (unsigned long)this->microsteps);
@@ -212,7 +212,7 @@ void TMC262Stepper::setSpeed(unsigned int whatSpeed)
 
 }
 
-unsigned int TMC262Stepper::getSpeed(void) {
+unsigned int TMC26XStepper::getSpeed(void) {
     return this->speed;
 }
 
@@ -220,7 +220,7 @@ unsigned int TMC262Stepper::getSpeed(void) {
   Moves the motor steps_to_move steps.  If the number is negative, 
    the motor moves in the reverse direction.
  */
-char TMC262Stepper::step(int steps_to_move)
+char TMC26XStepper::step(int steps_to_move)
 {  
 	if (this->steps_left==0) {
   		this->steps_left = abs(steps_to_move);  // how many steps to take
@@ -237,7 +237,7 @@ char TMC262Stepper::step(int steps_to_move)
     }
 }
 
-char TMC262Stepper::move(void) {
+char TMC26XStepper::move(void) {
   // decrement the number of steps, moving one step each time:
   if(this->steps_left>0) {
       unsigned long time = micros();  
@@ -265,15 +265,15 @@ char TMC262Stepper::move(void) {
     return 0;
 }
 
-char TMC262Stepper::isMoving(void) {
+char TMC26XStepper::isMoving(void) {
 	return (this->steps_left>0);
 }
 
-unsigned int TMC262Stepper::getStepsLeft(void) {
+unsigned int TMC26XStepper::getStepsLeft(void) {
 	return this->steps_left;
 }
 
-char TMC262Stepper::stop(void) {
+char TMC26XStepper::stop(void) {
 	//note to self if the motor is currently moving
 	char state = isMoving();
 	//stop the motor
@@ -283,7 +283,7 @@ char TMC262Stepper::stop(void) {
 	return state;
 }
 
-void TMC262Stepper::setCurrent(unsigned int current) {
+void TMC26XStepper::setCurrent(unsigned int current) {
     unsigned char current_scaling = 0;
 	//calculate the current scaling from the max current setting (in mA)
 	double mASetting = (double)current;
@@ -327,7 +327,7 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 	}
 }
 
-unsigned int TMC262Stepper::getCurrent(void) {
+unsigned int TMC26XStepper::getCurrent(void) {
     //we calculate the current according to the datasheet to be on the safe side
     //this is not the fastest but the most accurate and illustrative way
     double result = (double)(stall_guard2_current_register_value & CURRENT_SCALING_PATTERN);
@@ -337,7 +337,7 @@ unsigned int TMC262Stepper::getCurrent(void) {
     return (unsigned int)result;
 }
 
-void TMC262Stepper::setStallGuardTreshold(char stall_guard_treshold, char stall_guard_filter_enabled) {
+void TMC26XStepper::setStallGuardTreshold(char stall_guard_treshold, char stall_guard_filter_enabled) {
 	if (stall_guard_treshold<-64) {
 		stall_guard_treshold = -64;
 	//We just have 5 bits	
@@ -359,7 +359,7 @@ void TMC262Stepper::setStallGuardTreshold(char stall_guard_treshold, char stall_
 	}
 }
 
-char TMC262Stepper::getStallGuardTreshold(void) {
+char TMC26XStepper::getStallGuardTreshold(void) {
     unsigned long stall_guard_treshold = stall_guard2_current_register_value & STALL_GUARD_VALUE_PATTERN;
     //shift it down to bit 0
     stall_guard_treshold >>=8;
@@ -372,7 +372,7 @@ char TMC262Stepper::getStallGuardTreshold(void) {
     return result;
 }
 
-char TMC262Stepper::getStallGuardFilter(void) {
+char TMC26XStepper::getStallGuardFilter(void) {
     if (stall_guard2_current_register_value & STALL_GUARD_FILTER_ENABLED) {
         return -1;
     } else {
@@ -385,7 +385,7 @@ char TMC262Stepper::getStallGuardFilter(void) {
  * any value in between will be mapped to the next smaller value
  * 0 and 1 set the motor in full step mode
  */
-void TMC262Stepper::setMicrosteps(int number_of_steps) {
+void TMC26XStepper::setMicrosteps(int number_of_steps) {
 	long setting_pattern;
 	//poor mans log
 	if (number_of_steps>=256) {
@@ -437,7 +437,7 @@ void TMC262Stepper::setMicrosteps(int number_of_steps) {
 /*
  * returns the effective number of microsteps at the moment
  */
-int TMC262Stepper::getMicrosteps(void) {
+int TMC26XStepper::getMicrosteps(void) {
 	return microsteps;
 }
 
@@ -464,7 +464,7 @@ int TMC262Stepper::getMicrosteps(void) {
  *		1: enable comparator termination of fast decay cycle
  *		0: end by time only
  */
-void TMC262Stepper::setConstantOffTimeChopper(char constant_off_time, char blank_time, char fast_decay_time_setting, char sine_wave_offset, unsigned char use_current_comparator) {
+void TMC26XStepper::setConstantOffTimeChopper(char constant_off_time, char blank_time, char fast_decay_time_setting, char sine_wave_offset, unsigned char use_current_comparator) {
 	//perform some sanity checks
 	if (constant_off_time<2) {
 		constant_off_time=2;
@@ -543,7 +543,7 @@ void TMC262Stepper::setConstantOffTimeChopper(char constant_off_time, char blank
  *		0: fast decrement 3: very slow decrement
  */
 
-void TMC262Stepper::setSpreadCycleChopper(char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement) {
+void TMC26XStepper::setSpreadCycleChopper(char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement) {
 	//perform some sanity checks
 	if (constant_off_time<2) {
 		constant_off_time=2;
@@ -615,7 +615,7 @@ void TMC262Stepper::setSpreadCycleChopper(char constant_off_time, char blank_tim
  * It modulates the slow decay time setting when switched on by the RNDTF bit. The RNDTF feature further spreads the chopper spectrum, 
  * reducing electromagnetic emission on single frequencies.
  */
-void TMC262Stepper::setRandomOffTime(char value) {
+void TMC26XStepper::setRandomOffTime(char value) {
 	if (value) {
 		chopper_config_register |= RANDOM_TOFF_TIME;
 	} else {
@@ -627,7 +627,7 @@ void TMC262Stepper::setRandomOffTime(char value) {
 	}	
 }	
 
-void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, unsigned int SG_hysteresis, unsigned char current_decrement_step_size,
+void TMC26XStepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, unsigned int SG_hysteresis, unsigned char current_decrement_step_size,
                               unsigned char current_increment_step_size, unsigned char lower_current_limit) {
     //sanitize the input values
     if (lower_SG_treshhold>480) {
@@ -667,7 +667,7 @@ void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, un
     }
 }
 
-void TMC262Stepper::setCoolStepEnabled(boolean enabled) {
+void TMC26XStepper::setCoolStepEnabled(boolean enabled) {
     //simply delete the lower limit to disable the cool step
     cool_step_register_value &= ~SE_MIN_PATTERN;
     //and set it to the proper value if cool step is to be enabled
@@ -682,32 +682,32 @@ void TMC262Stepper::setCoolStepEnabled(boolean enabled) {
     }
 }
 
-boolean TMC262Stepper::isCoolStepEnabled(void) {
+boolean TMC26XStepper::isCoolStepEnabled(void) {
     return this->cool_step_enabled;
 }
 
-unsigned int TMC262Stepper::getCoolStepLowerSgTreshhold() {
+unsigned int TMC26XStepper::getCoolStepLowerSgTreshhold() {
     //we return our internally stored value - in order to provide the correct setting even if cool step is not enabled
     return this->cool_step_lower_treshhold<<5;
 }
 
-unsigned int TMC262Stepper::getCoolStepUpperSgTreshhold() {
+unsigned int TMC26XStepper::getCoolStepUpperSgTreshhold() {
     return (unsigned char)((cool_step_register_value & SE_MAX_PATTERN)>>8)<<5;
 }
 
-unsigned char TMC262Stepper::getCoolStepCurrentIncrementSize() {
+unsigned char TMC26XStepper::getCoolStepCurrentIncrementSize() {
     return (unsigned char)((cool_step_register_value & CURRENT_DOWN_STEP_SPEED_PATTERN)>>13);
 }
 
-unsigned char TMC262Stepper::getCoolStepNumberOfSGReadings() {
+unsigned char TMC26XStepper::getCoolStepNumberOfSGReadings() {
     return (unsigned char)((cool_step_register_value & SE_CURRENT_STEP_WIDTH_PATTERN)>>5);
 }
 
-unsigned char TMC262Stepper::getCoolStepLowerCurrentLimit() {
+unsigned char TMC26XStepper::getCoolStepLowerCurrentLimit() {
     return (unsigned char)((cool_step_register_value & MINIMUM_CURRENT_FOURTH)>>15);
 }
 
-void TMC262Stepper::setEnabled(boolean enabled) {
+void TMC26XStepper::setEnabled(boolean enabled) {
     //delete the t_off in the chopper config to get sure
     chopper_config_register &= ~(T_OFF_PATTERN);
     if (enabled) {
@@ -720,7 +720,7 @@ void TMC262Stepper::setEnabled(boolean enabled) {
 	}	
 }
 
-boolean TMC262Stepper::isEnabled() {
+boolean TMC26XStepper::isEnabled() {
     if (chopper_config_register & T_OFF_PATTERN) {
         return true;
     } else {
@@ -729,18 +729,18 @@ boolean TMC262Stepper::isEnabled() {
 }
 
 /*
- * reads a value from the TMC262 status register. The value is not obtained directly but can then 
+ * reads a value from the TMC26X status register. The value is not obtained directly but can then 
  * be read by the various status routines.
  *
  */
-void TMC262Stepper::readStatus(char read_value) {
+void TMC26XStepper::readStatus(char read_value) {
     unsigned long old_driver_configuration_register_value = driver_configuration_register_value;
 	//reset the readout configuration
 	driver_configuration_register_value &= ~(READ_SELECTION_PATTERN);
-	//this now equals TMC262_READOUT_POSITION - so we just have to check the other two options
-	if (read_value == TMC262_READOUT_STALLGUARD) {
+	//this now equals TMC26X_READOUT_POSITION - so we just have to check the other two options
+	if (read_value == TMC26X_READOUT_STALLGUARD) {
 		driver_configuration_register_value |= READ_STALL_GUARD_READING;
-	} else if (read_value == TMC262_READOUT_CURRENT) {
+	} else if (read_value == TMC26X_READOUT_CURRENT) {
 		driver_configuration_register_value |= READ_STALL_GUARD_AND_COOL_STEP;
 	}
 	//all other cases are ignored to prevent funny values
@@ -753,37 +753,37 @@ void TMC262Stepper::readStatus(char read_value) {
 	send262(driver_configuration_register_value);
 }
 
-int TMC262Stepper::getMotorPosition(void) {
+int TMC26XStepper::getMotorPosition(void) {
 	//we read it out even if we are not started yet - perhaps it is useful information for somebody
-	readStatus(TMC262_READOUT_POSITION);
+	readStatus(TMC26X_READOUT_POSITION);
     return getReadoutValue();
 }
 
 //reads the stall guard setting from last status
 //returns -1 if stallguard information is not present
-int TMC262Stepper::getCurrentStallGuardReading(void) {
+int TMC26XStepper::getCurrentStallGuardReading(void) {
 	//if we don't yet started there cannot be a stall guard value
 	if (!started) {
 		return -1;
 	}
 	//not time optimal, but solution optiomal:
 	//first read out the stall guard value
-	readStatus(TMC262_READOUT_STALLGUARD);
+	readStatus(TMC26X_READOUT_STALLGUARD);
 	return getReadoutValue();
 }
 
-unsigned char TMC262Stepper::getCurrentCSReading(void) {
+unsigned char TMC26XStepper::getCurrentCSReading(void) {
 	//if we don't yet started there cannot be a stall guard value
 	if (!started) {
 		return 0;
 	}
 	//not time optimal, but solution optiomal:
 	//first read out the stall guard value
-	readStatus(TMC262_READOUT_CURRENT);
+	readStatus(TMC26X_READOUT_CURRENT);
 	return (getReadoutValue() & 0x1f);
 }
 
-unsigned int TMC262Stepper::getCurrentCurrent(void) {
+unsigned int TMC26XStepper::getCurrentCurrent(void) {
     double result = (double)getCurrentCSReading();
     double resistor_value = (double)this->resistor;
     double voltage = (driver_configuration_register_value & VSENSE)? 0.165:0.31;
@@ -794,7 +794,7 @@ unsigned int TMC262Stepper::getCurrentCurrent(void) {
 /*
  return true if the stallguard treshold has been reached
 */
-boolean TMC262Stepper::isStallGuardOverTreshold(void) {
+boolean TMC26XStepper::isStallGuardOverTreshold(void) {
 	if (!this->started) {
 		return false;
 	}
@@ -807,21 +807,21 @@ boolean TMC262Stepper::isStallGuardOverTreshold(void) {
  OVER_TEMPERATURE_SHUTDOWN if the temperature is so hot that the driver is shut down
  Any of those levels are not too good.
 */
-char TMC262Stepper::getOverTemperature(void) {
+char TMC26XStepper::getOverTemperature(void) {
 	if (!this->started) {
 		return 0;
 	}
 	if (driver_status_result & STATUS_OVER_TEMPERATURE_SHUTDOWN) {
-		return TMC262_OVERTEMPERATURE_SHUTDOWN;
+		return TMC26X_OVERTEMPERATURE_SHUTDOWN;
 	}
 	if (driver_status_result & STATUS_OVER_TEMPERATURE_WARNING) {
-		return TMC262_OVERTEMPERATURE_PREWARING;
+		return TMC26X_OVERTEMPERATURE_PREWARING;
 	}
 	return 0;
 }
 
 //is motor channel A shorted to ground
-boolean TMC262Stepper::isShortToGroundA(void) {
+boolean TMC26XStepper::isShortToGroundA(void) {
 	if (!this->started) {
 		return false;
 	}
@@ -829,7 +829,7 @@ boolean TMC262Stepper::isShortToGroundA(void) {
 }
 
 //is motor channel B shorted to ground
-boolean TMC262Stepper::isShortToGroundB(void) {
+boolean TMC26XStepper::isShortToGroundB(void) {
 	if (!this->started) {
 		return false;
 	}
@@ -837,7 +837,7 @@ boolean TMC262Stepper::isShortToGroundB(void) {
 }
 
 //is motor channel A connected
-boolean TMC262Stepper::isOpenLoadA(void) {
+boolean TMC26XStepper::isOpenLoadA(void) {
 	if (!this->started) {
 		return false;
 	}
@@ -845,7 +845,7 @@ boolean TMC262Stepper::isOpenLoadA(void) {
 }
 
 //is motor channel B connected
-boolean TMC262Stepper::isOpenLoadB(void) {
+boolean TMC26XStepper::isOpenLoadB(void) {
 	if (!this->started) {
 		return false;
 	}
@@ -853,7 +853,7 @@ boolean TMC262Stepper::isOpenLoadB(void) {
 }
 
 //is chopper inactive since 2^20 clock cycles - defaults to ~0,08s
-boolean TMC262Stepper::isStandStill(void) {
+boolean TMC26XStepper::isStandStill(void) {
 	if (!this->started) {
 		return false;
 	}
@@ -861,7 +861,7 @@ boolean TMC262Stepper::isStandStill(void) {
 }
 
 //is chopper inactive since 2^20 clock cycles - defaults to ~0,08s
-boolean TMC262Stepper::isStallGuardReached(void) {
+boolean TMC26XStepper::isStallGuardReached(void) {
 	if (!this->started) {
 		return false;
 	}
@@ -870,15 +870,15 @@ boolean TMC262Stepper::isStallGuardReached(void) {
 
 //reads the stall guard setting from last status
 //returns -1 if stallguard inforamtion is not present
-int TMC262Stepper::getReadoutValue(void) {
+int TMC26XStepper::getReadoutValue(void) {
 	return (int)(driver_status_result >> 10);
 }
 
-int TMC262Stepper::getResistor() {
+int TMC26XStepper::getResistor() {
     return this->resistor;
 }
 
-boolean TMC262Stepper::isCurrentScalingHalfed() {
+boolean TMC26XStepper::isCurrentScalingHalfed() {
     if (this->driver_configuration_register_value & VSENSE) {
         return true;
     } else {
@@ -888,17 +888,17 @@ boolean TMC262Stepper::isCurrentScalingHalfed() {
 /*
  version() returns the version of the library:
  */
-int TMC262Stepper::version(void)
+int TMC26XStepper::version(void)
 {
 	return 1;
 }
 
-void TMC262Stepper::debugLastStatus() {
+void TMC26XStepper::debugLastStatus() {
 #ifdef DEBUG    
 if (this->started) {
-		if (this->getOverTemperature()&TMC262_OVERTEMPERATURE_PREWARING) {
+		if (this->getOverTemperature()&TMC26X_OVERTEMPERATURE_PREWARING) {
 			Serial.println("WARNING: Overtemperature Prewarning!");
-		} else if (this->getOverTemperature()&TMC262_OVERTEMPERATURE_SHUTDOWN) {
+		} else if (this->getOverTemperature()&TMC26X_OVERTEMPERATURE_SHUTDOWN) {
 			Serial.println("ERROR: Overtemperature Shutdown!");
 		}
 		if (this->isShortToGroundA()) {
@@ -943,7 +943,7 @@ if (this->started) {
  * send register settings to the stepper driver via SPI
  * returns the current status
  */
-inline void TMC262Stepper::send262(unsigned long datagram) {
+inline void TMC26XStepper::send262(unsigned long datagram) {
 	unsigned long i_datagram;
 	
 	

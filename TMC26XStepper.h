@@ -1,5 +1,5 @@
 /*
- TMC262Stepper.cpp - - TMC262 Stepper library for Wiring/Arduino - Version 0.1
+ TMC26XStepper.cpp - - TMC26X Stepper library for Wiring/Arduino - Version 0.1
  
  based on the stepper library by Tom Igoe, et. al.
 
@@ -27,41 +27,41 @@
 
 
 // ensure this library description is only included once
-#ifndef TMC262Stepper_h
-#define TMC262Stepper_h
+#ifndef TMC26XStepper_h
+#define TMC26XStepper_h
 
-//! return value for TMC262Stepper.getOverTemperature() if there is a overtemperature situation in the TMC chip
+//! return value for TMC26XStepper.getOverTemperature() if there is a overtemperature situation in the TMC chip
 /*!
  * This warning indicates that the TCM chip is too warm. 
  * It is still working but some parameters may be inferior. 
  * You should do something against it.
  */
-#define TMC262_OVERTEMPERATURE_PREWARING 1
-//! return value for TMC262Stepper.getOverTemperature() if there is a overtemperature shutdown in the TMC chip
+#define TMC26X_OVERTEMPERATURE_PREWARING 1
+//! return value for TMC26XStepper.getOverTemperature() if there is a overtemperature shutdown in the TMC chip
 /*!
  * This warning indicates that the TCM chip is too warm to operate and has shut down to prevent damage. 
  * It will stop working until it cools down again.
  * If you encouter this situation you must do something against it. Like reducing the current or improving the PCB layout 
  * and/or heat management.
  */
-#define TMC262_OVERTEMPERATURE_SHUTDOWN 2
+#define TMC26X_OVERTEMPERATURE_SHUTDOWN 2
 
 //which values can be read out
 /*!
  * Selects to readout the microstep position from the motor.
  *\sa readStatus()
  */
-#define TMC262_READOUT_POSITION 0
+#define TMC26X_READOUT_POSITION 0
 /*!
  * Selects to read out the StallGuard value of the motor.
  *\sa readStatus()
  */
-#define TMC262_READOUT_STALLGUARD 1
+#define TMC26X_READOUT_STALLGUARD 1
 /*!
  * Selects to read out the current current setting (acc. to CoolStep) and the upper bits of the StallGuard value from the motor.
  *\sa readStatus(), setCurrent()
  */
-#define TMC262_READOUT_CURRENT 3
+#define TMC26X_READOUT_CURRENT 3
 
 /*!
  * Define to set the minimum current for CoolStep operation to 1/2 of the selected CS minium.
@@ -75,16 +75,16 @@
 #define COOL_STEP_QUARTDER_CS_LIMIT 1
 
 /*!
- * \class TMC262Stepper
- * \brief Class representing a TMC262 stepper driver
+ * \class TMC26XStepper
+ * \brief Class representing a TMC26X stepper driver
  * 
  * In order to use one fo those drivers in your Arduino code you have to create an object of that class:
  * \code
- * TMC262Stepper stepper = TMC262Stepper(200,1,2,3,500);
+ * TMC26XStepper stepper = TMC26XStepper(200,1,2,3,500);
  * \endcode
- * see TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int rms_current)
+ * see TMC26XStepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int rms_current)
  *
- * Keep in mind that you need to start the driver with start() in order to get the TMC262 configured.
+ * Keep in mind that you need to start the driver with start() in order to get the TMC26X configured.
  * 
  * The most important function is the move(). It checks if the motor has to do a step or not.
  * It is important that you call move() as often as possible in your Arduino loop() routine. I suggest
@@ -98,21 +98,21 @@
  *
  * You can check with isMoving() if the mototr is still moving or stop it  apruptely with stop().
  */
-class TMC262Stepper {
+class TMC26XStepper {
   public:
     /*!
-     * \brief creates a new represenatation of a stepper motor connected to a TMC262 stepper driver
+     * \brief creates a new represenatation of a stepper motor connected to a TMC26X stepper driver
      *
      * This is the main constructor. If in doubt use this. You must provide all parameters as described below.
      *
      * \param number_of_steps the number of steps the motor has per rotation.
-     * \param cs_pin The Arduino pin you have connected the Cient Select Pin (!CS) of the TMC262 for SPI
-     * \param dir_pin the number of the Arduino pin the Direction input of the TMC262 is connected
-     * \param step_pin the number of the Arduino pin the step pin of the TMC262 driver is connected.
+     * \param cs_pin The Arduino pin you have connected the Cient Select Pin (!CS) of the TMC26X for SPI
+     * \param dir_pin the number of the Arduino pin the Direction input of the TMC26X is connected
+     * \param step_pin the number of the Arduino pin the step pin of the TMC26X driver is connected.
      * \param rms_current the maximum current to privide to the motor in mA (!). A value of 200 would send up to 200mA to the motor
      * \param resistor the current sense resistor in milli Ohm, defaults to ,15 Ohm ( or 150 milli Ohm) as in the TMC260 Arduino Shield
      *
-     * Keep in mind that you must also call TMC262Stepper.start() in order to configure the stepper driver for use.
+     * Keep in mind that you must also call TMC26XStepper.start() in order to configure the stepper driver for use.
      *
      * By default the Constant Off Time chopper is used, see TCM262Stepper.setConstantOffTimeChopper() for details. 
      * This should work on most motors (YMMV). You may want to configure and use the Spread Cycle Chopper, see  setSpreadCycleChopper().
@@ -121,12 +121,12 @@ class TMC262Stepper {
      * You can select a different stepping with setMicrosteps() to aa different value.
      * \sa start(), setMicrosteps()
      */
-	TMC262Stepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor=150);
+	TMC26XStepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor=150);
 	
     /*!
-     * \brief configures and starts the TMC262 stepper driver. Before you called this function the stepper driver is in nonfunctional mode.
+     * \brief configures and starts the TMC26X stepper driver. Before you called this function the stepper driver is in nonfunctional mode.
      *
-     * This routine configures the TMC262 stepper driver for the given values via SPI. 
+     * This routine configures the TMC26X stepper driver for the given values via SPI. 
      * Most member functions are non functional if the driver has not been started.
      * Therefore it is best to call this in your Arduino setup() function.
      */
@@ -450,7 +450,7 @@ class TMC262Stepper {
     
     /*!
      * \brief Return over temperature status of the last status readout
-     * return 0 is everything is OK, TMC262_OVERTEMPERATURE_PREWARING if status is reached, TMC262_OVERTEMPERATURE_SHUTDOWN is the chip is shutdown, -1 if the status is unknown.
+     * return 0 is everything is OK, TMC26X_OVERTEMPERATURE_PREWARING if status is reached, TMC26X_OVERTEMPERATURE_SHUTDOWN is the chip is shutdown, -1 if the status is unknown.
      * Keep in mind that this method does not enforce a readout but uses the value of the last status readout.
      * You may want to use getMotorPosition() or getCurrentStallGuardReading() to enforce an updated status readout.
      */
@@ -528,8 +528,8 @@ class TMC262Stepper {
      * seletcs which value will get returned. If the read_vlaue changes in respect to the previous readout this method
      * automatically send two bytes to the motor: one to set the redout and one to get the actual readout. So this method 
      * may take time to send and read one or two bits - depending on the previous readout.
-     * \param read_value selects which value to read out (0..3). You can use the defines TMC262_READOUT_POSITION, TMC_262_READOUT_STALLGUARD, or TMC_262_READOUT_CURRENT
-     * \sa TMC262_READOUT_POSITION, TMC_262_READOUT_STALLGUARD, TMC_262_READOUT_CURRENT
+     * \param read_value selects which value to read out (0..3). You can use the defines TMC26X_READOUT_POSITION, TMC_262_READOUT_STALLGUARD, or TMC_262_READOUT_CURRENT
+     * \sa TMC26X_READOUT_POSITION, TMC_262_READOUT_STALLGUARD, TMC_262_READOUT_CURRENT
      */
 	void readStatus(char read_value);
     

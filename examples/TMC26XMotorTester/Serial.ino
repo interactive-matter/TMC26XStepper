@@ -9,7 +9,7 @@ unsigned char inputBufferPosition;
 void startSerial() {
   Serial.begin(SERIAL_SPEED);
   Serial.println(F("================================="));
-  Serial.println(F("TMC262 Stepper Driver Motor Tester"));
+  Serial.println(F("TMC26X Stepper Driver Motor Tester"));
   Serial.println(F("================================="));
   //empty the input buffer
   for (unsigned char i=0; i< INPUT_BUFFER_LENGTH+1; i++) {
@@ -33,17 +33,17 @@ void loopSerial() {
   }
   if (motor_moved) {
     Serial.print("#sg");
-    Serial.print(tmc262Stepper.getCurrentStallGuardReading(),DEC);
+    Serial.print(tmc26XStepper.getCurrentStallGuardReading(),DEC);
     Serial.print(",p");
-    Serial.print(tmc262Stepper.getMotorPosition(),DEC);
+    Serial.print(tmc26XStepper.getMotorPosition(),DEC);
     Serial.print(",k");
-    Serial.print(tmc262Stepper.getCurrentCurrent(),DEC);
+    Serial.print(tmc26XStepper.getCurrentCurrent(),DEC);
     Serial.println(',');
     motor_moved=0;
   }
   if (motor_counter>STATUS_COUNTER) {
     motor_counter=0;
-    char moving = tmc262Stepper.isMoving();
+    char moving = tmc26XStepper.isMoving();
     Serial.print('#');
     if (moving) {
       Serial.print('r');
@@ -56,69 +56,69 @@ void loopSerial() {
     Serial.print(direction);
     Serial.print(',');
     Serial.print("c");
-    Serial.print(tmc262Stepper.getCurrent(),DEC);
+    Serial.print(tmc26XStepper.getCurrent(),DEC);
     Serial.print(',');
     Serial.print('S');
-    Serial.print(tmc262Stepper.getSpeed(),DEC);
+    Serial.print(tmc26XStepper.getSpeed(),DEC);
     Serial.print(',');
     Serial.print('m');
-    Serial.print(tmc262Stepper.getMicrosteps(),DEC);
+    Serial.print(tmc26XStepper.getMicrosteps(),DEC);
     Serial.print(',');
     Serial.print("t");
-    Serial.print(tmc262Stepper.getStallGuardTreshold(),DEC);
+    Serial.print(tmc26XStepper.getStallGuardTreshold(),DEC);
     Serial.print(',');
     Serial.print('f');
-    Serial.print(tmc262Stepper.getStallGuardFilter(),DEC);
+    Serial.print(tmc26XStepper.getStallGuardFilter(),DEC);
     Serial.print(',');
     //print out the general cool step config
-    if (tmc262Stepper.isCoolStepEnabled()) {
+    if (tmc26XStepper.isCoolStepEnabled()) {
       Serial.print("Ke+,");
     } 
     else {
       Serial.print("Ke-,");
     }
     Serial.print("Kl");
-    Serial.print(tmc262Stepper.getCoolStepLowerSgTreshhold(),DEC);
+    Serial.print(tmc26XStepper.getCoolStepLowerSgTreshhold(),DEC);
     Serial.print(",Ku");
-    Serial.print(tmc262Stepper.getCoolStepUpperSgTreshhold(),DEC);
+    Serial.print(tmc26XStepper.getCoolStepUpperSgTreshhold(),DEC);
     Serial.print(",Kn");
-    Serial.print(tmc262Stepper.getCoolStepNumberOfSGReadings(),DEC);
+    Serial.print(tmc26XStepper.getCoolStepNumberOfSGReadings(),DEC);
     Serial.print(",Ki");
-    Serial.print(tmc262Stepper.getCoolStepCurrentIncrementSize(),DEC);
+    Serial.print(tmc26XStepper.getCoolStepCurrentIncrementSize(),DEC);
     Serial.print(",Km");
-    Serial.print(tmc262Stepper.getCoolStepLowerCurrentLimit(),DEC);
+    Serial.print(tmc26XStepper.getCoolStepLowerCurrentLimit(),DEC);
     Serial.print(',');
     //detect the winding status
-    if (tmc262Stepper.isOpenLoadA()) {
+    if (tmc26XStepper.isOpenLoadA()) {
       Serial.print("ao,");
     } 
-    else if(tmc262Stepper.isShortToGroundA()) {
+    else if(tmc26XStepper.isShortToGroundA()) {
       Serial.print("ag,");
     } 
     else {
       Serial.print("a-,");
     }
     //detect the winding status
-    if (tmc262Stepper.isOpenLoadB()) {
+    if (tmc26XStepper.isOpenLoadB()) {
       Serial.print("bo,");
     } 
-    else if(tmc262Stepper.isShortToGroundB()) {
+    else if(tmc26XStepper.isShortToGroundB()) {
       Serial.print("bg,");
     } 
     else {
       Serial.print("b-,");
     }
-    char temperature = tmc262Stepper.getOverTemperature();
+    char temperature = tmc26XStepper.getOverTemperature();
     if (temperature==0) {
       Serial.print("x-,");
     } 
-    else if (temperature==TMC262_OVERTEMPERATURE_PREWARING) {
+    else if (temperature==TMC26X_OVERTEMPERATURE_PREWARING) {
       Serial.print("xw,");
     } 
     else {
       Serial.print("xe,");
     }
-    if (tmc262Stepper.isEnabled()) {
+    if (tmc26XStepper.isEnabled()) {
       Serial.print("e1,");
     } 
     else {
@@ -182,7 +182,7 @@ void executeSerialCommand() {
   case 'd':
     {
       int value = decode(1);
-      tmc262Stepper.stop();
+      tmc26XStepper.stop();
       if (value<0) {
         direction=-1;
       } 
@@ -201,10 +201,10 @@ void executeSerialCommand() {
     {
       int enabled = decode(1);
       if (enabled) {
-        tmc262Stepper.setEnabled(true);
+        tmc26XStepper.setEnabled(true);
       } 
       else {
-        tmc262Stepper.setEnabled(false);
+        tmc26XStepper.setEnabled(false);
       }
     }
     break;
@@ -260,10 +260,10 @@ void executeSerialCommand() {
   case 'K':
     switch(inputBuffer[1]) {
     case '+':
-      tmc262Stepper.setCoolStepEnabled(true);
+      tmc26XStepper.setCoolStepEnabled(true);
       break;
     case '-':
-      tmc262Stepper.setCoolStepEnabled(false);
+      tmc26XStepper.setCoolStepEnabled(false);
       break;
     case 'l':
       {

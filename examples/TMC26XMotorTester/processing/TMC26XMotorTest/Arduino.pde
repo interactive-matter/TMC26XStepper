@@ -9,7 +9,7 @@ Textarea statusArea;
 String[] ports;
 int activePortIndex = -1;
 
-String identString="TMC262 Stepper Driver Motor Tester";
+String identString="TMC26X Stepper Driver Motor Tester";
 int connectTimeout=10*1000; //how long do we wait until the Arduino is connected
 
 StringBuilder serialStringBuilder = new StringBuilder();
@@ -90,7 +90,7 @@ void serialOk(int value) {
     }
     //ok appearantly we did not find an motor tester - so lets deselect that port
     if (error == null) {
-      error = "Could not find TMC262MotorTester on serial port "+ports[activePortIndex];
+      error = "Could not find TMC26XMotorTester on serial port "+ports[activePortIndex];
     }
     statusArea.setText(error);
     Toggle selected = serialButtons.getItem(activePortIndex);

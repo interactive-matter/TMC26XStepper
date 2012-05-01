@@ -1,5 +1,5 @@
 #include <SPI.h>
-#include <TMC262Stepper.h>
+#include <TMC26XStepper.h>
 
 //you may adapt this to your shield or breakout board connection
 #define CS_PIN 2
@@ -14,7 +14,7 @@
 
 
 //we have a stepper motor with 200 steps per rotation, CS pin 2, dir pin 3, step pin 4 and a current of 300mA
-TMC262Stepper tmc262Stepper = TMC262Stepper(200,CS_PIN,DIR_PIN,STEP_PIN,INITIAL_CURRENT);
+TMC26XStepper tmc26XStepper = TMC26XStepper(200,CS_PIN,DIR_PIN,STEP_PIN,INITIAL_CURRENT);
 char running;
 
 void setup() {
