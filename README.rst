@@ -1,10 +1,10 @@
-Arduino TMC262 Stepper Motor Controller Library
+Arduino TMC26X Stepper Motor Controller Library
 ===============================================
 
 License
 -------
 
-TMC262Stepper.cpp - - TMC 262 Stepper library for Wiring/Arduino - Version 0.1
+TMC26XStepper.cpp - - TMC 262 Stepper library for Wiring/Arduino - Version 0.1
  
 based on the stepper library by Tom Igoe, et. al.
  
@@ -31,7 +31,7 @@ THE SOFTWARE.
 About
 -----
 
-The TMC262 is a stepper motor controller for bipolar stepper motors. From the trinamic web site:
+The TMC26X is a stepper motor controller for bipolar stepper motors. From the trinamic web site:
 
  The TMC262 is the first energy efficient high current high precision microstepping driver 
  IC for bipolar stepper motors. The unique high resolution sensorless load detection stallGuard2™ 
@@ -47,7 +47,7 @@ The TMC262 is a stepper motor controller for bipolar stepper motors. From the tr
  even at high environment temperatures.
 
 
-The unique features of the TMC262 are that everything can (and must) be controlled in software:
+The unique features of the TMC26X are that everything can (and must) be controlled in software:
 
 * the motor current
 * microstepping
@@ -59,8 +59,8 @@ The unique features of the TMC262 are that everything can (and must) be controll
 * microPlyer 16-to-256 μStep multiplier
 * full protection and diagnostics
 
-This makes the TMC262 a bit harder to use than other stepper motors but much more versatile.
-This library resolves all the complicated stuff so that you can use TMC262 straight away.
+This makes the TMC26X a bit harder to use than other stepper motors but much more versatile.
+This library resolves all the complicated stuff so that you can use TMC26X straight away.
 Furthermore, all the settings are implemented in high level interfaces so that configuring your
 motor is a breeze.
 
@@ -115,8 +115,8 @@ If you are unsure which wires belong to which phase you can simply check this:
 Testing the Motor Parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The fastest way to see your motor moving is to use the sketch *TMC262MotorTest* from the examples
-directory in the library (File->Examples->TMC262Stepper->TMC262MotorTest in the Arduino menu).
+The fastest way to see your motor moving is to use the sketch *TMC26XMotorTest* from the examples
+directory in the library (File->Examples->TMC26XStepper->TMC26XMotorTest in the Arduino menu).
 
 It assumes the following connections for the shield or breakout board:
 
@@ -208,8 +208,8 @@ For now you unfortunately have to check the datasheet for details.
 The Minimal Sketch
 ~~~~~~~~~~~~~~~~~~
 
-In the TMC262 stepper driver you will find the sketch 'TMC262Example' sketch. This is the bare 
-minimun code you need to use the TMC262 stepper driver. You can use this as basis for your code.
+In the TMC26X stepper driver you will find the sketch 'TMC26XExample' sketch. This is the bare 
+minimun code you need to use the TMC26X stepper driver. You can use this as basis for your code.
 
 
 Basic Usage
@@ -219,7 +219,7 @@ Initializing the motor driver
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Creating a stepper motor driver::
-TMC262Stepper tmc262Stepper = TMC262Stepper(200,2,3,4,300);
+TMC26XStepper tmc26XStepper = TMC26XStepper(200,2,3,4,300);
 
 The settings are:
 * the steps per rotation to calculate the speed correctly - here a 200 steps/rotation motor
@@ -229,27 +229,27 @@ The settings are:
 * the RMS current for the motor in Milliamps (mA) - here 300mA
 
 The stepper motor driver must be configured using SPI. So it has to be started::
-  tmc262Stepper.start();
+  tmc26XStepper.start();
   
 Setting the speed
 ~~~~~~~~~~~~~~~~~
 
 The current speed can be set in rotations per minutes with the speed() command::
-  tmc262Stepper.setSpeed(300);
+  tmc26XStepper.setSpeed(300);
 
 Stepping
 ~~~~~~~~
 
 To step in positive direction you specify the number of steps like this::
-    tmc262Stepper.step(6400);
+    tmc26XStepper.step(6400);
 
 To step in negative direction you can specify the number of steps like this::
-    tmc262Stepper.step(-6400);
+    tmc26XStepper.step(-6400);
 
 Microstepping
 ~~~~~~~~~~~~~
 To set the number of microsteps you can use::
-    tmc262Stepper.setMicrosteps(32);
+    tmc26XStepper.setMicrosteps(32);
 
 The following values are supported:
 
@@ -337,7 +337,7 @@ To calculate the values refer to the excel sheet provided by trinamic:
 http://trinamic.com/tmc/media/Downloads/integrated_circuits/TMC262/Application_notes/tmc262_calculations.xls
 
 You can use it like::
-tmc262Stepper.setSpreadCycleChopper(char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement);
+tmc26XStepper.setSpreadCycleChopper(char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement);
 
 From the datasheet:
  The spreadCycle chopper scheme (pat.fil.) is a precise and simple to use chopper principle, which
@@ -358,7 +358,7 @@ Random Off Time
 
 The random off time can be used to reduce noise and EMI of the motor. You can set it
 via::
-  tmc262Stepper.setRandomOffTime(1);
+  tmc26XStepper.setRandomOffTime(1);
 
 A value of 0 disables the random off time. Any other value enables it.
 
