@@ -62,7 +62,7 @@ void decodeSerial() {
 }
 
 void sendCommand(String command) {
-  if (connected) {
+  if (motor_connected) {
     arduinoPort.write(command+"\n");
   }
 }
