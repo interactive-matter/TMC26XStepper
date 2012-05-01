@@ -8,6 +8,9 @@ Button serialOkButton;
 String[] ports;
 int activePortIndex = -1;
 
+String identString="TMC262 Stepper Driver Motor Tester";
+int connectTimeout=10*1000; //how long do we wait until the Arduino is connected
+
 StringBuilder serialStringBuilder = new StringBuilder();
 
 void setupSerialConfig() {
@@ -52,10 +55,32 @@ void serialport(int value) {
 
 void serialOk(int value) {
   if (value!=0 && activePortIndex>-1) {
-    arduinoPort = new Serial(this, ports[activePortIndex], 115200);
-    //TODO shouldn't we check if there is a motor tester anyway?
-    motor_connected = true;
-    toggleUi(true);
+    try {
+      arduinoPort = new Serial(this, ports[activePortIndex], 115200);
+      int timeStarted = millis();
+      StringBuilder identBuffer = new StringBuilder();
+      while (!motor_connected && (millis()-timeStarted)<connectTimeout) {
+        if (arduinoPort.available ()>0) {
+          char c = arduinoPort.readChar();
+          identBuffer.append(c);
+          if (c=='\n') {
+            if (identString.contains(identString)) {
+              motor_connected = true;
+              toggleUi(true);
+              return;
+            }
+            identBuffer = new StringBuilder();
+          }
+        } 
+      }
+    } catch (RuntimeException e) {
+      //we simply do nothing
+      //TODO set status label
+    }
+    //ok appearantly we did not find an motor tester - so lets deselect that port
+    Toggle selected = serialButtons.getItem(activePortIndex);
+    selected.setState(false);
+    serialOkButton.setVisible(false);
   }
 }
 

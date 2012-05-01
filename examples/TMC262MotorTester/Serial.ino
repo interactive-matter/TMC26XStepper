@@ -9,7 +9,7 @@ unsigned char inputBufferPosition;
 void startSerial() {
   Serial.begin(SERIAL_SPEED);
   Serial.println(F("================================="));
-  Serial.println(F("TMC262 Stepper Driver Motor Tuner"));
+  Serial.println(F("TMC262 Stepper Driver Motor Tester"));
   Serial.println(F("================================="));
   //empty the input buffer
   for (unsigned char i=0; i< INPUT_BUFFER_LENGTH+1; i++) {
