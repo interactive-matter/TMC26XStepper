@@ -1,6 +1,7 @@
 String channelAStatus=null;
 String channelBStatus=null;
 String temperatureStatus=null;
+boolean motor_connected = false;
 
 StringBuilder serialStringBuilder = new StringBuilder();
 

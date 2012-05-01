@@ -36,6 +36,9 @@ boolean coolStepActive = false;
 
 float maxCurrent = 1.7;
 
+List controlElements = new LinkedList();
+List serialConfigElementsElements = new LinkedList();
+
 void setup() {
   size(1000, 800);
   //load the font
@@ -44,6 +47,7 @@ void setup() {
   configureTab =controlP5.addTab("configure"); 
   //customize the tabs a bit
   configureTab.setLabel("configure");
+  controlElements.add(configureTab);
   activeTab =  controlP5.getTab("default");
   controlP5.setTabEventsActive(true);
   configureTab.activateEvent(true);
@@ -54,6 +58,8 @@ void setup() {
 
   setupRunConfig();
   setupChooperConfig();
+  //directly hide the controls again since we are not connected to the Arduino yet
+  toggleUi(motor_connected);
 
   //configure the serial connection
   // List all the available serial ports:
@@ -66,6 +72,18 @@ void setup() {
   arduinoPort = new Serial(this, Serial.list()[0], 115200);
   smooth();
   setupData();
+}
+
+
+void toggleUi(boolean show_controls) {
+  for (Object c:controlElements) {
+    ControllerInterface controller = (ControllerInterface) c;
+    if (show_controls) {
+      controller.show();
+    } else {
+      controller.hide();
+    }
+  }
 }
 
 void draw() {
