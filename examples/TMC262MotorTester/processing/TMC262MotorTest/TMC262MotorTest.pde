@@ -12,16 +12,19 @@ ControlP5 controlP5;
 Serial arduinoPort;
 
 //TODO comde up with a nice color scheme
-color activeColor = #22aaee;
-color foreGroundColor = #1a6699; //Stil to use 1a334c
+color activeColor = #01ADF1;
+color foreGroundColor = #01ADF1; 
+color uiTextColor = #4D4D4F;
+color uiElementColor = #ffffff;
 color labelColor = #f0f0f0;
 color valueColor = #f0f0f0;
-color graphBackgroundColor = #131313;
-color stallGuardColor = #991a1a;
-color positionColor = #1a6699; //still to use #8c7f26
+color backgroundColor = #EDEEEF;
+color stallGuardColor = #4D4D4F;
+color positionColor = #01ADF1;
 color goodStatusColor = labelColor;
 color badStatusColor = stallGuardColor;
-color coolStepColor = #8c7f26;
+color coolStepColor = #969696;
+CColor uiColor = new CColor( foreGroundColor, uiElementColor, activeColor, uiTextColor, uiTextColor);
 
 Tab configureTab;
 Tab runTab;
@@ -43,6 +46,7 @@ void setup() {
   size(1000, 800);
   //load the font
   controlP5 = new ControlP5(this);
+  controlP5.setColor(uiColor);
   runTab = controlP5.getTab("default");
   configureTab =controlP5.addTab("configure"); 
   //customize the tabs a bit
@@ -87,7 +91,7 @@ void toggleUi(boolean show_controls) {
 }
 
 void draw() {
-  background(graphBackgroundColor);
+  background(backgroundColor);
   drawChopper();
   drawData();
   decodeSerial();

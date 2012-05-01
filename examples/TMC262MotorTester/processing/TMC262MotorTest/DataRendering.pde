@@ -48,7 +48,7 @@ void setupData() {
 void drawData() {
 
   if (motor_connected && activeTab!=null && runTab.equals(activeTab)) {
-    fill(graphBackgroundColor);
+    fill(backgroundColor);
     rectMode(CORNERS);
     noStroke();
     //rect(plotLeft, plotBottom, plotRight, plotTop);

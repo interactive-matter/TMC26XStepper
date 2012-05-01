@@ -43,15 +43,15 @@ void setupRunConfig() {
   //ad a multilist for the microstepping setting
   microsteppingButtons = controlP5.addRadioButton("microstepping", 150, 40);
   controlElements.add(microsteppingButtons);
-  microsteppingButtons.addItem("1", 1);
-  microsteppingButtons.addItem("2", 2);
-  microsteppingButtons.addItem("4", 4);
-  microsteppingButtons.addItem("8", 8);
-  microsteppingButtons.addItem("16", 16);
-  microsteppingButtons.addItem("32", 32);
-  microsteppingButtons.addItem("64", 64);
-  microsteppingButtons.addItem("128", 128);
-  microsteppingButtons.addItem("256", 256);
+  microsteppingButtons.addItem("1/1", 1);
+  microsteppingButtons.addItem("1/2", 2);
+  microsteppingButtons.addItem("1/4", 4);
+  microsteppingButtons.addItem("1/8", 8);
+  microsteppingButtons.addItem("1/16", 16);
+  microsteppingButtons.addItem("1/32", 32);
+  microsteppingButtons.addItem("1/64", 64);
+  microsteppingButtons.addItem("1/128", 128);
+  microsteppingButtons.addItem("1/256", 256);
   microsteppingButtons.showBar();
   microsteppingButtons.moveTo(runTab);
 
