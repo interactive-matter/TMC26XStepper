@@ -643,13 +643,13 @@ void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, un
     if (current_decrement_step_size>3) {
         current_decrement_step_size=3;
     }
-    if (number_of_steps>3) {
-        number_of_steps=3;
+    if (current_increment_step_size>3) {
+        current_increment_step_size=3;
     }
     if (lower_current_limit>1) {
         lower_current_limit=1;
     }
-    //store the lower level in order to enable/disable the coole step
+    //store the lower level in order to enable/disable the cool step
     this->cool_step_lower_treshhold=lower_SG_treshhold;
     //if cool step is not enabled we delete the lower value to keep it disabled
     if (!this->cool_step_enabled) {
