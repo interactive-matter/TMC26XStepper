@@ -62,10 +62,6 @@ void setup() {
   //directly hide the controls again since we are not connected to the Arduino yet
   toggleUi(motor_connected);
 
-  //configure the serial connection
-  // List all the available serial ports:
-  println(Serial.list());
-
   smooth();
   setupData();
 }
