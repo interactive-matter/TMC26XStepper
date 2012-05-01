@@ -37,7 +37,7 @@ boolean coolStepActive = false;
 float maxCurrent = 1.7;
 
 List controlElements = new LinkedList();
-List serialConfigElementsElements = new LinkedList();
+List serialConfigElements = new LinkedList();
 
 void setup() {
   size(1000, 800);
@@ -58,6 +58,7 @@ void setup() {
 
   setupRunConfig();
   setupChooperConfig();
+  setupSerialConfig();
   //directly hide the controls again since we are not connected to the Arduino yet
   toggleUi(motor_connected);
 
