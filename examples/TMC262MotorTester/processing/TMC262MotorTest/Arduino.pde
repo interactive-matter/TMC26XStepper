@@ -50,13 +50,21 @@ void serialport(int value) {
 
 
 void decodeSerial() {
-  while (arduinoPort.available ()>0) {
-    char c = arduinoPort.readChar();
-    serialStringBuilder.append(c);
-    if (c=='\n') {
-      decodeSerial(serialStringBuilder.toString());
-      serialStringBuilder = new StringBuilder();
+  if (motor_connected) {
+    while (arduinoPort.available ()>0) {
+      char c = arduinoPort.readChar();
+      serialStringBuilder.append(c);
+      if (c=='\n') {
+        decodeSerial(serialStringBuilder.toString());
+        serialStringBuilder = new StringBuilder();
+      }
     }
+  }
+}
+
+void sendCommand(String command) {
+  if (connected) {
+    arduinoPort.write(command+"\n");
   }
 }
 

@@ -86,7 +86,7 @@ void constantoff(int theValue) {
   if (!settingStatus) {
     if (theValue>0 && theValue<16) {
       println("Constant off "+theValue);
-      arduinoPort.write("cO"+theValue+"\n");
+      sendCommand("cO"+theValue);
     } 
     else {
       println("invalid blank time of "+theValue);
@@ -98,7 +98,7 @@ void blanktime(int theValue) {
   if (!settingStatus) {
     if (theValue>=0 && theValue<=3) {
       println("blank time "+theValue);
-      arduinoPort.write("Cb"+theValue+"\n");
+      sendCommand("Cb"+theValue);
     }
   }
 }
@@ -107,7 +107,7 @@ void hysteresisstart(int start) {
   if (!settingStatus) {
     if (start>=1 && start<=8) {
       println("hystereis start "+start);
-      arduinoPort.write("Cs"+start+"\n");
+      sendCommand("Cs"+start);
     }
   }
 }
@@ -116,7 +116,7 @@ void hysteresisend(int end) {
   if (!settingStatus) {
     if (end>=-3 && end<=12) {
       println("hystereis end "+end);
-      arduinoPort.write("Ce"+end+"\n");
+      sendCommand("Ce"+end);
     }
   }
 }
@@ -125,7 +125,7 @@ void setHysteresisDecrement(int theValue) {
   if (!settingStatus) {
     if (theValue>=0 && theValue<=3) {
       println("Hysteresis decrement "+theValue);
-      arduinoPort.write("Cd"+theValue+"\n");
+      sendCommand("Cd"+theValue);
     } 
     else {
       println("cannot set decrement to "+theValue);

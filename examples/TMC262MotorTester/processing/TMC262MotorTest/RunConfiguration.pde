@@ -130,7 +130,7 @@ void speed(int theSpeed) {
   if (!settingStatus) {
     int speed = (int) theSpeed;
     println("setting speed to "+speed);
-    arduinoPort.write("S"+speed+"\n");
+    sendCommand("S"+speed);
   }
 }
 
@@ -139,12 +139,12 @@ void run(int value) {
     println("button pressed");
     if (running) {
       println("stopping motor");
-      arduinoPort.write("s\n");
+      sendCommand("s");
       running = false;
     } 
     else {
       println("starting motor");
-      arduinoPort.write("r\n");
+      sendCommand("r");
       running = true;
     }
   }
@@ -153,21 +153,21 @@ void run(int value) {
 void enabled(int value) {
   if (!settingStatus) {
     println("enabled: "+value);
-    arduinoPort.write("e"+value+"\n");
+    sendCommand("e"+value);
   }
 }
 
 void microstepping(int value) {
   if (!settingStatus) {
     println("microstepping: "+value);
-    arduinoPort.write("m"+value+"\n");
+    sendCommand("m"+value);
   }
 }
 
 void stallguardtreshold(int value) {
   if (!settingStatus) {
     println("stall guard treshold: "+value);
-    arduinoPort.write("t"+value+"\n");
+    sendCommand("t"+value);
   }
   if (value==sgtSlider.max()) {
     sgtPlus.lock();
@@ -194,7 +194,7 @@ void sgtminus(int value) {
 void sgfilter(int value) {
   if (!settingStatus) {
     println("filter: "+value);
-    arduinoPort.write("f"+value+"\n");
+    sendCommand("f"+value);
   }
 }  
 
@@ -202,7 +202,7 @@ void current(float value) {
   if (!settingStatus) {
     int realValue=(int)(value*1000.0);
     println("current: "+((float)realValue/1000.0)+" = "+realValue);
-    arduinoPort.write("c"+realValue+"\n");
+    sendCommand("c"+realValue);
     if (activeTab!=null && "run".equals(activeTab.name())) {
       motorCurrentBox.setValue(value);
     }
@@ -212,14 +212,14 @@ void current(float value) {
 void coolStepUpper(int value) {
   coolStepMax=value;
   if (!settingStatus) {
-    arduinoPort.write("Ku"+value+"\n");
+    sendCommand("Ku"+value);
   }
 }
 
 void coolStepLower(int value) {
   coolStepMin = value;
   if (!settingStatus) {
-    arduinoPort.write("Kl"+value+"\n");
+    sendCommand("Kl"+value);
   }
 }
 
@@ -227,28 +227,28 @@ void coolStepLower(int value) {
 void setCoolStepIncrement(int value) {
   if (!settingStatus) {
     println("cool step increment :"+value);
-    arduinoPort.write("Ki"+value+"\n");
+    sendCommand("Ki"+value);
   }
 }
 
 void setCoolStepDecrement(int value) {
   if (!settingStatus) {
     println("cool step decrement :"+value);
-    arduinoPort.write("Kn"+value+"\n");
+    sendCommand("Kn"+value);
   }
 }
 
 void setCoolStepMin(int value) {
   if (!settingStatus) {
     println("cool step minimum :"+value);
-    arduinoPort.write("Km"+value+"\n");
+    sendCommand("Km"+value);
   }
 }
 
 void coolStepActive(int value) {
   if (!settingStatus) {
     coolStepActive = (value!=0);
-    arduinoPort.write(coolStepActive? "K+\n":"K-\n");
+    sendCommand(coolStepActive? "K+":"K-");
   }
 }
 
@@ -260,10 +260,10 @@ void setDirection(int direction) {
   if (!settingStatus) {
     if (direction<0) {
       println("back");
-      arduinoPort.write("d-1\n");
+      sendCommand("d-1");
     } 
     else {
-      arduinoPort.write("d1\n");
+      sendCommand("d1");
     }
   }
 }
