@@ -19,11 +19,11 @@ color uiElementColor = #ffffff;
 color labelColor = #f0f0f0;
 color valueColor = #f0f0f0;
 color backgroundColor = #EDEEEF;
-color stallGuardColor = #4D4D4F;
+color stallGuardColor = #969696;
 color positionColor = #01ADF1;
 color goodStatusColor = labelColor;
 color badStatusColor = stallGuardColor;
-color coolStepColor = #969696;
+color coolStepColor = #4D4D4F;
 CColor uiColor = new CColor( foreGroundColor, uiElementColor, activeColor, uiTextColor, uiTextColor);
 
 Tab configureTab;
