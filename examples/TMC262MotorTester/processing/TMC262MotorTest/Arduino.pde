@@ -43,7 +43,6 @@ void updateSerialPortList() {
 }
 
 void serialport(int value) {
-  println("port "+ value);
   //ok button is only active if a serial port is selected
   serialOkButton.setVisible(value>-1);
 }
