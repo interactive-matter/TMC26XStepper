@@ -5,6 +5,8 @@ boolean motor_connected = false;
 
 RadioButton serialButtons;
 Button serialOkButton;
+String[] ports;
+int activePortIndex = -1;
 
 StringBuilder serialStringBuilder = new StringBuilder();
 
@@ -34,7 +36,7 @@ void updateSerialPortList() {
     serialButtons.removeItem(item.getName());
   }
   //add the serial ports
-  String[] ports = Serial.list();
+  ports = Serial.list();
   for (int i=0; i< ports.length; i++) {
     serialButtons.addItem(ports[i],i);
   }
@@ -45,6 +47,16 @@ void updateSerialPortList() {
 void serialport(int value) {
   //ok button is only active if a serial port is selected
   serialOkButton.setVisible(value>-1);
+  activePortIndex = value;
+}
+
+void serialOk(int value) {
+  if (value!=0 && activePortIndex>-1) {
+    arduinoPort = new Serial(this, ports[activePortIndex], 115200);
+    //TODO shouldn't we check if there is a motor tester anyway?
+    motor_connected = true;
+    toggleUi(true);
+  }
 }
 
 
