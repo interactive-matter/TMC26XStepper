@@ -179,8 +179,8 @@ void TMC262Stepper::start() {
 	digitalWrite(cs_pin, HIGH);   
 	
 	//configure the SPI interface
-	SPI.setBitOrder(MSBFIRST);
-	SPI.setClockDivider(SPI_CLOCK_DIV8);
+	//SPI.setBitOrder(MSBFIRST);
+	//SPI.setClockDivider(SPI_CLOCK_DIV8);
 	SPI.setDataMode(SPI_MODE3);
 	SPI.begin();
 		
