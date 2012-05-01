@@ -24,6 +24,8 @@ color positionColor = #01ADF1;
 color goodStatusColor = labelColor;
 color badStatusColor = stallGuardColor;
 color coolStepColor = #4D4D4F;
+color diagramBackgroundColor = #ffffff;
+
 CColor uiColor = new CColor( foreGroundColor, uiElementColor, activeColor, uiTextColor, uiTextColor);
 
 Tab configureTab;
