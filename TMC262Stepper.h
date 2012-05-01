@@ -574,9 +574,9 @@ class TMC262Stepper {
 	inline int getReadoutValue();
 	
 	//the pins for the stepper driver
-	int cs_pin;
-	int step_pin;
-	int dir_pin;
+	unsigned char cs_pin;
+	unsigned char step_pin;
+	unsigned char dir_pin;
 	
 	//status values 
 	boolean started; //if the stepper has been started yet
