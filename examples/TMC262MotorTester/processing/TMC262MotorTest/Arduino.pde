@@ -5,6 +5,7 @@ boolean motor_connected = false;
 
 RadioButton serialButtons;
 Button serialOkButton;
+Textarea statusArea;
 String[] ports;
 int activePortIndex = -1;
 
@@ -26,6 +27,11 @@ void setupSerialConfig() {
   serialConfigElements.add(serialOkButton);
   serialOkButton.setCaptionLabel("OK");
   runToggle.moveTo(defaultTab);
+  //add the status area
+  statusArea = controlP5.addTextarea("statusArea","",200,height-250,300,50);
+  serialConfigElements.add(statusArea);
+  statusArea.moveTo(defaultTab);
+  
 
   //finally update the list of serial ports
   updateSerialPortList();
@@ -50,10 +56,14 @@ void updateSerialPortList() {
 void serialport(int value) {
   //ok button is only active if a serial port is selected
   serialOkButton.setVisible(value>-1);
+  if (value>-1) {
+    statusArea.setText("");
+  }
   activePortIndex = value;
 }
 
 void serialOk(int value) {
+  String error = null;
   if (value!=0 && activePortIndex>-1) {
     try {
       arduinoPort = new Serial(this, ports[activePortIndex], 115200);
@@ -76,8 +86,13 @@ void serialOk(int value) {
     } catch (RuntimeException e) {
       //we simply do nothing
       //TODO set status label
+      error = "There was a problem with serial port "+ports[activePortIndex]+": "+e.getMessage();
     }
     //ok appearantly we did not find an motor tester - so lets deselect that port
+    if (error == null) {
+      error = "Could not find TMC262MotorTester on serial port "+ports[activePortIndex];
+    }
+    statusArea.setText(error);
     Toggle selected = serialButtons.getItem(activePortIndex);
     selected.setState(false);
     serialOkButton.setVisible(false);
