@@ -43,15 +43,19 @@ void setupRunConfig() {
   //ad a multilist for the microstepping setting
   microsteppingButtons = controlP5.addRadioButton("microstepping", 150, 40);
   controlElements.add(microsteppingButtons);
-  microsteppingButtons.addItem("1/1", 1);
-  microsteppingButtons.addItem("1/2", 2);
-  microsteppingButtons.addItem("1/4", 4);
-  microsteppingButtons.addItem("1/8", 8);
-  microsteppingButtons.addItem("1/16", 16);
-  microsteppingButtons.addItem("1/32", 32);
-  microsteppingButtons.addItem("1/64", 64);
-  microsteppingButtons.addItem("1/128", 128);
-  microsteppingButtons.addItem("1/256", 256);
+  microsteppingButtons.addItem("m_1/1", 1);
+  microsteppingButtons.addItem("m_1/2", 2);
+  microsteppingButtons.addItem("m_1/4", 4);
+  microsteppingButtons.addItem("m_1/8", 8);
+  microsteppingButtons.addItem("m_1/16", 16);
+  microsteppingButtons.addItem("m_1/32", 32);
+  microsteppingButtons.addItem("m_1/64", 64);
+  microsteppingButtons.addItem("m_1/128", 128);
+  microsteppingButtons.addItem("m_1/256", 256);
+  for (Object o:microsteppingButtons.getItems()) {
+    Toggle t = (Toggle) o;
+    t.setCaptionLabel(t.getName().substring(2));
+  }
   microsteppingButtons.showBar();
   microsteppingButtons.moveTo(runTab);
 
@@ -62,11 +66,6 @@ void setupRunConfig() {
   currentSlider.moveTo(runTab);
 
   // add a vertical slider for stallGuard treshold  
-  sgtSlider = controlP5.addSlider("stallguardtreshold", -64, 63, 0, 500, 40, 20, 150);
-  controlElements.add(sgtSlider);
-  sgtSlider.setSliderMode(Slider.FIX);
-  sgtSlider.setCaptionLabel("Stall Guard Treshold");
-  sgtSlider.moveTo(runTab);
   sgtPlus = controlP5.addButton("sgtplus", 0, 550, 40, 20, 20);
   controlElements.add(sgtPlus);
   sgtPlus.setCaptionLabel("+");
@@ -75,6 +74,11 @@ void setupRunConfig() {
   controlElements.add(sgtMinus);
   sgtMinus.setCaptionLabel("-");
   sgtMinus.moveTo(runTab);
+  sgtSlider = controlP5.addSlider("stallguardtreshold", -64, 63, 0, 500, 40, 20, 150);
+  controlElements.add(sgtSlider);
+  sgtSlider.setSliderMode(Slider.FIX);
+  sgtSlider.setCaptionLabel("Stall Guard Treshold");
+  sgtSlider.moveTo(runTab);
   //ading some buttons to have finer sg control
   //adding a button for the filter
   sgFilterToggle = controlP5.addToggle("sgfilter", false, 500, 220, 30, 30);
@@ -101,27 +105,39 @@ void setupRunConfig() {
   coolStepIncrementButtons = controlP5.addRadioButton("coolStepIncrement", 850, 40);
   controlElements.add(coolStepIncrementButtons);
   coolStepIncrementButtons.captionLabel().set("Cool Step  Increment");
-  coolStepIncrementButtons.addItem("1", 0);
-  coolStepIncrementButtons.addItem("2", 1);
-  coolStepIncrementButtons.addItem("4", 2);
-  coolStepIncrementButtons.addItem("8", 3);
+  coolStepIncrementButtons.addItem("i_1", 0);
+  coolStepIncrementButtons.addItem("i_2", 1);
+  coolStepIncrementButtons.addItem("i_4", 2);
+  coolStepIncrementButtons.addItem("i_8", 3);
+  for (Object o:coolStepIncrementButtons.getItems()) {
+    Toggle t = (Toggle) o;
+    t.setCaptionLabel(t.getName().substring(2));
+  }
   coolStepIncrementButtons.showBar();
   coolStepIncrementButtons.moveTo(runTab);
 
   coolStepDecrementButtons = controlP5.addRadioButton("coolStepDecrement", 850, 110);
   controlElements.add(coolStepDecrementButtons);
   coolStepDecrementButtons.captionLabel().set("Cool Step Decrement");
-  coolStepDecrementButtons.addItem("32", 0);
-  coolStepDecrementButtons.addItem("8", 1);
-  coolStepDecrementButtons.addItem("2", 2);
-  coolStepDecrementButtons.addItem("1", 3);
+  coolStepDecrementButtons.addItem("d_32", 0);
+  coolStepDecrementButtons.addItem("d_8", 1);
+  coolStepDecrementButtons.addItem("d_2", 2);
+  coolStepDecrementButtons.addItem("d_1", 3);
+  for (Object o:coolStepDecrementButtons.getItems()) {
+    Toggle t = (Toggle) o;
+    t.setCaptionLabel(t.getName().substring(2));
+  }
   coolStepDecrementButtons.showBar();
   coolStepDecrementButtons.moveTo(runTab);
 
   coolStepMinButtons = controlP5.addRadioButton("coolStepMin", 850, 180);
   controlElements.add(coolStepMinButtons);
-  coolStepMinButtons.addItem("1/2", 0);
-  coolStepMinButtons.addItem("1/4", 1);
+  coolStepMinButtons.addItem("s_1/2", 0);
+  coolStepMinButtons.addItem("s_1/4", 1);
+  for (Object o:coolStepMinButtons.getItems()) {
+    Toggle t = (Toggle) o;
+    t.setCaptionLabel(t.getName().substring(2));
+  }
   coolStepMinButtons.showBar();
   coolStepMinButtons.moveTo(runTab);
 }

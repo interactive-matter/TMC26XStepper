@@ -145,7 +145,7 @@ void decodeSerial(String line) {
         speedSlider.setValue(getValueOfToken(statusToken, 1));
       } 
       else if (statusToken.startsWith("m")) {
-        microsteppingButtons.activate(String.valueOf(getValueOfToken(statusToken, 1)));
+        microsteppingButtons.activate("m_1/"+String.valueOf(getValueOfToken(statusToken, 1)));
       } 
       else if (statusToken.startsWith("sg")) {
         addStallGuardReading(getValueOfToken(statusToken, 2));
