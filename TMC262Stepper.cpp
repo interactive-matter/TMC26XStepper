@@ -179,9 +179,9 @@ void TMC262Stepper::start() {
 	digitalWrite(cs_pin, HIGH);   
 	
 	//configure the SPI interface
-	SPI.setBitOrder(MSBFIRST);
-	SPI.setClockDivider(SPI_CLOCK_DIV8);
-	SPI.setDataMode(SPI_MODE3);
+	//SPI.setBitOrder(MSBFIRST);
+	//SPI.setClockDivider(SPI_CLOCK_DIV8);
+	//SPI.setDataMode(SPI_MODE3);
 	SPI.begin();
 		
 	//set the initial values
@@ -303,13 +303,13 @@ void TMC262Stepper::setCurrent(unsigned int current) {
 		this->driver_configuration_register_value |= VSENSE;
         //and recalculate the current setting
         current_scaling = (byte)((resistor_value*mASetting*32.0/(0.165*1000.0*1000.0))-0.5); //theoretically - 1.0 for better rounding it is 0.5
-//#ifdef DEBUG
+#ifdef DEBUG
 		Serial.print("CS (Vsense=1): ");
 		Serial.println(current_scaling);
 	} else {
         Serial.print("CS: ");
         Serial.println(current_scaling);
-//#endif
+#endif
     }
 
 	//do some sanity checks
@@ -638,6 +638,7 @@ void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, un
     if (SG_hysteresis>480) {
         SG_hysteresis=480;
     }
+    //divide by 32
     SG_hysteresis >>=5;
     if (current_decrement_step_size>3) {
         current_decrement_step_size=3;
@@ -660,6 +661,7 @@ void TMC262Stepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, un
         | (((unsigned long)current_increment_step_size)<<13) | (((unsigned long)lower_current_limit)<<15)
         //and of course we have to include the signature of the register
         | COOL_STEP_REGISTER;
+    //Serial.println(cool_step_register_value,HEX);
     if (started) {
         send262(cool_step_register_value);
     }
@@ -892,6 +894,7 @@ int TMC262Stepper::version(void)
 }
 
 void TMC262Stepper::debugLastStatus() {
+#ifdef DEBUG    
 if (this->started) {
 		if (this->getOverTemperature()&TMC262_OVERTEMPERATURE_PREWARING) {
 			Serial.println("WARNING: Overtemperature Prewarning!");
@@ -933,6 +936,7 @@ if (this->started) {
 			Serial.println(current);
 		}
 	}
+#endif
 }
 
 /*
