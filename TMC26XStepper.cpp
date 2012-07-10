@@ -179,9 +179,10 @@ void TMC26XStepper::start() {
 	digitalWrite(cs_pin, HIGH);   
 	
 	//configure the SPI interface
-	//SPI.setBitOrder(MSBFIRST);
-	//SPI.setClockDivider(SPI_CLOCK_DIV8);
-	SPI.setDataMode(SPI_MODE3);
+    SPI.setBitOrder(MSBFIRST);
+	SPI.setClockDivider(SPI_CLOCK_DIV8);
+	//todo this does not work reliably - find a way to foolprof set it (e.g. while communicating
+	//SPI.setDataMode(SPI_MODE3);
 	SPI.begin();
 		
 	//set the initial values
@@ -945,7 +946,14 @@ if (this->started) {
  */
 inline void TMC26XStepper::send262(unsigned long datagram) {
 	unsigned long i_datagram;
+    
+    //preserver the previous spi mode
+    unsigned char oldMode =  SPCR & SPI_MODE_MASK;
 	
+    //if the mode is not correct set it to mode 3
+    if (oldMode != SPI_MODE3) {
+        SPI.setDataMode(SPI_MODE3);
+    }
 	
 	//select the TMC driver
 	digitalWrite(cs_pin,LOW);
@@ -973,6 +981,13 @@ inline void TMC26XStepper::send262(unsigned long datagram) {
 #endif
 	//deselect the TMC chip
 	digitalWrite(cs_pin,HIGH); 
+    
+    //restore the previous SPI mode if neccessary
+    //if the mode is not correct set it to mode 3
+    if (oldMode != SPI_MODE3) {
+        SPI.setDataMode(oldMode);
+    }
+
 	
 	//store the datagram as status result
 	driver_status_result = i_datagram;
