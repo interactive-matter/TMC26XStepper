@@ -37,12 +37,20 @@ DataTable stallGuardTable = new DataTable(numberOfDataPoints);
 DataTable positionTable = new DataTable(numberOfDataPoints);
 DataTable currentTable =  new DataTable(numberOfDataPoints);
 
+int logoLeft = 10;
+int logoTop = 50;
+int logoWidth = 75;
+int logoHeight = 75;
+
 void setupData() {
   plotBottom = height-50;
   plotTop = 300;
 
   plotLeft = 150;
   plotRight= width-50;
+  //recalculate the image dimension for the Logo
+  logoHeight = (int)((float)logoWidth/(float)TMCLogo.width*(float)TMCLogo.height);
+  logoTop = height - 10 - logoHeight;
 }
 
 void drawData() {
@@ -55,9 +63,6 @@ void drawData() {
     rectMode(CORNERS);
     noStroke();
     //rect(plotLeft, plotBottom, plotRight, plotTop);
-
-    //place the logo into the data area
-    image(MCLogo,plotLeft+(plotRight - plotLeft-MCLogo.width)/2,plotBottom+(plotTop - plotBottom-MCLogo.height)/2); 
 
     strokeWeight(dataLineWidth);
     stroke(positionColor);
