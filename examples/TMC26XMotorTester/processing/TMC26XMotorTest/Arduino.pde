@@ -17,7 +17,7 @@ StringBuilder serialStringBuilder = new StringBuilder();
 void setupSerialConfig() {
   Tab defaultTab = controlP5.getTab("default");
   //add the list of serial interfaces - it get's populated later
-  serialButtons = controlP5.addRadioButton("serialport", 200, 100+TMCLogo.height+50);
+  serialButtons = controlP5.addRadioButton("serialport", 200, 100+TMCLogo.height*2+50);
   serialConfigElements.add(serialButtons);
   serialButtons.captionLabel().set("Select Serial Port");
   serialButtons.showBar();
@@ -260,8 +260,11 @@ int getValueOfToken(String token, int position) {
 }
 
 void drawSerial() {
+  //draw the logo and some epxlaining text while setting up the serial port
   if (!motor_connected) {
-    image(TMCLogo,100, 200);
+    image(TMCLogo,200, 100);
+    fill(uiTextColor);
+    text("Select the serial port where your Arduino is connected\nIf in doubt check it in the Arduino IDE.\nThe Motor Tester will automatically verify if it can find an Motor tester ath the port.",200,100+TMCLogo.height+50);
   }
 }
 
