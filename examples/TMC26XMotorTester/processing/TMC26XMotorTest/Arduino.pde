@@ -17,7 +17,7 @@ StringBuilder serialStringBuilder = new StringBuilder();
 void setupSerialConfig() {
   Tab defaultTab = controlP5.getTab("default");
   //add the list of serial interfaces - it get's populated later
-  serialButtons = controlP5.addRadioButton("serialport", 200, 200);
+  serialButtons = controlP5.addRadioButton("serialport", 200, 100+TMCLogo.height+50);
   serialConfigElements.add(serialButtons);
   serialButtons.captionLabel().set("Select Serial Port");
   serialButtons.showBar();
@@ -261,7 +261,7 @@ int getValueOfToken(String token, int position) {
 
 void drawSerial() {
   if (!motor_connected) {
-    image(TMCLogo,0, 0);
+    image(TMCLogo,100, 200);
   }
 }
 
