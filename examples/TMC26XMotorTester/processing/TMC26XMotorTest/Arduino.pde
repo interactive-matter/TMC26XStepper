@@ -259,3 +259,10 @@ int getValueOfToken(String token, int position) {
   }
 }
 
+void drawSerial() {
+  if (!motor_connected) {
+    image(TMCLogo,0, 0);
+  }
+}
+
+

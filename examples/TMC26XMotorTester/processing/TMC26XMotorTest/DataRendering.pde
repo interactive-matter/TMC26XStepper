@@ -56,6 +56,9 @@ void drawData() {
     noStroke();
     //rect(plotLeft, plotBottom, plotRight, plotTop);
 
+    //place the logo into the data area
+    image(TMCLogo,plotLeft+(plotRight - plotLeft-TMCLogo.width)/2,plotBottom+(plotTop - plotBottom-TMCLogo.height)/2); 
+
     strokeWeight(dataLineWidth);
     stroke(positionColor);
     drawDataLine(positionTable, positionMin, positionMax);

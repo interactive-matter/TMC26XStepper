@@ -38,9 +38,14 @@ float maxCurrent = 1.7;
 List controlElements = new LinkedList();
 List serialConfigElements = new LinkedList();
 
+PImage TMCLogo;
+
 void setup() {
   size(1000, 800);
-  //load the font
+  //load the logo
+  TMCLogo=loadImage("tmc_logo.jpg");
+  
+  //create the UI
   controlP5 = new ControlP5(this);
   controlP5.setColor(uiColor);
   runTab = controlP5.getTab("default");
@@ -88,6 +93,7 @@ void toggleUi(boolean show_controls) {
 
 void draw() {
   background(backgroundColor);
+  drawSerial();
   drawChopper();
   drawData();
   decodeSerial();
@@ -116,4 +122,3 @@ void controlEvent(ControlEvent theEvent) {
     println("Tab: "+activeTab.name());
   } 
 }
-
