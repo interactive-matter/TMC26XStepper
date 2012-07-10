@@ -19,8 +19,6 @@ List runControls = new LinkedList();
 
 Button trinamicButton;
 Button motionControlButton;
-String trinamicUrl = "http://trinamic.com";
-String mcUrl = "http://www.motioncontrol-community.org/";
 
 void setupRunConfig() {
   //the run configuration

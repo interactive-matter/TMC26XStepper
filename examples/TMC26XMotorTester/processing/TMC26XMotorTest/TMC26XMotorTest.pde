@@ -5,6 +5,10 @@ ControlP5 controlP5;
 
 Serial arduinoPort;
 
+String helpUrl = "http://www.motioncontrol-community.org/";
+String trinamicUrl = "http://trinamic.com";
+String mcUrl = "http://www.motioncontrol-community.org/";
+
 //TODO comde up with a nice color scheme
 color activeColor = #01ADF1;
 color foreGroundColor = #01ADF1; 

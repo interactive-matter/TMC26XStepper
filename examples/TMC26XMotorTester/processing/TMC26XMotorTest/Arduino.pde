@@ -5,6 +5,7 @@ boolean motor_connected = false;
 
 RadioButton serialButtons;
 Button serialOkButton;
+Button helpButton;
 Textarea statusArea;
 String[] ports;
 int activePortIndex = -1;
@@ -31,6 +32,10 @@ void setupSerialConfig() {
   statusArea = controlP5.addTextarea("statusArea","",200,height-250,300,50);
   serialConfigElements.add(statusArea);
   statusArea.moveTo(defaultTab);
+  
+  helpButton =  controlP5.addButton("help", 1, 200, height-250, 80, 30);
+  serialConfigElements.add(helpButton);
+  helpButton.moveTo(defaultTab);
   
 
   //finally update the list of serial ports
@@ -268,4 +273,10 @@ void drawSerial() {
   }
 }
 
+void help(float value) {
+  if (value!=0) {
+    link(helpUrl);
+  }
+  print ("h"+value);
+}
 
