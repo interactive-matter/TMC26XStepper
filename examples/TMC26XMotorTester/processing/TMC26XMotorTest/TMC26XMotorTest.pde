@@ -39,11 +39,13 @@ List controlElements = new LinkedList();
 List serialConfigElements = new LinkedList();
 
 PImage TMCLogo;
+PImage MCLogo;
 
 void setup() {
   size(1000, 800);
-  //load the logo
+  //load the logos
   TMCLogo=loadImage("tmc_logo.jpg");
+  MCLogo=loadImage("mc_logo.jpg");
   
   //create the UI
   controlP5 = new ControlP5(this);
