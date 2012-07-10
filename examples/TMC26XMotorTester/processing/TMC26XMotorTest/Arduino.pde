@@ -277,6 +277,5 @@ void help(float value) {
   if (value!=0) {
     link(helpUrl);
   }
-  print ("h"+value);
 }
 
