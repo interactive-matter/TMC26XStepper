@@ -194,6 +194,14 @@ void TMC26XStepper::start() {
 }
 
 /*
+ Mark the driver as unstarted to be able to start it again
+ */
+void TMC26XStepper::un_start() {
+    started=false;
+}
+
+
+/*
   Sets the speed in revs per minute
 
 */

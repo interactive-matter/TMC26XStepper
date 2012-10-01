@@ -131,6 +131,19 @@ class TMC26XStepper {
      * Therefore it is best to call this in your Arduino setup() function.
      */
 	void start();
+    
+    /*!
+     * \brief resets the stepper in unconfigured mode.
+     *
+     * This routine enables you to call start again. It does not change anything 
+     * in the internal stepper configuration or the desired configuration.
+     * It just marks the stepper as not yet startet. You do not have to reconfigure
+     * the stepper to start it again, but it is not reset to any factory settings
+     * this has to be configured back by yourself
+     * (Hint: Normally you do not need this function)
+     */
+	void un_start();
+
 
     /*!
      * \brief Sets the rotation speed in revolutions per minute.
