@@ -1,11 +1,11 @@
 unsigned int motor_counter = 0;
 unsigned char motor_moved = 0;
-int sgTreshold = 4;
+int sgThreshold = 4;
 int sgFilter = 0;
 int direction = 1;
 
-unsigned int lower_SG_treshhold = 0;
-unsigned int upper_SG_treshhold = 0;
+unsigned int lower_SG_threshold = 0;
+unsigned int upper_SG_threshold = 0;
 unsigned char number_of_SG_readings=0;
 unsigned char current_increment_step_size=0;
 unsigned char lower_current_limit=0;
@@ -26,7 +26,7 @@ void startMotor() {
   tmc26XStepper.setRandomOffTime(0);
 
   tmc26XStepper.setMicrosteps(32);
-  tmc26XStepper.setStallGuardTreshold(sgTreshold,sgFilter);
+  tmc26XStepper.setStallGuardThreshold(sgThreshold,sgFilter);
   //  Serial.println("config finished, starting");
   digitalWrite(ENABLE_PIN,LOW);
   tmc26XStepper.start();
@@ -68,14 +68,14 @@ void setMicrostepping(int microstepping) {
   }
 }
 
-void setStallGuardTreshold(int treshold) {
-  if (treshold<-64 || treshold > 63) {
-    Serial.print(F("Improper Stall Guard Treshold [-64...63]: "));
-    Serial.println(treshold);
+void setStallGuardThreshold(int threshold) {
+  if (threshold<-64 || threshold > 63) {
+    Serial.print(F("Improper Stall Guard Threshold [-64...63]: "));
+    Serial.println(threshold);
   } 
   else {
-    sgTreshold = treshold;
-    tmc26XStepper.setStallGuardTreshold(treshold,sgFilter);
+    sgThreshold = threshold;
+    tmc26XStepper.setStallGuardThreshold(threshold,sgFilter);
   }
 }
 
@@ -86,7 +86,7 @@ void setStallGuardFilter(int filter) {
   else {
     sgFilter=0;
   }
-  tmc26XStepper.setStallGuardTreshold(sgTreshold,sgFilter);
+  tmc26XStepper.setStallGuardThreshold(sgThreshold,sgFilter);
 }
 
 void setCurrent(int current) {
@@ -108,7 +108,7 @@ void updateChopper() {
 
 void updateCoolStep() {
   tmc26XStepper.setCoolStepConfiguration(
-    lower_SG_treshhold, upper_SG_treshhold, number_of_SG_readings,
+    lower_SG_threshold, upper_SG_threshold, number_of_SG_readings,
     current_increment_step_size, lower_current_limit);
 }
 

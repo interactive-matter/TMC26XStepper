@@ -65,7 +65,7 @@ void loopSerial() {
     Serial.print(tmc26XStepper.getMicrosteps(),DEC);
     Serial.print(',');
     Serial.print("t");
-    Serial.print(tmc26XStepper.getStallGuardTreshold(),DEC);
+    Serial.print(tmc26XStepper.getStallGuardThreshold(),DEC);
     Serial.print(',');
     Serial.print('f');
     Serial.print(tmc26XStepper.getStallGuardFilter(),DEC);
@@ -78,9 +78,9 @@ void loopSerial() {
       Serial.print("Ke-,");
     }
     Serial.print("Kl");
-    Serial.print(tmc26XStepper.getCoolStepLowerSgTreshhold(),DEC);
+    Serial.print(tmc26XStepper.getCoolStepLowerSgThreshold(),DEC);
     Serial.print(",Ku");
-    Serial.print(tmc26XStepper.getCoolStepUpperSgTreshhold(),DEC);
+    Serial.print(tmc26XStepper.getCoolStepUpperSgThreshold(),DEC);
     Serial.print(",Kn");
     Serial.print(tmc26XStepper.getCoolStepNumberOfSGReadings(),DEC);
     Serial.print(",Ki");
@@ -169,8 +169,8 @@ void executeSerialCommand() {
     break;
   case 't':
     {
-      int treshold = decode(1);
-      setStallGuardTreshold(treshold);
+      int threshold = decode(1);
+      setStallGuardThreshold(threshold);
     }
     break;
   case 'f':
@@ -269,7 +269,7 @@ void executeSerialCommand() {
       {
         int value = decode(2);
         if (value>=0 && value<480) {
-          lower_SG_treshhold=value;
+          lower_SG_threshold=value;
           updateCoolStep();
         }
       }
@@ -278,7 +278,7 @@ void executeSerialCommand() {
       {
         int value = decode(2);
         if (value>=0 && value<480) {
-          upper_SG_treshhold=value;
+          upper_SG_threshold=value;
           updateCoolStep();
         }
       }

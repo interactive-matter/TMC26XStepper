@@ -27,14 +27,14 @@ setSpreadCycleChopper		KEYWORD2
 setRandomOffTime		KEYWORD2
 setCurrent			KEYWORD2
 getCurrent			KEYWORD2
-setStallGuardTreshold		KEYWORD2
-getStallGuardTreshold		KEYWORD2
+setStallGuardThreshold		KEYWORD2
+getStallGuardThreshold		KEYWORD2
 getStallGuardFilter		KEYWORD2
 setCoolStepConfiguration	KEYWORD2
 setCoolStepEnabled		KEYWORD2
 isCoolStepEnabled		KEYWORD2
-getCoolStepLowerSgTreshhold	KEYWORD2
-getCoolStepUpperSgTreshhold	KEYWORD2
+getCoolStepLowerSgThreshold	KEYWORD2
+getCoolStepUpperSgThreshold	KEYWORD2
 getCoolStepNumberOfSGReadings	KEYWORD2
 getCoolStepCurrentIncrementSize	KEYWORD2
 getCoolStepLowerCurrentLimit	KEYWORD2
@@ -43,7 +43,7 @@ getCurrentStallGuardReading	KEYWORD2
 getCurrentCSReading		KEYWORD2
 isCurrentScalingHalfed		KEYWORD2
 getCurrentCurrent		KEYWORD2
-isStallGuardOverTreshold	KEYWORD2
+isStallGuardOverThreshold	KEYWORD2
 getOverTemperature		KEYWORD2
 isShortToGroundA		KEYWORD2
 isShortToGroundB		KEYWORD2
@@ -70,6 +70,6 @@ TMC262_OVERTEMPERATURE_PREWARING	LITERAL1
 TMC262_OVERTEMPERATURE_SHUTDOWN 	LITERAL1
 TMC262_READOUT_POSITION 		LITERAL1
 TMC262_READOUT_STALLGUARD 		LITERAL1
-TMC262_READOUT_CURRENT 			LITERAL1
-COOL_STEP_HALF_CS_LIMIT			LITERAL1
+TMC262_READOUT_CURRENT 		LITERAL1
+COOL_STEP_HALF_CS_LIMIT		LITERAL1
 COOL_STEP_QUARTDER_CS_LIMIT		LITERAL1

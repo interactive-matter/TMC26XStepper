@@ -68,7 +68,7 @@ void setupRunConfig() {
   controlElements.add(currentSlider);
   currentSlider.moveTo(runTab);
 
-  // add a vertical slider for stallGuard treshold  
+  // add a vertical slider for stallGuard threshold  
   sgtPlus = controlP5.addButton("sgtplus", 0, 400, 40, 20, 20);
   controlElements.add(sgtPlus);
   sgtPlus.setCaptionLabel("+");
@@ -77,10 +77,10 @@ void setupRunConfig() {
   controlElements.add(sgtMinus);
   sgtMinus.setCaptionLabel("-");
   sgtMinus.moveTo(runTab);
-  sgtSlider = controlP5.addSlider("stallguardtreshold", -64, 63, 0, 350, 40, 20, 150);
+  sgtSlider = controlP5.addSlider("stallguardthreshold", -64, 63, 0, 350, 40, 20, 150);
   controlElements.add(sgtSlider);
   sgtSlider.setSliderMode(Slider.FIX);
-  sgtSlider.setCaptionLabel("Stall Guard Treshold");
+  sgtSlider.setCaptionLabel("Stall Guard Threshold");
   sgtSlider.moveTo(runTab);
   //ading some buttons to have finer sg control
   //adding a button for the filter
@@ -193,9 +193,9 @@ void microstepping(int value) {
   }
 }
 
-void stallguardtreshold(int value) {
+void stallguardthreshold(int value) {
   if (!settingStatus) {
-    println("stall guard treshold: "+value);
+    println("stall guard threshold: "+value);
     sendCommand("t"+value);
   }
   if (value==sgtSlider.max()) {

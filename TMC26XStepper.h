@@ -139,7 +139,7 @@ class TMC26XStepper {
      * in the internal stepper configuration or the desired configuration.
      * It just marks the stepper as not yet startet. You do not have to reconfigure
      * the stepper to start it again, but it is not reset to any factory settings
-     * this has to be configured back by yourself
+     * this has to be configured back by yourself.
      * (Hint: Normally you do not need this function)
      */
 	void un_start();
@@ -166,6 +166,7 @@ class TMC26XStepper {
      * You can always check the current microstepping with getMicrosteps(). 
      */ 
 	void setMicrosteps(int number_of_steps);
+    
 	/*!
      * \brief returns the effective current number of microsteps selected.
      *
@@ -319,11 +320,11 @@ class TMC26XStepper {
     unsigned int getCurrent(void);
     
 	/*!
-     * \brief set the StallGuard treshold in order to get sensible StallGuard readings.
-     * \param stall_guard_treshold -64 … 63 the StallGuard treshold
+     * \brief set the StallGuard threshold in order to get sensible StallGuard readings.
+     * \param stall_guard_threshold -64 … 63 the StallGuard threshold
      * \param stall_guard_filter_enabled 0 if the filter is disabled, -1 if it is enabled
      *
-     * The StallGuard treshold is used to optimize the StallGuard reading to sensible values. It should be at 0 at
+     * The StallGuard threshold is used to optimize the StallGuard reading to sensible values. It should be at 0 at
      * the maximum allowable load on the otor (but not before). = is a good starting point (and the default)
      * If you get Stall Gaurd readings of 0 without any load or with too little laod increase the value.
      * If you get readings of 1023 even with load decrease the setting.
@@ -333,13 +334,13 @@ class TMC26XStepper {
      * 
      * \sa getCurrentStallGuardReading() to read out the current value.
      */ 
-	void setStallGuardTreshold(char stall_guard_treshold, char stall_guard_filter_enabled);
+	void setStallGuardThreshold(char stall_guard_threshold, char stall_guard_filter_enabled);
     
     /*!
-     * \brief reads out the StallGuard treshold
+     * \brief reads out the StallGuard threshold
      * \return a number between -64 and 63.
      */
-    char getStallGuardTreshold(void);
+    char getStallGuardThreshold(void);
     
     /*!
      * \brief returns the current setting of the StallGuard filter
@@ -349,22 +350,22 @@ class TMC26XStepper {
     
     /*!
      * \brief This method configures the CoolStep smart energy operation. You must have a proper StallGuard configuration for the motor situation (current, voltage, speed) in rder to use this feature.
-     * \param lower_SG_treshhold Sets the lower threshold for stallGuard2TM reading. Below this value, the motor current becomes increased. Allowed values are 0...480
-     * \param SG_hysteresis Sets the distance between the lower and the upper threshold for stallGuard2TM reading. Above the upper threshold (which is lower_SG_treshhold+SG_hysteresis+1) the motor current becomes decreased. Allowed values are 0...480
-     * \param current_decrement_step_size Sets the current decrement steps. If the StallGuard value is above the treshhold the current gets decremented by this step size. 0...32
+     * \param lower_SG_threshold Sets the lower threshold for stallGuard2TM reading. Below this value, the motor current becomes increased. Allowed values are 0...480
+     * \param SG_hysteresis Sets the distance between the lower and the upper threshold for stallGuard2TM reading. Above the upper threshold (which is lower_SG_threshold+SG_hysteresis+1) the motor current becomes decreased. Allowed values are 0...480
+     * \param current_decrement_step_size Sets the current decrement steps. If the StallGuard value is above the threshold the current gets decremented by this step size. 0...32
      * \param current_increment_step_size Sets the current increment step. The current becomes incremented for each measured stallGuard2TM value below the lower threshold. 0...8
      * \param lower_current_limit Sets the lower motor current limit for coolStepTM operation by scaling the CS value. Values can be COOL_STEP_HALF_CS_LIMIT, COOL_STEP_QUARTER_CS_LIMIT
      * The CoolStep smart energy operation automatically adjust the current sent into the motor according to the current load,
      * read out by the StallGuard in order to provide the optimum torque with the minimal current consumption.
      * You configure the CoolStep current regulator by defining upper and lower bounds of StallGuard readouts. If the readout is above the 
      * limit the current gets increased, below the limit the current gets decreased.
-     * You can specify the upper an lower treshhold of the StallGuard readout in order to adjust the current. You can also set the number of
+     * You can specify the upper an lower threshold of the StallGuard readout in order to adjust the current. You can also set the number of
      * StallGuard readings neccessary above or below the limit to get a more stable current adjustement.
      * The current adjustement itself is configured by the number of steps the current gests in- or decreased and the absolut minimum current
      * (1/2 or 1/4th otf the configured current).
      * \sa COOL_STEP_HALF_CS_LIMIT, COOL_STEP_QUARTER_CS_LIMIT
      */
-    void setCoolStepConfiguration(unsigned int lower_SG_treshhold, unsigned int SG_hysteresis, unsigned char current_decrement_step_size,
+    void setCoolStepConfiguration(unsigned int lower_SG_threshold, unsigned int SG_hysteresis, unsigned char current_decrement_step_size,
                                   unsigned char current_increment_step_size, unsigned char lower_current_limit);
     
     /*!
@@ -382,16 +383,16 @@ class TMC26XStepper {
     boolean isCoolStepEnabled();
 
     /*!
-     * \brief returns the lower StallGuard treshhold for the CoolStep operation
+     * \brief returns the lower StallGuard threshold for the CoolStep operation
      * \sa setCoolStepConfiguration()
      */
-    unsigned int getCoolStepLowerSgTreshhold();
+    unsigned int getCoolStepLowerSgThreshold();
     
     /*!
-     * \brief returns the upper StallGuard treshhold for the CoolStep operation
+     * \brief returns the upper StallGuard threshold for the CoolStep operation
      * \sa setCoolStepConfiguration()
      */
-    unsigned int getCoolStepUpperSgTreshhold();
+    unsigned int getCoolStepUpperSgThreshold();
     
     /*!
      * \brief returns the number of StallGuard readings befor CoolStep adjusts the motor current.
@@ -424,7 +425,7 @@ class TMC26XStepper {
      * \brief Reads the current StallGuard value.
      * \return The current StallGuard value, lesser values indicate higher load, 0 means stall detected.
      * Keep in mind that this routine reads and writes a value via SPI - so this may take a bit time.
-     * \sa setStallGuardTreshold() for tuning the readout to sensible ranges.
+     * \sa setStallGuardThreshold() for tuning the readout to sensible ranges.
      */
 	int getCurrentStallGuardReading(void);
     
@@ -457,9 +458,9 @@ class TMC26XStepper {
      * Keep in mind that this method does not enforce a readout but uses the value of the last status readout.
      * You may want to use getMotorPosition() or getCurrentStallGuardReading() to enforce an updated status readout.
      *
-     * \sa setStallGuardTreshold() for tuning the readout to sensible ranges.
+     * \sa setStallGuardThreshold() for tuning the readout to sensible ranges.
      */
-	boolean isStallGuardOverTreshold(void);
+	boolean isStallGuardOverThreshold(void);
     
     /*!
      * \brief Return over temperature status of the last status readout
@@ -515,10 +516,10 @@ class TMC26XStepper {
      * Keep in mind that this method does not enforce a readout but uses the value of the last status readout.
      * You may want to use getMotorPosition() or getCurrentStallGuardReading() to enforce an updated status readout.
      *
-     * \sa isStallGuardOverTreshold()
+     * \sa isStallGuardOverThreshold()
      * TODO why?
      *
-     * \sa setStallGuardTreshold() for tuning the readout to sensible ranges.
+     * \sa setStallGuardThreshold() for tuning the readout to sensible ranges.
      */
 	boolean isStallGuardReached(void);
     
@@ -595,7 +596,7 @@ class TMC26XStepper {
 	boolean started; //if the stepper has been started yet
 	int microsteps; //the current number of micro steps
     char constant_off_time; //we need to remember this value in order to enable and disable the motor
-    unsigned char cool_step_lower_treshhold; // we need to remember the treshhold to enable and disable the CoolStep feature
+    unsigned char cool_step_lower_threshold; // we need to remember the threshold to enable and disable the CoolStep feature
     boolean cool_step_enabled; //we need to remember this to configure the coolstep if it si enabled
 	
 	//SPI sender

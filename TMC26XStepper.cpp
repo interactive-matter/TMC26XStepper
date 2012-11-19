@@ -343,34 +343,34 @@ unsigned int TMC26XStepper::getCurrent(void) {
     return (unsigned int)result;
 }
 
-void TMC26XStepper::setStallGuardTreshold(char stall_guard_treshold, char stall_guard_filter_enabled) {
-	if (stall_guard_treshold<-64) {
-		stall_guard_treshold = -64;
+void TMC26XStepper::setStallGuardThreshold(char stall_guard_threshold, char stall_guard_filter_enabled) {
+	if (stall_guard_threshold<-64) {
+		stall_guard_threshold = -64;
 	//We just have 5 bits	
-	} else if (stall_guard_treshold > 63) {
-		stall_guard_treshold = 63;
+	} else if (stall_guard_threshold > 63) {
+		stall_guard_threshold = 63;
 	}
 	//add trim down to 7 bits
-	stall_guard_treshold &=0x7f;
+	stall_guard_threshold &=0x7f;
 	//delete old stall guard settings
 	stall_guard2_current_register_value &= ~(STALL_GUARD_CONFIG_PATTERN);
 	if (stall_guard_filter_enabled) {
 		stall_guard2_current_register_value |= STALL_GUARD_FILTER_ENABLED;
 	}
-	//Set the new stall guard treshold
-	stall_guard2_current_register_value |= (((unsigned long)stall_guard_treshold << 8) & STALL_GUARD_CONFIG_PATTERN);
+	//Set the new stall guard threshold
+	stall_guard2_current_register_value |= (((unsigned long)stall_guard_threshold << 8) & STALL_GUARD_CONFIG_PATTERN);
 	//if started we directly send it to the motor
 	if (started) {
 		send262(stall_guard2_current_register_value);
 	}
 }
 
-char TMC26XStepper::getStallGuardTreshold(void) {
-    unsigned long stall_guard_treshold = stall_guard2_current_register_value & STALL_GUARD_VALUE_PATTERN;
+char TMC26XStepper::getStallGuardThreshold(void) {
+    unsigned long stall_guard_threshold = stall_guard2_current_register_value & STALL_GUARD_VALUE_PATTERN;
     //shift it down to bit 0
-    stall_guard_treshold >>=8;
+    stall_guard_threshold >>=8;
     //convert the value to an int to correctly handle the negative numbers
-    char result = stall_guard_treshold;
+    char result = stall_guard_threshold;
     //check if it is negative and fill it up with leading 1 for proper negative number representation
     if (result & _BV(6)) {
         result |= 0xC0;
@@ -633,14 +633,14 @@ void TMC26XStepper::setRandomOffTime(char value) {
 	}	
 }	
 
-void TMC26XStepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, unsigned int SG_hysteresis, unsigned char current_decrement_step_size,
+void TMC26XStepper::setCoolStepConfiguration(unsigned int lower_SG_threshold, unsigned int SG_hysteresis, unsigned char current_decrement_step_size,
                               unsigned char current_increment_step_size, unsigned char lower_current_limit) {
     //sanitize the input values
-    if (lower_SG_treshhold>480) {
-        lower_SG_treshhold = 480;
+    if (lower_SG_threshold>480) {
+        lower_SG_threshold = 480;
     }
     //divide by 32
-    lower_SG_treshhold >>=5;
+    lower_SG_threshold >>=5;
     if (SG_hysteresis>480) {
         SG_hysteresis=480;
     }
@@ -656,14 +656,14 @@ void TMC26XStepper::setCoolStepConfiguration(unsigned int lower_SG_treshhold, un
         lower_current_limit=1;
     }
     //store the lower level in order to enable/disable the cool step
-    this->cool_step_lower_treshhold=lower_SG_treshhold;
+    this->cool_step_lower_threshold=lower_SG_threshold;
     //if cool step is not enabled we delete the lower value to keep it disabled
     if (!this->cool_step_enabled) {
-        lower_SG_treshhold=0;
+        lower_SG_threshold=0;
     }
     //the good news is that we can start with a complete new cool step register value
     //and simply set the values in the register
-    cool_step_register_value = ((unsigned long)lower_SG_treshhold) | (((unsigned long)SG_hysteresis)<<8) | (((unsigned long)current_decrement_step_size)<<5)
+    cool_step_register_value = ((unsigned long)lower_SG_threshold) | (((unsigned long)SG_hysteresis)<<8) | (((unsigned long)current_decrement_step_size)<<5)
         | (((unsigned long)current_increment_step_size)<<13) | (((unsigned long)lower_current_limit)<<15)
         //and of course we have to include the signature of the register
         | COOL_STEP_REGISTER;
@@ -678,7 +678,7 @@ void TMC26XStepper::setCoolStepEnabled(boolean enabled) {
     cool_step_register_value &= ~SE_MIN_PATTERN;
     //and set it to the proper value if cool step is to be enabled
     if (enabled) {
-        cool_step_register_value |=this->cool_step_lower_treshhold;
+        cool_step_register_value |=this->cool_step_lower_threshold;
     }
     //and save the enabled status
     this->cool_step_enabled = enabled;
@@ -692,12 +692,12 @@ boolean TMC26XStepper::isCoolStepEnabled(void) {
     return this->cool_step_enabled;
 }
 
-unsigned int TMC26XStepper::getCoolStepLowerSgTreshhold() {
+unsigned int TMC26XStepper::getCoolStepLowerSgThreshold() {
     //we return our internally stored value - in order to provide the correct setting even if cool step is not enabled
-    return this->cool_step_lower_treshhold<<5;
+    return this->cool_step_lower_threshold<<5;
 }
 
-unsigned int TMC26XStepper::getCoolStepUpperSgTreshhold() {
+unsigned int TMC26XStepper::getCoolStepUpperSgThreshold() {
     return (unsigned char)((cool_step_register_value & SE_MAX_PATTERN)>>8)<<5;
 }
 
@@ -798,9 +798,9 @@ unsigned int TMC26XStepper::getCurrentCurrent(void) {
 }
 
 /*
- return true if the stallguard treshold has been reached
+ return true if the stallguard threshold has been reached
 */
-boolean TMC26XStepper::isStallGuardOverTreshold(void) {
+boolean TMC26XStepper::isStallGuardOverThreshold(void) {
 	if (!this->started) {
 		return false;
 	}

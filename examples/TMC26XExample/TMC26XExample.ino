@@ -20,7 +20,7 @@ void setup() {
   tmc26XStepper.setRandomOffTime(0);
   
   tmc26XStepper.setMicrosteps(32);
-  tmc26XStepper.setStallGuardTreshold(4,0);
+  tmc26XStepper.setStallGuardThreshold(4,0);
   Serial.println("config finished, starting");
   tmc26XStepper.start();
   Serial.println("started");
