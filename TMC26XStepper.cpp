@@ -1,5 +1,5 @@
 /*
- TMC26XStepper.cpp - - TMC26X Stepper library for Wiring/Arduino - Version 0.1
+ TMC26XStepper.cpp - - TMC26X Stepper library for Wiring/Arduino
  
  based on the stepper library by Tom Igoe, et. al.
  
