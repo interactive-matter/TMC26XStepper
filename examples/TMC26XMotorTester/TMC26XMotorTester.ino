@@ -37,7 +37,7 @@
 #define MAX_SPEED 1000
 
 
-//we have a stepper motor with 200 steps per rotation, CS pin 2, dir pin 3, step pin 4 and a current of 300mA
+//we have a stepper motor with 200 steps per rotation, CS pin 2, dir pin 3, step pin 4 and a current of 500mA
 TMC26XStepper tmc26XStepper = TMC26XStepper(200,CS_PIN,DIR_PIN,STEP_PIN,INITIAL_CURRENT);
 char running;
 
