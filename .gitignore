@@ -11,3 +11,6 @@ examples/TMC26XMotorTester/processing/TMC26XMotorTest/application.*/
 examples/TMC26XMotorTester/processing/TMC26XMotorTest/application.*
 
 *.zip
+
+# backup files
+*~
