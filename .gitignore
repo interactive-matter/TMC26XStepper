@@ -10,6 +10,10 @@ generated/
 examples/TMC26XMotorTester/processing/TMC26XMotorTest/application.*/
 examples/TMC26XMotorTester/processing/TMC26XMotorTest/application.*
 
+#eagle stuff
+schematics/*.b#?
+schematics/*.s#?
+
 *.zip
 
 # backup files
