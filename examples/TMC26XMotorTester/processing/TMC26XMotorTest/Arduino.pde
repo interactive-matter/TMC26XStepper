@@ -28,7 +28,6 @@ String channelBStatus=null;
 String temperatureStatus=null;
 boolean motor_connected = false;
 
-Textlabel serialLabel;
 RadioButton serialButtons;
 Button serialOkButton;
 Button helpButton;
@@ -44,11 +43,10 @@ StringBuilder serialStringBuilder = new StringBuilder();
 void setupSerialConfig() {
   Tab defaultTab = controlP5.getTab("default");
   //add the list of serial interfaces - it get's populated later
-  serialLabel = controlP5.addTextlabel("selectportlabel","Select Serial Port",200,100+TMCLogo.height*2+25); 
-  serialLabel.setColor(0);
-  
   serialButtons = controlP5.addRadioButton("serialport", 200, 100+TMCLogo.height*2+50);
   serialConfigElements.add(serialButtons);
+  serialButtons.captionLabel().set("Select Serial Port");
+  serialButtons.showBar();
   serialButtons.moveTo(defaultTab);
   //ad the ok button
   serialOkButton = controlP5.addButton("serialOk", 1, 200, height-300, 30, 30);
@@ -292,7 +290,7 @@ int getValueOfToken(String token, int position) {
 }
 
 void drawSerial() {
-  //draw the logo and some explaining text while setting up the serial port
+  //draw the logo and some epxlaining text while setting up the serial port
   if (!motor_connected) {
     image(TMCLogo,200, 100);
     fill(uiTextColor);

@@ -26,9 +26,9 @@
 #include <TMC26XStepper.h>
 
 //you may adapt this to your shield or breakout board connection
-#define CS_PIN 10
-#define DIR_PIN 7
-#define STEP_PIN 4
+#define CS_PIN 2
+#define DIR_PIN 6
+#define STEP_PIN 7
 //if it is not connected it won't be a problem
 // Comment the line if you do not have an enable pin assigned, or the 
 // enable pin collides with any of your boards CS pins
