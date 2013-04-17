@@ -50,7 +50,6 @@ void setup() {
   pinMode(ENABLE_PIN, OUTPUT);
   digitalWrite(ENABLE_PIN,HIGH);
   #endif
-  // SPI.setClockDivider(SPI_CLOCK_DIV128);
   startSerial();
   startMotor();
   //set this according to you stepper
