@@ -29,7 +29,10 @@
 #define CS_PIN 2
 #define DIR_PIN 6
 #define STEP_PIN 7
-#define ENABLE_PIN 8 //if it is not connected it won't be a problem
+//if it is not connected it won't be a problem
+// Comment the line if you do not have an enable pin assigned, or the 
+// enable pin collides with any of your boards CS pins
+#define ENABLE_PIN 8
 
 
 #define TIMER_CLOCK_FREQ 2000000.0 //2MHz for /8 prescale from 16MHz
@@ -43,9 +46,10 @@ char running;
 
 void setup() {
   //configure the enable pin
+  #ifdef ENABLE_PIN
   pinMode(ENABLE_PIN, OUTPUT);
   digitalWrite(ENABLE_PIN,HIGH);
-
+  #endif
   startSerial();
   startMotor();
   //set this according to you stepper
