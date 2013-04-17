@@ -24,6 +24,8 @@
  */
 import controlP5.*;
 import processing.serial.*;
+import java.util.*;
+import java.text.*;
 
 ControlP5 controlP5;
 
@@ -72,8 +74,8 @@ PImage MCLogo;
 void setup() {
   size(1000, 800);
   //load the logos
-  TMCLogo=loadImage("tmc_logo.jpg");
-  MCLogo=loadImage("mc_logo.jpg");
+  TMCLogo=loadImage("tmc_logo.png");
+  MCLogo=loadImage("mc_logo.png");
   
   //create the UI
   controlP5 = new ControlP5(this);

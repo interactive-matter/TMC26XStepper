@@ -52,7 +52,9 @@ void startMotor() {
   tmc26XStepper.setMicrosteps(32);
   tmc26XStepper.setStallGuardThreshold(sgThreshold,sgFilter);
   //  Serial.println("config finished, starting");
+  #ifdef ENABLE_PIN
   digitalWrite(ENABLE_PIN,LOW);
+  #endif
   tmc26XStepper.start();
   tmc26XStepper.setSpeed(10);
   TCNT2=setupTimer2(10000);
