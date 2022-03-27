@@ -1,0 +1,13 @@
+{
+	"name": "TMC26XStepper",
+	"version": "0.1.1",
+	"keywords": "TMC, Trinamic, stepper, driver, SPI, UART, TMC2660",
+	"description": "Arduino library for configuring Trinamic TMC26xx stepper drivers.",
+	"repository":
+	{
+		"type": "git",
+		"url": "https://github.com/interactive-matter/TMC26XStepper.git"
+	},
+	"frameworks": "arduino",
+	"platforms": "*"
+}

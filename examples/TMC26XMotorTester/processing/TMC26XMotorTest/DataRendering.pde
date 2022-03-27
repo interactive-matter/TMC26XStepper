@@ -1,26 +1,26 @@
-/*
- TMC26XMotorTest.pde - - TMC26X Stepper Tester for Processing
- 
- Copyright (c) 2011, Interactive Matter, Marcus Nowotny
- 
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
- 
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
- 
+/**
+ * TMC26XMotorTest.pde - TMC26X Stepper Tester for Processing
+ *
+ * Copyright (c) 2011, Interactive Matter, Marcus Nowotny
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
  */
 
 //our graph dimensions
@@ -103,9 +103,9 @@ void drawData() {
     stroke(stallGuardColor);
     drawDataPoints(stallGuardTable, stallGuardMin, stallGuardMax);
     drawDataHighLight(stallGuardTable, stallGuardMin, stallGuardMax, stallGuardHighLightDistance, labelColor, "Stall Guard", true);
-    
+
     if (coolStepActive) {
-      strokeWeight(coolStepActiveStroke); 
+      strokeWeight(coolStepActiveStroke);
     } else {
       strokeWeight(coolStepInactiveStroke);
     }
@@ -127,22 +127,22 @@ void drawData() {
     for (int i=0; i<=currentScaleMax; i++) {
       float y = map(i, 0, currentScaleMax, plotBottom, plotTop);
       if (i % currentLabelInterval == 0) {
-        if (i==0) {
+        if (i == 0) {
           textAlign(RIGHT, BOTTOM);
-        } 
-        else if (i==currentScaleMax) {
+        }
+        else if (i == currentScaleMax) {
           textAlign(RIGHT, TOP);
-        } 
+        }
         else {
           textAlign(RIGHT, CENTER);
-        }        
+        }
         text(currentLabelFormat.format((float)i/1000.0), plotLeft-58, y);
         line (plotLeft-55, y, plotLeft-50, y);
-      } 
+      }
       else if (i % currentMinorTickInterval == 0) {
         line (plotLeft-53, y, plotLeft-50, y);
       }
-      
+
     }
 
     textSize(legendTitleSize);
@@ -156,18 +156,18 @@ void drawData() {
     for (int i=stallGuardMin; i<=stallGuardMax; i++) {
       float y = map(i, stallGuardMin, stallGuardMax, plotBottom, plotTop);
       if (i % stallGuardLabelInterval == 0) {
-        if (i==stallGuardMin) {
+        if (i == stallGuardMin) {
           textAlign(RIGHT, BOTTOM);
-        } 
-        else if (i==stallGuardMax) {
+        }
+        else if (i == stallGuardMax) {
           textAlign(RIGHT, TOP);
-        } 
+        }
         else {
           textAlign(RIGHT, CENTER);
-        }        
+        }
         text(i, plotLeft-8, y);
         line (plotLeft-5, y, plotLeft, y);
-      } 
+      }
       else if (i % stallGuardMinorTickInterval == 0) {
         line (plotLeft-3, y, plotLeft, y);
       }
@@ -184,18 +184,18 @@ void drawData() {
     for (int i=positionMin; i<=positionMax; i++) {
       float y = map(i, positionMin, positionMax, plotBottom, plotTop);
       if (i % positionLabelInterval == 0) {
-        if (i==positionMin) {
+        if (i == positionMin) {
           textAlign(LEFT, BOTTOM);
-        } 
-        else if (i==stallGuardMax) {
+        }
+        else if (i == stallGuardMax) {
           textAlign(LEFT, TOP);
-        } 
+        }
         else {
           textAlign(LEFT, CENTER);
-        }        
+        }
         text(i, plotRight+8, y);
         line (plotRight, y, plotRight+5, y);
-      } 
+      }
       else if (i % positionMinorTickInterval == 0) {
         line (plotRight, y, plotRight+3, y);
       }
@@ -208,26 +208,26 @@ void drawData() {
     int channelAX = width/4;
     int temperatureX = width/2;
     int channelBX = width/4*3;
-    if (channelAStatus==null) {
+    if (channelAStatus == null) {
       fill(goodStatusColor);
       text("Channel A: OK", channelAX, statusY);
-    } 
+    }
     else {
       fill(badStatusColor);
       text("Channel A: "+channelAStatus, channelAX, statusY);
-    }    
-    if (channelBStatus==null) {
+    }
+    if (channelBStatus == null) {
       fill(goodStatusColor);
       text("Channel B: OK", channelBX, statusY);
-    } 
+    }
     else {
       fill(badStatusColor);
       text("Channel B: "+channelBStatus, channelBX, statusY);
-    }    
-    if (temperatureStatus==null) {
+    }
+    if (temperatureStatus == null) {
       fill(goodStatusColor);
       text("Temperature: OK", temperatureX, statusY);
-    } 
+    }
     else {
       fill(badStatusColor);
       text("Temperature: "+temperatureStatus, temperatureX, statusY);
@@ -270,7 +270,7 @@ void drawDataHighLight(DataTable table, int minValue, int maxValue, int distance
       textAlign(CENTER);
       if (top) {
         text(name+": "+value, x, y-8);
-      } 
+      }
       else {
         text(name+": "+value, x, y+8);
       }
@@ -305,7 +305,7 @@ void drawCurrentHighLight(DataTable table, int distance, color textColor, String
       textAlign(CENTER);
       if (top) {
         text(name+": "+value, x, y-8);
-      } 
+      }
       else {
         text(name+": "+value, x, y+8);
       }

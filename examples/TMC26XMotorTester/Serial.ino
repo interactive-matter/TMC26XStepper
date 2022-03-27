@@ -1,26 +1,26 @@
-/*
- TMC26XMotorTest.ino - - TMC26X Stepper library tester for Wiring/Arduino
- 
- Copyright (c) 2011, Interactive Matter, Marcus Nowotny
- 
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
- 
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
- 
+/**
+ * TMC26XMotorTest.ino - TMC26X Stepper library tester for Wiring/Arduino
+ *
+ * Copyright (c) 2011, Interactive Matter, Marcus Nowotny
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
  */
  #define INPUT_BUFFER_LENGTH 32
 
@@ -51,8 +51,8 @@ void loopSerial() {
     //always terminate the string
     inputBuffer[inputBufferPosition]=0;
     //and if the line ended we execute the command
-    if (c=='\n') {
-      executeSerialCommand();   
+    if (c == '\n') {
+      executeSerialCommand();
     }
   }
   if (motor_moved) {
@@ -71,7 +71,7 @@ void loopSerial() {
     Serial.print('#');
     if (moving) {
       Serial.print('r');
-    } 
+    }
     else {
       Serial.print('s');
     }
@@ -97,7 +97,7 @@ void loopSerial() {
     //print out the general cool step config
     if (tmc26XStepper.isCoolStepEnabled()) {
       Serial.print("Ke+,");
-    } 
+    }
     else {
       Serial.print("Ke-,");
     }
@@ -115,36 +115,36 @@ void loopSerial() {
     //detect the winding status
     if (tmc26XStepper.isOpenLoadA()) {
       Serial.print("ao,");
-    } 
+    }
     else if(tmc26XStepper.isShortToGroundA()) {
       Serial.print("ag,");
-    } 
+    }
     else {
       Serial.print("a-,");
     }
     //detect the winding status
     if (tmc26XStepper.isOpenLoadB()) {
       Serial.print("bo,");
-    } 
+    }
     else if(tmc26XStepper.isShortToGroundB()) {
       Serial.print("bg,");
-    } 
+    }
     else {
       Serial.print("b-,");
     }
     char temperature = tmc26XStepper.getOverTemperature();
-    if (temperature==0) {
+    if (temperature == 0) {
       Serial.print("x-,");
-    } 
-    else if (temperature==TMC26X_OVERTEMPERATURE_PREWARING) {
+    }
+    else if (temperature == TMC26X_OVERTEMPERATURE_PREWARING) {
       Serial.print("xw,");
-    } 
+    }
     else {
       Serial.print("xe,");
     }
     if (tmc26XStepper.isEnabled()) {
       Serial.print("e1,");
-    } 
+    }
     else {
       Serial.print("e0,");
     }
@@ -155,7 +155,7 @@ void loopSerial() {
     Serial.print(t_off,DEC);
     Serial.print(",Cb");
     Serial.print(t_blank,DEC);
-    if (chopperMode==0) {
+    if (chopperMode == 0) {
       Serial.print(",Cs");
       Serial.print(h_start,DEC);
       Serial.print(",Ce");
@@ -209,7 +209,7 @@ void executeSerialCommand() {
       tmc26XStepper.stop();
       if (value<0) {
         direction=-1;
-      } 
+      }
       else {
         direction=1;
       }
@@ -226,7 +226,7 @@ void executeSerialCommand() {
       int enabled = decode(1);
       if (enabled) {
         tmc26XStepper.setEnabled(true);
-      } 
+      }
       else {
         tmc26XStepper.setEnabled(false);
       }
@@ -355,11 +355,11 @@ int decode(unsigned char startPosition) {
     if (number <= '9' && number >='0') {
       result *= 10;
       result += number - '0';
-    } 
+    }
   }
   if (negative) {
     return -result;
-  } 
+  }
   else {
     return result;
   }

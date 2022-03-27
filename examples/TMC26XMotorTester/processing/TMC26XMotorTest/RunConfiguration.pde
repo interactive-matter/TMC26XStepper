@@ -1,26 +1,26 @@
-/*
- TMC26XMotorTest.pde - - TMC26X Stepper Tester for Processing
- 
- Copyright (c) 2011, Interactive Matter, Marcus Nowotny
- 
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
- 
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
- 
+/**
+ * TMC26XMotorTest.pde - TMC26X Stepper Tester for Processing
+ *
+ * Copyright (c) 2011, Interactive Matter, Marcus Nowotny
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
  */
 
 Slider speedSlider;
@@ -62,7 +62,7 @@ void setupRunConfig() {
   controlElements.add(enabledToggle);
   enabledToggle.moveTo(runTab);
 
-  // add a vertical slider for speed  
+  // add a vertical slider for speed
   speedSlider = controlP5.addSlider("speed", 1, 100, 10, 85, 40, 20, 210);
   controlElements.add(speedSlider);
   speedSlider.moveTo(runTab);
@@ -92,7 +92,7 @@ void setupRunConfig() {
   controlElements.add(currentSlider);
   currentSlider.moveTo(runTab);
 
-  // add a vertical slider for stallGuard threshold  
+  // add a vertical slider for stallGuard threshold
   sgtPlus = controlP5.addButton("sgtplus", 0, 400, 40, 20, 20);
   controlElements.add(sgtPlus);
   sgtPlus.setCaptionLabel("+");
@@ -112,7 +112,7 @@ void setupRunConfig() {
   controlElements.add(sgFilterToggle);
   sgFilterToggle.setCaptionLabel("Stall GuardFilter");
   sgFilterToggle.moveTo(runTab);
-  
+
   //add the coolstep sliders
   coolStepMaxSlider = controlP5.addSlider("coolStepUpper", 0, 480, 0, 500, 40, 20, 90);
   controlElements.add(coolStepMaxSlider);
@@ -123,15 +123,15 @@ void setupRunConfig() {
   controlElements.add(coolStepMinSlider);
   coolStepMinSlider.setCaptionLabel("Cool Step Minimum");
   coolStepMinSlider.moveTo(runTab);
-  
-  coolStepActiveToggle = controlP5.addToggle("coolStepActive", false, 600, 220, 30, 30);  
+
+  coolStepActiveToggle = controlP5.addToggle("coolStepActive", false, 600, 220, 30, 30);
   controlElements.add(coolStepActiveToggle);
   coolStepActiveToggle.setCaptionLabel("Enable CoolStep");
   coolStepActiveToggle.moveTo(runTab);
 
   coolStepIncrementButtons = controlP5.addRadioButton("coolStepIncrement", 600, 40);
   controlElements.add(coolStepIncrementButtons);
-  coolStepIncrementButtons.captionLabel().set("Cool Step  Increment");
+  coolStepIncrementButtons.getCaptionLabel().set("Cool Step  Increment");
   coolStepIncrementButtons.addItem("i_1", 0);
   coolStepIncrementButtons.addItem("i_2", 1);
   coolStepIncrementButtons.addItem("i_4", 2);
@@ -145,7 +145,7 @@ void setupRunConfig() {
 
   coolStepDecrementButtons = controlP5.addRadioButton("coolStepDecrement", 600, 110);
   controlElements.add(coolStepDecrementButtons);
-  coolStepDecrementButtons.captionLabel().set("Cool Step Decrement");
+  coolStepDecrementButtons.getCaptionLabel().set("Cool Step Decrement");
   coolStepDecrementButtons.addItem("d_32", 0);
   coolStepDecrementButtons.addItem("d_8", 1);
   coolStepDecrementButtons.addItem("d_2", 2);
@@ -167,12 +167,12 @@ void setupRunConfig() {
   }
   coolStepMinButtons.showBar();
   coolStepMinButtons.moveTo(runTab);
-  
+
   trinamicButton = controlP5.addButton("trinamicLogo", 1.0, 750, 40, 200, 100);
   trinamicButton.setImage(TMCLogo);
   trinamicButton.moveTo(runTab);
   controlElements.add(trinamicButton);
-  
+
   motionControlButton = controlP5.addButton("mcLogo", 1.0, 750, 150, 200, 100);
   motionControlButton.setImage(MCLogo);
   motionControlButton.moveTo(runTab);
@@ -194,7 +194,7 @@ void run(int value) {
       println("stopping motor");
       sendCommand("s");
       running = false;
-    } 
+    }
     else {
       println("starting motor");
       sendCommand("r");
@@ -222,26 +222,26 @@ void stallguardthreshold(int value) {
     println("stall guard threshold: "+value);
     sendCommand("t"+value);
   }
-  if (value==sgtSlider.max()) {
+  if (value == sgtSlider.getMax()) {
     sgtPlus.lock();
-  } 
+  }
   else {
     sgtPlus.unlock();
   }
-  if (value==sgtSlider.min()) {
+  if (value == sgtSlider.getMin()) {
     sgtMinus.lock();
-  } 
+  }
   else {
     sgtMinus.unlock();
   }
 }
 
 void sgtplus(int value) {
-  sgtSlider.setValue(sgtSlider.value()+1);
+  sgtSlider.setValue(sgtSlider.getValue()+1);
 }
 
 void sgtminus(int value) {
-  sgtSlider.setValue(sgtSlider.value()-1);
+  sgtSlider.setValue(sgtSlider.getValue()-1);
 }
 
 void sgfilter(int value) {
@@ -249,14 +249,14 @@ void sgfilter(int value) {
     println("filter: "+value);
     sendCommand("f"+value);
   }
-}  
+}
 
 void current(float value) {
   if (!settingStatus) {
     int realValue=(int)(value*1000.0);
     println("current: "+((float)realValue/1000.0)+" = "+realValue);
     sendCommand("c"+realValue);
-    if (activeTab!=null && "run".equals(activeTab.name())) {
+    if (activeTab!=null && "run".equals(activeTab.getName())) {
       motorCurrentBox.setValue(value);
     }
   }
@@ -314,7 +314,7 @@ void setDirection(int direction) {
     if (direction<0) {
       println("back");
       sendCommand("d-1");
-    } 
+    }
     else {
       sendCommand("d1");
     }

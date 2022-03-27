@@ -1,28 +1,28 @@
-/*
- TMC26XStepper.cpp - - TMC26X Stepper library for Wiring/Arduino
- 
- based on the stepper library by Tom Igoe, et. al.
- 
- Copyright (c) 2011, Interactive Matter, Marcus Nowotny
- 
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
- 
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
- 
+/**
+ * TMC26XStepper.cpp - - TMC26X Stepper library for Wiring/Arduino
+ *
+ * Based on the stepper library by Tom Igoe, et. al.
+ *
+ * Copyright (c) 2011, Interactive Matter, Marcus Nowotny
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
  */
 
 #if defined(ARDUINO) && ARDUINO >= 100
@@ -114,23 +114,23 @@ TMC26XStepper::TMC26XStepper(int number_of_steps, int cs_pin, int dir_pin, int s
 	started=false;
     //by default cool step is not enabled
     cool_step_enabled=false;
-	
+
 	//save the pins for later use
 	this->cs_pin=cs_pin;
 	this->dir_pin=dir_pin;
 	this->step_pin = step_pin;
-    
+
     //store the current sense resistor value for later use
     this->resistor = resistor;
-	
+
 	//initizalize our status values
 	this->steps_left = 0;
 	this->direction = 0;
-	
+
 	//initialize register values
 	driver_control_register_value=DRIVER_CONTROL_REGISTER | INITIAL_MICROSTEPPING;
 	chopper_config_register=CHOPPER_CONFIG_REGISTER;
-	
+
 	//setting the default register values
 	driver_control_register_value=DRIVER_CONTROL_REGISTER|INITIAL_MICROSTEPPING;
 	microsteps = (1 << INITIAL_MICROSTEPPING);
@@ -156,7 +156,7 @@ TMC26XStepper::TMC26XStepper(int number_of_steps, int cs_pin, int dir_pin, int s
  */
 void TMC26XStepper::start() {
 
-#ifdef DEBUG	
+#ifdef DEBUG
 	Serial.println("TMC26X stepper library");
 	Serial.print("CS pin: ");
 	Serial.println(cs_pin);
@@ -168,27 +168,27 @@ void TMC26XStepper::start() {
 	Serial.println(current_scaling,DEC);
 #endif
 	//set the pins as output & its initial value
-	pinMode(step_pin, OUTPUT);     
-	pinMode(dir_pin, OUTPUT);     
-	pinMode(cs_pin, OUTPUT);     
-	digitalWrite(step_pin, LOW);     
-	digitalWrite(dir_pin, LOW);     
-	digitalWrite(cs_pin, HIGH);   
-	
+	pinMode(step_pin, OUTPUT);
+	pinMode(dir_pin, OUTPUT);
+	pinMode(cs_pin, OUTPUT);
+	digitalWrite(step_pin, LOW);
+	digitalWrite(dir_pin, LOW);
+	digitalWrite(cs_pin, HIGH);
+
 	//configure the SPI interface
     SPI.setBitOrder(MSBFIRST);
 	SPI.setClockDivider(SPI_CLOCK_DIV8);
 	//todo this does not work reliably - find a way to foolprof set it (e.g. while communicating
 	//SPI.setDataMode(SPI_MODE3);
 	SPI.begin();
-		
+
 	//set the initial values
-	send262(driver_control_register_value); 
+	send262(driver_control_register_value);
 	send262(chopper_config_register);
 	send262(cool_step_register_value);
 	send262(stall_guard2_current_register_value);
 	send262(driver_configuration_register_value);
-	
+
 	//save that we are in running mode
 	started=true;
 }
@@ -214,7 +214,7 @@ void TMC26XStepper::setSpeed(unsigned int whatSpeed)
     Serial.println(this->step_delay);
 #endif
     //update the next step time
-    this->next_step_time = this->last_step_time+this->step_delay; 
+    this->next_step_time = this->last_step_time+this->step_delay;
 
 }
 
@@ -223,14 +223,14 @@ unsigned int TMC26XStepper::getSpeed(void) {
 }
 
 /*
-  Moves the motor steps_to_move steps.  If the number is negative, 
+  Moves the motor steps_to_move steps.  If the number is negative,
    the motor moves in the reverse direction.
  */
 char TMC26XStepper::step(int steps_to_move)
-{  
+{
 	if (this->steps_left==0) {
   		this->steps_left = abs(steps_to_move);  // how many steps to take
-  
+
  		// determine direction based on whether steps_to_mode is + or -:
   		if (steps_to_move > 0) {
   			this->direction = 1;
@@ -246,20 +246,20 @@ char TMC26XStepper::step(int steps_to_move)
 char TMC26XStepper::move(void) {
   // decrement the number of steps, moving one step each time:
   if(this->steps_left>0) {
-      unsigned long time = micros();  
+      unsigned long time = micros();
 	  // move only if the appropriate delay has passed:
  	 if (time >= this->next_step_time) {
    	 	// increment or decrement the step number,
    	 	// depending on direction:
    	 	if (this->direction == 1) {
 			digitalWrite(step_pin, HIGH);
-    	} else { 
+    	} else {
 		  digitalWrite(dir_pin, HIGH);
 		  digitalWrite(step_pin, HIGH);
 	    }
         // get the timeStamp of when you stepped:
         this->last_step_time = time;
-        this->next_step_time = time+this->step_delay; 
+        this->next_step_time = time+this->step_delay;
       	// decrement the steps left:
       	steps_left--;
 	  	//disable the step & dir pins
@@ -295,14 +295,14 @@ void TMC26XStepper::setCurrent(unsigned int current) {
 	double mASetting = (double)current;
     double resistor_value = (double) this->resistor;
 	// remove vesense flag
-	this->driver_configuration_register_value &= ~(VSENSE);	
+	this->driver_configuration_register_value &= ~(VSENSE);
 	//this is derrived from I=(cs+1)/32*(Vsense/Rsense)
     //leading to cs = CS = 32*R*I/V (with V = 0,31V oder 0,165V  and I = 1000*current)
 	//with Rsense=0,15
 	//for vsense = 0,310V (VSENSE not set)
 	//or vsense = 0,165V (VSENSE set)
 	current_scaling = (byte)((resistor_value*mASetting*32.0/(0.31*1000.0*1000.0))-0.5); //theoretically - 1.0 for better rounding it is 0.5
-	
+
 	//check if the current scalingis too low
 	if (current_scaling<16) {
         //set the csense bit to get a use half the sense voltage (to support lower motor currents)
@@ -346,7 +346,7 @@ unsigned int TMC26XStepper::getCurrent(void) {
 void TMC26XStepper::setStallGuardThreshold(char stall_guard_threshold, char stall_guard_filter_enabled) {
 	if (stall_guard_threshold<-64) {
 		stall_guard_threshold = -64;
-	//We just have 5 bits	
+	//We just have 5 bits
 	} else if (stall_guard_threshold > 63) {
 		stall_guard_threshold = 63;
 	}
@@ -431,7 +431,7 @@ void TMC26XStepper::setMicrosteps(int number_of_steps) {
 	this->driver_control_register_value &=0xFFFF0ul;
 	//set the new value
 	this->driver_control_register_value |=setting_pattern;
-	
+
 	//if started we directly send it to the motor
 	if (started) {
 		send262(driver_control_register_value);
@@ -448,7 +448,7 @@ int TMC26XStepper::getMicrosteps(void) {
 }
 
 /*
- * constant_off_time: The off time setting controls the minimum chopper frequency. 
+ * constant_off_time: The off time setting controls the minimum chopper frequency.
  * For most applications an off time within	the range of 5μs to 20μs will fit.
  *		2...15: off time setting
  *
@@ -460,12 +460,12 @@ int TMC26XStepper::getMicrosteps(void) {
  *		0: slow decay only
  *		1...15: duration of fast decay phase
  *
- * sine_wave_offset: Sine wave offset. With CHM=1, these bits control the sine wave offset. 
+ * sine_wave_offset: Sine wave offset. With CHM=1, these bits control the sine wave offset.
  * A positive offset corrects for zero crossing error.
  *		-3..-1: negative offset 0: no offset 1...12: positive offset
  *
- * use_current_comparator: Selects usage of the current comparator for termination of the fast decay cycle. 
- * If current comparator is enabled, it terminates the fast decay cycle in case the current 
+ * use_current_comparator: Selects usage of the current comparator for termination of the fast decay cycle.
+ * If current comparator is enabled, it terminates the fast decay cycle in case the current
  * reaches a higher negative value than the actual positive value.
  *		1: enable comparator termination of fast decay cycle
  *		0: end by time only
@@ -502,7 +502,7 @@ void TMC26XStepper::setConstantOffTimeChopper(char constant_off_time, char blank
 	}
 	//shift the sine_wave_offset
 	sine_wave_offset +=3;
-	
+
 	//calculate the register setting
 	//first of all delete all the values for this
 	chopper_config_register &= ~((1<<12) | BLANK_TIMING_PATTERN | HYSTERESIS_DECREMENT_PATTERN | HYSTERESIS_LOW_VALUE_PATTERN | HYSTERESIS_START_VALUE_PATTERN | T_OFF_TIMING_PATERN);
@@ -526,11 +526,11 @@ void TMC26XStepper::setConstantOffTimeChopper(char constant_off_time, char blank
 	//if started we directly send it to the motor
 	if (started) {
 		send262(driver_control_register_value);
-	}	
+	}
 }
 
 /*
- * constant_off_time: The off time setting controls the minimum chopper frequency. 
+ * constant_off_time: The off time setting controls the minimum chopper frequency.
  * For most applications an off time within	the range of 5μs to 20μs will fit.
  *		2...15: off time setting
  *
@@ -541,7 +541,7 @@ void TMC26XStepper::setConstantOffTimeChopper(char constant_off_time, char blank
  * hysteresis_start: Hysteresis start setting. Please remark, that this value is an offset to the hysteresis end value HEND.
  *		1...8
  *
- * hysteresis_end: Hysteresis end setting. Sets the hysteresis end value after a number of decrements. Decrement interval time is controlled by HDEC. 
+ * hysteresis_end: Hysteresis end setting. Sets the hysteresis end value after a number of decrements. Decrement interval time is controlled by HDEC.
  * The sum HSTRT+HEND must be <16. At a current setting CS of max. 30 (amplitude reduced to 240), the sum is not limited.
  *		-3..-1: negative HEND 0: zero HEND 1...12: positive HEND
  *
@@ -589,7 +589,7 @@ void TMC26XStepper::setSpreadCycleChopper(char constant_off_time, char blank_tim
 	} else if (hysteresis_decrement>3) {
 		hysteresis_decrement=3;
 	}
-	
+
 	//first of all delete all the values for this
 	chopper_config_register &= ~(CHOPPER_MODE_T_OFF_FAST_DECAY | BLANK_TIMING_PATTERN | HYSTERESIS_DECREMENT_PATTERN | HYSTERESIS_LOW_VALUE_PATTERN | HYSTERESIS_START_VALUE_PATTERN | T_OFF_TIMING_PATERN);
 
@@ -606,19 +606,19 @@ void TMC26XStepper::setSpreadCycleChopper(char constant_off_time, char blank_tim
 	//if started we directly send it to the motor
 	if (started) {
 		send262(driver_control_register_value);
-	}	
+	}
 }
 
 /*
- * In a constant off time chopper scheme both coil choppers run freely, i.e. are not synchronized. 
- * The frequency of each chopper mainly depends on the coil current and the position dependant motor coil inductivity, thus it depends on the microstep position. 
- * With some motors a slightly audible beat can occur between the chopper frequencies, especially when they are near to each other. This typically occurs at a 
- * few microstep positions within each quarter wave. This effect normally is not audible when compared to mechanical noise generated by ball bearings, etc. 
+ * In a constant off time chopper scheme both coil choppers run freely, i.e. are not synchronized.
+ * The frequency of each chopper mainly depends on the coil current and the position dependant motor coil inductivity, thus it depends on the microstep position.
+ * With some motors a slightly audible beat can occur between the chopper frequencies, especially when they are near to each other. This typically occurs at a
+ * few microstep positions within each quarter wave. This effect normally is not audible when compared to mechanical noise generated by ball bearings, etc.
  * Further factors which can cause a similar effect are a poor layout of sense resistor GND connection.
- * Hint: A common factor, which can cause motor noise, is a bad PCB layout causing coupling of both sense resistor voltages 
+ * Hint: A common factor, which can cause motor noise, is a bad PCB layout causing coupling of both sense resistor voltages
  * (please refer to sense resistor layout hint in chapter 8.1).
- * In order to minimize the effect of a beat between both chopper frequencies, an internal random generator is provided. 
- * It modulates the slow decay time setting when switched on by the RNDTF bit. The RNDTF feature further spreads the chopper spectrum, 
+ * In order to minimize the effect of a beat between both chopper frequencies, an internal random generator is provided.
+ * It modulates the slow decay time setting when switched on by the RNDTF bit. The RNDTF feature further spreads the chopper spectrum,
  * reducing electromagnetic emission on single frequencies.
  */
 void TMC26XStepper::setRandomOffTime(char value) {
@@ -630,8 +630,8 @@ void TMC26XStepper::setRandomOffTime(char value) {
 	//if started we directly send it to the motor
 	if (started) {
 		send262(driver_control_register_value);
-	}	
-}	
+	}
+}
 
 void TMC26XStepper::setCoolStepConfiguration(unsigned int lower_SG_threshold, unsigned int SG_hysteresis, unsigned char current_decrement_step_size,
                               unsigned char current_increment_step_size, unsigned char lower_current_limit) {
@@ -723,7 +723,7 @@ void TMC26XStepper::setEnabled(boolean enabled) {
     //if not enabled we don't have to do anything since we already delete t_off from the register
 	if (started) {
 		send262(chopper_config_register);
-	}	
+	}
 }
 
 boolean TMC26XStepper::isEnabled() {
@@ -735,7 +735,7 @@ boolean TMC26XStepper::isEnabled() {
 }
 
 /*
- * reads a value from the TMC26X status register. The value is not obtained directly but can then 
+ * reads a value from the TMC26X status register. The value is not obtained directly but can then
  * be read by the various status routines.
  *
  */
@@ -755,7 +755,7 @@ void TMC26XStepper::readStatus(char read_value) {
             //because then we need to write the value twice - one time for configuring, second time to get the value, see below
             send262(driver_configuration_register_value);
         }
-    //write the configuration to get the last status    
+    //write the configuration to get the last status
 	send262(driver_configuration_register_value);
 }
 
@@ -900,7 +900,7 @@ int TMC26XStepper::version(void)
 }
 
 void TMC26XStepper::debugLastStatus() {
-#ifdef DEBUG    
+#ifdef DEBUG
 if (this->started) {
 		if (this->getOverTemperature()&TMC26X_OVERTEMPERATURE_PREWARING) {
 			Serial.println("WARNING: Overtemperature Prewarning!");
@@ -919,7 +919,7 @@ if (this->started) {
 		if (this->isOpenLoadB()) {
 			Serial.println("ERROR: Channel B seems to be unconnected!");
 		}
-		if (this->isStallGuardReached()) {	
+		if (this->isStallGuardReached()) {
 			Serial.println("INFO: Stall Guard level reached!");
 		}
 		if (this->isStandStill()) {
@@ -951,21 +951,21 @@ if (this->started) {
  */
 inline void TMC26XStepper::send262(unsigned long datagram) {
 	unsigned long i_datagram;
-    
+
     //preserver the previous spi mode
     unsigned char oldMode =  SPCR & SPI_MODE_MASK;
-	
+
     //if the mode is not correct set it to mode 3
     if (oldMode != SPI_MODE3) {
         SPI.setDataMode(SPI_MODE3);
     }
-	
+
 	//select the TMC driver
 	digitalWrite(cs_pin,LOW);
 
 	//ensure that only valid bist are set (0-19)
 	//datagram &=REGISTER_BIT_PATTERN;
-	
+
 #ifdef DEBUG
 	Serial.print("Sending ");
 	Serial.println(datagram,HEX);
@@ -978,22 +978,22 @@ inline void TMC26XStepper::send262(unsigned long datagram) {
 	i_datagram <<= 8;
 	i_datagram |= SPI.transfer((datagram) & 0xff);
 	i_datagram >>= 4;
-	
+
 #ifdef DEBUG
 	Serial.print("Received ");
 	Serial.println(i_datagram,HEX);
 	debugLastStatus();
 #endif
 	//deselect the TMC chip
-	digitalWrite(cs_pin,HIGH); 
-    
+	digitalWrite(cs_pin,HIGH);
+
     //restore the previous SPI mode if neccessary
     //if the mode is not correct set it to mode 3
     if (oldMode != SPI_MODE3) {
         SPI.setDataMode(oldMode);
     }
 
-	
+
 	//store the datagram as status result
 	driver_status_result = i_datagram;
 }
