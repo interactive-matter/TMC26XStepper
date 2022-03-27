@@ -127,10 +127,10 @@ void drawData() {
     for (int i=0; i<=currentScaleMax; i++) {
       float y = map(i, 0, currentScaleMax, plotBottom, plotTop);
       if (i % currentLabelInterval == 0) {
-        if (i==0) {
+        if (i == 0) {
           textAlign(RIGHT, BOTTOM);
         }
-        else if (i==currentScaleMax) {
+        else if (i == currentScaleMax) {
           textAlign(RIGHT, TOP);
         }
         else {
@@ -156,10 +156,10 @@ void drawData() {
     for (int i=stallGuardMin; i<=stallGuardMax; i++) {
       float y = map(i, stallGuardMin, stallGuardMax, plotBottom, plotTop);
       if (i % stallGuardLabelInterval == 0) {
-        if (i==stallGuardMin) {
+        if (i == stallGuardMin) {
           textAlign(RIGHT, BOTTOM);
         }
-        else if (i==stallGuardMax) {
+        else if (i == stallGuardMax) {
           textAlign(RIGHT, TOP);
         }
         else {
@@ -184,10 +184,10 @@ void drawData() {
     for (int i=positionMin; i<=positionMax; i++) {
       float y = map(i, positionMin, positionMax, plotBottom, plotTop);
       if (i % positionLabelInterval == 0) {
-        if (i==positionMin) {
+        if (i == positionMin) {
           textAlign(LEFT, BOTTOM);
         }
-        else if (i==stallGuardMax) {
+        else if (i == stallGuardMax) {
           textAlign(LEFT, TOP);
         }
         else {
@@ -208,7 +208,7 @@ void drawData() {
     int channelAX = width/4;
     int temperatureX = width/2;
     int channelBX = width/4*3;
-    if (channelAStatus==null) {
+    if (channelAStatus == null) {
       fill(goodStatusColor);
       text("Channel A: OK", channelAX, statusY);
     }
@@ -216,7 +216,7 @@ void drawData() {
       fill(badStatusColor);
       text("Channel A: "+channelAStatus, channelAX, statusY);
     }
-    if (channelBStatus==null) {
+    if (channelBStatus == null) {
       fill(goodStatusColor);
       text("Channel B: OK", channelBX, statusY);
     }
@@ -224,7 +224,7 @@ void drawData() {
       fill(badStatusColor);
       text("Channel B: "+channelBStatus, channelBX, statusY);
     }
-    if (temperatureStatus==null) {
+    if (temperatureStatus == null) {
       fill(goodStatusColor);
       text("Temperature: OK", temperatureX, statusY);
     }

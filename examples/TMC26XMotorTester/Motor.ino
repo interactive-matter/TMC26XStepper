@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  *
  */
- unsigned int motor_counter = 0;
+unsigned int motor_counter = 0;
 unsigned char motor_moved = 0;
 int sgThreshold = 4;
 int sgFilter = 0;
@@ -30,40 +30,40 @@ int direction = 1;
 
 unsigned int lower_SG_threshold = 0;
 unsigned int upper_SG_threshold = 0;
-unsigned char number_of_SG_readings=0;
-unsigned char current_increment_step_size=0;
-unsigned char lower_current_limit=0;
+unsigned char number_of_SG_readings = 0;
+unsigned char current_increment_step_size = 0;
+unsigned char lower_current_limit = 0;
 
-
-char chopperMode = 0; //0 for spread, 1 for constant off
+char chopperMode = 0; // 0 for spread, 1 for constant off
 char t_off = 2;
 char t_blank = 24;
 char h_start = 8;
 char h_end = 6;
 char h_decrement = 0;
 
-
 void startMotor() {
   Serial.println(F("Configuring stepper driver"));
   //char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement
-  tmc26XStepper.setSpreadCycleChopper(t_off,t_blank,h_start,h_end,h_decrement);
+  tmc26XStepper.setSpreadCycleChopper(t_off, t_blank, h_start, h_end, h_decrement);
   tmc26XStepper.setRandomOffTime(0);
 
   tmc26XStepper.setMicrosteps(32);
-  tmc26XStepper.setStallGuardThreshold(sgThreshold,sgFilter);
-  //  Serial.println("config finished, starting");
+  tmc26XStepper.setStallGuardThreshold(sgThreshold, sgFilter);
+  //Serial.println("config finished, starting");
+
   #ifdef ENABLE_PIN
-  digitalWrite(ENABLE_PIN,LOW);
+    digitalWrite(ENABLE_PIN, LOW);
   #endif
+
   tmc26XStepper.start();
   tmc26XStepper.setSpeed(10);
-  TCNT2=setupTimer2(10000);
+  TCNT2 = setupTimer2(10000);
   sei();
 }
 
 void runMotor() {
   if (running && !tmc26XStepper.isMoving()) {
-    tmc26XStepper.step(direction*10000);
+    tmc26XStepper.step(direction * 10000);
     Serial.println("run");
   }
   if (!running & tmc26XStepper.isMoving()) {
@@ -106,29 +106,23 @@ void setStallGuardThreshold(int threshold) {
 }
 
 void setStallGuardFilter(int filter) {
-  if (filter) {
-    sgFilter=1;
-  }
-  else {
-    sgFilter=0;
-  }
-  tmc26XStepper.setStallGuardThreshold(sgThreshold,sgFilter);
+  tmc26XStepper.setStallGuardThreshold(sgThreshold, filter ? 1 : 0);
 }
 
 void setCurrent(int current) {
-  if (current>0 && current <1700) {
+  if (current > 0 && current < 1700) {
     tmc26XStepper.setCurrent(current);
   }
   else {
-    Serial.print(F("Improper current {0 ... 1200}: "));
+    Serial.print(F("Improper current {0 ... 1699}: "));
     Serial.print(current);
   }
 }
 
 void updateChopper() {
-  //we can do only spread now
-  if (chopperMode==0) {
-    tmc26XStepper.setSpreadCycleChopper(t_off,t_blank,h_start,h_end,h_decrement);
+  // We can do only spread now
+  if (chopperMode == 0) {
+    tmc26XStepper.setSpreadCycleChopper(t_off, t_blank, h_start, h_end, h_decrement);
   }
 }
 
@@ -138,32 +132,32 @@ void updateCoolStep() {
     current_increment_step_size, lower_current_limit);
 }
 
-//from http://www.uchobby.com/index.php/2007/11/24/arduino-interrupts/
-//Setup Timer2.s
-//Configures the ATMega168 8-Bit Timer2 to generate an interrupt
-//at the specified frequency.
-//Returns the timer load value which must be loaded into TCNT2
-//inside your ISR routine.
-//See the example usage below.
-unsigned char setupTimer2(float timeoutFrequency){
-  unsigned char result; //The timer load value.
+/**
+ * From http://www.uchobby.com/index.php/2007/11/24/arduino-interrupts/
+ * Set up Timer2.
+ * Configure the ATMega168 8-Bit Timer2 to generate an interrupt at the specified frequency.
+ * Return the timer load value which must be loaded into TCNT2 inside your ISR routine.
+ * See the example usage below.
+ */
+unsigned char setupTimer2(float timeoutFrequency) {
+  unsigned char result; // The timer load value.
 
-  //Calculate the timer load value
-  result=(int)((257.0-(TIMER_CLOCK_FREQ/timeoutFrequency))+0.5);
-  //The 257 really should be 256 but I get better results with 257.
+  // Calculate the timer load value
+  result = (int)((257.0 - (TIMER_CLOCK_FREQ / timeoutFrequency)) + 0.5);
+  // The 257 really should be 256 but I get better results with 257.
 
-  //Timer2 Settings: Timer Prescaler /8, mode 0
-  //Timer clock = 16MHz/8 = 2Mhz or 0.5us
-  //The /8 prescale gives us a good range to work with
-  //so we just hard code this for now.
+  // Timer2 Settings: Timer Prescaler /8, mode 0
+  // Timer clock = 16MHz/8 = 2Mhz or 0.5us
+  // The /8 prescale gives us a good range to work with
+  // so we just hard code this for now.
   TCCR2A = 0;
-  TCCR2B = 0<<CS22 | 1<<CS21 | 0<<CS20;
+  TCCR2B = 0 << CS22 | 1 << CS21 | 0 << CS20;
 
-  //Timer2 Overflow Interrupt Enable
-  TIMSK2 = 1<<TOIE2;
+  // Timer2 Overflow Interrupt Enable
+  TIMSK2 = 1 << TOIE2;
 
-  //load the timer for its first cycle
-  TCNT2=result;
+  // load the timer for its first cycle
+  TCNT2 = result;
 
   return(result);
 }
@@ -172,7 +166,3 @@ ISR(TIMER2_OVF_vect) {
   motor_moved = tmc26XStepper.move();
   motor_counter++;
 }
-
-
-
-

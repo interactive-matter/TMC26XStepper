@@ -51,7 +51,7 @@ void loopSerial() {
     //always terminate the string
     inputBuffer[inputBufferPosition]=0;
     //and if the line ended we execute the command
-    if (c=='\n') {
+    if (c == '\n') {
       executeSerialCommand();
     }
   }
@@ -133,10 +133,10 @@ void loopSerial() {
       Serial.print("b-,");
     }
     char temperature = tmc26XStepper.getOverTemperature();
-    if (temperature==0) {
+    if (temperature == 0) {
       Serial.print("x-,");
     }
-    else if (temperature==TMC26X_OVERTEMPERATURE_PREWARING) {
+    else if (temperature == TMC26X_OVERTEMPERATURE_PREWARING) {
       Serial.print("xw,");
     }
     else {
@@ -155,7 +155,7 @@ void loopSerial() {
     Serial.print(t_off,DEC);
     Serial.print(",Cb");
     Serial.print(t_blank,DEC);
-    if (chopperMode==0) {
+    if (chopperMode == 0) {
       Serial.print(",Cs");
       Serial.print(h_start,DEC);
       Serial.print(",Ce");

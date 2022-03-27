@@ -25,7 +25,6 @@
  *
  */
 
-
 // ensure this library description is only included once
 #ifndef TMC26XStepper_h
 #define TMC26XStepper_h

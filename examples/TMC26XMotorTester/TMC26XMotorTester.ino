@@ -25,34 +25,30 @@
 #include <SPI.h>
 #include <TMC26XStepper.h>
 
-//you may adapt this to your shield or breakout board connection
+// You may adapt this to your shield or breakout board connection
 #define CS_PIN 2
 #define DIR_PIN 6
 #define STEP_PIN 7
-//if it is not connected it won't be a problem
-// Comment the line if you do not have an enable pin assigned, or the
-// enable pin collides with any of your boards CS pins
-#define ENABLE_PIN 8
+#define ENABLE_PIN 8 // Comment out if not connected
 
-
-#define TIMER_CLOCK_FREQ 2000000.0 //2MHz for /8 prescale from 16MHz
-#define INITIAL_CURRENT 500 //in mA
+#define TIMER_CLOCK_FREQ 2000000.0 // 2MHz for /8 prescale from 16MHz
+#define INITIAL_CURRENT 500 // In mA
 #define MAX_SPEED 1000
 
-
-//we have a stepper motor with 200 steps per rotation, CS pin 2, dir pin 3, step pin 4 and a current of 500mA
-TMC26XStepper tmc26XStepper = TMC26XStepper(200,CS_PIN,DIR_PIN,STEP_PIN,INITIAL_CURRENT);
+// A stepper motor with 200 steps per rotation, CS pin 2, DIR pin 3, STEP pin 4 and a current of 300mA
+TMC26XStepper tmc26XStepper = TMC26XStepper(200, CS_PIN, DIR_PIN, STEP_PIN, INITIAL_CURRENT);
 char running;
 
 void setup() {
-  //configure the enable pin
   #ifdef ENABLE_PIN
-  pinMode(ENABLE_PIN, OUTPUT);
-  digitalWrite(ENABLE_PIN,HIGH);
+    // Configure the enable pin
+    pinMode(ENABLE_PIN, OUTPUT);
+    digitalWrite(ENABLE_PIN, HIGH);
   #endif
+
   startSerial();
   startMotor();
-  //set this according to you stepper
+  // Set this according to you stepper
   Serial.println(F("started"));
 }
 
@@ -60,6 +56,3 @@ void loop() {
   loopSerial();
   runMotor();
 }
-
-
-

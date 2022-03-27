@@ -35,7 +35,7 @@ String helpUrl = "http://www.motioncontrol-community.org/";
 String trinamicUrl = "http://trinamic.com";
 String mcUrl = "http://www.motioncontrol-community.org/";
 
-//TODO comde up with a nice color scheme
+// TODO: come up with a nice color scheme
 color activeColor = #01ADF1;
 color foreGroundColor = #01ADF1;
 color uiTextColor = #4D4D4F;
@@ -50,13 +50,13 @@ color badStatusColor = stallGuardColor;
 color coolStepColor = #4D4D4F;
 color diagramBackgroundColor = #ffffff;
 
-CColor uiColor = new CColor( foreGroundColor, uiElementColor, activeColor, uiTextColor, uiTextColor);
+CColor uiColor = new CColor(foreGroundColor, uiElementColor, activeColor, uiTextColor, uiTextColor);
 
 Tab configureTab;
 Tab runTab;
 Tab activeTab;
 
-boolean settingStatus=false;
+boolean settingStatus = false;
 
 boolean running = false;
 int coolStepMin = 0;
@@ -73,16 +73,16 @@ PImage MCLogo;
 
 void setup() {
   size(1000, 800);
-  //load the logos
-  TMCLogo=loadImage("tmc_logo.png");
-  MCLogo=loadImage("mc_logo.png");
+  // Load the logos
+  TMCLogo = loadImage("tmc_logo.png");
+  MCLogo = loadImage("mc_logo.png");
 
-  //create the UI
+  // Create the UI
   controlP5 = new ControlP5(this);
   controlP5.setColor(uiColor);
   runTab = controlP5.getTab("default");
   configureTab =controlP5.addTab("configure");
-  //customize the tabs a bit
+  // Customize the tabs a bit
   configureTab.setLabel("configure");
   controlElements.add(configureTab);
   activeTab =  controlP5.getTab("default");
@@ -90,13 +90,13 @@ void setup() {
   configureTab.activateEvent(true);
   runTab.activateEvent(true);
 
-  //configuring the general UI l&f
-  //the configuration UI
+  // Configuring the general UI l&f
+  // The configuration UI
 
   setupRunConfig();
   setupChooperConfig();
   setupSerialConfig();
-  //directly hide the controls again since we are not connected to the Arduino yet
+  // Directly hide the controls again since we are not connected to the Arduino yet
   toggleUi(motor_connected);
 
   smooth();
@@ -131,7 +131,6 @@ void draw() {
   decodeSerial();
 }
 
-
 void controlEvent(ControlEvent theEvent) {
   if (theEvent.isGroup() && !settingStatus) {
     if ("microstepping".equals(theEvent.group().getName())) {
@@ -150,6 +149,7 @@ void controlEvent(ControlEvent theEvent) {
   }
   else if (theEvent.isTab()) {
     activeTab = theEvent.tab();
-    println("Tab: "+activeTab.getName());
+    println("Tab: " + activeTab.getName());
   }
+
 }

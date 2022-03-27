@@ -222,13 +222,13 @@ void stallguardthreshold(int value) {
     println("stall guard threshold: "+value);
     sendCommand("t"+value);
   }
-  if (value==sgtSlider.getMax()) {
+  if (value == sgtSlider.getMax()) {
     sgtPlus.lock();
   }
   else {
     sgtPlus.unlock();
   }
-  if (value==sgtSlider.getMin()) {
+  if (value == sgtSlider.getMin()) {
     sgtMinus.lock();
   }
   else {

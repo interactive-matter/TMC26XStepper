@@ -27,11 +27,11 @@ Slider constantOffSlider;
 Slider blankTimeSlider;
 Toggle randomOffTimeToggle;
 RadioButton ChopperModeButtons;
-//for constant off time chopeer
+// For constant off time chopper
 Slider fastDecaySlider;
 Slider sineWaveOffsetSlider;
 Toggle currentComparatorToggle;
-//for spread chopper
+// For spread chopper
 Slider hysteresisStartSlider;
 Slider hysteresisEndSlider;
 Numberbox motorVoltageBox;
@@ -44,7 +44,7 @@ RadioButton hysteresisDecrementButtons;
 PImage spreadChopperImage;
 
 void setupChooperConfig() {
-  //add input fields for the various motor parameters
+  // Add input fields for the various motor parameters
   motorVoltageBox = controlP5.addNumberbox("motorvoltage",12.0,20,40,100,20);
   motorVoltageBox.setCaptionLabel("Motor Voltage (V)");
   motorVoltageBox.setMultiplier(0.025);
@@ -72,7 +72,7 @@ void setupChooperConfig() {
   motorInductanceBox.setMax(250);
   motorInductanceBox.setCaptionLabel("Motor Inductance (mH)");
   motorInductanceBox.moveTo(configureTab);
-  // add a vertical slider for speed
+  // Add a vertical slider for speed
   constantOffSlider = controlP5.addSlider("constantoff", 1, 15, 1, 20, 80, 400, 20);
   constantOffSlider.setCaptionLabel("Constant Off Time");
   constantOffSlider.setSliderMode(Slider.FIX);
@@ -102,73 +102,73 @@ void setupChooperConfig() {
 }
 
 void drawChopper() {
-  if (activeTab!=null && configureTab.equals(activeTab)) {
+  if (activeTab != null && configureTab.equals(activeTab)) {
     image(spreadChopperImage, 200, 400);
   }
 }
 
 void constantoff(int theValue) {
   if (!settingStatus) {
-    if (theValue>0 && theValue<16) {
-      println("Constant off "+theValue);
-      sendCommand("cO"+theValue);
+    if (theValue > 0 && theValue < 16) {
+      println("Constant off " + theValue);
+      sendCommand("cO" + theValue);
     }
     else {
-      println("invalid blank time of "+theValue);
+      println("invalid blank time of " + theValue);
     }
   }
 }
 
 void blanktime(int theValue) {
   if (!settingStatus) {
-    if (theValue>=0 && theValue<=3) {
-      println("blank time "+theValue);
-      sendCommand("Cb"+theValue);
+    if (theValue >= 0 && theValue <= 3) {
+      println("blank time " + theValue);
+      sendCommand("Cb" + theValue);
     }
   }
 }
 
 void hysteresisstart(int start) {
   if (!settingStatus) {
-    if (start>=1 && start<=8) {
-      println("hystereis start "+start);
-      sendCommand("Cs"+start);
+    if (start >= 1 && start <= 8) {
+      println("hysteresis start " + start);
+      sendCommand("Cs" + start);
     }
   }
 }
 
 void hysteresisend(int end) {
   if (!settingStatus) {
-    if (end>=-3 && end<=12) {
-      println("hystereis end "+end);
-      sendCommand("Ce"+end);
+    if (end >= -3 && end <= 12) {
+      println("hysteresis end " + end);
+      sendCommand("Ce" + end);
     }
   }
 }
 
 void setHysteresisDecrement(int theValue) {
   if (!settingStatus) {
-    if (theValue>=0 && theValue<=3) {
-      println("Hysteresis decrement "+theValue);
-      sendCommand("Cd"+theValue);
+    if (theValue >= 0 && theValue <= 3) {
+      println("hysteresis decrement " + theValue);
+      sendCommand("Cd" + theValue);
     }
     else {
-      println("cannot set decrement to "+theValue);
+      println("cannot set decrement to " + theValue);
     }
   }
 }
 
 void setHystDecrement(int value) {
-  if (value>=0 && value<=3) {
+  if (value >= 0 && value <= 3) {
     hysteresisDecrementButtons.activate(value);
   }
   else {
-    println("this is no proper hysteresis decerement value: "+value);
+    println("bad hysteresis decrement value: " + value);
   }
 }
 
 void motorcurrent(float value) {
-  if (activeTab!=null && "default".equals(activeTab.name())) {
+  if (activeTab != null && "default".equals(activeTab.getName())) {
     currentSlider.setValue(value);
   }
 }
