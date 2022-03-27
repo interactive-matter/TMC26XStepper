@@ -6,7 +6,7 @@ License
 
 TMC26XStepper.cpp - - TMC 260/261/262 Stepper library for Wiring/Arduino
  
-based on the stepper library by Tom Igoe, et. al.
+Based on the stepper library by Tom Igoe, et. al.
  
 Copyright (c) 2011, Interactive Matter, Marcus Nowotny
  
