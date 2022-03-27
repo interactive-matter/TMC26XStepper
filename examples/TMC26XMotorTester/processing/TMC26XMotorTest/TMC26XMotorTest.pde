@@ -37,7 +37,7 @@ String mcUrl = "http://www.motioncontrol-community.org/";
 
 //TODO comde up with a nice color scheme
 color activeColor = #01ADF1;
-color foreGroundColor = #01ADF1; 
+color foreGroundColor = #01ADF1;
 color uiTextColor = #4D4D4F;
 color uiElementColor = #ffffff;
 color labelColor = #f0f0f0;
@@ -76,12 +76,12 @@ void setup() {
   //load the logos
   TMCLogo=loadImage("tmc_logo.png");
   MCLogo=loadImage("mc_logo.png");
-  
+
   //create the UI
   controlP5 = new ControlP5(this);
   controlP5.setColor(uiColor);
   runTab = controlP5.getTab("default");
-  configureTab =controlP5.addTab("configure"); 
+  configureTab =controlP5.addTab("configure");
   //customize the tabs a bit
   configureTab.setLabel("configure");
   controlElements.add(configureTab);
@@ -120,7 +120,7 @@ void toggleUi(boolean show_controls) {
     } else {
       controller.show();
     }
-  }    
+  }
 }
 
 void draw() {
@@ -147,9 +147,9 @@ void controlEvent(ControlEvent theEvent) {
     } else if ("coolStepMin".equals(theEvent.group().getName())) {
       setCoolStepMin((int)theEvent.group().getValue());
     }
-  } 
+  }
   else if (theEvent.isTab()) {
     activeTab = theEvent.tab();
     println("Tab: "+activeTab.getName());
-  } 
+  }
 }

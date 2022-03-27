@@ -74,10 +74,10 @@ void runMotor() {
 
 void setSpeed(unsigned int targetSpeed) {
   if (targetSpeed>0 && targetSpeed<MAX_SPEED) {
-    Serial.print(F("Setting speed: ")); 
+    Serial.print(F("Setting speed: "));
     Serial.println(targetSpeed);
     tmc26XStepper.setSpeed(targetSpeed);
-  } 
+  }
   else {
     Serial.print(F("improper speed "));
     Serial.println(targetSpeed);
@@ -88,7 +88,7 @@ void setMicrostepping(int microstepping) {
   if (microstepping<1 || microstepping>256) {
     Serial.print(F("Improperd microstepping setting [1...256]: "));
     Serial.print(microstepping);
-  } 
+  }
   else {
     tmc26XStepper.setMicrosteps(microstepping);
   }
@@ -98,7 +98,7 @@ void setStallGuardThreshold(int threshold) {
   if (threshold<-64 || threshold > 63) {
     Serial.print(F("Improper Stall Guard Threshold [-64...63]: "));
     Serial.println(threshold);
-  } 
+  }
   else {
     sgThreshold = threshold;
     tmc26XStepper.setStallGuardThreshold(threshold,sgFilter);
@@ -108,7 +108,7 @@ void setStallGuardThreshold(int threshold) {
 void setStallGuardFilter(int filter) {
   if (filter) {
     sgFilter=1;
-  } 
+  }
   else {
     sgFilter=0;
   }
@@ -118,7 +118,7 @@ void setStallGuardFilter(int filter) {
 void setCurrent(int current) {
   if (current>0 && current <1700) {
     tmc26XStepper.setCurrent(current);
-  } 
+  }
   else {
     Serial.print(F("Improper current {0 ... 1200}: "));
     Serial.print(current);
@@ -129,7 +129,7 @@ void updateChopper() {
   //we can do only spread now
   if (chopperMode==0) {
     tmc26XStepper.setSpreadCycleChopper(t_off,t_blank,h_start,h_end,h_decrement);
-  }    
+  }
 }
 
 void updateCoolStep() {

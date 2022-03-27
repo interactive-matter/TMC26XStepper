@@ -57,11 +57,11 @@ void setupSerialConfig() {
   statusArea = controlP5.addTextarea("statusArea","",200,height-250,300,50);
   serialConfigElements.add(statusArea);
   statusArea.moveTo(defaultTab);
-  
+
   helpButton =  controlP5.addButton("help", 1, 200, height-250, 80, 30);
   serialConfigElements.add(helpButton);
   helpButton.moveTo(defaultTab);
-  
+
 
   //finally update the list of serial ports
   updateSerialPortList();
@@ -111,7 +111,7 @@ void serialOk(int value) {
             }
             identBuffer = new StringBuilder();
           }
-        } 
+        }
       }
     } catch (RuntimeException e) {
       //we simply do nothing
@@ -158,112 +158,112 @@ void decodeSerial(String line) {
       String statusToken = statusTokenizer.nextToken();
       if ("s".equals(statusToken)) {
         runToggle.setValue(0);
-      } 
+      }
       else if ("r".equals(statusToken)) {
         runToggle.setValue(1);
-      } 
+      }
       else if (statusToken.startsWith("e")) {
         int enabled = getValueOfToken(statusToken, 1);
         if (enabled!=0) {
           enabledToggle.setValue(1);
-        } 
+        }
         else {
           enabledToggle.setValue(0);
         }
       }
       else if (statusToken.startsWith("S")) {
         speedSlider.setValue(getValueOfToken(statusToken, 1));
-      } 
+      }
       else if (statusToken.startsWith("m")) {
         microsteppingButtons.activate("m_1/"+String.valueOf(getValueOfToken(statusToken, 1)));
-      } 
+      }
       else if (statusToken.startsWith("sg")) {
         addStallGuardReading(getValueOfToken(statusToken, 2));
-      } 
+      }
       else if (statusToken.startsWith("p")) {
         addPositionReading(getValueOfToken(statusToken, 1));
-      } 
+      }
       else if (statusToken.startsWith("k")) {
         addCurrentReading(getValueOfToken(statusToken, 1));
-      } 
+      }
       else if (statusToken.startsWith("t")) {
         sgtSlider.setValue(getValueOfToken(statusToken, 1));
-      } 
+      }
       else if (statusToken.startsWith("f")) {
         sgFilterToggle.setValue(getValueOfToken(statusToken, 1));
-      } 
+      }
       else if (statusToken.startsWith("d")) {
         setDirection(getValueOfToken(statusToken, 1));
       }
       else if (statusToken.startsWith("c")) {
         setCurrent(getValueOfToken(statusToken, 1));
-      } 
+      }
       else if (statusToken.startsWith("a")) {
         if (statusToken.charAt(1)=='o') {
           channelAStatus="Open Load";
-        } 
+        }
         else if (statusToken.charAt(1)=='g') {
           channelAStatus="Short to Ground!";
-        } 
+        }
         else {
           channelAStatus=null;
         }
-      } 
+      }
       else if (statusToken.startsWith("b")) {
         if (statusToken.charAt(1)=='o') {
           channelBStatus="Open Load";
-        } 
+        }
         else if (statusToken.charAt(1)=='g') {
           channelBStatus="Short to Ground!";
-        } 
+        }
         else {
           channelBStatus=null;
         }
-      } 
+      }
       else if (statusToken.startsWith("x")) {
         if (statusToken.charAt(1)=='w') {
           temperatureStatus="Prewarning!";
-        } 
+        }
         else if (statusToken.charAt(1)=='e') {
           temperatureStatus="Error";
-        } 
+        }
         else {
           temperatureStatus=null;
         }
       }
       else if (statusToken.startsWith("Cm")) {
         //chopper mode is currently ignored
-      } 
+      }
       else if (statusToken.startsWith("Co")) {
         constantOffSlider.setValue(getValueOfToken(statusToken, 2));
-      }  
+      }
       else if (statusToken.startsWith("Cb")) {
         blankTimeSlider.setValue(getValueOfToken(statusToken, 2));
-      } 
+      }
       else if (statusToken.startsWith("Cs")) {
         hysteresisStartSlider.setValue(getValueOfToken(statusToken, 2));
-      } 
+      }
       else if (statusToken.startsWith("Ce")) {
         hysteresisEndSlider.setValue(getValueOfToken(statusToken, 2));
-      } 
+      }
       else if (statusToken.startsWith("Cd")) {
         setHystDecrement(getValueOfToken(statusToken, 2));
-      } 
+      }
       else if ("Ke+".equals(statusToken)) {
         coolStepActiveToggle.setValue(1);
-      } 
+      }
       else if ("Ke-".equals(statusToken)) {
         coolStepActiveToggle.setValue(0);
-      } 
+      }
       else if (statusToken.startsWith("Kl")) {
         coolStepMinSlider.setValue(getValueOfToken(statusToken, 2));
-      } 
+      }
       else if (statusToken.startsWith("Ku")) {
         coolStepMaxSlider.setValue(getValueOfToken(statusToken, 2));
       }
       else if (statusToken.startsWith("Kn")) {
         coolStepDecrementButtons.activate(getValueOfToken(statusToken, 2));
-      } 
+      }
       else if (statusToken.startsWith("Ki")) {
         coolStepIncrementButtons.activate(getValueOfToken(statusToken, 2));
       }
@@ -282,7 +282,7 @@ int getValueOfToken(String token, int position) {
   String value = token.substring(position);
   try {
     return Integer.valueOf(value);
-  } 
+  }
   catch (NumberFormatException e) {
     println("Unable to decode '"+value+"'of '"+token+"' !");
     return 0;

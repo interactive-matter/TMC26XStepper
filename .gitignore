@@ -5,7 +5,7 @@
 .classpath
 .project
 
-#processing stuff 
+#processing stuff
 generated/
 examples/TMC26XMotorTester/processing/TMC26XMotorTest/application.*/
 examples/TMC26XMotorTester/processing/TMC26XMotorTest/application.*

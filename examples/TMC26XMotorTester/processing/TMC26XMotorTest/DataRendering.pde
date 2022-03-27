@@ -103,9 +103,9 @@ void drawData() {
     stroke(stallGuardColor);
     drawDataPoints(stallGuardTable, stallGuardMin, stallGuardMax);
     drawDataHighLight(stallGuardTable, stallGuardMin, stallGuardMax, stallGuardHighLightDistance, labelColor, "Stall Guard", true);
-    
+
     if (coolStepActive) {
-      strokeWeight(coolStepActiveStroke); 
+      strokeWeight(coolStepActiveStroke);
     } else {
       strokeWeight(coolStepInactiveStroke);
     }
@@ -129,20 +129,20 @@ void drawData() {
       if (i % currentLabelInterval == 0) {
         if (i==0) {
           textAlign(RIGHT, BOTTOM);
-        } 
+        }
         else if (i==currentScaleMax) {
           textAlign(RIGHT, TOP);
-        } 
+        }
         else {
           textAlign(RIGHT, CENTER);
-        }        
+        }
         text(currentLabelFormat.format((float)i/1000.0), plotLeft-58, y);
         line (plotLeft-55, y, plotLeft-50, y);
-      } 
+      }
       else if (i % currentMinorTickInterval == 0) {
         line (plotLeft-53, y, plotLeft-50, y);
       }
-      
+
     }
 
     textSize(legendTitleSize);
@@ -158,16 +158,16 @@ void drawData() {
       if (i % stallGuardLabelInterval == 0) {
         if (i==stallGuardMin) {
           textAlign(RIGHT, BOTTOM);
-        } 
+        }
         else if (i==stallGuardMax) {
           textAlign(RIGHT, TOP);
-        } 
+        }
         else {
           textAlign(RIGHT, CENTER);
-        }        
+        }
         text(i, plotLeft-8, y);
         line (plotLeft-5, y, plotLeft, y);
-      } 
+      }
       else if (i % stallGuardMinorTickInterval == 0) {
         line (plotLeft-3, y, plotLeft, y);
       }
@@ -186,16 +186,16 @@ void drawData() {
       if (i % positionLabelInterval == 0) {
         if (i==positionMin) {
           textAlign(LEFT, BOTTOM);
-        } 
+        }
         else if (i==stallGuardMax) {
           textAlign(LEFT, TOP);
-        } 
+        }
         else {
           textAlign(LEFT, CENTER);
-        }        
+        }
         text(i, plotRight+8, y);
         line (plotRight, y, plotRight+5, y);
-      } 
+      }
       else if (i % positionMinorTickInterval == 0) {
         line (plotRight, y, plotRight+3, y);
       }
@@ -211,23 +211,23 @@ void drawData() {
     if (channelAStatus==null) {
       fill(goodStatusColor);
       text("Channel A: OK", channelAX, statusY);
-    } 
+    }
     else {
       fill(badStatusColor);
       text("Channel A: "+channelAStatus, channelAX, statusY);
-    }    
+    }
     if (channelBStatus==null) {
       fill(goodStatusColor);
       text("Channel B: OK", channelBX, statusY);
-    } 
+    }
     else {
       fill(badStatusColor);
       text("Channel B: "+channelBStatus, channelBX, statusY);
-    }    
+    }
     if (temperatureStatus==null) {
       fill(goodStatusColor);
       text("Temperature: OK", temperatureX, statusY);
-    } 
+    }
     else {
       fill(badStatusColor);
       text("Temperature: "+temperatureStatus, temperatureX, statusY);
@@ -270,7 +270,7 @@ void drawDataHighLight(DataTable table, int minValue, int maxValue, int distance
       textAlign(CENTER);
       if (top) {
         text(name+": "+value, x, y-8);
-      } 
+      }
       else {
         text(name+": "+value, x, y+8);
       }
@@ -305,7 +305,7 @@ void drawCurrentHighLight(DataTable table, int distance, color textColor, String
       textAlign(CENTER);
       if (top) {
         text(name+": "+value, x, y-8);
-      } 
+      }
       else {
         text(name+": "+value, x, y+8);
       }

@@ -51,28 +51,28 @@ void setupChooperConfig() {
   motorVoltageBox.setMin(0);
   motorVoltageBox.setMax(40.0);
   motorVoltageBox.moveTo(configureTab);
-  
+
   motorCurrentBox = controlP5.addNumberbox("motorcurrent",0.5,140,40,100,20);
   motorCurrentBox.setCaptionLabel("Motor Current (A)");
   motorCurrentBox.setMultiplier(0.025);
   motorCurrentBox.setMin(0.46);
   motorCurrentBox.setMax(1.7);
   motorCurrentBox.moveTo(configureTab);
-  
+
   motorResistanceBox = controlP5.addNumberbox("motorresistance",2,260,40,100,20);
   motorResistanceBox.setCaptionLabel("Motor Resistance (Ohm)");
   motorResistanceBox.setMultiplier(0.1);
   motorResistanceBox.setMin(0);
   motorResistanceBox.setMax(250);
   motorResistanceBox.moveTo(configureTab);
-  
+
   motorInductanceBox = controlP5.addNumberbox("motorinductance",2,380,40,100,20);
   motorInductanceBox.setMultiplier(0.1);
   motorInductanceBox.setMin(0);
   motorInductanceBox.setMax(250);
   motorInductanceBox.setCaptionLabel("Motor Inductance (mH)");
   motorInductanceBox.moveTo(configureTab);
-  // add a vertical slider for speed  
+  // add a vertical slider for speed
   constantOffSlider = controlP5.addSlider("constantoff", 1, 15, 1, 20, 80, 400, 20);
   constantOffSlider.setCaptionLabel("Constant Off Time");
   constantOffSlider.setSliderMode(Slider.FIX);
@@ -112,7 +112,7 @@ void constantoff(int theValue) {
     if (theValue>0 && theValue<16) {
       println("Constant off "+theValue);
       sendCommand("cO"+theValue);
-    } 
+    }
     else {
       println("invalid blank time of "+theValue);
     }
@@ -151,7 +151,7 @@ void setHysteresisDecrement(int theValue) {
     if (theValue>=0 && theValue<=3) {
       println("Hysteresis decrement "+theValue);
       sendCommand("Cd"+theValue);
-    } 
+    }
     else {
       println("cannot set decrement to "+theValue);
     }
@@ -161,7 +161,7 @@ void setHysteresisDecrement(int theValue) {
 void setHystDecrement(int value) {
   if (value>=0 && value<=3) {
     hysteresisDecrementButtons.activate(value);
-  } 
+  }
   else {
     println("this is no proper hysteresis decerement value: "+value);
   }

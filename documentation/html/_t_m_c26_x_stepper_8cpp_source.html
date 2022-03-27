@@ -19,17 +19,17 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  
-  
+
+
   <td style="padding-left: 0.5em;">
    <div id="projectname">Trinamic TMC26X Stepper Driver for Arduino
-   
+
    </div>
-   
+
   </td>
-  
-  
-  
+
+
+
  </tr>
  </tbody>
 </table>
@@ -81,7 +81,7 @@
 <a name="l00024"></a>00024 <span class="comment"> THE SOFTWARE.</span>
 <a name="l00025"></a>00025 <span class="comment"> </span>
 <a name="l00026"></a>00026 <span class="comment"> */</span>
-<a name="l00027"></a>00027 
+<a name="l00027"></a>00027
 <a name="l00028"></a>00028 <span class="preprocessor">#if defined(ARDUINO) &amp;&amp; ARDUINO &gt;= 100</span>
 <a name="l00029"></a>00029 <span class="preprocessor"></span><span class="preprocessor">        #include &lt;Arduino.h&gt;</span>
 <a name="l00030"></a>00030 <span class="preprocessor">#else</span>
@@ -89,7 +89,7 @@
 <a name="l00032"></a>00032 <span class="preprocessor">#endif</span>
 <a name="l00033"></a>00033 <span class="preprocessor"></span><span class="preprocessor">#include &lt;SPI.h&gt;</span>
 <a name="l00034"></a>00034 <span class="preprocessor">#include &quot;<a class="code" href="_t_m_c26_x_stepper_8h.html">TMC26XStepper.h</a>&quot;</span>
-<a name="l00035"></a>00035 
+<a name="l00035"></a>00035
 <a name="l00036"></a>00036 <span class="comment">//some default values used in initialization</span>
 <a name="l00037"></a><a class="code" href="_t_m_c26_x_stepper_8cpp.html#a6560b3471273e99e280ba795e3469ede">00037</a> <span class="preprocessor">#define DEFAULT_MICROSTEPPING_VALUE 32</span>
 <a name="l00038"></a>00038 <span class="preprocessor"></span>
@@ -157,7 +157,7 @@
 <a name="l00100"></a>00100 <span class="preprocessor"></span>
 <a name="l00101"></a>00101 <span class="comment">//debuging output</span>
 <a name="l00102"></a>00102 <span class="comment">//#define DEBUG</span>
-<a name="l00103"></a>00103 
+<a name="l00103"></a>00103
 <a name="l00104"></a>00104 <span class="comment">/*</span>
 <a name="l00105"></a>00105 <span class="comment"> * Constructor</span>
 <a name="l00106"></a>00106 <span class="comment"> * number_of_steps - the steps per rotation</span>
@@ -171,23 +171,23 @@
 <a name="l00114"></a>00114         started=<span class="keyword">false</span>;
 <a name="l00115"></a>00115     <span class="comment">//by default cool step is not enabled</span>
 <a name="l00116"></a>00116     cool_step_enabled=<span class="keyword">false</span>;
-<a name="l00117"></a>00117         
+<a name="l00117"></a>00117
 <a name="l00118"></a>00118         <span class="comment">//save the pins for later use</span>
 <a name="l00119"></a>00119         this-&gt;cs_pin=cs_pin;
 <a name="l00120"></a>00120         this-&gt;dir_pin=dir_pin;
 <a name="l00121"></a>00121         this-&gt;step_pin = step_pin;
-<a name="l00122"></a>00122     
+<a name="l00122"></a>00122
 <a name="l00123"></a>00123     <span class="comment">//store the current sense resistor value for later use</span>
 <a name="l00124"></a>00124     this-&gt;resistor = resistor;
-<a name="l00125"></a>00125         
+<a name="l00125"></a>00125
 <a name="l00126"></a>00126         <span class="comment">//initizalize our status values</span>
 <a name="l00127"></a>00127         this-&gt;steps_left = 0;
 <a name="l00128"></a>00128         this-&gt;direction = 0;
-<a name="l00129"></a>00129         
+<a name="l00129"></a>00129
 <a name="l00130"></a>00130         <span class="comment">//initialize register values</span>
 <a name="l00131"></a>00131         driver_control_register_value=<a class="code" href="_t_m_c26_x_stepper_8cpp.html#a108f18bf4a30a0e0f0991ac0e4ce0579">DRIVER_CONTROL_REGISTER</a> | <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a54a6d12e96d851361974b10614a00e45">INITIAL_MICROSTEPPING</a>;
 <a name="l00132"></a>00132         chopper_config_register=<a class="code" href="_t_m_c26_x_stepper_8cpp.html#a70a540d1090b989b8600b5e4776659fe">CHOPPER_CONFIG_REGISTER</a>;
-<a name="l00133"></a>00133         
+<a name="l00133"></a>00133
 <a name="l00134"></a>00134         <span class="comment">//setting the default register values</span>
 <a name="l00135"></a>00135         driver_control_register_value=<a class="code" href="_t_m_c26_x_stepper_8cpp.html#a108f18bf4a30a0e0f0991ac0e4ce0579">DRIVER_CONTROL_REGISTER</a>|<a class="code" href="_t_m_c26_x_stepper_8cpp.html#a54a6d12e96d851361974b10614a00e45">INITIAL_MICROSTEPPING</a>;
 <a name="l00136"></a>00136         microsteps = (1 &lt;&lt; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a54a6d12e96d851361974b10614a00e45">INITIAL_MICROSTEPPING</a>);
@@ -195,7 +195,7 @@
 <a name="l00138"></a>00138         cool_step_register_value=<a class="code" href="_t_m_c26_x_stepper_8cpp.html#ab9828bfaa075a0a8647c709136016317">COOL_STEP_REGISTER</a>;
 <a name="l00139"></a>00139         stall_guard2_current_register_value=<a class="code" href="_t_m_c26_x_stepper_8cpp.html#a478d9bde09a6528eef6af6ffeeb6caba">STALL_GUARD2_LOAD_MEASURE_REGISTER</a>;
 <a name="l00140"></a>00140         driver_configuration_register_value = <a class="code" href="_t_m_c26_x_stepper_8cpp.html#af35f569d42ea3b1d634901a3b6a908ee">DRIVER_CONFIG_REGISTER</a> | <a class="code" href="_t_m_c26_x_stepper_8cpp.html#ac1bd4da94fab7ce1049be2f866211819">READ_STALL_GUARD_READING</a>;
-<a name="l00141"></a>00141 
+<a name="l00141"></a>00141
 <a name="l00142"></a>00142         <span class="comment">//set the current</span>
 <a name="l00143"></a>00143         <a class="code" href="class_t_m_c26_x_stepper.html#aaa35fac83417c16b3a941fa168e4a4d2" title="set the maximum motor current in mA (1000 is 1 Amp) Keep in mind this is the maximum peak Current...">setCurrent</a>(current);
 <a name="l00144"></a>00144         <span class="comment">//set to a conservative start value</span>
@@ -205,14 +205,14 @@
 <a name="l00148"></a>00148     <span class="comment">//save the number of steps</span>
 <a name="l00149"></a>00149     this-&gt;number_of_steps =   number_of_steps;
 <a name="l00150"></a>00150 }
-<a name="l00151"></a>00151 
-<a name="l00152"></a>00152 
+<a name="l00151"></a>00151
+<a name="l00152"></a>00152
 <a name="l00153"></a>00153 <span class="comment">/*</span>
 <a name="l00154"></a>00154 <span class="comment"> * start &amp; configure the stepper driver</span>
 <a name="l00155"></a>00155 <span class="comment"> * just must be called.</span>
 <a name="l00156"></a>00156 <span class="comment"> */</span>
 <a name="l00157"></a><a class="code" href="class_t_m_c26_x_stepper.html#aad1ed82b3e05940bde5a6c7ed3d3e8f7">00157</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c26_x_stepper.html#aad1ed82b3e05940bde5a6c7ed3d3e8f7" title="configures and starts the TMC26X stepper driver. Before you called this function the stepper driver i...">TMC26XStepper::start</a>() {
-<a name="l00158"></a>00158 
+<a name="l00158"></a>00158
 <a name="l00159"></a>00159 <span class="preprocessor">#ifdef DEBUG    </span>
 <a name="l00160"></a>00160 <span class="preprocessor"></span>        Serial.println(<span class="stringliteral">&quot;TMC26X stepper library&quot;</span>);
 <a name="l00161"></a>00161         Serial.print(<span class="stringliteral">&quot;CS pin: &quot;</span>);
@@ -225,39 +225,39 @@
 <a name="l00168"></a>00168         Serial.println(current_scaling,DEC);
 <a name="l00169"></a>00169 <span class="preprocessor">#endif</span>
 <a name="l00170"></a>00170 <span class="preprocessor"></span>        <span class="comment">//set the pins as output &amp; its initial value</span>
-<a name="l00171"></a>00171         pinMode(step_pin, OUTPUT);     
-<a name="l00172"></a>00172         pinMode(dir_pin, OUTPUT);     
-<a name="l00173"></a>00173         pinMode(cs_pin, OUTPUT);     
-<a name="l00174"></a>00174         digitalWrite(step_pin, LOW);     
-<a name="l00175"></a>00175         digitalWrite(dir_pin, LOW);     
-<a name="l00176"></a>00176         digitalWrite(cs_pin, HIGH);   
-<a name="l00177"></a>00177         
+<a name="l00171"></a>00171         pinMode(step_pin, OUTPUT);
+<a name="l00172"></a>00172         pinMode(dir_pin, OUTPUT);
+<a name="l00173"></a>00173         pinMode(cs_pin, OUTPUT);
+<a name="l00174"></a>00174         digitalWrite(step_pin, LOW);
+<a name="l00175"></a>00175         digitalWrite(dir_pin, LOW);
+<a name="l00176"></a>00176         digitalWrite(cs_pin, HIGH);
+<a name="l00177"></a>00177
 <a name="l00178"></a>00178         <span class="comment">//configure the SPI interface</span>
 <a name="l00179"></a>00179     SPI.setBitOrder(MSBFIRST);
 <a name="l00180"></a>00180         SPI.setClockDivider(SPI_CLOCK_DIV8);
 <a name="l00181"></a>00181         <span class="comment">//todo this does not work reliably - find a way to foolprof set it (e.g. while communicating</span>
 <a name="l00182"></a>00182         <span class="comment">//SPI.setDataMode(SPI_MODE3);</span>
 <a name="l00183"></a>00183         SPI.begin();
-<a name="l00184"></a>00184                 
+<a name="l00184"></a>00184
 <a name="l00185"></a>00185         <span class="comment">//set the initial values</span>
-<a name="l00186"></a>00186         send262(driver_control_register_value); 
+<a name="l00186"></a>00186         send262(driver_control_register_value);
 <a name="l00187"></a>00187         send262(chopper_config_register);
 <a name="l00188"></a>00188         send262(cool_step_register_value);
 <a name="l00189"></a>00189         send262(stall_guard2_current_register_value);
 <a name="l00190"></a>00190         send262(driver_configuration_register_value);
-<a name="l00191"></a>00191         
+<a name="l00191"></a>00191
 <a name="l00192"></a>00192         <span class="comment">//save that we are in running mode</span>
 <a name="l00193"></a>00193         started=<span class="keyword">true</span>;
 <a name="l00194"></a>00194 }
-<a name="l00195"></a>00195 
+<a name="l00195"></a>00195
 <a name="l00196"></a>00196 <span class="comment">/*</span>
 <a name="l00197"></a>00197 <span class="comment"> Mark the driver as unstarted to be able to start it again</span>
 <a name="l00198"></a>00198 <span class="comment"> */</span>
 <a name="l00199"></a><a class="code" href="class_t_m_c26_x_stepper.html#af968e70a13068f1e71ac0fa6865630c5">00199</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c26_x_stepper.html#af968e70a13068f1e71ac0fa6865630c5" title="resets the stepper in unconfigured mode.">TMC26XStepper::un_start</a>() {
 <a name="l00200"></a>00200     started=<span class="keyword">false</span>;
 <a name="l00201"></a>00201 }
-<a name="l00202"></a>00202 
-<a name="l00203"></a>00203 
+<a name="l00202"></a>00202
+<a name="l00203"></a>00203
 <a name="l00204"></a>00204 <span class="comment">/*</span>
 <a name="l00205"></a>00205 <span class="comment">  Sets the speed in revs per minute</span>
 <a name="l00206"></a>00206 <span class="comment"></span>
@@ -271,23 +271,23 @@
 <a name="l00214"></a>00214     Serial.println(this-&gt;step_delay);
 <a name="l00215"></a>00215 <span class="preprocessor">#endif</span>
 <a name="l00216"></a>00216 <span class="preprocessor"></span>    <span class="comment">//update the next step time</span>
-<a name="l00217"></a>00217     this-&gt;next_step_time = this-&gt;last_step_time+this-&gt;step_delay; 
-<a name="l00218"></a>00218 
+<a name="l00217"></a>00217     this-&gt;next_step_time = this-&gt;last_step_time+this-&gt;step_delay;
+<a name="l00218"></a>00218
 <a name="l00219"></a>00219 }
-<a name="l00220"></a>00220 
+<a name="l00220"></a>00220
 <a name="l00221"></a><a class="code" href="class_t_m_c26_x_stepper.html#aa564f5cc0218d30ef897c2830c768c29">00221</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c26_x_stepper.html#aa564f5cc0218d30ef897c2830c768c29" title="reads out the currently selected speed in revolutions per minute.">TMC26XStepper::getSpeed</a>(<span class="keywordtype">void</span>) {
 <a name="l00222"></a>00222     <span class="keywordflow">return</span> this-&gt;speed;
 <a name="l00223"></a>00223 }
-<a name="l00224"></a>00224 
+<a name="l00224"></a>00224
 <a name="l00225"></a>00225 <span class="comment">/*</span>
 <a name="l00226"></a>00226 <span class="comment">  Moves the motor steps_to_move steps.  If the number is negative, </span>
 <a name="l00227"></a>00227 <span class="comment">   the motor moves in the reverse direction.</span>
 <a name="l00228"></a>00228 <span class="comment"> */</span>
 <a name="l00229"></a><a class="code" href="class_t_m_c26_x_stepper.html#ac073a742496885f1f60751f9fb9c395d">00229</a> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c26_x_stepper.html#ac073a742496885f1f60751f9fb9c395d" title="Initiate a movement for the given number of steps. Positive numbers move in one, negative numbers in ...">TMC26XStepper::step</a>(<span class="keywordtype">int</span> steps_to_move)
-<a name="l00230"></a>00230 {  
+<a name="l00230"></a>00230 {
 <a name="l00231"></a>00231         <span class="keywordflow">if</span> (this-&gt;steps_left==0) {
 <a name="l00232"></a>00232                 this-&gt;steps_left = abs(steps_to_move);  <span class="comment">// how many steps to take</span>
-<a name="l00233"></a>00233   
+<a name="l00233"></a>00233
 <a name="l00234"></a>00234                 <span class="comment">// determine direction based on whether steps_to_mode is + or -:</span>
 <a name="l00235"></a>00235                 <span class="keywordflow">if</span> (steps_to_move &gt; 0) {
 <a name="l00236"></a>00236                         this-&gt;direction = 1;
@@ -299,24 +299,24 @@
 <a name="l00242"></a>00242         <span class="keywordflow">return</span> -1;
 <a name="l00243"></a>00243     }
 <a name="l00244"></a>00244 }
-<a name="l00245"></a>00245 
+<a name="l00245"></a>00245
 <a name="l00246"></a><a class="code" href="class_t_m_c26_x_stepper.html#aed5d81f1549615529c723600a68ba415">00246</a> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c26_x_stepper.html#aed5d81f1549615529c723600a68ba415" title="Central movement method, must be called as often as possible in the lopp function and is very fast...">TMC26XStepper::move</a>(<span class="keywordtype">void</span>) {
 <a name="l00247"></a>00247   <span class="comment">// decrement the number of steps, moving one step each time:</span>
 <a name="l00248"></a>00248   <span class="keywordflow">if</span>(this-&gt;steps_left&gt;0) {
-<a name="l00249"></a>00249       <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> time = micros();  
+<a name="l00249"></a>00249       <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> time = micros();
 <a name="l00250"></a>00250           <span class="comment">// move only if the appropriate delay has passed:</span>
 <a name="l00251"></a>00251          <span class="keywordflow">if</span> (time &gt;= this-&gt;next_step_time) {
 <a name="l00252"></a>00252                 <span class="comment">// increment or decrement the step number,</span>
 <a name="l00253"></a>00253                 <span class="comment">// depending on direction:</span>
 <a name="l00254"></a>00254                 <span class="keywordflow">if</span> (this-&gt;direction == 1) {
 <a name="l00255"></a>00255                         digitalWrite(step_pin, HIGH);
-<a name="l00256"></a>00256         } <span class="keywordflow">else</span> { 
+<a name="l00256"></a>00256         } <span class="keywordflow">else</span> {
 <a name="l00257"></a>00257                   digitalWrite(dir_pin, HIGH);
 <a name="l00258"></a>00258                   digitalWrite(step_pin, HIGH);
 <a name="l00259"></a>00259             }
 <a name="l00260"></a>00260         <span class="comment">// get the timeStamp of when you stepped:</span>
 <a name="l00261"></a>00261         this-&gt;last_step_time = time;
-<a name="l00262"></a>00262         this-&gt;next_step_time = time+this-&gt;step_delay; 
+<a name="l00262"></a>00262         this-&gt;next_step_time = time+this-&gt;step_delay;
 <a name="l00263"></a>00263         <span class="comment">// decrement the steps left:</span>
 <a name="l00264"></a>00264         steps_left--;
 <a name="l00265"></a>00265                 <span class="comment">//disable the step &amp; dir pins</span>
@@ -327,15 +327,15 @@
 <a name="l00270"></a>00270         }
 <a name="l00271"></a>00271     <span class="keywordflow">return</span> 0;
 <a name="l00272"></a>00272 }
-<a name="l00273"></a>00273 
+<a name="l00273"></a>00273
 <a name="l00274"></a><a class="code" href="class_t_m_c26_x_stepper.html#a880d602be8414b7b965287c1790cd50e">00274</a> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c26_x_stepper.html#a880d602be8414b7b965287c1790cd50e" title="checks if the motor still has to move to fulfill the last movement command.">TMC26XStepper::isMoving</a>(<span class="keywordtype">void</span>) {
 <a name="l00275"></a>00275         <span class="keywordflow">return</span> (this-&gt;steps_left&gt;0);
 <a name="l00276"></a>00276 }
-<a name="l00277"></a>00277 
+<a name="l00277"></a>00277
 <a name="l00278"></a><a class="code" href="class_t_m_c26_x_stepper.html#aa6c3211f85301ca0fb2e7b73cb8142a7">00278</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c26_x_stepper.html#aa6c3211f85301ca0fb2e7b73cb8142a7" title="Get the number of steps left in the current movement.">TMC26XStepper::getStepsLeft</a>(<span class="keywordtype">void</span>) {
 <a name="l00279"></a>00279         <span class="keywordflow">return</span> this-&gt;steps_left;
 <a name="l00280"></a>00280 }
-<a name="l00281"></a>00281 
+<a name="l00281"></a>00281
 <a name="l00282"></a><a class="code" href="class_t_m_c26_x_stepper.html#a6315c18eadbc6bf4f3d81a6f80296123">00282</a> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c26_x_stepper.html#a6315c18eadbc6bf4f3d81a6f80296123" title="Stops the motor regardless if it moves or not.">TMC26XStepper::stop</a>(<span class="keywordtype">void</span>) {
 <a name="l00283"></a>00283         <span class="comment">//note to self if the motor is currently moving</span>
 <a name="l00284"></a>00284         <span class="keywordtype">char</span> state = <a class="code" href="class_t_m_c26_x_stepper.html#a880d602be8414b7b965287c1790cd50e" title="checks if the motor still has to move to fulfill the last movement command.">isMoving</a>();
@@ -345,21 +345,21 @@
 <a name="l00288"></a>00288         <span class="comment">//return if it was moving</span>
 <a name="l00289"></a>00289         <span class="keywordflow">return</span> state;
 <a name="l00290"></a>00290 }
-<a name="l00291"></a>00291 
+<a name="l00291"></a>00291
 <a name="l00292"></a><a class="code" href="class_t_m_c26_x_stepper.html#aaa35fac83417c16b3a941fa168e4a4d2">00292</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c26_x_stepper.html#aaa35fac83417c16b3a941fa168e4a4d2" title="set the maximum motor current in mA (1000 is 1 Amp) Keep in mind this is the maximum peak Current...">TMC26XStepper::setCurrent</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> current) {
 <a name="l00293"></a>00293     <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> current_scaling = 0;
 <a name="l00294"></a>00294         <span class="comment">//calculate the current scaling from the max current setting (in mA)</span>
 <a name="l00295"></a>00295         <span class="keywordtype">double</span> mASetting = (double)current;
 <a name="l00296"></a>00296     <span class="keywordtype">double</span> resistor_value = (double) this-&gt;resistor;
 <a name="l00297"></a>00297         <span class="comment">// remove vesense flag</span>
-<a name="l00298"></a>00298         this-&gt;driver_configuration_register_value &amp;= ~(<a class="code" href="_t_m_c26_x_stepper_8cpp.html#a4fb1c008e2ff76eee9362600eed112e1">VSENSE</a>); 
+<a name="l00298"></a>00298         this-&gt;driver_configuration_register_value &amp;= ~(<a class="code" href="_t_m_c26_x_stepper_8cpp.html#a4fb1c008e2ff76eee9362600eed112e1">VSENSE</a>);
 <a name="l00299"></a>00299         <span class="comment">//this is derrived from I=(cs+1)/32*(Vsense/Rsense)</span>
 <a name="l00300"></a>00300     <span class="comment">//leading to cs = CS = 32*R*I/V (with V = 0,31V oder 0,165V  and I = 1000*current)</span>
 <a name="l00301"></a>00301         <span class="comment">//with Rsense=0,15</span>
 <a name="l00302"></a>00302         <span class="comment">//for vsense = 0,310V (VSENSE not set)</span>
 <a name="l00303"></a>00303         <span class="comment">//or vsense = 0,165V (VSENSE set)</span>
 <a name="l00304"></a>00304         current_scaling = (byte)((resistor_value*mASetting*32.0/(0.31*1000.0*1000.0))-0.5); <span class="comment">//theoretically - 1.0 for better rounding it is 0.5</span>
-<a name="l00305"></a>00305         
+<a name="l00305"></a>00305
 <a name="l00306"></a>00306         <span class="comment">//check if the current scalingis too low</span>
 <a name="l00307"></a>00307         <span class="keywordflow">if</span> (current_scaling&lt;16) {
 <a name="l00308"></a>00308         <span class="comment">//set the csense bit to get a use half the sense voltage (to support lower motor currents)</span>
@@ -374,7 +374,7 @@
 <a name="l00317"></a>00317         Serial.println(current_scaling);
 <a name="l00318"></a>00318 <span class="preprocessor">#endif</span>
 <a name="l00319"></a>00319 <span class="preprocessor"></span>    }
-<a name="l00320"></a>00320 
+<a name="l00320"></a>00320
 <a name="l00321"></a>00321         <span class="comment">//do some sanity checks</span>
 <a name="l00322"></a>00322         <span class="keywordflow">if</span> (current_scaling&gt;31) {
 <a name="l00323"></a>00323                 current_scaling=31;
@@ -389,7 +389,7 @@
 <a name="l00332"></a>00332                 send262(stall_guard2_current_register_value);
 <a name="l00333"></a>00333         }
 <a name="l00334"></a>00334 }
-<a name="l00335"></a>00335 
+<a name="l00335"></a>00335
 <a name="l00336"></a><a class="code" href="class_t_m_c26_x_stepper.html#a0c544e23efe3e4a912aacf57de84b71f">00336</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c26_x_stepper.html#a0c544e23efe3e4a912aacf57de84b71f" title="readout the motor maximum current in mA (1000 is an Amp) This is the maximum current. to get the current current - which may be affected by CoolStep us getCurrentCurrent()">TMC26XStepper::getCurrent</a>(<span class="keywordtype">void</span>) {
 <a name="l00337"></a>00337     <span class="comment">//we calculate the current according to the datasheet to be on the safe side</span>
 <a name="l00338"></a>00338     <span class="comment">//this is not the fastest but the most accurate and illustrative way</span>
@@ -399,7 +399,7 @@
 <a name="l00342"></a>00342     result = (result+1.0)/32.0*voltage/resistor_value*1000.0*1000.0;
 <a name="l00343"></a>00343     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)result;
 <a name="l00344"></a>00344 }
-<a name="l00345"></a>00345 
+<a name="l00345"></a>00345
 <a name="l00346"></a><a class="code" href="class_t_m_c26_x_stepper.html#af1a5abc23757860baf8ff421689a425a">00346</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c26_x_stepper.html#af1a5abc23757860baf8ff421689a425a" title="set the StallGuard threshold in order to get sensible StallGuard readings.">TMC26XStepper::setStallGuardThreshold</a>(<span class="keywordtype">char</span> stall_guard_threshold, <span class="keywordtype">char</span> stall_guard_filter_enabled) {
 <a name="l00347"></a>00347         <span class="keywordflow">if</span> (stall_guard_threshold&lt;-64) {
 <a name="l00348"></a>00348                 stall_guard_threshold = -64;
@@ -421,7 +421,7 @@
 <a name="l00364"></a>00364                 send262(stall_guard2_current_register_value);
 <a name="l00365"></a>00365         }
 <a name="l00366"></a>00366 }
-<a name="l00367"></a>00367 
+<a name="l00367"></a>00367
 <a name="l00368"></a><a class="code" href="class_t_m_c26_x_stepper.html#a056661f444725c3ae15696d1e8d91def">00368</a> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c26_x_stepper.html#a056661f444725c3ae15696d1e8d91def" title="reads out the StallGuard threshold">TMC26XStepper::getStallGuardThreshold</a>(<span class="keywordtype">void</span>) {
 <a name="l00369"></a>00369     <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> stall_guard_threshold = stall_guard2_current_register_value &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a6a1cb1fd61cf7c570f94376fa11fe55b">STALL_GUARD_VALUE_PATTERN</a>;
 <a name="l00370"></a>00370     <span class="comment">//shift it down to bit 0</span>
@@ -434,7 +434,7 @@
 <a name="l00377"></a>00377     }
 <a name="l00378"></a>00378     <span class="keywordflow">return</span> result;
 <a name="l00379"></a>00379 }
-<a name="l00380"></a>00380 
+<a name="l00380"></a>00380
 <a name="l00381"></a><a class="code" href="class_t_m_c26_x_stepper.html#a47e3443e3e786314c1099b8f14a91b8a">00381</a> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c26_x_stepper.html#a47e3443e3e786314c1099b8f14a91b8a" title="returns the current setting of the StallGuard filter">TMC26XStepper::getStallGuardFilter</a>(<span class="keywordtype">void</span>) {
 <a name="l00382"></a>00382     <span class="keywordflow">if</span> (stall_guard2_current_register_value &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#afdbbefabd0c29c4b6e403c4663d0f0be">STALL_GUARD_FILTER_ENABLED</a>) {
 <a name="l00383"></a>00383         <span class="keywordflow">return</span> -1;
@@ -488,7 +488,7 @@
 <a name="l00431"></a>00431         this-&gt;driver_control_register_value &amp;=0xFFFF0ul;
 <a name="l00432"></a>00432         <span class="comment">//set the new value</span>
 <a name="l00433"></a>00433         this-&gt;driver_control_register_value |=setting_pattern;
-<a name="l00434"></a>00434         
+<a name="l00434"></a>00434
 <a name="l00435"></a>00435         <span class="comment">//if started we directly send it to the motor</span>
 <a name="l00436"></a>00436         <span class="keywordflow">if</span> (started) {
 <a name="l00437"></a>00437                 send262(driver_control_register_value);
@@ -496,14 +496,14 @@
 <a name="l00439"></a>00439     <span class="comment">//recalculate the stepping delay by simply setting the speed again</span>
 <a name="l00440"></a>00440     this-&gt;<a class="code" href="class_t_m_c26_x_stepper.html#a9478f43090995c8d5cdb4d4e8c07cdbd" title="Sets the rotation speed in revolutions per minute.">setSpeed</a>(this-&gt;speed);
 <a name="l00441"></a>00441 }
-<a name="l00442"></a>00442 
+<a name="l00442"></a>00442
 <a name="l00443"></a>00443 <span class="comment">/*</span>
 <a name="l00444"></a>00444 <span class="comment"> * returns the effective number of microsteps at the moment</span>
 <a name="l00445"></a>00445 <span class="comment"> */</span>
 <a name="l00446"></a><a class="code" href="class_t_m_c26_x_stepper.html#a5808551ced98b79c09bbb4bf47ecfec3">00446</a> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c26_x_stepper.html#a5808551ced98b79c09bbb4bf47ecfec3" title="returns the effective current number of microsteps selected.">TMC26XStepper::getMicrosteps</a>(<span class="keywordtype">void</span>) {
 <a name="l00447"></a>00447         <span class="keywordflow">return</span> microsteps;
 <a name="l00448"></a>00448 }
-<a name="l00449"></a>00449 
+<a name="l00449"></a>00449
 <a name="l00450"></a>00450 <span class="comment">/*</span>
 <a name="l00451"></a>00451 <span class="comment"> * constant_off_time: The off time setting controls the minimum chopper frequency. </span>
 <a name="l00452"></a>00452 <span class="comment"> * For most applications an off time within     the range of 5μs to 20μs will fit.</span>
@@ -559,7 +559,7 @@
 <a name="l00502"></a>00502         }
 <a name="l00503"></a>00503         <span class="comment">//shift the sine_wave_offset</span>
 <a name="l00504"></a>00504         sine_wave_offset +=3;
-<a name="l00505"></a>00505         
+<a name="l00505"></a>00505
 <a name="l00506"></a>00506         <span class="comment">//calculate the register setting</span>
 <a name="l00507"></a>00507         <span class="comment">//first of all delete all the values for this</span>
 <a name="l00508"></a>00508         chopper_config_register &amp;= ~((1&lt;&lt;12) | <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a42cb2ce84258587d514ec3268548ba89">BLANK_TIMING_PATTERN</a> | <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a424c248097b38c1e29e6a58ad48e6bd9">HYSTERESIS_DECREMENT_PATTERN</a> | <a class="code" href="_t_m_c26_x_stepper_8cpp.html#ad9d2302f6d61cd84a612a2e2bcdeb56e">HYSTERESIS_LOW_VALUE_PATTERN</a> | <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a0de4e98b412dced62c3a4452b7483af3">HYSTERESIS_START_VALUE_PATTERN</a> | <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a7659d842c803e47ba911a2a6e26327f3">T_OFF_TIMING_PATERN</a>);
@@ -583,9 +583,9 @@
 <a name="l00526"></a>00526         <span class="comment">//if started we directly send it to the motor</span>
 <a name="l00527"></a>00527         <span class="keywordflow">if</span> (started) {
 <a name="l00528"></a>00528                 send262(driver_control_register_value);
-<a name="l00529"></a>00529         }       
+<a name="l00529"></a>00529         }
 <a name="l00530"></a>00530 }
-<a name="l00531"></a>00531 
+<a name="l00531"></a>00531
 <a name="l00532"></a>00532 <span class="comment">/*</span>
 <a name="l00533"></a>00533 <span class="comment"> * constant_off_time: The off time setting controls the minimum chopper frequency. </span>
 <a name="l00534"></a>00534 <span class="comment"> * For most applications an off time within     the range of 5μs to 20μs will fit.</span>
@@ -605,7 +605,7 @@
 <a name="l00548"></a>00548 <span class="comment"> * hysteresis_decrement: Hysteresis decrement setting. This setting determines the slope of the hysteresis during on time and during fast decay time.</span>
 <a name="l00549"></a>00549 <span class="comment"> *              0: fast decrement 3: very slow decrement</span>
 <a name="l00550"></a>00550 <span class="comment"> */</span>
-<a name="l00551"></a>00551 
+<a name="l00551"></a>00551
 <a name="l00552"></a><a class="code" href="class_t_m_c26_x_stepper.html#aa152bb7ddb72a2bc8465553a39232df2">00552</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c26_x_stepper.html#aa152bb7ddb72a2bc8465553a39232df2" title="Sets and configures with spread cycle chopper.">TMC26XStepper::setSpreadCycleChopper</a>(<span class="keywordtype">char</span> constant_off_time, <span class="keywordtype">char</span> blank_time, <span class="keywordtype">char</span> hysteresis_start, <span class="keywordtype">char</span> hysteresis_end, <span class="keywordtype">char</span> hysteresis_decrement) {
 <a name="l00553"></a>00553         <span class="comment">//perform some sanity checks</span>
 <a name="l00554"></a>00554         <span class="keywordflow">if</span> (constant_off_time&lt;2) {
@@ -632,7 +632,7 @@
 <a name="l00575"></a>00575                 hysteresis_start=8;
 <a name="l00576"></a>00576         }
 <a name="l00577"></a>00577         hysteresis_start--;
-<a name="l00578"></a>00578 
+<a name="l00578"></a>00578
 <a name="l00579"></a>00579         <span class="keywordflow">if</span> (hysteresis_end &lt; -3) {
 <a name="l00580"></a>00580                 hysteresis_end = -3;
 <a name="l00581"></a>00581         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (hysteresis_end&gt;12) {
@@ -640,16 +640,16 @@
 <a name="l00583"></a>00583         }
 <a name="l00584"></a>00584         <span class="comment">//shift the hysteresis_end</span>
 <a name="l00585"></a>00585         hysteresis_end +=3;
-<a name="l00586"></a>00586 
+<a name="l00586"></a>00586
 <a name="l00587"></a>00587         <span class="keywordflow">if</span> (hysteresis_decrement&lt;0) {
 <a name="l00588"></a>00588                 hysteresis_decrement=0;
 <a name="l00589"></a>00589         } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (hysteresis_decrement&gt;3) {
 <a name="l00590"></a>00590                 hysteresis_decrement=3;
 <a name="l00591"></a>00591         }
-<a name="l00592"></a>00592         
+<a name="l00592"></a>00592
 <a name="l00593"></a>00593         <span class="comment">//first of all delete all the values for this</span>
 <a name="l00594"></a>00594         chopper_config_register &amp;= ~(<a class="code" href="_t_m_c26_x_stepper_8cpp.html#aaf1b564ced7de8ff3245c964e3775826">CHOPPER_MODE_T_OFF_FAST_DECAY</a> | <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a42cb2ce84258587d514ec3268548ba89">BLANK_TIMING_PATTERN</a> | <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a424c248097b38c1e29e6a58ad48e6bd9">HYSTERESIS_DECREMENT_PATTERN</a> | <a class="code" href="_t_m_c26_x_stepper_8cpp.html#ad9d2302f6d61cd84a612a2e2bcdeb56e">HYSTERESIS_LOW_VALUE_PATTERN</a> | <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a0de4e98b412dced62c3a4452b7483af3">HYSTERESIS_START_VALUE_PATTERN</a> | <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a7659d842c803e47ba911a2a6e26327f3">T_OFF_TIMING_PATERN</a>);
-<a name="l00595"></a>00595 
+<a name="l00595"></a>00595
 <a name="l00596"></a>00596         <span class="comment">//set the blank timing value</span>
 <a name="l00597"></a>00597         chopper_config_register |= ((<span class="keywordtype">unsigned</span> long)blank_value) &lt;&lt; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#abdac78f7f2c506972265a8e5883e1eae">BLANK_TIMING_SHIFT</a>;
 <a name="l00598"></a>00598         <span class="comment">//setting the constant off time</span>
@@ -663,9 +663,9 @@
 <a name="l00606"></a>00606         <span class="comment">//if started we directly send it to the motor</span>
 <a name="l00607"></a>00607         <span class="keywordflow">if</span> (started) {
 <a name="l00608"></a>00608                 send262(driver_control_register_value);
-<a name="l00609"></a>00609         }       
+<a name="l00609"></a>00609         }
 <a name="l00610"></a>00610 }
-<a name="l00611"></a>00611 
+<a name="l00611"></a>00611
 <a name="l00612"></a>00612 <span class="comment">/*</span>
 <a name="l00613"></a>00613 <span class="comment"> * In a constant off time chopper scheme both coil choppers run freely, i.e. are not synchronized. </span>
 <a name="l00614"></a>00614 <span class="comment"> * The frequency of each chopper mainly depends on the coil current and the position dependant motor coil inductivity, thus it depends on the microstep position. </span>
@@ -687,9 +687,9 @@
 <a name="l00630"></a>00630         <span class="comment">//if started we directly send it to the motor</span>
 <a name="l00631"></a>00631         <span class="keywordflow">if</span> (started) {
 <a name="l00632"></a>00632                 send262(driver_control_register_value);
-<a name="l00633"></a>00633         }       
-<a name="l00634"></a>00634 }       
-<a name="l00635"></a>00635 
+<a name="l00633"></a>00633         }
+<a name="l00634"></a>00634 }
+<a name="l00635"></a>00635
 <a name="l00636"></a><a class="code" href="class_t_m_c26_x_stepper.html#a381fbcce7c586ca2f1da8f9e704df14e">00636</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c26_x_stepper.html#a381fbcce7c586ca2f1da8f9e704df14e" title="This method configures the CoolStep smart energy operation. You must have a proper StallGuard configu...">TMC26XStepper::setCoolStepConfiguration</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> lower_SG_threshold, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> SG_hysteresis, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> current_decrement_step_size,
 <a name="l00637"></a>00637                               <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> current_increment_step_size, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> lower_current_limit) {
 <a name="l00638"></a>00638     <span class="comment">//sanitize the input values</span>
@@ -729,7 +729,7 @@
 <a name="l00672"></a>00672         send262(cool_step_register_value);
 <a name="l00673"></a>00673     }
 <a name="l00674"></a>00674 }
-<a name="l00675"></a>00675 
+<a name="l00675"></a>00675
 <a name="l00676"></a><a class="code" href="class_t_m_c26_x_stepper.html#a15bf0ed5a166a5d9a41f90f3ccbc6157">00676</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c26_x_stepper.html#a15bf0ed5a166a5d9a41f90f3ccbc6157" title="enables or disables the CoolStep smart energy operation feature. It must be configured before enablin...">TMC26XStepper::setCoolStepEnabled</a>(<span class="keywordtype">boolean</span> enabled) {
 <a name="l00677"></a>00677     <span class="comment">//simply delete the lower limit to disable the cool step</span>
 <a name="l00678"></a>00678     cool_step_register_value &amp;= ~<a class="code" href="_t_m_c26_x_stepper_8cpp.html#ae1862dfb958c03698b0abd95fda033ea">SE_MIN_PATTERN</a>;
@@ -744,32 +744,32 @@
 <a name="l00687"></a>00687         send262(cool_step_register_value);
 <a name="l00688"></a>00688     }
 <a name="l00689"></a>00689 }
-<a name="l00690"></a>00690 
+<a name="l00690"></a>00690
 <a name="l00691"></a><a class="code" href="class_t_m_c26_x_stepper.html#a6de2306b6d8dc1fa2e50fccb66d8e66d">00691</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c26_x_stepper.html#a6de2306b6d8dc1fa2e50fccb66d8e66d" title="check if the CoolStep feature is enabled">TMC26XStepper::isCoolStepEnabled</a>(<span class="keywordtype">void</span>) {
 <a name="l00692"></a>00692     <span class="keywordflow">return</span> this-&gt;cool_step_enabled;
 <a name="l00693"></a>00693 }
-<a name="l00694"></a>00694 
+<a name="l00694"></a>00694
 <a name="l00695"></a><a class="code" href="class_t_m_c26_x_stepper.html#aa7469949deaa39a58038b3ddef532bc8">00695</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c26_x_stepper.html#aa7469949deaa39a58038b3ddef532bc8" title="returns the lower StallGuard threshold for the CoolStep operation">TMC26XStepper::getCoolStepLowerSgThreshold</a>() {
 <a name="l00696"></a>00696     <span class="comment">//we return our internally stored value - in order to provide the correct setting even if cool step is not enabled</span>
 <a name="l00697"></a>00697     <span class="keywordflow">return</span> this-&gt;cool_step_lower_threshold&lt;&lt;5;
 <a name="l00698"></a>00698 }
-<a name="l00699"></a>00699 
+<a name="l00699"></a>00699
 <a name="l00700"></a><a class="code" href="class_t_m_c26_x_stepper.html#ac61298fd658773c28823d33ab04e970f">00700</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c26_x_stepper.html#ac61298fd658773c28823d33ab04e970f" title="returns the upper StallGuard threshold for the CoolStep operation">TMC26XStepper::getCoolStepUpperSgThreshold</a>() {
 <a name="l00701"></a>00701     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)((cool_step_register_value &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#ac8f748bf735c447dbed7dd4c7b631a87">SE_MAX_PATTERN</a>)&gt;&gt;8)&lt;&lt;5;
 <a name="l00702"></a>00702 }
-<a name="l00703"></a>00703 
+<a name="l00703"></a>00703
 <a name="l00704"></a><a class="code" href="class_t_m_c26_x_stepper.html#ababe688a15f087d23d4ff2094fcee883">00704</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c26_x_stepper.html#ababe688a15f087d23d4ff2094fcee883" title="returns the increment steps for the current for the CoolStep operation">TMC26XStepper::getCoolStepCurrentIncrementSize</a>() {
 <a name="l00705"></a>00705     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)((cool_step_register_value &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#adbe13a0464355e42fbe786ca5f58ed8d">CURRENT_DOWN_STEP_SPEED_PATTERN</a>)&gt;&gt;13);
 <a name="l00706"></a>00706 }
-<a name="l00707"></a>00707 
+<a name="l00707"></a>00707
 <a name="l00708"></a><a class="code" href="class_t_m_c26_x_stepper.html#aad44ee5ae73bf8e69af05674a304ba46">00708</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c26_x_stepper.html#aad44ee5ae73bf8e69af05674a304ba46" title="returns the number of StallGuard readings befor CoolStep adjusts the motor current.">TMC26XStepper::getCoolStepNumberOfSGReadings</a>() {
 <a name="l00709"></a>00709     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)((cool_step_register_value &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#aba6c07e5672e34e618bb3a550ab0d2bc">SE_CURRENT_STEP_WIDTH_PATTERN</a>)&gt;&gt;5);
 <a name="l00710"></a>00710 }
-<a name="l00711"></a>00711 
+<a name="l00711"></a>00711
 <a name="l00712"></a><a class="code" href="class_t_m_c26_x_stepper.html#a0c7e8541abc120a3910e35c6fbf2167c">00712</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c26_x_stepper.html#a0c7e8541abc120a3910e35c6fbf2167c" title="returns the absolut minium current for the CoolStep operation">TMC26XStepper::getCoolStepLowerCurrentLimit</a>() {
 <a name="l00713"></a>00713     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>)((cool_step_register_value &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a8a261a77d198b85f6dd8416387b354b3">MINIMUM_CURRENT_FOURTH</a>)&gt;&gt;15);
 <a name="l00714"></a>00714 }
-<a name="l00715"></a>00715 
+<a name="l00715"></a>00715
 <a name="l00716"></a><a class="code" href="class_t_m_c26_x_stepper.html#a4472cd86ad5b65dec5ec45ce69158305">00716</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c26_x_stepper.html#a4472cd86ad5b65dec5ec45ce69158305" title="enables or disables the motor driver bridges. If disabled the motor can run freely. If enabled not.">TMC26XStepper::setEnabled</a>(<span class="keywordtype">boolean</span> enabled) {
 <a name="l00717"></a>00717     <span class="comment">//delete the t_off in the chopper config to get sure</span>
 <a name="l00718"></a>00718     chopper_config_register &amp;= ~(<a class="code" href="_t_m_c26_x_stepper_8cpp.html#aa4e49237f2671e7f28aa34ae0e89da8d">T_OFF_PATTERN</a>);
@@ -780,9 +780,9 @@
 <a name="l00723"></a>00723     <span class="comment">//if not enabled we don&#39;t have to do anything since we already delete t_off from the register</span>
 <a name="l00724"></a>00724         <span class="keywordflow">if</span> (started) {
 <a name="l00725"></a>00725                 send262(chopper_config_register);
-<a name="l00726"></a>00726         }       
+<a name="l00726"></a>00726         }
 <a name="l00727"></a>00727 }
-<a name="l00728"></a>00728 
+<a name="l00728"></a>00728
 <a name="l00729"></a><a class="code" href="class_t_m_c26_x_stepper.html#a15796c0cbdeab23a343c3f25327283b6">00729</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c26_x_stepper.html#a15796c0cbdeab23a343c3f25327283b6" title="checks if the output bridges are enabled. If the bridges are not enabled the motor can run freely...">TMC26XStepper::isEnabled</a>() {
 <a name="l00730"></a>00730     <span class="keywordflow">if</span> (chopper_config_register &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#aa4e49237f2671e7f28aa34ae0e89da8d">T_OFF_PATTERN</a>) {
 <a name="l00731"></a>00731         <span class="keywordflow">return</span> <span class="keyword">true</span>;
@@ -790,7 +790,7 @@
 <a name="l00733"></a>00733         <span class="keywordflow">return</span> <span class="keyword">false</span>;
 <a name="l00734"></a>00734     }
 <a name="l00735"></a>00735 }
-<a name="l00736"></a>00736 
+<a name="l00736"></a>00736
 <a name="l00737"></a>00737 <span class="comment">/*</span>
 <a name="l00738"></a>00738 <span class="comment"> * reads a value from the TMC26X status register. The value is not obtained directly but can then </span>
 <a name="l00739"></a>00739 <span class="comment"> * be read by the various status routines.</span>
@@ -815,13 +815,13 @@
 <a name="l00758"></a>00758     <span class="comment">//write the configuration to get the last status    </span>
 <a name="l00759"></a>00759         send262(driver_configuration_register_value);
 <a name="l00760"></a>00760 }
-<a name="l00761"></a>00761 
+<a name="l00761"></a>00761
 <a name="l00762"></a><a class="code" href="class_t_m_c26_x_stepper.html#a1019f6f889acfd3176eecd60a0a20125">00762</a> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c26_x_stepper.html#a1019f6f889acfd3176eecd60a0a20125" title="Get the current microstep position for phase A.">TMC26XStepper::getMotorPosition</a>(<span class="keywordtype">void</span>) {
 <a name="l00763"></a>00763         <span class="comment">//we read it out even if we are not started yet - perhaps it is useful information for somebody</span>
 <a name="l00764"></a>00764         <a class="code" href="class_t_m_c26_x_stepper.html#af95a824bfdf49ef979b5354798e52967" title="Manually read out the status register This function sends a byte to the motor driver in order to get ...">readStatus</a>(<a class="code" href="_t_m_c26_x_stepper_8h.html#aff05d4a47ef8821322ccc2a20785fbee">TMC26X_READOUT_POSITION</a>);
 <a name="l00765"></a>00765     <span class="keywordflow">return</span> getReadoutValue();
 <a name="l00766"></a>00766 }
-<a name="l00767"></a>00767 
+<a name="l00767"></a>00767
 <a name="l00768"></a>00768 <span class="comment">//reads the stall guard setting from last status</span>
 <a name="l00769"></a>00769 <span class="comment">//returns -1 if stallguard information is not present</span>
 <a name="l00770"></a><a class="code" href="class_t_m_c26_x_stepper.html#aed570ce3eea640e087b046333015de1e">00770</a> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c26_x_stepper.html#aed570ce3eea640e087b046333015de1e" title="Reads the current StallGuard value.">TMC26XStepper::getCurrentStallGuardReading</a>(<span class="keywordtype">void</span>) {
@@ -834,7 +834,7 @@
 <a name="l00777"></a>00777         <a class="code" href="class_t_m_c26_x_stepper.html#af95a824bfdf49ef979b5354798e52967" title="Manually read out the status register This function sends a byte to the motor driver in order to get ...">readStatus</a>(<a class="code" href="_t_m_c26_x_stepper_8h.html#ac864ff8886123039c7d2d3c617f7ef87">TMC26X_READOUT_STALLGUARD</a>);
 <a name="l00778"></a>00778         <span class="keywordflow">return</span> getReadoutValue();
 <a name="l00779"></a>00779 }
-<a name="l00780"></a>00780 
+<a name="l00780"></a>00780
 <a name="l00781"></a><a class="code" href="class_t_m_c26_x_stepper.html#a1a939fb495d747c2c11be99a740371e1">00781</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="class_t_m_c26_x_stepper.html#a1a939fb495d747c2c11be99a740371e1" title="Reads the current current setting value as fraction of the maximum current Returns values between 0 a...">TMC26XStepper::getCurrentCSReading</a>(<span class="keywordtype">void</span>) {
 <a name="l00782"></a>00782         <span class="comment">//if we don&#39;t yet started there cannot be a stall guard value</span>
 <a name="l00783"></a>00783         <span class="keywordflow">if</span> (!started) {
@@ -845,7 +845,7 @@
 <a name="l00788"></a>00788         <a class="code" href="class_t_m_c26_x_stepper.html#af95a824bfdf49ef979b5354798e52967" title="Manually read out the status register This function sends a byte to the motor driver in order to get ...">readStatus</a>(<a class="code" href="_t_m_c26_x_stepper_8h.html#a01760ad15e3846536526a990efe47094">TMC26X_READOUT_CURRENT</a>);
 <a name="l00789"></a>00789         <span class="keywordflow">return</span> (getReadoutValue() &amp; 0x1f);
 <a name="l00790"></a>00790 }
-<a name="l00791"></a>00791 
+<a name="l00791"></a>00791
 <a name="l00792"></a><a class="code" href="class_t_m_c26_x_stepper.html#aa00741168a7def0a7a9d2f2c9d3b99d7">00792</a> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c26_x_stepper.html#aa00741168a7def0a7a9d2f2c9d3b99d7" title="Reads the current current setting value and recalculates the absolute current in mA (1A would be 1000...">TMC26XStepper::getCurrentCurrent</a>(<span class="keywordtype">void</span>) {
 <a name="l00793"></a>00793     <span class="keywordtype">double</span> result = (double)<a class="code" href="class_t_m_c26_x_stepper.html#a1a939fb495d747c2c11be99a740371e1" title="Reads the current current setting value as fraction of the maximum current Returns values between 0 a...">getCurrentCSReading</a>();
 <a name="l00794"></a>00794     <span class="keywordtype">double</span> resistor_value = (double)this-&gt;resistor;
@@ -853,7 +853,7 @@
 <a name="l00796"></a>00796     result = (result+1.0)/32.0*voltage/resistor_value*1000.0*1000.0;
 <a name="l00797"></a>00797     <span class="keywordflow">return</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>)result;
 <a name="l00798"></a>00798 }
-<a name="l00799"></a>00799 
+<a name="l00799"></a>00799
 <a name="l00800"></a>00800 <span class="comment">/*</span>
 <a name="l00801"></a>00801 <span class="comment"> return true if the stallguard threshold has been reached</span>
 <a name="l00802"></a>00802 <span class="comment">*/</span>
@@ -863,7 +863,7 @@
 <a name="l00806"></a>00806         }
 <a name="l00807"></a>00807         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#aa09ef662fd19bf2d063d6bd0f48eca14">STATUS_STALL_GUARD_STATUS</a>);
 <a name="l00808"></a>00808 }
-<a name="l00809"></a>00809 
+<a name="l00809"></a>00809
 <a name="l00810"></a>00810 <span class="comment">/*</span>
 <a name="l00811"></a>00811 <span class="comment"> returns if there is any over temperature condition:</span>
 <a name="l00812"></a>00812 <span class="comment"> OVER_TEMPERATURE_PREWARING if pre warning level has been reached</span>
@@ -882,7 +882,7 @@
 <a name="l00825"></a>00825         }
 <a name="l00826"></a>00826         <span class="keywordflow">return</span> 0;
 <a name="l00827"></a>00827 }
-<a name="l00828"></a>00828 
+<a name="l00828"></a>00828
 <a name="l00829"></a>00829 <span class="comment">//is motor channel A shorted to ground</span>
 <a name="l00830"></a><a class="code" href="class_t_m_c26_x_stepper.html#ad329fa4693d3139dea241ebe3d0f33cf">00830</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c26_x_stepper.html#ad329fa4693d3139dea241ebe3d0f33cf" title="Is motor channel A shorted to ground detected in the last status readout.">TMC26XStepper::isShortToGroundA</a>(<span class="keywordtype">void</span>) {
 <a name="l00831"></a>00831         <span class="keywordflow">if</span> (!this-&gt;started) {
@@ -890,7 +890,7 @@
 <a name="l00833"></a>00833         }
 <a name="l00834"></a>00834         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a8e03041302a092174fa33b3cf837dca2">STATUS_SHORT_TO_GROUND_A</a>);
 <a name="l00835"></a>00835 }
-<a name="l00836"></a>00836 
+<a name="l00836"></a>00836
 <a name="l00837"></a>00837 <span class="comment">//is motor channel B shorted to ground</span>
 <a name="l00838"></a><a class="code" href="class_t_m_c26_x_stepper.html#a0ccb54d40cce0d802aa56ff6261f9f3b">00838</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c26_x_stepper.html#a0ccb54d40cce0d802aa56ff6261f9f3b" title="Is motor channel B shorted to ground detected in the last status readout.">TMC26XStepper::isShortToGroundB</a>(<span class="keywordtype">void</span>) {
 <a name="l00839"></a>00839         <span class="keywordflow">if</span> (!this-&gt;started) {
@@ -898,7 +898,7 @@
 <a name="l00841"></a>00841         }
 <a name="l00842"></a>00842         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a903c3eba99695a32c6736463dcfd93ae">STATUS_SHORT_TO_GROUND_B</a>);
 <a name="l00843"></a>00843 }
-<a name="l00844"></a>00844 
+<a name="l00844"></a>00844
 <a name="l00845"></a>00845 <span class="comment">//is motor channel A connected</span>
 <a name="l00846"></a><a class="code" href="class_t_m_c26_x_stepper.html#af97b2ab9d1ba36765ac6f17cf25ec45c">00846</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c26_x_stepper.html#af97b2ab9d1ba36765ac6f17cf25ec45c" title="iIs motor channel A connected according to the last statu readout.">TMC26XStepper::isOpenLoadA</a>(<span class="keywordtype">void</span>) {
 <a name="l00847"></a>00847         <span class="keywordflow">if</span> (!this-&gt;started) {
@@ -906,7 +906,7 @@
 <a name="l00849"></a>00849         }
 <a name="l00850"></a>00850         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#ae9cbbe5af7188e6bff8fe412f8e42f59">STATUS_OPEN_LOAD_A</a>);
 <a name="l00851"></a>00851 }
-<a name="l00852"></a>00852 
+<a name="l00852"></a>00852
 <a name="l00853"></a>00853 <span class="comment">//is motor channel B connected</span>
 <a name="l00854"></a><a class="code" href="class_t_m_c26_x_stepper.html#a303590124f5ac6d6a06d0ec60d0b5303">00854</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c26_x_stepper.html#a303590124f5ac6d6a06d0ec60d0b5303" title="iIs motor channel A connected according to the last statu readout.">TMC26XStepper::isOpenLoadB</a>(<span class="keywordtype">void</span>) {
 <a name="l00855"></a>00855         <span class="keywordflow">if</span> (!this-&gt;started) {
@@ -914,7 +914,7 @@
 <a name="l00857"></a>00857         }
 <a name="l00858"></a>00858         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#ab29dc5cd6c6c4e5bf99e71bd563e1be1">STATUS_OPEN_LOAD_B</a>);
 <a name="l00859"></a>00859 }
-<a name="l00860"></a>00860 
+<a name="l00860"></a>00860
 <a name="l00861"></a>00861 <span class="comment">//is chopper inactive since 2^20 clock cycles - defaults to ~0,08s</span>
 <a name="l00862"></a><a class="code" href="class_t_m_c26_x_stepper.html#ab26602f360a4fb6ec6d262011675b2b0">00862</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c26_x_stepper.html#ab26602f360a4fb6ec6d262011675b2b0" title="Is chopper inactive since 2^20 clock cycles - defaults to ~0,08s.">TMC26XStepper::isStandStill</a>(<span class="keywordtype">void</span>) {
 <a name="l00863"></a>00863         <span class="keywordflow">if</span> (!this-&gt;started) {
@@ -922,7 +922,7 @@
 <a name="l00865"></a>00865         }
 <a name="l00866"></a>00866         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#ab96ed1635faee6650e9cce73598a2773">STATUS_STAND_STILL</a>);
 <a name="l00867"></a>00867 }
-<a name="l00868"></a>00868 
+<a name="l00868"></a>00868
 <a name="l00869"></a>00869 <span class="comment">//is chopper inactive since 2^20 clock cycles - defaults to ~0,08s</span>
 <a name="l00870"></a><a class="code" href="class_t_m_c26_x_stepper.html#afdeded501ec2cabeffde33d31b6573f7">00870</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c26_x_stepper.html#afdeded501ec2cabeffde33d31b6573f7" title="checks if there is a StallGuard warning in the last status">TMC26XStepper::isStallGuardReached</a>(<span class="keywordtype">void</span>) {
 <a name="l00871"></a>00871         <span class="keywordflow">if</span> (!this-&gt;started) {
@@ -930,17 +930,17 @@
 <a name="l00873"></a>00873         }
 <a name="l00874"></a>00874         <span class="keywordflow">return</span> (driver_status_result &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#aa09ef662fd19bf2d063d6bd0f48eca14">STATUS_STALL_GUARD_STATUS</a>);
 <a name="l00875"></a>00875 }
-<a name="l00876"></a>00876 
+<a name="l00876"></a>00876
 <a name="l00877"></a>00877 <span class="comment">//reads the stall guard setting from last status</span>
 <a name="l00878"></a>00878 <span class="comment">//returns -1 if stallguard inforamtion is not present</span>
 <a name="l00879"></a>00879 <span class="keywordtype">int</span> TMC26XStepper::getReadoutValue(<span class="keywordtype">void</span>) {
 <a name="l00880"></a>00880         <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)(driver_status_result &gt;&gt; 10);
 <a name="l00881"></a>00881 }
-<a name="l00882"></a>00882 
+<a name="l00882"></a>00882
 <a name="l00883"></a><a class="code" href="class_t_m_c26_x_stepper.html#ae1db5ec2ec9bfbfaea83c659e006692e">00883</a> <span class="keywordtype">int</span> <a class="code" href="class_t_m_c26_x_stepper.html#ae1db5ec2ec9bfbfaea83c659e006692e" title="Returns the current sense resistor value in milliohm. The default value of ,15 Ohm will return 150...">TMC26XStepper::getResistor</a>() {
 <a name="l00884"></a>00884     <span class="keywordflow">return</span> this-&gt;resistor;
 <a name="l00885"></a>00885 }
-<a name="l00886"></a>00886 
+<a name="l00886"></a>00886
 <a name="l00887"></a><a class="code" href="class_t_m_c26_x_stepper.html#ad435db189ebb101fb2de90a484f33905">00887</a> <span class="keywordtype">boolean</span> <a class="code" href="class_t_m_c26_x_stepper.html#ad435db189ebb101fb2de90a484f33905" title="a convenience method to determine if the current scaling uses 0.31V or 0.165V as reference.">TMC26XStepper::isCurrentScalingHalfed</a>() {
 <a name="l00888"></a>00888     <span class="keywordflow">if</span> (this-&gt;driver_configuration_register_value &amp; <a class="code" href="_t_m_c26_x_stepper_8cpp.html#a4fb1c008e2ff76eee9362600eed112e1">VSENSE</a>) {
 <a name="l00889"></a>00889         <span class="keywordflow">return</span> <span class="keyword">true</span>;
@@ -955,7 +955,7 @@
 <a name="l00898"></a>00898 {
 <a name="l00899"></a>00899         <span class="keywordflow">return</span> 1;
 <a name="l00900"></a>00900 }
-<a name="l00901"></a>00901 
+<a name="l00901"></a>00901
 <a name="l00902"></a><a class="code" href="class_t_m_c26_x_stepper.html#ad5e5b1bf5a46d02577dd548083877ec3">00902</a> <span class="keywordtype">void</span> <a class="code" href="class_t_m_c26_x_stepper.html#ad5e5b1bf5a46d02577dd548083877ec3" title="Prints out all the information that can be found in the last status read out - it does not force a st...">TMC26XStepper::debugLastStatus</a>() {
 <a name="l00903"></a>00903 <span class="preprocessor">#ifdef DEBUG    </span>
 <a name="l00904"></a>00904 <span class="preprocessor"></span><span class="keywordflow">if</span> (this-&gt;started) {
@@ -976,7 +976,7 @@
 <a name="l00919"></a>00919                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c26_x_stepper.html#a303590124f5ac6d6a06d0ec60d0b5303" title="iIs motor channel A connected according to the last statu readout.">isOpenLoadB</a>()) {
 <a name="l00920"></a>00920                         Serial.println(<span class="stringliteral">&quot;ERROR: Channel B seems to be unconnected!&quot;</span>);
 <a name="l00921"></a>00921                 }
-<a name="l00922"></a>00922                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c26_x_stepper.html#afdeded501ec2cabeffde33d31b6573f7" title="checks if there is a StallGuard warning in the last status">isStallGuardReached</a>()) {      
+<a name="l00922"></a>00922                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c26_x_stepper.html#afdeded501ec2cabeffde33d31b6573f7" title="checks if there is a StallGuard warning in the last status">isStallGuardReached</a>()) {
 <a name="l00923"></a>00923                         Serial.println(<span class="stringliteral">&quot;INFO: Stall Guard level reached!&quot;</span>);
 <a name="l00924"></a>00924                 }
 <a name="l00925"></a>00925                 <span class="keywordflow">if</span> (this-&gt;<a class="code" href="class_t_m_c26_x_stepper.html#ab26602f360a4fb6ec6d262011675b2b0" title="Is chopper inactive since 2^20 clock cycles - defaults to ~0,08s.">isStandStill</a>()) {
@@ -1001,28 +1001,28 @@
 <a name="l00944"></a>00944         }
 <a name="l00945"></a>00945 <span class="preprocessor">#endif</span>
 <a name="l00946"></a>00946 <span class="preprocessor"></span>}
-<a name="l00947"></a>00947 
+<a name="l00947"></a>00947
 <a name="l00948"></a>00948 <span class="comment">/*</span>
 <a name="l00949"></a>00949 <span class="comment"> * send register settings to the stepper driver via SPI</span>
 <a name="l00950"></a>00950 <span class="comment"> * returns the current status</span>
 <a name="l00951"></a>00951 <span class="comment"> */</span>
 <a name="l00952"></a>00952 <span class="keyword">inline</span> <span class="keywordtype">void</span> TMC26XStepper::send262(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> datagram) {
 <a name="l00953"></a>00953         <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> i_datagram;
-<a name="l00954"></a>00954     
+<a name="l00954"></a>00954
 <a name="l00955"></a>00955     <span class="comment">//preserver the previous spi mode</span>
 <a name="l00956"></a>00956     <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> oldMode =  SPCR &amp; SPI_MODE_MASK;
-<a name="l00957"></a>00957         
+<a name="l00957"></a>00957
 <a name="l00958"></a>00958     <span class="comment">//if the mode is not correct set it to mode 3</span>
 <a name="l00959"></a>00959     <span class="keywordflow">if</span> (oldMode != SPI_MODE3) {
 <a name="l00960"></a>00960         SPI.setDataMode(SPI_MODE3);
 <a name="l00961"></a>00961     }
-<a name="l00962"></a>00962         
+<a name="l00962"></a>00962
 <a name="l00963"></a>00963         <span class="comment">//select the TMC driver</span>
 <a name="l00964"></a>00964         digitalWrite(cs_pin,LOW);
-<a name="l00965"></a>00965 
+<a name="l00965"></a>00965
 <a name="l00966"></a>00966         <span class="comment">//ensure that only valid bist are set (0-19)</span>
 <a name="l00967"></a>00967         <span class="comment">//datagram &amp;=REGISTER_BIT_PATTERN;</span>
-<a name="l00968"></a>00968         
+<a name="l00968"></a>00968
 <a name="l00969"></a>00969 <span class="preprocessor">#ifdef DEBUG</span>
 <a name="l00970"></a>00970 <span class="preprocessor"></span>        Serial.print(<span class="stringliteral">&quot;Sending &quot;</span>);
 <a name="l00971"></a>00971         Serial.println(datagram,HEX);
@@ -1035,22 +1035,22 @@
 <a name="l00978"></a>00978         i_datagram &lt;&lt;= 8;
 <a name="l00979"></a>00979         i_datagram |= SPI.transfer((datagram) &amp; 0xff);
 <a name="l00980"></a>00980         i_datagram &gt;&gt;= 4;
-<a name="l00981"></a>00981         
+<a name="l00981"></a>00981
 <a name="l00982"></a>00982 <span class="preprocessor">#ifdef DEBUG</span>
 <a name="l00983"></a>00983 <span class="preprocessor"></span>        Serial.print(<span class="stringliteral">&quot;Received &quot;</span>);
 <a name="l00984"></a>00984         Serial.println(i_datagram,HEX);
 <a name="l00985"></a>00985         <a class="code" href="class_t_m_c26_x_stepper.html#ad5e5b1bf5a46d02577dd548083877ec3" title="Prints out all the information that can be found in the last status read out - it does not force a st...">debugLastStatus</a>();
 <a name="l00986"></a>00986 <span class="preprocessor">#endif</span>
 <a name="l00987"></a>00987 <span class="preprocessor"></span>        <span class="comment">//deselect the TMC chip</span>
-<a name="l00988"></a>00988         digitalWrite(cs_pin,HIGH); 
-<a name="l00989"></a>00989     
+<a name="l00988"></a>00988         digitalWrite(cs_pin,HIGH);
+<a name="l00989"></a>00989
 <a name="l00990"></a>00990     <span class="comment">//restore the previous SPI mode if neccessary</span>
 <a name="l00991"></a>00991     <span class="comment">//if the mode is not correct set it to mode 3</span>
 <a name="l00992"></a>00992     <span class="keywordflow">if</span> (oldMode != SPI_MODE3) {
 <a name="l00993"></a>00993         SPI.setDataMode(oldMode);
 <a name="l00994"></a>00994     }
-<a name="l00995"></a>00995 
-<a name="l00996"></a>00996         
+<a name="l00995"></a>00995
+<a name="l00996"></a>00996
 <a name="l00997"></a>00997         <span class="comment">//store the datagram as status result</span>
 <a name="l00998"></a>00998         driver_status_result = i_datagram;
 <a name="l00999"></a>00999 }

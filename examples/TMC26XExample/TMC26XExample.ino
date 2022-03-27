@@ -42,7 +42,7 @@ void setup() {
   //char constant_off_time, char blank_time, char hysteresis_start, char hysteresis_end, char hysteresis_decrement
   tmc26XStepper.setSpreadCycleChopper(2,24,8,6,0);
   tmc26XStepper.setRandomOffTime(0);
-  
+
   tmc26XStepper.setMicrosteps(32);
   tmc26XStepper.setStallGuardThreshold(4,0);
   Serial.println("config finished, starting");
@@ -74,8 +74,8 @@ void loop() {
     if (tmc26XStepper.getStepsLeft()%100==0) {
       Serial.print("Stall Guard: ");
       Serial.println(tmc26XStepper.getCurrentStallGuardReading());
-    }    
-  }  
+    }
+  }
   tmc26XStepper.move();
 }
 

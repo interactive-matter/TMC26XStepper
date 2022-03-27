@@ -30,7 +30,7 @@
 #define DIR_PIN 6
 #define STEP_PIN 7
 //if it is not connected it won't be a problem
-// Comment the line if you do not have an enable pin assigned, or the 
+// Comment the line if you do not have an enable pin assigned, or the
 // enable pin collides with any of your boards CS pins
 #define ENABLE_PIN 8
 

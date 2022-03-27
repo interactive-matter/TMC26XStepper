@@ -62,7 +62,7 @@ void setupRunConfig() {
   controlElements.add(enabledToggle);
   enabledToggle.moveTo(runTab);
 
-  // add a vertical slider for speed  
+  // add a vertical slider for speed
   speedSlider = controlP5.addSlider("speed", 1, 100, 10, 85, 40, 20, 210);
   controlElements.add(speedSlider);
   speedSlider.moveTo(runTab);
@@ -92,7 +92,7 @@ void setupRunConfig() {
   controlElements.add(currentSlider);
   currentSlider.moveTo(runTab);
 
-  // add a vertical slider for stallGuard threshold  
+  // add a vertical slider for stallGuard threshold
   sgtPlus = controlP5.addButton("sgtplus", 0, 400, 40, 20, 20);
   controlElements.add(sgtPlus);
   sgtPlus.setCaptionLabel("+");
@@ -112,7 +112,7 @@ void setupRunConfig() {
   controlElements.add(sgFilterToggle);
   sgFilterToggle.setCaptionLabel("Stall GuardFilter");
   sgFilterToggle.moveTo(runTab);
-  
+
   //add the coolstep sliders
   coolStepMaxSlider = controlP5.addSlider("coolStepUpper", 0, 480, 0, 500, 40, 20, 90);
   controlElements.add(coolStepMaxSlider);
@@ -123,8 +123,8 @@ void setupRunConfig() {
   controlElements.add(coolStepMinSlider);
   coolStepMinSlider.setCaptionLabel("Cool Step Minimum");
   coolStepMinSlider.moveTo(runTab);
-  
-  coolStepActiveToggle = controlP5.addToggle("coolStepActive", false, 600, 220, 30, 30);  
+
+  coolStepActiveToggle = controlP5.addToggle("coolStepActive", false, 600, 220, 30, 30);
   controlElements.add(coolStepActiveToggle);
   coolStepActiveToggle.setCaptionLabel("Enable CoolStep");
   coolStepActiveToggle.moveTo(runTab);
@@ -167,12 +167,12 @@ void setupRunConfig() {
   }
   coolStepMinButtons.showBar();
   coolStepMinButtons.moveTo(runTab);
-  
+
   trinamicButton = controlP5.addButton("trinamicLogo", 1.0, 750, 40, 200, 100);
   trinamicButton.setImage(TMCLogo);
   trinamicButton.moveTo(runTab);
   controlElements.add(trinamicButton);
-  
+
   motionControlButton = controlP5.addButton("mcLogo", 1.0, 750, 150, 200, 100);
   motionControlButton.setImage(MCLogo);
   motionControlButton.moveTo(runTab);
@@ -194,7 +194,7 @@ void run(int value) {
       println("stopping motor");
       sendCommand("s");
       running = false;
-    } 
+    }
     else {
       println("starting motor");
       sendCommand("r");
@@ -224,13 +224,13 @@ void stallguardthreshold(int value) {
   }
   if (value==sgtSlider.getMax()) {
     sgtPlus.lock();
-  } 
+  }
   else {
     sgtPlus.unlock();
   }
   if (value==sgtSlider.getMin()) {
     sgtMinus.lock();
-  } 
+  }
   else {
     sgtMinus.unlock();
   }
@@ -249,7 +249,7 @@ void sgfilter(int value) {
     println("filter: "+value);
     sendCommand("f"+value);
   }
-}  
+}
 
 void current(float value) {
   if (!settingStatus) {
@@ -314,7 +314,7 @@ void setDirection(int direction) {
     if (direction<0) {
       println("back");
       sendCommand("d-1");
-    } 
+    }
     else {
       sendCommand("d1");
     }
