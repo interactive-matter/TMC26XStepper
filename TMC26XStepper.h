@@ -165,8 +165,7 @@ class TMC26XStepper {
      * If you give any other value it will be rounded to the next smaller number (3 would give a microstepping of 2).
      * You can always check the current microstepping with getMicrosteps(). 
      */ 
-	void setMicrosteps(long number_of_steps); /* Swapped INT to long
-    
+	void setMicrosteps(long number_of_steps); 
 	/*!
      * \brief returns the effective current number of microsteps selected.
      *
@@ -192,8 +191,7 @@ class TMC26XStepper {
      * You can always verify with isMoving() or even use stop() to stop the motor before giving it new step directions.
      * \sa isMoving(), getStepsLeft(), stop()
      */
-    char step(long number_of_steps); /* Swapped INT to long
-    
+    char step(long number_of_steps); 
     /*!
      * \brief Central movement method, must be called as often as possible in the lopp function and is very fast.
      *
@@ -568,7 +566,7 @@ class TMC26XStepper {
   	unsigned int steps_left;		//the steps the motor has to do to complete the movement
     int direction;        // Direction of rotation
     unsigned long step_delay;    // delay between steps, in ms, based on speed
-    long number_of_steps;      // total number of steps this motor can take - Swapped from INT to LONG
+    long number_of_steps;      // total number of steps this motor can take
     unsigned int speed; // we need to store the current speed in order to change the speed after changing microstepping
     unsigned int resistor; //current sense resitor value in milliohm
         
