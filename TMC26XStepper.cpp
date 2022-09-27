@@ -108,7 +108,7 @@
  * dir_pin - the pin where the direction pin is connected
  * step_pin - the pin where the step pin is connected
  */
-TMC26XStepper::TMC26XStepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor)
+TMC26XStepper::TMC26XStepper(long number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor)
 {
 	//we are not started yet
 	started=false;
@@ -226,7 +226,7 @@ unsigned int TMC26XStepper::getSpeed(void) {
   Moves the motor steps_to_move steps.  If the number is negative, 
    the motor moves in the reverse direction.
  */
-char TMC26XStepper::step(int steps_to_move)
+char TMC26XStepper::step(long steps_to_move)
 {  
 	if (this->steps_left==0) {
   		this->steps_left = abs(steps_to_move);  // how many steps to take
@@ -391,7 +391,7 @@ char TMC26XStepper::getStallGuardFilter(void) {
  * any value in between will be mapped to the next smaller value
  * 0 and 1 set the motor in full step mode
  */
-void TMC26XStepper::setMicrosteps(int number_of_steps) {
+void TMC26XStepper::setMicrosteps(long number_of_steps) {
 	long setting_pattern;
 	//poor mans log
 	if (number_of_steps>=256) {

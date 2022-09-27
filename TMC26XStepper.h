@@ -121,7 +121,7 @@ class TMC26XStepper {
      * You can select a different stepping with setMicrosteps() to aa different value.
      * \sa start(), setMicrosteps()
      */
-	TMC26XStepper(int number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor=150);
+	TMC26XStepper(long number_of_steps, int cs_pin, int dir_pin, int step_pin, unsigned int current, unsigned int resistor=150);
 	
     /*!
      * \brief configures and starts the TMC26X stepper driver. Before you called this function the stepper driver is in nonfunctional mode.
@@ -165,8 +165,7 @@ class TMC26XStepper {
      * If you give any other value it will be rounded to the next smaller number (3 would give a microstepping of 2).
      * You can always check the current microstepping with getMicrosteps(). 
      */ 
-	void setMicrosteps(int number_of_steps);
-    
+	void setMicrosteps(long number_of_steps); 
 	/*!
      * \brief returns the effective current number of microsteps selected.
      *
@@ -192,8 +191,7 @@ class TMC26XStepper {
      * You can always verify with isMoving() or even use stop() to stop the motor before giving it new step directions.
      * \sa isMoving(), getStepsLeft(), stop()
      */
-    char step(int number_of_steps);
-    
+    char step(long number_of_steps); 
     /*!
      * \brief Central movement method, must be called as often as possible in the lopp function and is very fast.
      *
@@ -568,7 +566,7 @@ class TMC26XStepper {
   	unsigned int steps_left;		//the steps the motor has to do to complete the movement
     int direction;        // Direction of rotation
     unsigned long step_delay;    // delay between steps, in ms, based on speed
-    int number_of_steps;      // total number of steps this motor can take
+    long number_of_steps;      // total number of steps this motor can take
     unsigned int speed; // we need to store the current speed in order to change the speed after changing microstepping
     unsigned int resistor; //current sense resitor value in milliohm
         
